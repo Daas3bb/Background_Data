@@ -1,0 +1,5766 @@
+﻿<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>数据后台</title>
+    <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+    <link rel="alternate icon" type="image/png" href="favicon.png" />
+    <link rel="apple-touch-icon" href="favicon.png" />
+    <style>
+      :root {
+        /* Arco Design Tokens */
+        --arco-primary: #165dff;
+        --arco-primary-hover: #4080ff;
+        --arco-primary-active: #0e42d2;
+        --arco-primary-light: #e8f3ff;
+        --arco-success: #00b42a;
+        --arco-warning: #ff7d00;
+        --arco-danger: #f53f3f;
+        --arco-bg-1: #ffffff;
+        --arco-bg-2: #f7f8fa;
+        --arco-bg-3: #f2f3f5;
+        --arco-border: #e5e6eb;
+        --arco-border-2: #f2f3f5;
+        --arco-text-1: #1d2129;
+        --arco-text-2: #4e5969;
+        --arco-text-3: #86909c;
+        --arco-text-4: #c9cdd4;
+        --arco-radius: 4px;
+        --arco-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+        --arco-shadow-light: 0 1px 2px rgba(0, 0, 0, 0.03);
+
+        --sidebar-bg: var(--arco-bg-1);
+        --sidebar-active: var(--arco-primary-light);
+        --sidebar-active-text: var(--arco-primary);
+        --sidebar-text: var(--arco-text-2);
+        --sidebar-text-active: var(--arco-primary);
+        --header-bg: var(--arco-bg-1);
+        --page-bg: var(--arco-bg-2);
+        --border: var(--arco-border);
+        --primary: var(--arco-primary);
+        --group-header: #e3ecff;
+        --group-header-alt: var(--arco-bg-2);
+        --text: var(--arco-text-1);
+        --text-secondary: var(--arco-text-2);
+        --danger: var(--arco-danger);
+      }
+
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      body {
+        font-family:
+          "PingFang SC",
+          -apple-system,
+          BlinkMacSystemFont,
+          "Segoe UI",
+          "Microsoft YaHei",
+          Arial,
+          sans-serif;
+        font-size: 14px;
+        color: var(--text);
+        background: var(--page-bg);
+        min-height: 100vh;
+        -webkit-font-smoothing: antialiased;
+      }
+
+      .layout {
+        display: flex;
+        min-height: 100vh;
+      }
+
+      /* 侧边栏 - Arco Pro 浅色导航 */
+      .sidebar {
+        width: 220px;
+        background: var(--sidebar-bg);
+        color: var(--sidebar-text);
+        flex-shrink: 0;
+        display: flex;
+        flex-direction: column;
+        border-right: 1px solid var(--border);
+        box-shadow: var(--arco-shadow-light);
+      }
+
+      .sidebar-logo {
+        height: 60px;
+        display: flex;
+        align-items: center;
+        padding: 0 16px;
+        border-bottom: 1px solid var(--border);
+        gap: 10px;
+      }
+
+      .sidebar-logo-icon {
+        width: 28px;
+        height: 28px;
+        background: var(--arco-primary);
+        border-radius: var(--arco-radius);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 600;
+        color: #fff;
+        font-size: 12px;
+      }
+
+      .sidebar-logo-text {
+        color: var(--arco-text-1);
+        font-size: 16px;
+        font-weight: 600;
+      }
+
+      .sidebar-menu {
+        flex: 1;
+        overflow-y: auto;
+        padding: 8px;
+      }
+
+      .menu-group {
+        margin-bottom: 2px;
+      }
+
+      .menu-top {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 0 12px;
+        height: 40px;
+        color: var(--sidebar-text);
+        cursor: pointer;
+        transition: all 0.15s cubic-bezier(0.34, 0.69, 0.1, 1);
+        border-radius: var(--arco-radius);
+        user-select: none;
+        font-weight: 400;
+        font-size: 14px;
+      }
+
+      .menu-top:hover {
+        color: var(--arco-text-1);
+        background: var(--arco-bg-3);
+      }
+
+      .menu-top.active {
+        color: var(--sidebar-active-text);
+        background: var(--sidebar-active);
+        font-weight: 500;
+      }
+
+      .menu-top.has-child.active:not(.expanded) {
+        background: var(--sidebar-active);
+        color: var(--sidebar-active-text);
+        font-weight: 500;
+      }
+
+      .menu-arrow {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 14px;
+        height: 14px;
+        margin-left: auto;
+        font-size: 10px;
+        color: var(--arco-text-3);
+        transition:
+          transform 0.2s cubic-bezier(0.34, 0.69, 0.1, 1),
+          color 0.15s;
+        flex-shrink: 0;
+      }
+
+      .menu-group.expanded .menu-arrow {
+        transform: rotate(90deg);
+        color: var(--arco-text-2);
+      }
+
+      .menu-top.active .menu-arrow {
+        color: var(--arco-primary);
+      }
+
+      .submenu {
+        max-height: 0;
+        overflow: hidden;
+        transition:
+          max-height 0.25s cubic-bezier(0.34, 0.69, 0.1, 1),
+          opacity 0.2s ease;
+        opacity: 0;
+      }
+
+      .menu-group.expanded .submenu {
+        max-height: 560px;
+        opacity: 1;
+      }
+
+      .menu-child {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 0 12px 0 36px;
+        height: 36px;
+        color: var(--sidebar-text);
+        cursor: pointer;
+        transition: all 0.15s cubic-bezier(0.34, 0.69, 0.1, 1);
+        border-radius: var(--arco-radius);
+        user-select: none;
+        font-size: 14px;
+      }
+
+      .menu-child:not(.has-child):hover {
+        color: var(--arco-text-1);
+        background: var(--arco-bg-3);
+      }
+
+      .menu-child.active {
+        color: var(--sidebar-active-text);
+        background: var(--sidebar-active);
+        font-weight: 500;
+      }
+
+      .menu-child.has-child.active:not(.expanded) {
+        background: var(--sidebar-active);
+        color: var(--sidebar-active-text);
+        font-weight: 500;
+      }
+
+      .menu-child .menu-arrow {
+        width: 12px;
+        height: 12px;
+        font-size: 9px;
+      }
+
+      .menu-sub-group.expanded > .menu-child .menu-arrow {
+        transform: rotate(90deg);
+        color: var(--arco-text-2);
+      }
+
+      .submenu-inner {
+        max-height: 0;
+        overflow: hidden;
+        transition:
+          max-height 0.25s cubic-bezier(0.34, 0.69, 0.1, 1),
+          opacity 0.2s ease;
+        opacity: 0;
+      }
+
+      .menu-sub-group.expanded .submenu-inner {
+        max-height: 280px;
+        opacity: 1;
+      }
+
+      .menu-grandchild {
+        display: block;
+        padding: 0 12px 0 52px;
+        height: 36px;
+        line-height: 36px;
+        color: var(--sidebar-text);
+        cursor: pointer;
+        transition: all 0.15s cubic-bezier(0.34, 0.69, 0.1, 1);
+        border-radius: var(--arco-radius);
+        user-select: none;
+        font-size: 14px;
+      }
+
+      .menu-grandchild:hover {
+        color: var(--arco-text-1);
+        background: var(--arco-bg-3);
+      }
+
+      .menu-grandchild.active {
+        color: var(--sidebar-active-text);
+        background: var(--sidebar-active);
+        font-weight: 500;
+      }
+
+      /* 子菜单组（同一 submenu-inner 展开时）的选项淡底，用于区分同组层级 */
+      .menu-sub-group.expanded .menu-grandchild:not(.active):not(:hover) {
+        background: var(--arco-bg-2);
+      }
+
+      .sidebar-footer {
+        padding: 12px 16px;
+        border-top: 1px solid var(--border);
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .user-avatar {
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        background: var(--arco-primary-light);
+        color: var(--arco-primary);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 13px;
+        font-weight: 600;
+        flex-shrink: 0;
+      }
+
+      .user-meta {
+        flex: 1;
+        min-width: 0;
+      }
+      .user-info {
+        color: var(--arco-text-3);
+        font-size: 12px;
+      }
+      .user-name {
+        color: var(--arco-text-1);
+        font-size: 14px;
+        font-weight: 500;
+      }
+
+      .btn-logout {
+        padding: 0 12px;
+        height: 28px;
+        background: var(--arco-bg-1);
+        border: 1px solid var(--border);
+        color: var(--arco-text-2);
+        border-radius: var(--arco-radius);
+        cursor: pointer;
+        font-size: 12px;
+        transition: all 0.15s;
+        flex-shrink: 0;
+      }
+
+      .btn-logout:hover {
+        color: var(--arco-primary);
+        border-color: var(--arco-primary);
+        background: var(--arco-primary-light);
+      }
+
+      /* 主内容区 */
+      .main {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        min-width: 0;
+      }
+
+      .top-header {
+        height: 60px;
+        background: var(--header-bg);
+        border-bottom: 1px solid var(--border);
+        display: flex;
+        align-items: center;
+        padding: 0 20px;
+        justify-content: space-between;
+        flex-shrink: 0;
+        box-shadow: var(--arco-shadow-light);
+      }
+
+      .breadcrumb {
+        color: var(--arco-text-3);
+        font-size: 14px;
+      }
+      .breadcrumb strong {
+        color: var(--arco-text-1);
+        font-weight: 500;
+        margin-left: 4px;
+      }
+
+      .header-actions {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        color: var(--arco-text-2);
+        font-size: 13px;
+      }
+
+      .header-badge {
+        padding: 2px 8px;
+        border-radius: 10px;
+        background: var(--arco-primary-light);
+        color: var(--arco-primary);
+        font-size: 12px;
+        font-weight: 500;
+      }
+
+      .content {
+        flex: 1;
+        padding: 16px 20px 20px;
+        overflow: auto;
+      }
+
+      .page-panel {
+        background: var(--arco-bg-1);
+        border-radius: var(--arco-radius);
+        border: 1px solid var(--border);
+        display: none;
+        box-shadow: var(--arco-shadow-light);
+      }
+
+      .page-panel.active {
+        display: block;
+      }
+
+      /* 筛选区 - Arco Form */
+      .filter-bar {
+        padding: 16px 20px;
+        border-bottom: 1px solid var(--border);
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 16px 24px;
+        background: var(--arco-bg-1);
+      }
+
+      .filter-item {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+      .filter-item label {
+        color: var(--arco-text-2);
+        white-space: nowrap;
+        font-size: 14px;
+      }
+
+      .filter-item select,
+      .filter-item input[type="date"],
+      .filter-item input[type="text"] {
+        height: 32px;
+        padding: 0 12px;
+        border: 1px solid var(--border);
+        border-radius: var(--arco-radius);
+        font-size: 14px;
+        min-width: 160px;
+        color: var(--arco-text-1);
+        background: var(--arco-bg-1);
+        transition:
+          border-color 0.15s,
+          box-shadow 0.15s;
+        outline: none;
+      }
+
+      .filter-item select:hover,
+      .filter-item input[type="date"]:hover,
+      .filter-item input[type="text"]:hover {
+        border-color: var(--arco-primary);
+      }
+
+      .filter-item select:focus,
+      .filter-item input[type="date"]:focus,
+      .filter-item input[type="text"]:focus {
+        border-color: var(--arco-primary);
+        box-shadow: 0 0 0 2px rgba(22, 93, 255, 0.1);
+      }
+
+      .filter-item-channel-name {
+        display: none;
+      }
+
+      .filter-item-channel-name.is-visible {
+        display: flex;
+      }
+
+      /* Arco Button */
+      .btn {
+        height: 32px;
+        padding: 0 16px;
+        border-radius: var(--arco-radius);
+        border: 1px solid var(--border);
+        background: var(--arco-bg-1);
+        cursor: pointer;
+        font-size: 14px;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        color: var(--arco-text-1);
+        transition: all 0.15s cubic-bezier(0.34, 0.69, 0.1, 1);
+      }
+
+      .btn:hover {
+        border-color: var(--arco-primary);
+        color: var(--arco-primary);
+        background: var(--arco-bg-1);
+      }
+
+      .btn-primary {
+        background: var(--arco-primary);
+        border-color: var(--arco-primary);
+        color: #fff;
+      }
+
+      .btn-primary:hover {
+        background: var(--arco-primary-hover);
+        border-color: var(--arco-primary-hover);
+        color: #fff;
+      }
+
+      .toolbar {
+        padding: 12px 20px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-bottom: 1px solid var(--border);
+        background: var(--arco-bg-1);
+      }
+
+      .page-title {
+        font-size: 16px;
+        font-weight: 500;
+        color: var(--arco-text-1);
+      }
+
+      /* 表格 */
+      .table-wrap {
+        overflow: auto;
+        max-height: calc(100vh - 320px);
+        position: relative;
+      }
+
+      table.data-table {
+        border-collapse: separate;
+        border-spacing: 0;
+        width: max-content;
+        min-width: 100%;
+        font-size: 13px;
+        --sticky-col-1-width: 112px;
+        --sticky-col-2-width: 96px;
+        --sticky-col-3-width: 96px;
+        --sticky-col-4-width: 100px;
+        --sticky-total-width: calc(
+          var(--sticky-col-1-width) + var(--sticky-col-2-width) +
+            var(--sticky-col-3-width) + var(--sticky-col-4-width)
+        );
+        --group-row-height: 37px;
+      }
+
+      .data-table th,
+      .data-table td {
+        border: none;
+        border-bottom: 1px solid var(--border);
+        padding: 10px 16px;
+        text-align: center;
+        white-space: nowrap;
+      }
+
+      .data-table thead th {
+        background: var(--arco-bg-3);
+        font-weight: 500;
+        position: sticky;
+        top: 0;
+        z-index: 2;
+        color: var(--arco-text-1);
+        font-size: 14px;
+      }
+
+      .data-table thead tr.group-row th {
+        top: 0;
+        font-weight: 600;
+        font-size: 12px;
+        height: var(--group-row-height);
+      }
+
+      .data-table thead tr.col-row th {
+        top: var(--group-row-height);
+        font-weight: 500;
+        font-size: 12px;
+      }
+
+      .data-table thead tr.col-row th .sort-icon {
+        display: inline-flex;
+        flex-direction: column;
+        margin-left: 4px;
+        vertical-align: middle;
+        line-height: 0.6;
+        font-size: 8px;
+        color: var(--arco-text-4);
+        cursor: pointer;
+      }
+
+      .data-table thead tr.col-row th .sort-icon:hover {
+        color: var(--arco-primary);
+      }
+
+      .data-table tbody tr {
+        transition: background 0.15s;
+      }
+      .data-table tbody tr:hover {
+        background: var(--arco-bg-2);
+      }
+
+      .data-table tbody td {
+        color: var(--arco-text-1);
+        background: var(--arco-bg-1);
+      }
+      .data-table tbody tr:nth-child(even) td {
+        background: var(--arco-bg-2);
+      }
+      .data-table tbody tr:nth-child(even) [class*="sticky-col-"] {
+        background: var(--arco-bg-2);
+      }
+      .data-table tbody tr:hover td,
+      .data-table tbody tr:hover [class*="sticky-col-"] {
+        background: #e8f3ff;
+      }
+
+      /* 固定列：日期、来源渠道、渠道名、所属平台 */
+      .data-table [class*="sticky-col-"] {
+        position: sticky;
+        background-clip: padding-box;
+      }
+
+      .data-table .sticky-col-1 {
+        left: 0;
+        min-width: var(--sticky-col-1-width);
+        max-width: var(--sticky-col-1-width);
+        z-index: 1;
+        background: var(--arco-bg-1);
+      }
+
+      .data-table .sticky-col-2 {
+        left: var(--sticky-col-1-width);
+        min-width: var(--sticky-col-2-width);
+        max-width: var(--sticky-col-2-width);
+        z-index: 1;
+        background: var(--arco-bg-1);
+      }
+
+      .data-table .sticky-col-3 {
+        left: calc(var(--sticky-col-1-width) + var(--sticky-col-2-width));
+        min-width: var(--sticky-col-3-width);
+        max-width: var(--sticky-col-3-width);
+        z-index: 1;
+        background: var(--arco-bg-1);
+      }
+
+      .data-table tbody tr:nth-child(even) .sticky-col-1,
+      .data-table tbody tr:nth-child(even) .sticky-col-2,
+      .data-table tbody tr:nth-child(even) .sticky-col-3 {
+        background: var(--arco-bg-2);
+      }
+
+      .data-table .sticky-col-4 {
+        left: calc(
+          var(--sticky-col-1-width) + var(--sticky-col-2-width) +
+            var(--sticky-col-3-width)
+        );
+        min-width: var(--sticky-col-4-width);
+        max-width: var(--sticky-col-4-width);
+        z-index: 1;
+        background: var(--arco-bg-1);
+        box-shadow: 4px 0 8px -4px rgba(29, 33, 41, 0.08);
+      }
+
+      .data-table tbody tr:nth-child(even) .sticky-col-4 {
+        background: var(--arco-bg-2);
+      }
+
+      .data-table tbody tr:hover [class*="sticky-col-"] {
+        background: #e8f3ff;
+      }
+
+      /* 表头固定列（纵向 + 横向） */
+      .data-table thead [class*="sticky-col-"] {
+        z-index: 4;
+        background: var(--arco-bg-3);
+      }
+
+      .data-table thead tr.group-row .sticky-group-head {
+        position: sticky;
+        left: 0;
+        top: 0;
+        z-index: 6;
+        min-width: var(--sticky-total-width);
+        box-shadow: 4px 0 8px -4px rgba(29, 33, 41, 0.08);
+      }
+
+      .data-table thead tr.col-row [class*="sticky-col-"] {
+        z-index: 5;
+      }
+
+      /* 分组表头：Arco 主色间隔区分 */
+      .data-table thead tr.group-row th:nth-child(odd) {
+        background: var(--group-header) !important;
+      }
+
+      .data-table thead tr.group-row th:nth-child(even) {
+        background: var(--group-header-alt) !important;
+      }
+
+      /* 分页 - Arco Pagination */
+      .pagination {
+        padding: 12px 20px;
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+        gap: 8px;
+        border-top: 1px solid var(--border);
+        background: var(--arco-bg-1);
+      }
+
+      .pagination button {
+        min-width: 32px;
+        height: 32px;
+        border: 1px solid var(--border);
+        background: var(--arco-bg-1);
+        border-radius: var(--arco-radius);
+        cursor: pointer;
+        font-size: 14px;
+        color: var(--arco-text-1);
+        transition: all 0.15s;
+      }
+
+      .pagination button:hover:not(:disabled) {
+        border-color: var(--arco-primary);
+        color: var(--arco-primary);
+      }
+
+      .pagination button.active {
+        background: var(--arco-primary);
+        border-color: var(--arco-primary);
+        color: #fff;
+      }
+
+      .pagination button:disabled {
+        opacity: 0.4;
+        cursor: not-allowed;
+        color: var(--arco-text-4);
+      }
+
+      .pagination-info {
+        margin-left: 8px;
+        color: var(--arco-text-3);
+        font-size: 14px;
+      }
+
+      /* 经营总览 - Arco Statistic / Card */
+      .overview-insights {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 16px;
+        margin-bottom: 16px;
+      }
+
+      .overview-insights .metric-card {
+        min-height: 128px;
+        padding: 16px 18px;
+      }
+
+      .overview-insights .metric-module {
+        display: inline-flex;
+        align-items: center;
+        height: 20px;
+        padding: 0 8px;
+        margin-bottom: 6px;
+        border-radius: 2px;
+        font-size: 12px;
+        font-weight: 500;
+        color: var(--arco-primary);
+        background: var(--arco-primary-light);
+      }
+
+      .overview-insights .metric-compares {
+        margin-top: 10px;
+        display: grid;
+        gap: 4px;
+      }
+
+      .overview-insights .metric-compare {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        font-size: 12px;
+        color: var(--arco-text-3);
+        line-height: 1.4;
+      }
+
+      .overview-insights .metric-compare .cmp-label {
+        flex-shrink: 0;
+        margin-right: 8px;
+      }
+
+      .overview-insights .metric-compare .cmp-value {
+        font-variant-numeric: tabular-nums;
+        font-weight: 500;
+      }
+
+      .overview-insights .metric-compare.up .cmp-value {
+        color: var(--arco-success);
+      }
+      .overview-insights .metric-compare.down .cmp-value {
+        color: var(--arco-danger);
+      }
+      .overview-insights .metric-compare.flat .cmp-value {
+        color: var(--arco-text-3);
+      }
+
+      /* 分时数据对比 */
+      .realtime-panel {
+        background: var(--arco-bg-1);
+        border: 1px solid var(--border);
+        border-radius: var(--arco-radius);
+        box-shadow: var(--arco-shadow-light);
+        margin-bottom: 16px;
+        padding: 16px 20px 20px;
+      }
+      .realtime-panel-head {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        margin-bottom: 14px;
+      }
+      .realtime-panel-head .chart-title {
+        margin: 0;
+      }
+      .realtime-refresh {
+        border: none;
+        background: transparent;
+        color: var(--arco-text-3);
+        cursor: pointer;
+        font-size: 14px;
+        padding: 2px 4px;
+        line-height: 1;
+      }
+      .realtime-refresh:hover {
+        color: var(--arco-primary);
+      }
+      .realtime-filters {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 12px;
+        margin-bottom: 16px;
+      }
+      .ms-wrap {
+        position: relative;
+        flex: 1;
+        min-width: 280px;
+        max-width: 520px;
+      }
+      .ms-trigger {
+        min-height: 36px;
+        width: 100%;
+        display: flex;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 6px;
+        padding: 4px 32px 4px 8px;
+        border: 1px solid var(--border);
+        border-radius: var(--arco-radius);
+        background: var(--arco-bg-1);
+        cursor: pointer;
+        position: relative;
+      }
+      .ms-trigger:hover {
+        border-color: var(--arco-primary);
+      }
+      .ms-trigger.open {
+        border-color: var(--arco-primary);
+        box-shadow: 0 0 0 2px rgba(22, 93, 255, 0.15);
+      }
+      .ms-trigger::after {
+        content: "▾";
+        position: absolute;
+        right: 10px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: var(--arco-text-3);
+        font-size: 12px;
+      }
+      .ms-placeholder {
+        color: var(--arco-text-3);
+        font-size: 13px;
+        padding: 2px 4px;
+      }
+      .ms-tag {
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+        height: 24px;
+        padding: 0 8px;
+        background: var(--arco-bg-3);
+        border-radius: 4px;
+        font-size: 12px;
+        color: var(--arco-text-1);
+      }
+      .ms-tag button {
+        border: none;
+        background: transparent;
+        color: var(--arco-text-3);
+        cursor: pointer;
+        font-size: 12px;
+        padding: 0;
+        line-height: 1;
+      }
+      .ms-tag button:hover {
+        color: var(--arco-danger, #f53f3f);
+      }
+      .ms-dropdown {
+        display: none;
+        position: absolute;
+        top: calc(100% + 4px);
+        left: 0;
+        right: 0;
+        z-index: 30;
+        max-height: 320px;
+        overflow: auto;
+        background: var(--arco-bg-1);
+        border: 1px solid var(--border);
+        border-radius: var(--arco-radius);
+        box-shadow: 0 4px 16px rgba(29, 33, 41, 0.12);
+        padding: 8px 0;
+      }
+      .ms-dropdown.open {
+        display: block;
+      }
+      .ms-group-title {
+        padding: 8px 14px 4px;
+        font-size: 12px;
+        font-weight: 600;
+        color: var(--arco-text-3);
+      }
+      .ms-option {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 8px 14px;
+        font-size: 13px;
+        color: var(--arco-text-1);
+        cursor: pointer;
+      }
+      .ms-option:hover {
+        background: var(--arco-bg-2);
+      }
+      .ms-option input {
+        accent-color: var(--arco-primary);
+      }
+      .realtime-date-range {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 13px;
+        color: var(--arco-text-2);
+      }
+      .realtime-date-range input[type="date"] {
+        height: 36px;
+        padding: 0 10px;
+        border: 1px solid var(--border);
+        border-radius: var(--arco-radius);
+        background: var(--arco-bg-1);
+        color: var(--arco-text-1);
+        font-size: 13px;
+      }
+      .realtime-chart-wrap {
+        position: relative;
+        width: 100%;
+        height: 320px;
+      }
+      .realtime-chart-wrap svg {
+        width: 100%;
+        height: 100%;
+        display: block;
+      }
+      .rt-axis {
+        font-size: 11px;
+        fill: var(--arco-text-3);
+      }
+      .rt-grid {
+        stroke: var(--border);
+        stroke-width: 1;
+      }
+      .rt-legend {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 14px;
+        justify-content: center;
+        margin-bottom: 8px;
+        font-size: 12px;
+        color: var(--arco-text-2);
+      }
+      .rt-legend span {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+      }
+      .rt-legend i {
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        display: inline-block;
+      }
+      .rt-tooltip {
+        position: absolute;
+        pointer-events: none;
+        display: none;
+        min-width: 160px;
+        padding: 10px 12px;
+        background: rgba(29, 33, 41, 0.88);
+        color: #fff;
+        border-radius: 6px;
+        font-size: 12px;
+        line-height: 1.6;
+        z-index: 20;
+        transform: translate(-50%, -110%);
+        white-space: nowrap;
+      }
+      .rt-tooltip .rt-tip-time {
+        font-weight: 600;
+        margin-bottom: 4px;
+      }
+      .rt-tooltip .rt-tip-row {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+      }
+      .rt-tooltip .rt-tip-dot {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        flex-shrink: 0;
+      }
+      .rt-crosshair {
+        stroke: var(--arco-primary);
+        stroke-width: 1;
+        stroke-dasharray: 3 3;
+        pointer-events: none;
+      }
+
+      .metric-card,
+      .chart-card {
+        background: var(--arco-bg-1);
+        border: 1px solid var(--border);
+        border-radius: var(--arco-radius);
+        box-shadow: var(--arco-shadow-light);
+      }
+
+      .metric-card {
+        padding: 20px;
+        min-height: 108px;
+      }
+
+      .metric-label {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        color: var(--arco-text-2);
+        font-size: 14px;
+      }
+
+      .metric-value {
+        margin-top: 8px;
+        color: var(--arco-text-1);
+        font-size: 24px;
+        line-height: 32px;
+        font-weight: 600;
+        font-variant-numeric: tabular-nums;
+      }
+
+      .metric-trend {
+        margin-top: 8px;
+        color: var(--arco-text-3);
+        font-size: 12px;
+      }
+
+      .metric-trend.up {
+        color: var(--arco-success);
+      }
+      .metric-trend.down {
+        color: var(--arco-danger);
+      }
+
+      .metric-hint {
+        margin-top: 2px;
+        font-size: 12px;
+        color: var(--arco-text-3);
+        line-height: 1.4;
+      }
+
+      .kpi-grid.cols-8 {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+      }
+
+      /* 付费转化漏斗（纵向） */
+      .pay-funnel {
+        margin-top: 16px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 0;
+      }
+      .pay-funnel-step {
+        width: 100%;
+        max-width: 360px;
+        text-align: center;
+        padding: 16px 20px;
+        color: #fff;
+        font-size: 14px;
+        font-weight: 500;
+        border-radius: 4px;
+      }
+      .pay-funnel-step:nth-child(1) {
+        background: #165dff;
+      }
+      .pay-funnel-step:nth-child(3) {
+        background: #4080ff;
+        width: 72%;
+      }
+      .pay-funnel-step:nth-child(5) {
+        background: #6aa1ff;
+        width: 56%;
+        color: var(--arco-text-1);
+      }
+      .pay-funnel-step small {
+        display: block;
+        margin-top: 6px;
+        font-size: 20px;
+        font-weight: 600;
+        font-variant-numeric: tabular-nums;
+      }
+      .pay-funnel-rate {
+        padding: 10px 0;
+        color: var(--arco-text-2);
+        font-size: 13px;
+        font-weight: 500;
+      }
+
+      .status-tag {
+        display: inline-flex;
+        align-items: center;
+        padding: 0 8px;
+        height: 20px;
+        border-radius: 2px;
+        font-size: 12px;
+        font-weight: 500;
+      }
+
+      .status-tag.success {
+        color: var(--arco-success);
+        background: #e8ffea;
+      }
+      .status-tag.warning {
+        color: var(--arco-warning);
+        background: #fff7e8;
+      }
+      .status-tag.danger {
+        color: var(--arco-danger);
+        background: #ffece8;
+      }
+      .status-tag.info {
+        color: var(--arco-primary);
+        background: var(--arco-primary-light);
+      }
+
+      .chart-grid {
+        display: grid;
+        grid-template-columns: 1.6fr 1fr;
+        gap: 16px;
+        margin-bottom: 16px;
+      }
+
+      .chart-card {
+        padding: 20px;
+        min-height: 220px;
+      }
+
+      .chart-title {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        color: var(--arco-text-1);
+        font-size: 14px;
+        font-weight: 500;
+      }
+
+      .chart-subtitle {
+        margin-top: 4px;
+        color: var(--arco-text-3);
+        font-size: 12px;
+      }
+
+      .chart-bars {
+        height: 120px;
+        margin-top: 16px;
+        display: flex;
+        align-items: end;
+        gap: 8px;
+        padding: 0 4px;
+        border-bottom: 1px solid var(--border);
+      }
+
+      .chart-bar {
+        flex: 1;
+        min-width: 12px;
+        border-radius: 2px 2px 0 0;
+        background: var(--arco-primary);
+        opacity: 0.85;
+      }
+
+      .chart-legend {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 8px;
+        color: var(--arco-text-3);
+        font-size: 12px;
+      }
+
+      .insight-list {
+        margin-top: 16px;
+        display: grid;
+        gap: 0;
+      }
+      .insight-row {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 10px 0;
+        border-bottom: 1px solid var(--arco-border-2);
+        color: var(--arco-text-2);
+        font-size: 14px;
+      }
+
+      .insight-row:last-child {
+        border-bottom: 0;
+      }
+      .insight-row strong {
+        color: var(--arco-text-1);
+        font-weight: 500;
+      }
+
+      .table-wrap::-webkit-scrollbar {
+        width: 6px;
+        height: 6px;
+      }
+      .table-wrap::-webkit-scrollbar-thumb {
+        border-radius: 3px;
+        background: var(--arco-text-4);
+      }
+
+      .data-table thead tr.group-row th {
+        color: var(--arco-text-1);
+        font-weight: 500;
+      }
+
+      .data-table thead tr.col-row th {
+        color: var(--arco-text-2);
+        font-weight: 400;
+        font-size: 13px;
+      }
+
+      .data-table td:first-child {
+        color: var(--arco-text-2);
+        font-variant-numeric: tabular-nums;
+      }
+
+      .table-wrap {
+        max-height: calc(100vh - 340px);
+      }
+
+      /* 用户增长分析模块 */
+      .analysis-block {
+        margin-bottom: 16px;
+      }
+      .section-heading {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 12px;
+        color: var(--arco-text-1);
+        font-size: 16px;
+        font-weight: 500;
+      }
+      .section-heading .hint {
+        color: var(--arco-text-3);
+        font-size: 12px;
+        font-weight: 400;
+      }
+      .kpi-grid {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 16px;
+        margin-bottom: 16px;
+      }
+      .kpi-grid.cols-4 {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+      }
+      .compare-table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 14px;
+        margin-top: 12px;
+      }
+      .compare-table th,
+      .compare-table td {
+        padding: 12px 16px;
+        border-bottom: 1px solid var(--border);
+        text-align: left;
+      }
+      .compare-table th {
+        background: var(--arco-bg-3);
+        color: var(--arco-text-2);
+        font-weight: 500;
+      }
+      .compare-table td {
+        color: var(--arco-text-1);
+      }
+      .delta-up {
+        color: var(--arco-success);
+        font-weight: 500;
+      }
+      .delta-down {
+        color: var(--arco-danger);
+        font-weight: 500;
+      }
+
+      .line-chart {
+        height: 140px;
+        margin-top: 16px;
+        position: relative;
+        border-bottom: 1px solid var(--border);
+        background: repeating-linear-gradient(
+          to top,
+          transparent 0,
+          transparent 34px,
+          var(--arco-border-2) 35px
+        );
+      }
+      .line-chart svg {
+        width: 100%;
+        height: 100%;
+        display: block;
+      }
+      .line-legend {
+        display: flex;
+        gap: 16px;
+        margin-top: 10px;
+        font-size: 12px;
+        color: var(--arco-text-3);
+      }
+      .line-legend i {
+        display: inline-block;
+        width: 12px;
+        height: 3px;
+        border-radius: 2px;
+        margin-right: 6px;
+        vertical-align: middle;
+      }
+
+      .pie-wrap {
+        display: flex;
+        align-items: center;
+        gap: 24px;
+        margin-top: 16px;
+        min-height: 160px;
+      }
+      .pie-chart {
+        width: 140px;
+        height: 140px;
+        border-radius: 50%;
+        background: conic-gradient(
+          #165dff 0 45%,
+          #14c9c9 45% 75%,
+          #f7ba1e 75% 100%
+        );
+        position: relative;
+        flex-shrink: 0;
+      }
+      .pie-chart::after {
+        content: "";
+        position: absolute;
+        inset: 28px;
+        border-radius: 50%;
+        background: var(--arco-bg-1);
+      }
+      .pie-legend {
+        flex: 1;
+        display: grid;
+        gap: 10px;
+      }
+      .pie-legend-item {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        font-size: 13px;
+        color: var(--arco-text-2);
+      }
+      .pie-legend-item .dot {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        margin-right: 8px;
+        display: inline-block;
+      }
+      .pie-legend-item strong {
+        color: var(--arco-text-1);
+        font-weight: 500;
+      }
+
+      .hbar-list {
+        margin-top: 16px;
+        display: grid;
+        gap: 14px;
+      }
+      .hbar-row {
+        display: grid;
+        grid-template-columns: 72px 1fr 56px;
+        align-items: center;
+        gap: 10px;
+        font-size: 13px;
+        color: var(--arco-text-2);
+      }
+      .hbar-track {
+        height: 18px;
+        background: var(--arco-bg-3);
+        border-radius: 2px;
+        overflow: hidden;
+      }
+      .hbar-fill {
+        height: 100%;
+        border-radius: 2px;
+        background: linear-gradient(90deg, #4080ff, #165dff);
+      }
+      .hbar-row strong {
+        text-align: right;
+        color: var(--arco-text-1);
+        font-variant-numeric: tabular-nums;
+      }
+
+      .funnel {
+        margin-top: 16px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 0;
+      }
+      .funnel-step {
+        width: 100%;
+        max-width: 420px;
+        text-align: center;
+        padding: 14px 16px;
+        color: #fff;
+        font-size: 14px;
+        font-weight: 500;
+        clip-path: polygon(4% 0, 96% 0, 100% 100%, 0 100%);
+      }
+      .funnel-step:nth-child(1) {
+        background: #165dff;
+        width: 100%;
+        clip-path: polygon(0 0, 100% 0, 96% 100%, 4% 100%);
+      }
+      .funnel-step:nth-child(3) {
+        background: #4080ff;
+        width: 86%;
+        clip-path: polygon(2% 0, 98% 0, 94% 100%, 6% 100%);
+      }
+      .funnel-step:nth-child(5) {
+        background: #6aa1ff;
+        width: 70%;
+        clip-path: polygon(4% 0, 96% 0, 92% 100%, 8% 100%);
+      }
+      .funnel-step:nth-child(7) {
+        background: #94bfff;
+        width: 56%;
+        color: var(--arco-text-1);
+        clip-path: polygon(6% 0, 94% 0, 90% 100%, 10% 100%);
+      }
+      .funnel-rate {
+        padding: 6px 0;
+        color: var(--arco-text-3);
+        font-size: 12px;
+      }
+      .funnel-step small {
+        display: block;
+        margin-top: 4px;
+        font-size: 12px;
+        font-weight: 400;
+        opacity: 0.9;
+      }
+
+      .vbar-compare {
+        height: 160px;
+        margin-top: 16px;
+        display: flex;
+        align-items: end;
+        justify-content: space-around;
+        gap: 20px;
+        border-bottom: 1px solid var(--border);
+        padding: 0 12px;
+      }
+      .vbar-item {
+        flex: 1;
+        max-width: 80px;
+        text-align: center;
+      }
+      .vbar-item .bar {
+        height: var(--h, 50%);
+        margin: 0 auto 8px;
+        width: 36px;
+        border-radius: 2px 2px 0 0;
+        background: var(--arco-primary);
+      }
+      .vbar-item .label {
+        font-size: 12px;
+        color: var(--arco-text-3);
+      }
+      .vbar-item .val {
+        font-size: 13px;
+        color: var(--arco-text-1);
+        font-weight: 500;
+        margin-bottom: 4px;
+      }
+
+      /* 表格 / 图表 视图切换 */
+      .toolbar-actions {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+      .view-toggle {
+        display: inline-flex;
+        border: 1px solid var(--border);
+        border-radius: 6px;
+        overflow: hidden;
+      }
+      .view-toggle .vt-btn {
+        padding: 6px 16px;
+        background: var(--arco-bg-1);
+        border: none;
+        cursor: pointer;
+        font-size: 13px;
+        color: var(--arco-text-2);
+        transition:
+          background 0.15s,
+          color 0.15s;
+      }
+      .view-toggle .vt-btn + .vt-btn {
+        border-left: 1px solid var(--border);
+      }
+      .view-toggle .vt-btn:hover {
+        background: var(--arco-bg-3);
+      }
+      .view-toggle .vt-btn.active {
+        background: var(--arco-primary);
+        color: #fff;
+      }
+
+      .chart-range-toggle .vt-btn {
+        padding: 4px 10px;
+        font-size: 12px;
+      }
+
+      .chart-range-toggle {
+        display: inline-flex;
+        border: 1px solid var(--border);
+        border-radius: 6px;
+        overflow: hidden;
+      }
+
+      .chart-range-toggle .range-btn {
+        padding: 4px 10px;
+        background: var(--arco-bg-1);
+        border: none;
+        cursor: pointer;
+        font-size: 12px;
+        color: var(--arco-text-2);
+        transition:
+          background 0.15s,
+          color 0.15s;
+      }
+
+      .chart-range-toggle .range-btn + .range-btn {
+        border-left: 1px solid var(--border);
+      }
+
+      .chart-range-toggle .range-btn:hover {
+        background: var(--arco-bg-3);
+      }
+
+      .chart-range-toggle .range-btn.active {
+        background: var(--arco-primary);
+        color: #fff;
+      }
+
+      .chart-title-text {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .chart-view {
+        padding: 20px;
+      }
+      .chart-view .chart-grid {
+        margin-bottom: 16px;
+      }
+
+      /* 双轴组合图 */
+      .combo-chart {
+        margin-top: 16px;
+        width: 100%;
+      }
+      .combo-chart svg {
+        width: 100%;
+        height: auto;
+        display: block;
+      }
+      .combo-chart .axis-label {
+        font-size: 8px;
+        fill: var(--arco-text-3);
+      }
+      .combo-chart .axis-title {
+        font-size: 8px;
+        fill: var(--arco-text-2);
+        font-weight: 500;
+      }
+      .combo-chart .funnel-axis {
+        font-size: 8px;
+        fill: var(--arco-text-3);
+        font-variant-numeric: tabular-nums;
+      }
+      .grid-line {
+        stroke: var(--border);
+        stroke-width: 1;
+      }
+
+      /* GA4 风格分步漏斗图 */
+      .ga-funnel {
+        margin-top: 16px;
+        width: 100%;
+      }
+      .ga-funnel svg {
+        width: 100%;
+        height: auto;
+        display: block;
+      }
+      .ga-funnel .grid-line.dashed {
+        stroke-dasharray: 4 4;
+      }
+      .ga-funnel .funnel-axis {
+        font-size: 10px;
+        fill: var(--arco-text-3);
+        font-variant-numeric: tabular-nums;
+      }
+      .ga-funnel .funnel-step-idx {
+        font-size: 11px;
+        fill: var(--arco-text-3);
+      }
+      .ga-funnel .funnel-step-name {
+        font-size: 10px;
+        font-weight: 400;
+        fill: var(--arco-text-1);
+      }
+      .ga-funnel .funnel-comp {
+        font-size: 10px;
+        font-weight: 300;
+        fill: var(--arco-text-1);
+      }
+      .ga-funnel .funnel-abandon-title {
+        font-size: 11px;
+        fill: var(--arco-text-3);
+      }
+      .ga-funnel .funnel-abandon {
+        font-size: 11px;
+        fill: var(--arco-text-2);
+        font-variant-numeric: tabular-nums;
+      }
+
+      /* 渠道排行榜 */
+      .rank-list {
+        margin-top: 16px;
+        display: grid;
+        gap: 12px;
+      }
+      .rank-head,
+      .rank-row {
+        display: grid;
+        grid-template-columns: 88px 1fr 56px;
+        align-items: center;
+        gap: 12px;
+        font-size: 13px;
+      }
+      .rank-head {
+        color: var(--arco-text-3);
+        font-size: 12px;
+        padding-bottom: 4px;
+        border-bottom: 1px solid var(--border);
+      }
+      .rank-head span:nth-child(2) {
+        text-align: left;
+      }
+      .rank-head span:last-child {
+        text-align: right;
+      }
+      .rank-name {
+        color: var(--arco-text-1);
+        font-weight: 500;
+      }
+      .rank-bar {
+        height: 20px;
+        background: var(--arco-bg-3);
+        border-radius: 2px;
+        overflow: hidden;
+        position: relative;
+      }
+      .rank-fill {
+        height: 100%;
+        border-radius: 2px;
+        background: linear-gradient(90deg, #4080ff, #165dff);
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        padding-right: 8px;
+        color: #fff;
+        font-size: 11px;
+        font-variant-numeric: tabular-nums;
+        min-width: 40px;
+      }
+      .rank-rate {
+        text-align: right;
+        color: var(--arco-text-1);
+        font-weight: 500;
+        font-variant-numeric: tabular-nums;
+      }
+
+      @media (max-width: 1180px) {
+        .overview-insights {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+        .chart-grid {
+          grid-template-columns: 1fr;
+        }
+        .kpi-grid,
+        .kpi-grid.cols-4 {
+          grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+        }
+      }
+
+      @media (max-width: 820px) {
+        .sidebar {
+          width: 200px;
+        }
+        .content {
+          padding: 12px;
+        }
+        .overview-insights {
+          gap: 12px;
+        }
+      }
+
+      @media (max-width: 620px) {
+        .layout {
+          display: block;
+        }
+        .sidebar {
+          width: 100%;
+          min-height: auto;
+          border-right: 0;
+          border-bottom: 1px solid var(--border);
+        }
+        .sidebar-menu {
+          max-height: 200px;
+        }
+        .sidebar-footer {
+          display: none;
+        }
+        .overview-insights {
+          grid-template-columns: 1fr;
+        }
+        .filter-bar {
+          align-items: stretch;
+        }
+        .filter-item {
+          width: 100%;
+          justify-content: space-between;
+        }
+        .filter-item select,
+        .filter-item input[type="date"],
+        .filter-item input[type="text"] {
+          flex: 1;
+          min-width: 0;
+        }
+        .table-wrap {
+          max-height: none;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="layout">
+      <!-- 侧边栏 -->
+      <aside class="sidebar">
+        <div class="sidebar-logo">
+          <div class="sidebar-logo-icon">数</div>
+          <span class="sidebar-logo-text">数据后台</span>
+        </div>
+        <nav class="sidebar-menu" id="sidebarMenu">
+          <div class="menu-group">
+            <div class="menu-top active" data-page="overview">经营总览</div>
+          </div>
+
+          <div class="menu-group" data-group="lifecycle">
+            <div class="menu-top has-child">
+              <span>用户生命周期</span>
+              <span class="menu-arrow">▶</span>
+            </div>
+            <div class="submenu">
+              <div class="menu-child" data-page="life-acquisition">
+                用户获取
+              </div>
+              <div class="menu-child" data-page="life-activation">用户激活</div>
+              <div class="menu-child" data-page="life-conversion">用户转化</div>
+              <div class="menu-sub-group">
+                <div class="menu-child has-child">
+                  <span>用户价值</span>
+                  <span class="menu-arrow">▶</span>
+                </div>
+                <div class="submenu-inner">
+                  <div class="menu-grandchild" data-page="life-value-overall">
+                    整体价值
+                  </div>
+                  <div class="menu-grandchild" data-page="life-value-new">
+                    新用户价值
+                  </div>
+                  <div class="menu-grandchild" data-page="life-value-new-ltv">
+                    新用户LTV
+                  </div>
+                  <div class="menu-grandchild" data-page="life-value-old">
+                    老用户价值
+                  </div>
+                  <div class="menu-grandchild" data-page="life-value-old-ltv">
+                    老用户LTV
+                  </div>
+                </div>
+              </div>
+              <div class="menu-sub-group">
+                <div class="menu-child has-child">
+                  <span>用户留存</span>
+                  <span class="menu-arrow">▶</span>
+                </div>
+                <div class="submenu-inner">
+                  <div
+                    class="menu-grandchild"
+                    data-page="life-retention-active"
+                  >
+                    用户活跃
+                  </div>
+                  <div class="menu-grandchild" data-page="life-retention-user">
+                    用户留存
+                  </div>
+                  <div
+                    class="menu-grandchild"
+                    data-page="life-retention-recharge"
+                  >
+                    充值留存
+                  </div>
+                </div>
+              </div>
+              <div class="menu-child" data-page="life-trend">
+                用户生命周期趋势
+              </div>
+            </div>
+          </div>
+
+          <div class="menu-group">
+            <div class="menu-top" data-page="game-operation">游戏运营</div>
+          </div>
+
+          <div class="menu-group" data-group="profit">
+            <div class="menu-top has-child">
+              <span>盈利分析</span>
+              <span class="menu-arrow">▶</span>
+            </div>
+            <div class="submenu">
+              <div class="menu-child" data-page="profit-platform">平台收益</div>
+              <div class="menu-child" data-page="profit-user">用户盈利贡献</div>
+              <div class="menu-child" data-page="profit-game">游戏盈利效率</div>
+            </div>
+          </div>
+
+          <div class="menu-group" data-group="fund">
+            <div class="menu-top has-child">
+              <span>资金安全</span>
+              <span class="menu-arrow">▶</span>
+            </div>
+            <div class="submenu">
+              <div class="menu-child" data-page="fund-scale">资金规模监控</div>
+              <div class="menu-child" data-page="fund-flow">资金流动监控</div>
+              <div class="menu-child" data-page="fund-risk">提现风险监控</div>
+            </div>
+          </div>
+        </nav>
+        <div class="sidebar-footer">
+          <div class="user-avatar">大</div>
+          <div class="user-meta">
+            <div class="user-name">大山</div>
+            <div class="user-info">欢迎你~</div>
+          </div>
+          <button class="btn-logout" type="button">退出</button>
+        </div>
+      </aside>
+
+      <!-- 主内容 -->
+      <div class="main">
+        <header class="top-header">
+          <div class="breadcrumb">
+            数据统计 / <strong id="breadcrumbTitle">经营总览</strong>
+          </div>
+          <div class="header-actions">
+            <span class="header-badge">数据正常</span>
+            <span>大山</span>
+          </div>
+        </header>
+
+        <div class="content" id="pageContainer">
+          <!-- 各页面由 JS 动态渲染 -->
+        </div>
+      </div>
+    </div>
+
+    <script>
+      // 基础固定列 & 渠道筛选项
+      const BASE_COLS = ["日期", "来源渠道", "渠道名", "所属平台"];
+      const STICKY_COLS = 4;
+      const SOURCE_CHANNEL_OPTIONS = ["投放", "官网", "裂变", "特殊流量"];
+      const CHANNEL_NAME_MAP = {
+        投放: ["投放01", "投放02", "投放03", "投放04"],
+        官网: ["官网01", "官网02", "官网03"],
+        裂变: ["裂变01", "裂变02", "裂变03"],
+        特殊流量: ["特殊流量01", "特殊流量02", "特殊流量03"],
+      };
+
+      const LTV_DAY_COLS = [
+        "1日LTV",
+        "2日LTV",
+        "3日LTV",
+        "4日LTV",
+        "5日LTV",
+        "6日LTV",
+        "7日LTV",
+      ];
+
+      // 页面配置：分组表头 + 列定义
+      const PAGES = {
+        overview: {
+          title: "经营总览",
+          breadcrumb: "经营总览",
+          stickyCols: STICKY_COLS,
+          overviewFunnelChart: true,
+          groups: [
+            { name: "基础", cls: "g-base", cols: BASE_COLS },
+            {
+              name: "用户",
+              cls: "g-user",
+              cols: ["安装人数(非去重)", "安装人数", "绑定人数", "日活跃人数"],
+            },
+            { name: "收入", cls: "g-income", cols: ["充值人数", "充值金额"] },
+            { name: "支出", cls: "g-expense", cols: ["提现金额", "活动奖金"] },
+            { name: "盈利", cls: "g-profit", cols: ["平台游戏输赢", "盈余率"] },
+          ],
+          sampleData: [
+            [
+              "2025-07-17",
+              "投放",
+              "投放01",
+              "T1-A",
+              12580,
+              10230,
+              8960,
+              15680,
+              3280,
+              985600,
+              412300,
+              85600,
+              573300,
+              "58.2%",
+            ],
+            [
+              "2025-07-16",
+              "裂变",
+              "裂变01",
+              "T1-A",
+              11890,
+              9680,
+              8520,
+              14920,
+              3050,
+              912400,
+              398500,
+              78900,
+              513900,
+              "56.3%",
+            ],
+            [
+              "2025-07-15",
+              "官网",
+              "官网01",
+              "T1-B",
+              10230,
+              8450,
+              7680,
+              13250,
+              2780,
+              856200,
+              365800,
+              68200,
+              490400,
+              "57.3%",
+            ],
+          ],
+        },
+        "life-acquisition": {
+          title: "用户获取",
+          breadcrumb: "用户生命周期 / 用户获取",
+          stickyCols: STICKY_COLS,
+          chartView: true,
+          question: "看量 · 用户从哪来、来了多少",
+          insights: [
+            {
+              label: "安装人数",
+              value: "10,230",
+              trend: "8.6% 较昨日",
+              dir: "up",
+              tag: "去重",
+              tagType: "success",
+            },
+            {
+              label: "新增用户数",
+              value: "9,120",
+              trend: "5.4% 较昨日",
+              dir: "up",
+            },
+            {
+              label: "绑定人数",
+              value: "8,960",
+              trend: "5.0% 较昨日",
+              dir: "up",
+            },
+            {
+              label: "注册转化率",
+              value: "71.2%",
+              trend: "0.3% 较昨日",
+              dir: "down",
+              tag: "关注",
+              tagType: "warning",
+            },
+          ],
+          groups: [
+            { name: "基础", cls: "g-base", cols: BASE_COLS },
+            {
+              name: "安装用户",
+              cls: "g-user",
+              cols: ["安装人数(非去重)", "安装人数", "新增设备数"],
+            },
+            {
+              name: "注册用户",
+              cls: "g-income",
+              cols: ["新增用户数", "绑定人数", "注册转化率"],
+            },
+          ],
+          sampleData: [
+            [
+              "2025-07-17",
+              "投放",
+              "投放01",
+              "T1-A",
+              12580,
+              10230,
+              9850,
+              9120,
+              8960,
+              "71.2%",
+            ],
+            [
+              "2025-07-16",
+              "裂变",
+              "裂变01",
+              "T1-A",
+              11890,
+              9680,
+              9320,
+              8650,
+              8520,
+              "71.7%",
+            ],
+            [
+              "2025-07-15",
+              "官网",
+              "官网01",
+              "T1-B",
+              10230,
+              8450,
+              8120,
+              7820,
+              7680,
+              "75.1%",
+            ],
+          ],
+        },
+        "life-activation": {
+          title: "用户激活",
+          breadcrumb: "用户生命周期 / 用户激活",
+          stickyCols: STICKY_COLS,
+          activationCharts: true,
+          question: "看激活 · 新用户来了有没有动起来",
+          insights: [
+            {
+              label: "新用户DAU",
+              value: "7,820",
+              trend: "4.2% 较昨日",
+              dir: "up",
+            },
+            {
+              label: "新用户活跃率",
+              value: "85.7%",
+              trend: "0.5% 较昨日",
+              dir: "up",
+              tag: "活跃",
+              tagType: "success",
+            },
+            {
+              label: "新用户游戏人数",
+              value: "6,980",
+              trend: "3.8% 较昨日",
+              dir: "up",
+            },
+            {
+              label: "首充人数",
+              value: "860",
+              trend: "6.2% 较昨日",
+              dir: "up",
+              tag: "转化",
+              tagType: "info",
+            },
+          ],
+          groups: [
+            { name: "基础", cls: "g-base", cols: BASE_COLS },
+            {
+              name: "激活用户",
+              cls: "g-user",
+              cols: [
+                "新用户登录人数",
+                "新用户DAU",
+                "新用户活跃率",
+                "新用户游戏人数",
+              ],
+            },
+            {
+              name: "新用户行为",
+              cls: "g-income",
+              cols: ["首次游戏人数", "首次投注人数", "首充人数"],
+            },
+          ],
+          sampleData: [
+            [
+              "2025-07-17",
+              "投放",
+              "投放01",
+              "T1-A",
+              8650,
+              7820,
+              "85.7%",
+              6980,
+              6980,
+              5240,
+              860,
+            ],
+            [
+              "2025-07-16",
+              "裂变",
+              "裂变01",
+              "T1-A",
+              8120,
+              7350,
+              "85.0%",
+              6540,
+              6540,
+              4920,
+              810,
+            ],
+            [
+              "2025-07-15",
+              "官网",
+              "官网01",
+              "T1-B",
+              7280,
+              6650,
+              "85.1%",
+              5980,
+              5980,
+              4480,
+              720,
+            ],
+          ],
+        },
+        "life-conversion": {
+          title: "用户转化",
+          breadcrumb: "用户生命周期 / 用户转化",
+          stickyCols: STICKY_COLS,
+          conversionCharts: true,
+          insightCols: 3,
+          question: "看转化 · 用户愿不愿意付费",
+          insights: [
+            {
+              label: "新用户付费率",
+              value: "15.2%",
+              hint: "新用户变现效率",
+              trend: "0.4% 较昨日",
+              dir: "up",
+              tag: "新用户",
+              tagType: "success",
+            },
+            {
+              label: "首充率",
+              value: "9.4%",
+              hint: "新用户首次充值转化",
+              trend: "0.2% 较昨日",
+              dir: "up",
+            },
+            {
+              label: "充值金额",
+              value: "¥985,600",
+              hint: "总收入规模",
+              trend: "8.0% 较昨日",
+              dir: "up",
+              tag: "实时",
+              tagType: "info",
+            },
+          ],
+          groups: [
+            { name: "基础", cls: "g-base", cols: BASE_COLS },
+            {
+              name: "充值规模",
+              cls: "g-recharge",
+              cols: ["充值人数", "充值金额"],
+            },
+            {
+              name: "首充转化",
+              cls: "g-first",
+              cols: ["首充人数", "首充金额", "首充率"],
+            },
+            {
+              name: "新用户付费",
+              cls: "g-new",
+              cols: [
+                "新增付费人数",
+                "新增充值人数",
+                "新增充值金额",
+                "新增付费率",
+              ],
+            },
+            {
+              name: "付费转化率",
+              cls: "g-convert",
+              cols: ["新用户付费率", "老用户付费率", "总付费率"],
+            },
+          ],
+          sampleData: [
+            [
+              "2025-07-17",
+              "投放",
+              "投放01",
+              "T1-A",
+              3280,
+              985600,
+              860,
+              256800,
+              "9.4%",
+              680,
+              720,
+              156800,
+              "15.2%",
+              "12.5%",
+              "11.8%",
+              "18.3%",
+            ],
+            [
+              "2025-07-16",
+              "裂变",
+              "裂变01",
+              "T1-A",
+              3050,
+              912400,
+              810,
+              239400,
+              "9.2%",
+              635,
+              675,
+              145500,
+              "14.8%",
+              "12.1%",
+              "11.5%",
+              "17.6%",
+            ],
+            [
+              "2025-07-15",
+              "官网",
+              "官网01",
+              "T1-B",
+              2780,
+              856200,
+              720,
+              213600,
+              "9.6%",
+              558,
+              590,
+              123600,
+              "15.5%",
+              "12.8%",
+              "11.9%",
+              "18.9%",
+            ],
+          ],
+        },
+        "life-value-overall": {
+          title: "整体价值",
+          breadcrumb: "用户生命周期 / 用户价值 / 整体价值",
+          stickyCols: STICKY_COLS,
+          question: "看价值 · 平台整体用户价值表现",
+          insights: [
+            {
+              label: "新增ARPU",
+              value: "48.2",
+              trend: "1.5% 较昨日",
+              dir: "up",
+            },
+            {
+              label: "新增ARPPU",
+              value: "301.5",
+              trend: "0.8% 较昨日",
+              dir: "up",
+            },
+            { label: "总ARPU", value: "62.8", trend: "2.1% 较昨日", dir: "up" },
+            {
+              label: "总ARPPU",
+              value: "300.5",
+              trend: "0.6% 较昨日",
+              dir: "up",
+            },
+          ],
+          groups: [
+            { name: "基础", cls: "g-base", cols: BASE_COLS },
+            {
+              name: "整体价值",
+              cls: "g-value",
+              cols: ["新增ARPU", "新增ARPPU", "总ARPU", "总ARPPU"],
+            },
+          ],
+          sampleData: [
+            ["2025-07-17", "投放", "投放01", "T1-A", 48.2, 301.5, 62.8, 300.5],
+            ["2025-07-16", "裂变", "裂变01", "T1-A", 46.8, 298.2, 61.2, 299.1],
+            ["2025-07-15", "官网", "官网01", "T1-B", 49.1, 305.8, 64.6, 307.9],
+          ],
+          valueOverallCharts: true,
+        },
+        "life-value-new": {
+          title: "新用户价值",
+          breadcrumb: "用户生命周期 / 用户价值 / 新用户价值",
+          stickyCols: STICKY_COLS,
+          question: "看价值 · 新用户贡献与变现能力",
+          insights: [
+            {
+              label: "新用户ARPU",
+              value: "48.2",
+              trend: "1.5% 较昨日",
+              dir: "up",
+              tag: "新用户",
+              tagType: "info",
+            },
+            {
+              label: "新用户盈余率",
+              value: "45.6%",
+              trend: "0.3% 较昨日",
+              dir: "up",
+            },
+            {
+              label: "新用户充提差",
+              value: "89,600",
+              trend: "3.2% 较昨日",
+              dir: "up",
+            },
+          ],
+          groups: [
+            { name: "基础", cls: "g-base", cols: BASE_COLS },
+            {
+              name: "新用户价值",
+              cls: "g-new",
+              cols: ["新用户ARPU", "新用户盈余率", "新用户充提差"],
+            },
+          ],
+          sampleData: [
+            ["2025-07-17", "投放", "投放01", "T1-A", 48.2, "45.6%", 89600],
+            ["2025-07-16", "裂变", "裂变01", "T1-A", 46.8, "44.2%", 82400],
+            ["2025-07-15", "官网", "官网01", "T1-B", 49.1, "46.1%", 78900],
+          ],
+        },
+        "life-value-new-ltv": {
+          title: "新用户LTV",
+          breadcrumb: "用户生命周期 / 用户价值 / 新用户LTV",
+          stickyCols: 2,
+          groups: [
+            { name: "基础", cls: "g-base", cols: ["日期", "来源渠道"] },
+            {
+              name: "新用户LTV",
+              cls: "g-new",
+              cols: ["新增用户数", ...LTV_DAY_COLS],
+            },
+          ],
+          sampleData: [
+            [
+              "2025-07-17",
+              "投放",
+              9120,
+              12.5,
+              30.0,
+              52.0,
+              78.0,
+              110.0,
+              155.0,
+              285.6,
+            ],
+            [
+              "2025-07-16",
+              "裂变",
+              8650,
+              8.0,
+              12.0,
+              18.0,
+              28.0,
+              45.0,
+              95.0,
+              278.3,
+            ],
+            [
+              "2025-07-15",
+              "官网",
+              8300,
+              20.0,
+              45.0,
+              70.0,
+              88.0,
+              95.0,
+              105.0,
+              291.2,
+            ],
+          ],
+          ltvCharts: true,
+          hideChannelNameFilter: true,
+        },
+        "life-value-old": {
+          title: "老用户价值",
+          breadcrumb: "用户生命周期 / 用户价值 / 老用户价值",
+          stickyCols: STICKY_COLS,
+          question: "看价值 · 老用户贡献与持续变现",
+          insights: [
+            {
+              label: "老用户ARPU",
+              value: "74.0",
+              trend: "1.2% 较昨日",
+              dir: "up",
+              tag: "老用户",
+              tagType: "success",
+            },
+            {
+              label: "老用户ARPPU",
+              value: "300.3",
+              trend: "0.5% 较昨日",
+              dir: "up",
+            },
+            {
+              label: "老用户充值金额",
+              value: "828,800",
+              trend: "4.8% 较昨日",
+              dir: "up",
+            },
+          ],
+          groups: [
+            { name: "基础", cls: "g-base", cols: BASE_COLS },
+            {
+              name: "老用户价值",
+              cls: "g-old",
+              cols: [
+                "老用户ARPU",
+                "老用户ARPPU",
+                "老用户充提差",
+                "老用户盈余率",
+                "老用户充值人数",
+                "老用户充值金额",
+              ],
+            },
+          ],
+          sampleData: [
+            [
+              "2025-07-17",
+              "投放",
+              "投放01",
+              "T1-A",
+              74.0,
+              300.3,
+              512300,
+              "48.1%",
+              2420,
+              828800,
+            ],
+            [
+              "2025-07-16",
+              "裂变",
+              "裂变01",
+              "T1-A",
+              72.5,
+              299.1,
+              486900,
+              "46.5%",
+              2280,
+              766900,
+            ],
+            [
+              "2025-07-15",
+              "官网",
+              "官网01",
+              "T1-B",
+              76.5,
+              309.4,
+              465800,
+              "47.8%",
+              2180,
+              732600,
+            ],
+          ],
+          valueOldCharts: true,
+        },
+        "life-value-old-ltv": {
+          title: "老用户LTV",
+          breadcrumb: "用户生命周期 / 用户价值 / 老用户LTV",
+          stickyCols: 2,
+          groups: [
+            { name: "基础", cls: "g-base", cols: ["日期", "来源渠道"] },
+            {
+              name: "老用户LTV",
+              cls: "g-old",
+              cols: ["老用户数", ...LTV_DAY_COLS],
+            },
+          ],
+          sampleData: [
+            [
+              "2025-07-17",
+              "投放",
+              11200,
+              18.2,
+              38.0,
+              62.0,
+              92.0,
+              128.0,
+              168.0,
+              356.8,
+            ],
+            [
+              "2025-07-16",
+              "裂变",
+              10680,
+              14.0,
+              22.0,
+              32.0,
+              48.0,
+              72.0,
+              145.0,
+              348.2,
+            ],
+            [
+              "2025-07-15",
+              "官网",
+              9580,
+              28.0,
+              58.0,
+              88.0,
+              105.0,
+              112.0,
+              125.0,
+              362.5,
+            ],
+          ],
+          ltvCharts: true,
+          hideChannelNameFilter: true,
+        },
+        "life-retention": {
+          title: "用户留存",
+          breadcrumb: "用户生命周期 / 用户留存",
+          stickyCols: STICKY_COLS,
+          question: "看留存 · 用户会不会回来",
+          insights: [
+            {
+              label: "首存次日充值留存",
+              value: "42.5%",
+              trend: "0.7% 较昨日",
+              dir: "up",
+            },
+            {
+              label: "7日充值留存",
+              value: "22.8%",
+              trend: "0.3% 较昨日",
+              dir: "up",
+            },
+            {
+              label: "28日充值留存",
+              value: "12.8%",
+              trend: "0.1% 较昨日",
+              dir: "up",
+              tag: "长期",
+              tagType: "info",
+            },
+            {
+              label: "老用户活跃率",
+              value: "68.5%",
+              trend: "0.6% 较昨日",
+              dir: "up",
+              tag: "回流",
+              tagType: "success",
+            },
+          ],
+          groups: [
+            { name: "基础", cls: "g-base", cols: BASE_COLS },
+            {
+              name: "充值留存",
+              cls: "g-retain",
+              cols: [
+                "首存次日充值留存",
+                "3日充值留存",
+                "4日充值留存",
+                "5日充值留存",
+                "6日充值留存",
+                "7日充值留存",
+                "14日充值留存",
+                "21日充值留存",
+                "28日充值留存",
+              ],
+            },
+            {
+              name: "用户活跃",
+              cls: "g-active",
+              cols: ["DAU", "老用户日活", "老用户活跃率"],
+            },
+          ],
+          sampleData: [
+            [
+              "2025-07-17",
+              "投放",
+              "投放01",
+              "T1-A",
+              "42.5%",
+              "35.2%",
+              "30.8%",
+              "27.5%",
+              "25.1%",
+              "22.8%",
+              "18.5%",
+              "15.2%",
+              "12.8%",
+              15680,
+              11200,
+              "68.5%",
+            ],
+            [
+              "2025-07-16",
+              "裂变",
+              "裂变01",
+              "T1-A",
+              "41.8%",
+              "34.5%",
+              "30.1%",
+              "26.8%",
+              "24.5%",
+              "22.1%",
+              "17.8%",
+              "14.6%",
+              "12.2%",
+              14920,
+              10680,
+              "67.8%",
+            ],
+            [
+              "2025-07-15",
+              "官网",
+              "官网01",
+              "T1-B",
+              "43.2%",
+              "35.8%",
+              "31.5%",
+              "28.2%",
+              "25.8%",
+              "23.5%",
+              "19.2%",
+              "15.8%",
+              "13.5%",
+              13250,
+              9580,
+              "69.2%",
+            ],
+          ],
+        },
+        "life-retention-active": {
+          title: "用户活跃",
+          breadcrumb: "用户生命周期 / 用户留存 / 用户活跃",
+          stickyCols: 2,
+          hideChannelNameFilter: true,
+          question: "看活跃 · 活跃用户规模与回流表现",
+          insights: [
+            { label: "日活跃人数", value: "15,680" },
+            { label: "老用户日活", value: "11,200" },
+            {
+              label: "老用户活跃率",
+              value: "68.5%",
+              trend: "0.6% 较昨日",
+              dir: "up",
+              tag: "回流",
+              tagType: "success",
+            },
+          ],
+          groups: [
+            { name: "基础", cls: "g-base", cols: ["日期", "来源渠道"] },
+            {
+              name: "用户活跃",
+              cls: "g-active",
+              cols: ["DAU", "老用户日活", "老用户活跃率"],
+            },
+          ],
+          sampleData: [
+            ["2025-07-17", "投放", 15680, 11200, "68.5%"],
+            ["2025-07-16", "裂变", 14920, 10680, "67.8%"],
+            ["2025-07-15", "官网", 13250, 9580, "69.2%"],
+          ],
+          retentionActiveCharts: true,
+        },
+        "life-retention-user": {
+          title: "用户留存",
+          breadcrumb: "用户生命周期 / 用户留存 / 用户留存",
+          stickyCols: 2,
+          hideChannelNameFilter: true,
+          question: "看留存 · 用户会不会回来",
+          insights: [
+            {
+              label: "次日留存",
+              value: "42.5%",
+              trend: "0.7% 较昨日",
+              dir: "up",
+            },
+            {
+              label: "7日留存",
+              value: "22.8%",
+              trend: "0.3% 较昨日",
+              dir: "up",
+            },
+            {
+              label: "14日留存",
+              value: "18.5%",
+              trend: "0.2% 较昨日",
+              dir: "up",
+              tag: "长期",
+              tagType: "info",
+            },
+          ],
+          groups: [
+            { name: "基础", cls: "g-base", cols: ["日期", "来源渠道"] },
+            {
+              name: "用户留存",
+              cls: "g-retain",
+              cols: ["次日留存", "3日留存", "5日留存", "7日留存", "14日留存"],
+            },
+          ],
+          sampleData: [
+            ["2025-07-17", "投放", "42.5%", "35.2%", "28.6%", "22.8%", "18.5%"],
+            ["2025-07-16", "裂变", "41.8%", "34.5%", "27.9%", "22.1%", "17.8%"],
+            ["2025-07-15", "官网", "43.2%", "35.8%", "29.2%", "23.5%", "19.2%"],
+          ],
+        },
+        "life-retention-recharge": {
+          title: "充值留存",
+          breadcrumb: "用户生命周期 / 用户留存 / 充值留存",
+          stickyCols: 2,
+          hideChannelNameFilter: true,
+          question: "看充值留存 · 充值用户回流表现",
+          insights: [
+            {
+              label: "首存次日充值留存",
+              value: "42.5%",
+              trend: "0.7% 较昨日",
+              dir: "up",
+            },
+            {
+              label: "7日充值留存",
+              value: "22.8%",
+              trend: "0.3% 较昨日",
+              dir: "up",
+            },
+            {
+              label: "28日充值留存",
+              value: "12.8%",
+              trend: "0.1% 较昨日",
+              dir: "up",
+              tag: "长期",
+              tagType: "info",
+            },
+          ],
+          groups: [
+            { name: "基础", cls: "g-base", cols: ["日期", "来源渠道"] },
+            {
+              name: "充值留存",
+              cls: "g-retain",
+              cols: [
+                "首存次日充值留存",
+                "3日充值留存",
+                "4日充值留存",
+                "5日充值留存",
+                "6日充值留存",
+                "7日充值留存",
+                "14日充值留存",
+                "21日充值留存",
+                "28日充值留存",
+              ],
+            },
+          ],
+          sampleData: [
+            [
+              "2025-07-17",
+              "投放",
+              "42.5%",
+              "35.2%",
+              "30.8%",
+              "27.5%",
+              "25.1%",
+              "22.8%",
+              "18.5%",
+              "15.2%",
+              "12.8%",
+            ],
+            [
+              "2025-07-16",
+              "裂变",
+              "41.8%",
+              "34.5%",
+              "30.1%",
+              "26.8%",
+              "24.5%",
+              "22.1%",
+              "17.8%",
+              "14.6%",
+              "12.2%",
+            ],
+            [
+              "2025-07-15",
+              "官网",
+              "43.2%",
+              "35.8%",
+              "31.5%",
+              "28.2%",
+              "25.8%",
+              "23.5%",
+              "19.2%",
+              "15.8%",
+              "13.5%",
+            ],
+          ],
+        },
+        "life-trend": {
+          title: "用户生命周期趋势",
+          breadcrumb: "用户生命周期 / 用户生命周期趋势",
+          stickyCols: STICKY_COLS,
+          question: "看趋势 · 用户价值在增长还是衰减",
+          trendCharts: true,
+          groups: [
+            { name: "基础", cls: "g-base", cols: BASE_COLS },
+            {
+              name: "用户规模趋势",
+              cls: "g-user",
+              cols: ["新增用户数", "活跃用户数"],
+            },
+            {
+              name: "付费趋势",
+              cls: "g-recharge",
+              cols: ["付费人数", "充值金额"],
+            },
+            {
+              name: "用户价值趋势",
+              cls: "g-value",
+              cols: ["总ARPU", "总ARPPU"],
+            },
+            {
+              name: "留存趋势",
+              cls: "g-retain",
+              cols: ["次日留存", "7日留存"],
+            },
+          ],
+          sampleData: [
+            [
+              "2025-07-17",
+              "全部",
+              "-",
+              "T1-A",
+              9120,
+              15680,
+              3280,
+              985600,
+              62.8,
+              300.5,
+              "42.5%",
+              "22.8%",
+            ],
+            [
+              "2025-07-16",
+              "全部",
+              "-",
+              "T1-A",
+              8650,
+              14920,
+              3050,
+              912400,
+              61.2,
+              299.1,
+              "41.8%",
+              "22.1%",
+            ],
+            [
+              "2025-07-15",
+              "全部",
+              "-",
+              "T1-B",
+              7820,
+              13250,
+              2780,
+              856200,
+              64.6,
+              307.9,
+              "43.2%",
+              "23.5%",
+            ],
+          ],
+        },
+        "game-operation": {
+          title: "游戏运营",
+          breadcrumb: "游戏运营",
+          stickyCols: STICKY_COLS,
+          question: "看游戏 · 用户玩得多不多、投得大不大",
+          insights: [
+            {
+              label: "日活跃人数",
+              value: "15,680",
+              trend: "5.1% 较昨日",
+              dir: "up",
+              tag: "活跃",
+              tagType: "success",
+            },
+            {
+              label: "投注人数",
+              value: "8,950",
+              trend: "4.8% 较昨日",
+              dir: "up",
+            },
+            {
+              label: "有效投注",
+              value: "¥2,895,600",
+              trend: "7.6% 较昨日",
+              dir: "up",
+            },
+            {
+              label: "大R玩家",
+              value: "128",
+              trend: "11.3% 较昨日",
+              dir: "up",
+              tag: "高价值",
+              tagType: "info",
+            },
+          ],
+          groups: [
+            { name: "基础", cls: "g-base", cols: BASE_COLS },
+            {
+              name: "活跃",
+              cls: "g-active",
+              cols: ["老用户日活", "日活跃人数"],
+            },
+            {
+              name: "游戏参与",
+              cls: "g-participate",
+              cols: ["投注人数", "投注金额", "有效投注"],
+            },
+            { name: "高价值用户", cls: "g-vip", cols: ["大R玩家"] },
+            { name: "活动参与", cls: "g-activity", cols: ["奖金投注占比"] },
+          ],
+          sampleData: [
+            [
+              "2025-07-17",
+              "投放",
+              "投放01",
+              "T1-A",
+              11200,
+              15680,
+              8950,
+              3256800,
+              2895600,
+              128,
+              "35.8%",
+            ],
+            [
+              "2025-07-16",
+              "裂变",
+              "裂变01",
+              "T1-A",
+              10680,
+              14920,
+              8520,
+              3012400,
+              2689200,
+              115,
+              "34.7%",
+            ],
+            [
+              "2025-07-15",
+              "官网",
+              "官网01",
+              "T1-B",
+              9580,
+              13250,
+              7680,
+              2756800,
+              2453200,
+              98,
+              "36.9%",
+            ],
+          ],
+        },
+        "profit-platform": {
+          title: "平台收益",
+          breadcrumb: "盈利分析 / 平台收益",
+          stickyCols: STICKY_COLS,
+          question: "看收入 · 平台最终赚了多少钱",
+          insights: [
+            {
+              label: "平台游戏输赢",
+              value: "¥573,300",
+              trend: "11.6% 较昨日",
+              dir: "up",
+              tag: "最终收入",
+              tagType: "success",
+            },
+            {
+              label: "净收入",
+              value: "¥487,700",
+              trend: "12.1% 较昨日",
+              dir: "up",
+            },
+            {
+              label: "毛收入",
+              value: "¥573,300",
+              trend: "11.6% 较昨日",
+              dir: "up",
+            },
+            {
+              label: "月盈利",
+              value: "¥15,680,000",
+              trend: "5.8% 较上月",
+              dir: "up",
+              tag: "累计",
+              tagType: "info",
+            },
+          ],
+          groups: [
+            { name: "基础", cls: "g-base", cols: BASE_COLS },
+            {
+              name: "平台收益",
+              cls: "g-platform",
+              cols: ["平台游戏输赢", "净利润"],
+            },
+          ],
+          sampleData: [
+            ["2025-07-17", "投放", "投放01", "T1-A", 573300, 487700],
+            ["2025-07-16", "裂变", "裂变01", "T1-A", 513900, 435000],
+            ["2025-07-15", "官网", "官网01", "T1-B", 490400, 421500],
+          ],
+        },
+        "profit-user": {
+          title: "用户盈利贡献",
+          breadcrumb: "盈利分析 / 用户盈利贡献",
+          stickyCols: STICKY_COLS,
+          question: "看贡献 · 哪类用户在为平台创造盈利",
+          insights: [
+            {
+              label: "首存盈余率",
+              value: "52.3%",
+              trend: "1.5% 较昨日",
+              dir: "up",
+              tag: "首充用户",
+              tagType: "info",
+            },
+            {
+              label: "新用户盈余率",
+              value: "45.6%",
+              trend: "1.4% 较昨日",
+              dir: "up",
+              tag: "新用户",
+              tagType: "success",
+            },
+            {
+              label: "老用户盈余率",
+              value: "48.1%",
+              trend: "1.6% 较昨日",
+              dir: "up",
+              tag: "长期用户",
+              tagType: "success",
+            },
+          ],
+          groups: [
+            { name: "基础", cls: "g-base", cols: BASE_COLS },
+            {
+              name: "新用户盈利",
+              cls: "g-new",
+              cols: ["首存盈余率", "新用户盈余率"],
+            },
+            { name: "老用户盈利", cls: "g-old", cols: ["老用户盈余率"] },
+          ],
+          sampleData: [
+            ["2025-07-17", "投放", "投放01", "T1-A", "52.3%", "45.6%", "48.1%"],
+            ["2025-07-16", "裂变", "裂变01", "T1-A", "50.8%", "44.2%", "46.5%"],
+            ["2025-07-15", "官网", "官网01", "T1-B", "51.5%", "46.1%", "47.8%"],
+          ],
+        },
+        "profit-game": {
+          title: "游戏盈利效率",
+          breadcrumb: "盈利分析 / 游戏盈利效率",
+          stickyCols: STICKY_COLS,
+          question: "看效率 · 资金投入与游戏产出关系",
+          insights: [
+            {
+              label: "充投比",
+              value: "3.31",
+              trend: "0.3% 较昨日",
+              dir: "up",
+              tag: "投入产出",
+              tagType: "info",
+            },
+            {
+              label: "杀率",
+              value: "58.2%",
+              trend: "1.9% 较昨日",
+              dir: "up",
+              tag: "留存比例",
+              tagType: "success",
+            },
+            {
+              label: "有效投注",
+              value: "¥2,895,600",
+              trend: "7.6% 较昨日",
+              dir: "up",
+            },
+            {
+              label: "活动奖金",
+              value: "¥85,600",
+              trend: "8.5% 较昨日",
+              dir: "up",
+              tag: "成本",
+              tagType: "warning",
+            },
+          ],
+          groups: [
+            { name: "基础", cls: "g-base", cols: BASE_COLS },
+            {
+              name: "游戏业务规模",
+              cls: "g-participate",
+              cols: ["充值金额", "有效投注", "充投比"],
+            },
+            {
+              name: "平台收益效率",
+              cls: "g-game",
+              cols: ["杀率", "平台游戏输赢"],
+            },
+            { name: "盈利成本", cls: "g-expense", cols: ["活动奖金"] },
+          ],
+          sampleData: [
+            [
+              "2025-07-17",
+              "投放",
+              "投放01",
+              "T1-A",
+              985600,
+              2895600,
+              3.31,
+              "58.2%",
+              573300,
+              85600,
+            ],
+            [
+              "2025-07-16",
+              "裂变",
+              "裂变01",
+              "T1-A",
+              912400,
+              2689200,
+              3.3,
+              "56.3%",
+              513900,
+              78900,
+            ],
+            [
+              "2025-07-15",
+              "官网",
+              "官网01",
+              "T1-B",
+              856200,
+              2453200,
+              3.22,
+              "57.3%",
+              490400,
+              68200,
+            ],
+          ],
+        },
+        "fund-scale": {
+          title: "资金规模监控",
+          breadcrumb: "资金安全 / 资金规模监控",
+          stickyCols: STICKY_COLS,
+          question: "看规模 · 平台的钱够不够",
+          insights: [
+            {
+              label: "账户总余额",
+              value: "¥12,568,000",
+              trend: "2.7% 较昨日",
+              dir: "up",
+              tag: "资金池",
+              tagType: "info",
+            },
+            {
+              label: "可提现余额",
+              value: "¥8,965,000",
+              trend: "2.8% 较昨日",
+              dir: "up",
+            },
+            {
+              label: "不可提现余额",
+              value: "¥3,603,000",
+              trend: "2.5% 较昨日",
+              dir: "up",
+            },
+            {
+              label: "资金覆盖率",
+              value: "71.3%",
+              trend: "持平",
+              dir: "flat",
+              tag: "安全",
+              tagType: "success",
+            },
+          ],
+          groups: [
+            { name: "基础", cls: "g-base", cols: BASE_COLS },
+            {
+              name: "资金规模监控",
+              cls: "g-fund",
+              cols: ["账户总余额", "可提现余额", "不可提现余额", "资金覆盖率"],
+            },
+          ],
+          sampleData: [
+            [
+              "2025-07-17",
+              "投放",
+              "投放01",
+              "T1-A",
+              12568000,
+              8965000,
+              3603000,
+              "71.3%",
+            ],
+            [
+              "2025-07-16",
+              "裂变",
+              "裂变01",
+              "T1-A",
+              12235000,
+              8720000,
+              3515000,
+              "71.3%",
+            ],
+            [
+              "2025-07-15",
+              "官网",
+              "官网01",
+              "T1-B",
+              11896000,
+              8456000,
+              3440000,
+              "71.1%",
+            ],
+          ],
+        },
+        "fund-flow": {
+          title: "资金流动监控",
+          breadcrumb: "资金安全 / 资金流动监控",
+          stickyCols: STICKY_COLS,
+          question: "看流动 · 充值与提现的资金净流入",
+          insights: [
+            {
+              label: "充提差",
+              value: "¥573,300",
+              trend: "11.6% 较昨日",
+              dir: "up",
+              tag: "净流入",
+              tagType: "success",
+            },
+            {
+              label: "充值金额",
+              value: "¥985,600",
+              trend: "8.0% 较昨日",
+              dir: "up",
+            },
+            {
+              label: "提现金额",
+              value: "¥412,300",
+              trend: "2.1% 较昨日",
+              dir: "up",
+            },
+          ],
+          groups: [
+            { name: "基础", cls: "g-base", cols: BASE_COLS },
+            {
+              name: "资金流动监控",
+              cls: "g-flow",
+              cols: ["充值金额", "提现金额", "充提差"],
+            },
+          ],
+          sampleData: [
+            ["2025-07-17", "投放", "投放01", "T1-A", 985600, 412300, 573300],
+            ["2025-07-16", "裂变", "裂变01", "T1-A", 912400, 398500, 513900],
+            ["2025-07-15", "官网", "官网01", "T1-B", 856200, 365800, 490400],
+          ],
+        },
+        "fund-risk": {
+          title: "提现风险监控",
+          breadcrumb: "资金安全 / 提现风险监控",
+          stickyCols: STICKY_COLS,
+          question: "看风险 · 提现是否异常、成本多少",
+          insights: [
+            {
+              label: "提现人数",
+              value: "1,850",
+              trend: "7.6% 较昨日",
+              dir: "up",
+              tag: "关注",
+              tagType: "warning",
+            },
+            {
+              label: "提现金额",
+              value: "¥412,300",
+              trend: "2.1% 较昨日",
+              dir: "up",
+            },
+            {
+              label: "提现手续费",
+              value: "¥12,360",
+              trend: "6.7% 较昨日",
+              dir: "up",
+              tag: "成本",
+              tagType: "info",
+            },
+          ],
+          groups: [
+            { name: "基础", cls: "g-base", cols: BASE_COLS },
+            {
+              name: "提现风险监控",
+              cls: "g-risk",
+              cols: ["提现人数", "提现金额", "提现手续费"],
+            },
+          ],
+          sampleData: [
+            ["2025-07-17", "投放", "投放01", "T1-A", 1850, 412300, 12360],
+            ["2025-07-16", "裂变", "裂变01", "T1-A", 1720, 398500, 11580],
+            ["2025-07-15", "官网", "官网01", "T1-B", 1650, 365800, 10890],
+          ],
+        },
+      };
+
+      function formatNumber(val) {
+        if (typeof val === "string" && val.includes("%")) return val;
+        if (typeof val === "number") {
+          if (Number.isInteger(val)) return val.toLocaleString("zh-CN");
+          return val.toLocaleString("zh-CN", {
+            minimumFractionDigits: 1,
+            maximumFractionDigits: 2,
+          });
+        }
+        return val;
+      }
+
+      function getStickyClass(index, stickyCount) {
+        if (index >= stickyCount) return "";
+        return `sticky-col-${index + 1}`;
+      }
+
+      function renderSourceChannelFilter() {
+        return (
+          `<option value="" selected>请选择</option>` +
+          SOURCE_CHANNEL_OPTIONS.map(
+            (name) => `<option value="${name}">${name}</option>`,
+          ).join("")
+        );
+      }
+
+      function initFilterBar() {
+        const sourceSelect = document.getElementById("sourceChannelFilter");
+        const nameWrap = document.getElementById("channelNameFilterWrap");
+        const nameInput = document.getElementById("channelNameSearch");
+        const nameList = document.getElementById("channelNameList");
+        const filterBar = document.querySelector(".filter-bar");
+        if (!sourceSelect || !filterBar) return;
+
+        const updateChannelNameFilter = () => {
+          if (!nameWrap || !nameInput || !nameList) return;
+          const source = sourceSelect.value;
+          if (!source) {
+            nameWrap.classList.remove("is-visible");
+            nameInput.value = "";
+            nameList.innerHTML = "";
+            return;
+          }
+          nameWrap.classList.add("is-visible");
+          nameInput.placeholder = `搜索渠道名，如 ${source}01`;
+          const names = CHANNEL_NAME_MAP[source] || [];
+          nameList.innerHTML = names
+            .map((n) => `<option value="${n}"></option>`)
+            .join("");
+        };
+
+        sourceSelect.addEventListener("change", updateChannelNameFilter);
+
+        filterBar.querySelector(".btn-reset")?.addEventListener("click", () => {
+          sourceSelect.value = "";
+          updateChannelNameFilter();
+        });
+      }
+
+      function renderTable(page) {
+        const allCols = page.groups.flatMap((g) => g.cols);
+        const stickyCount = page.stickyCols || 1;
+        let colOffset = 0;
+
+        let groupRow = "";
+        page.groups.forEach((g) => {
+          const groupStart = colOffset;
+          const groupEnd = colOffset + g.cols.length;
+          const stickyColsInGroup = Math.max(
+            0,
+            Math.min(groupEnd, stickyCount) - groupStart,
+          );
+          const stickyCls =
+            stickyColsInGroup === g.cols.length && stickyColsInGroup > 0
+              ? " sticky-group-head"
+              : "";
+          groupRow += `<th class="${g.cls}${stickyCls}" colspan="${g.cols.length}">${g.name}</th>`;
+          colOffset = groupEnd;
+        });
+
+        let colRow = "";
+        allCols.forEach((col, i) => {
+          const stickyCls = getStickyClass(i, stickyCount);
+          colRow += `<th class="${stickyCls}">${col}<span class="sort-icon">▲<br>▼</span></th>`;
+        });
+
+        let bodyRows = "";
+        page.sampleData.forEach((row) => {
+          bodyRows += "<tr>";
+          row.forEach((cell, i) => {
+            const stickyCls = getStickyClass(i, stickyCount);
+            bodyRows += `<td class="${stickyCls}">${formatNumber(cell)}</td>`;
+          });
+          bodyRows += "</tr>";
+        });
+
+        return `
+        <div class="filter-bar">
+          <div class="filter-item">
+            <label>所属平台</label>
+            <select>
+              <option selected>T1-A</option>
+              <option>T1-B</option>
+              <option>R1</option>
+            </select>
+          </div>
+          <div class="filter-item">
+            <label>来源渠道</label>
+            <select id="sourceChannelFilter">
+              ${renderSourceChannelFilter()}
+            </select>
+          </div>
+          ${
+            page.hideChannelNameFilter
+              ? ""
+              : `
+          <div class="filter-item filter-item-channel-name" id="channelNameFilterWrap">
+            <label>渠道名</label>
+            <input type="text" id="channelNameSearch" list="channelNameList" placeholder="请先选择来源渠道" autocomplete="off" />
+            <datalist id="channelNameList"></datalist>
+          </div>`
+          }
+          <div class="filter-item">
+            <label>时间</label>
+            <input type="date" value="2025-07-11" />
+            <span>—</span>
+            <input type="date" value="2025-07-17" />
+          </div>
+          <button class="btn btn-primary" type="button">查询</button>
+          <button class="btn btn-reset" type="button">重置</button>
+        </div>
+        ${page.ltvCharts ? renderLtvCohortChart(page) : ""}
+        <div class="toolbar">
+          <span class="page-title">${page.title}</span>
+          <div class="toolbar-actions">
+            ${
+              page.chartView
+                ? `<div class="view-toggle" role="group" aria-label="视图切换">
+              <button type="button" class="vt-btn active" data-view="table">表格</button>
+              <button type="button" class="vt-btn" data-view="chart">图表</button>
+            </div>`
+                : ""
+            }
+            <button class="btn btn-primary">导出报表</button>
+          </div>
+        </div>
+        <div class="table-view" id="tableView">
+          <div class="table-wrap">
+            <table class="data-table">
+              <thead>
+                <tr class="group-row">${groupRow}</tr>
+                <tr class="col-row">${colRow}</tr>
+              </thead>
+              <tbody>${bodyRows}</tbody>
+            </table>
+          </div>
+          <div class="pagination">
+            <button disabled>‹</button>
+            <button class="active">1</button>
+            <button>2</button>
+            <button>3</button>
+            <button>›</button>
+            <span class="pagination-info">共 28 条</span>
+          </div>
+        </div>
+        ${page.chartView ? `<div class="chart-view" id="chartView" hidden>${renderAcquisitionTrendChart()}</div>` : ""}
+      `;
+      }
+
+      function renderComboChart() {
+        const labels = [
+          "07/11",
+          "07/12",
+          "07/13",
+          "07/14",
+          "07/15",
+          "07/16",
+          "07/17",
+        ];
+        const install = [8450, 9200, 9680, 10230, 11100, 11890, 12580];
+        const newUsers = [6320, 6800, 7250, 7680, 8300, 8650, 9120];
+        const convRate = [75.1, 74.2, 73.5, 72.8, 72.4, 71.7, 71.2];
+
+        const W = 760,
+          H = 300,
+          padL = 52,
+          padR = 52,
+          padT = 24,
+          padB = 40;
+        const plotW = W - padL - padR;
+        const plotH = H - padT - padB;
+        const n = labels.length;
+        const step = plotW / n;
+        const leftMax = 14000;
+        const rightMax = 100;
+        const barW = 15,
+          gap = 4;
+        const yCount = (v) => padT + plotH * (1 - v / leftMax);
+        const yPct = (v) => padT + plotH * (1 - v / rightMax);
+
+        let grid = "",
+          leftAxis = "",
+          rightAxis = "";
+        for (let i = 0; i <= 4; i++) {
+          const y = padT + (plotH / 4) * i;
+          grid += `<line class="grid-line" x1="${padL}" y1="${y}" x2="${W - padR}" y2="${y}"></line>`;
+          leftAxis += `<text class="axis-label" x="${padL - 8}" y="${y + 3}" text-anchor="end">${(leftMax - (leftMax / 4) * i).toLocaleString("zh-CN")}</text>`;
+          rightAxis += `<text class="axis-label" x="${W - padR + 8}" y="${y + 3}" text-anchor="start">${rightMax - (rightMax / 4) * i}%</text>`;
+        }
+
+        let bars = "",
+          xLabels = "",
+          linePts = [],
+          dots = "";
+        labels.forEach((lab, i) => {
+          const cx = padL + step * i + step / 2;
+          const x1 = cx - barW - gap / 2;
+          const x2 = cx + gap / 2;
+          bars += `<rect x="${x1}" y="${yCount(install[i])}" width="${barW}" height="${(plotH * install[i]) / leftMax}" rx="3" fill="#165DFF"></rect>`;
+          bars += `<rect x="${x2}" y="${yCount(newUsers[i])}" width="${barW}" height="${(plotH * newUsers[i]) / leftMax}" rx="3" fill="#14C9C9"></rect>`;
+          const ly = yPct(convRate[i]);
+          linePts.push(`${cx},${ly}`);
+          dots += `<circle cx="${cx}" cy="${ly}" r="3.5" fill="#fff" stroke="#F7BA1E" stroke-width="2"></circle>`;
+          xLabels += `<text class="axis-label" x="${cx}" y="${H - padB + 18}" text-anchor="middle">${lab}</text>`;
+        });
+
+        return `
+        <div class="combo-chart">
+          <svg viewBox="0 0 ${W} ${H}" preserveAspectRatio="xMidYMid meet">
+            ${grid}
+            ${bars}
+            <polyline fill="none" stroke="#F7BA1E" stroke-width="2.5" points="${linePts.join(" ")}"></polyline>
+            ${dots}
+            ${leftAxis}
+            ${rightAxis}
+            ${xLabels}
+          </svg>
+        </div>
+        <div class="line-legend">
+          <span><i style="background:#165DFF"></i>安装人数</span>
+          <span><i style="background:#14C9C9"></i>新增用户数</span>
+          <span><i style="background:#F7BA1E"></i>注册转化率</span>
+        </div>`;
+      }
+
+      function renderFunnelChart(steps) {
+        steps = steps || [
+          { name: "安装用户", value: 100000 },
+          { name: "新增设备", value: 80000 },
+          { name: "注册用户", value: 50000 },
+          { name: "绑定用户", value: 45000 },
+        ];
+        const W = 760,
+          H = 356;
+        const plotTop = 66,
+          plotBottom = 270;
+        const plotH = plotBottom - plotTop;
+        const axisLeft = 46,
+          plotRight = W - 14;
+        const plotLeft = axisLeft;
+        const plotW = plotRight - plotLeft;
+        const n = steps.length;
+        const colW = plotW / n;
+        const darkW = colW * 0.58;
+        const maxVal = Math.max(...steps.map((s) => s.value), 1);
+        const yVal = (v) => plotBottom - plotH * (v / maxVal);
+        const fmt = (v) => {
+          if (v === 0) return "0";
+          if (v >= 10000)
+            return (
+              (v % 10000 === 0 ? v / 10000 : (v / 10000).toFixed(1)) + "万"
+            );
+          return v.toLocaleString("zh-CN");
+        };
+        const nameFont = n > 5 ? 11 : 13;
+
+        let grid = "",
+          yLabels = "";
+        [0, 0.5, 1].forEach((t) => {
+          const y = plotBottom - plotH * t;
+          grid += `<line class="grid-line dashed" x1="${plotLeft}" y1="${y}" x2="${plotRight}" y2="${y}"></line>`;
+          yLabels += `<text class="funnel-axis" x="${plotLeft - 8}" y="${y + 4}" text-anchor="end">${fmt(maxVal * t)}</text>`;
+        });
+
+        let seps = "",
+          bars = "",
+          headers = "",
+          abandons = "";
+        seps += `<line class="grid-line" x1="${plotLeft}" y1="16" x2="${plotLeft}" y2="${plotBottom}"></line>`;
+        steps.forEach((s, i) => {
+          const colX = plotLeft + colW * i;
+          const sepX = colX + colW;
+          const topY = yVal(s.value);
+          bars += `<rect x="${colX}" y="${topY}" width="${darkW}" height="${plotBottom - topY}" fill="#4080FF"></rect>`;
+          if (i < n - 1) {
+            const nextTopY = yVal(steps[i + 1].value);
+            const lx = colX + darkW,
+              rx = colX + colW;
+            bars += `<polygon points="${lx},${topY} ${rx},${nextTopY} ${rx},${plotBottom} ${lx},${plotBottom}" fill="#C9DCFF"></polygon>`;
+          }
+          seps += `<line class="grid-line dashed" x1="${sepX}" y1="16" x2="${sepX}" y2="${plotBottom}"></line>`;
+
+          const comp = i === 0 ? 100 : (s.value / steps[i - 1].value) * 100;
+          headers += `<text class="funnel-step-idx" x="${colX + 4}" y="30">Step ${i + 1}</text>`;
+          headers += `<text class="funnel-step-name" x="${colX + 4}" y="52" style="font-size:${nameFont}px">${s.name}</text>`;
+          headers += `<text class="funnel-comp" x="${sepX - 6}" y="52" text-anchor="end" style="font-size:${nameFont}px">${comp.toFixed(1)}%</text>`;
+
+          if (i < n - 1) {
+            const lost = s.value - steps[i + 1].value;
+            const rate = (lost / s.value) * 100;
+            const ay = plotBottom + 30;
+            headers += `<text class="funnel-abandon-title" x="${colX + 4}" y="${ay - 16}">流失率</text>`;
+            abandons += `<rect x="${colX + 4}" y="${ay - 9}" width="9" height="9" rx="2" fill="#4080FF"></rect>`;
+            abandons += `<text class="funnel-abandon" x="${colX + 18}" y="${ay}">${fmt(Math.max(lost, 0))} · ${rate.toFixed(1)}%</text>`;
+          }
+        });
+
+        return `
+        <div class="ga-funnel">
+          <svg viewBox="0 0 ${W} ${H}" preserveAspectRatio="xMidYMid meet">
+            ${grid}
+            ${bars}
+            ${seps}
+            ${headers}
+            ${yLabels}
+            ${abandons}
+          </svg>
+        </div>`;
+      }
+
+      function renderChannelRank() {
+        // 与「来源渠道」筛选字段（SOURCE_CHANNEL_OPTIONS）对应
+        const data = {
+          投放: { install: 14000, reg: 72 },
+          官网: { install: 7600, reg: 75 },
+          裂变: { install: 9800, reg: 68 },
+          特殊流量: { install: 4200, reg: 55 },
+        };
+        const rows = SOURCE_CHANNEL_OPTIONS.map((name) => ({
+          name,
+          ...(data[name] || { install: 0, reg: 0 }),
+        })).sort((a, b) => b.install - a.install);
+        const max = Math.max(...rows.map((r) => r.install), 1);
+        const body = rows
+          .map(
+            (r) => `
+        <div class="rank-row">
+          <span class="rank-name">${r.name}</span>
+          <div class="rank-bar"><div class="rank-fill" style="width:${Math.max(12, Math.round((r.install / max) * 100))}%">${r.install.toLocaleString("zh-CN")}</div></div>
+          <span class="rank-rate">${r.reg}%</span>
+        </div>`,
+          )
+          .join("");
+        return `
+        <div class="rank-list">
+          <div class="rank-head"><span>渠道</span><span>安装</span><span>注册率</span></div>
+          ${body}
+        </div>`;
+      }
+
+      function renderAcquisitionFixedCharts() {
+        return `
+        <section class="chart-grid" aria-label="用户获取图表">
+          <article class="chart-card">
+            <div class="chart-title">用户获取漏斗 <span class="status-tag info">漏斗</span></div>
+            <div class="chart-subtitle">各阶段用户数、转化率与流失率</div>
+            ${renderFunnelChart()}
+          </article>
+          <article class="chart-card">
+            <div class="chart-title">渠道排行榜 <span class="status-tag info">柱状图</span></div>
+            <div class="chart-subtitle">各来源渠道安装量与注册率</div>
+            ${renderChannelRank()}
+          </article>
+        </section>`;
+      }
+
+      function renderSurplusRateTrend(dayCount = 7) {
+        const labels = buildTrendLabelsBeforeEnd(dayCount);
+        const data =
+          dayCount === 7
+            ? [56.3, 56.8, 57.1, 57.5, 57.8, 58.0, 58.2]
+            : genTrendSeries(dayCount, 54.5, 58.2, 0.45, 1);
+        const xLabelStep = dayCount <= 7 ? 1 : dayCount <= 30 ? 5 : 10;
+        const series = [
+          {
+            name: "盈余率",
+            data,
+            color: "#165DFF",
+          },
+        ];
+        return renderMultiLineTrendChart({
+          labels,
+          series,
+          maxVal: 100,
+          yStep: 25,
+          xLabelStep,
+          showDots: dayCount <= 7,
+        });
+      }
+
+      function renderOverviewFunnelChart() {
+        const steps = [
+          { name: "安装人数", value: 10230 },
+          { name: "绑定人数", value: 8960 },
+          { name: "DAU", value: 15680 },
+          { name: "充值人数", value: 3280 },
+          { name: "投注人数", value: 8950 },
+        ];
+        return `
+        <section class="chart-grid" aria-label="经营总览图表" style="grid-template-columns:1fr 1fr;margin-bottom:16px">
+          <article class="chart-card">
+            <div class="chart-title">经营转化漏斗 <span class="status-tag info">漏斗</span></div>
+            <div class="chart-subtitle">各阶段用户数、转化率与流失率（GA4 风格分步漏斗）</div>
+            ${renderFunnelChart(steps)}
+          </article>
+          <article class="chart-card" id="surplusRateChartCard">
+            <div class="chart-title">
+              <span class="chart-title-text">盈余率趋势 <span class="status-tag info">折线图</span></span>
+              <div class="chart-range-toggle" id="surplusRateRangeToggle" role="radiogroup" aria-label="盈余率趋势时间范围">
+                <button type="button" class="range-btn active" data-days="7">近7日</button>
+                <button type="button" class="range-btn" data-days="30">近30日</button>
+                <button type="button" class="range-btn" data-days="90">近90日</button>
+              </div>
+            </div>
+            <div class="chart-subtitle" id="surplusRateSubtitle">近七日盈余率走势</div>
+            <div id="surplusRateChartWrap">
+              ${renderSurplusRateTrend(7)}
+            </div>
+          </article>
+        </section>`;
+      }
+
+      function renderActivationDualLine() {
+        const labels = [
+          "07/11",
+          "07/12",
+          "07/13",
+          "07/14",
+          "07/15",
+          "07/16",
+          "07/17",
+        ];
+        const newUsers = [7200, 7450, 7680, 7900, 8300, 8650, 9120];
+        const newDau = [6100, 6350, 6580, 6820, 7100, 7350, 7820];
+        const W = 620,
+          H = 280,
+          padL = 48,
+          padR = 16,
+          padT = 24,
+          padB = 36;
+        const plotW = W - padL - padR;
+        const plotH = H - padT - padB;
+        const maxVal = 10000;
+        const n = labels.length;
+        const xPos = (i) =>
+          padL + (n === 1 ? plotW / 2 : (i / (n - 1)) * plotW);
+        const yPos = (v) => padT + plotH * (1 - v / maxVal);
+
+        let grid = "",
+          yLabels = "",
+          xLabels = "";
+        [0, 0.25, 0.5, 0.75, 1].forEach((t) => {
+          const y = padT + plotH * (1 - t);
+          grid += `<line class="grid-line" x1="${padL}" y1="${y}" x2="${W - padR}" y2="${y}"></line>`;
+          yLabels += `<text class="funnel-axis" x="${padL - 8}" y="${y + 4}" text-anchor="end">${Math.round(maxVal * t).toLocaleString("zh-CN")}</text>`;
+        });
+        labels.forEach((lab, i) => {
+          xLabels += `<text class="funnel-axis" x="${xPos(i)}" y="${H - 10}" text-anchor="middle">${lab}</text>`;
+        });
+
+        const ptsA = newUsers.map((v, i) => `${xPos(i)},${yPos(v)}`).join(" ");
+        const ptsB = newDau.map((v, i) => `${xPos(i)},${yPos(v)}`).join(" ");
+        let dots = "";
+        newUsers.forEach((v, i) => {
+          dots += `<circle cx="${xPos(i)}" cy="${yPos(v)}" r="3.5" fill="#fff" stroke="#165DFF" stroke-width="2"></circle>`;
+        });
+        newDau.forEach((v, i) => {
+          dots += `<circle cx="${xPos(i)}" cy="${yPos(v)}" r="3.5" fill="#fff" stroke="#14C9C9" stroke-width="2"></circle>`;
+        });
+
+        return `
+        <div class="combo-chart">
+          <svg viewBox="0 0 ${W} ${H}" preserveAspectRatio="xMidYMid meet">
+            ${grid}
+            <polyline fill="none" stroke="#165DFF" stroke-width="2.5" points="${ptsA}"></polyline>
+            <polyline fill="none" stroke="#14C9C9" stroke-width="2.5" points="${ptsB}"></polyline>
+            ${dots}
+            ${yLabels}
+            ${xLabels}
+          </svg>
+        </div>
+        <div class="line-legend">
+          <span><i style="background:#165DFF"></i>新增用户数</span>
+          <span><i style="background:#14C9C9"></i>新用户DAU</span>
+        </div>`;
+      }
+
+      function renderPayConversionFunnel() {
+        return `
+        <div class="pay-funnel">
+          <div class="pay-funnel-step">新增用户<small>10,000</small></div>
+          <div class="pay-funnel-rate">↓ 首充率 15%</div>
+          <div class="pay-funnel-step">首充人数<small>1,500</small></div>
+          <div class="pay-funnel-rate">↓ 复购率 60%</div>
+          <div class="pay-funnel-step">新增付费人数<small>900</small></div>
+        </div>`;
+      }
+
+      function renderPayRateCompare() {
+        const items = [
+          { name: "新用户付费率", value: 15.2, color: "#165DFF" },
+          { name: "老用户付费率", value: 11.8, color: "#14C9C9" },
+          { name: "总付费率", value: 18.3, color: "#F7BA1E" },
+        ];
+        const max = 20;
+        return `<div class="hbar-list">${items
+          .map(
+            (it) => `
+        <div class="hbar-row">
+          <span>${it.name}</span>
+          <div class="hbar-track"><div class="hbar-fill" style="width:${(it.value / max) * 100}%;background:linear-gradient(90deg,${it.color},${it.color}cc)"></div></div>
+          <strong>${it.value}%</strong>
+        </div>`,
+          )
+          .join("")}</div>`;
+      }
+
+      function renderPayCountTrend() {
+        const labels = [
+          "07/11",
+          "07/12",
+          "07/13",
+          "07/14",
+          "07/15",
+          "07/16",
+          "07/17",
+        ];
+        const recharge = [2780, 2890, 2950, 3050, 3120, 3180, 3280];
+        const newPay = [580, 595, 610, 635, 650, 665, 680];
+        const W = 620,
+          H = 280,
+          padL = 48,
+          padR = 16,
+          padT = 24,
+          padB = 36;
+        const plotW = W - padL - padR;
+        const plotH = H - padT - padB;
+        const maxVal = 3500;
+        const n = labels.length;
+        const xPos = (i) =>
+          padL + (n === 1 ? plotW / 2 : (i / (n - 1)) * plotW);
+        const yPos = (v) => padT + plotH * (1 - v / maxVal);
+
+        let grid = "",
+          yLabels = "",
+          xLabels = "";
+        [0, 0.25, 0.5, 0.75, 1].forEach((t) => {
+          const y = padT + plotH * (1 - t);
+          grid += `<line class="grid-line" x1="${padL}" y1="${y}" x2="${W - padR}" y2="${y}"></line>`;
+          yLabels += `<text class="funnel-axis" x="${padL - 8}" y="${y + 4}" text-anchor="end">${Math.round(maxVal * t).toLocaleString("zh-CN")}</text>`;
+        });
+        labels.forEach((lab, i) => {
+          xLabels += `<text class="funnel-axis" x="${xPos(i)}" y="${H - 10}" text-anchor="middle">${lab}</text>`;
+        });
+
+        const ptsA = recharge.map((v, i) => `${xPos(i)},${yPos(v)}`).join(" ");
+        const ptsB = newPay.map((v, i) => `${xPos(i)},${yPos(v)}`).join(" ");
+        let dots = "";
+        recharge.forEach((v, i) => {
+          dots += `<circle cx="${xPos(i)}" cy="${yPos(v)}" r="3.5" fill="#fff" stroke="#165DFF" stroke-width="2"></circle>`;
+        });
+        newPay.forEach((v, i) => {
+          dots += `<circle cx="${xPos(i)}" cy="${yPos(v)}" r="3.5" fill="#fff" stroke="#F7BA1E" stroke-width="2"></circle>`;
+        });
+
+        return `
+        <div class="combo-chart">
+          <svg viewBox="0 0 ${W} ${H}" preserveAspectRatio="xMidYMid meet">
+            ${grid}
+            <polyline fill="none" stroke="#165DFF" stroke-width="2.5" points="${ptsA}"></polyline>
+            <polyline fill="none" stroke="#F7BA1E" stroke-width="2.5" points="${ptsB}"></polyline>
+            ${dots}
+            ${yLabels}
+            ${xLabels}
+          </svg>
+        </div>
+        <div class="line-legend">
+          <span><i style="background:#165DFF"></i>充值人数</span>
+          <span><i style="background:#F7BA1E"></i>新增付费人数</span>
+        </div>`;
+      }
+
+      function renderPayConversionRateTrend() {
+        const labels = [
+          "07/11",
+          "07/12",
+          "07/13",
+          "07/14",
+          "07/15",
+          "07/16",
+          "07/17",
+        ];
+        const series = [
+          {
+            name: "首充率",
+            data: [8.8, 9.0, 9.1, 9.2, 9.2, 9.3, 9.4],
+            color: "#722ED1",
+          },
+          {
+            name: "新用户付费率",
+            data: [14.2, 14.5, 14.6, 14.8, 15.0, 15.1, 15.2],
+            color: "#165DFF",
+          },
+          {
+            name: "老用户付费率",
+            data: [11.2, 11.3, 11.4, 11.5, 11.6, 11.7, 11.8],
+            color: "#14C9C9",
+          },
+          {
+            name: "总付费率",
+            data: [17.2, 17.5, 17.6, 17.8, 18.0, 18.1, 18.3],
+            color: "#F7BA1E",
+          },
+        ];
+        const W = 620,
+          H = 280,
+          padL = 48,
+          padR = 16,
+          padT = 24,
+          padB = 36;
+        const plotW = W - padL - padR;
+        const plotH = H - padT - padB;
+        const maxVal = 20;
+        const n = labels.length;
+        const xPos = (i) =>
+          padL + (n === 1 ? plotW / 2 : (i / (n - 1)) * plotW);
+        const yPos = (v) => padT + plotH * (1 - v / maxVal);
+
+        let grid = "",
+          yLabels = "",
+          xLabels = "";
+        [0, 0.25, 0.5, 0.75, 1].forEach((t) => {
+          const y = padT + plotH * (1 - t);
+          grid += `<line class="grid-line" x1="${padL}" y1="${y}" x2="${W - padR}" y2="${y}"></line>`;
+          yLabels += `<text class="funnel-axis" x="${padL - 8}" y="${y + 4}" text-anchor="end">${Math.round(maxVal * t)}%</text>`;
+        });
+        labels.forEach((lab, i) => {
+          xLabels += `<text class="funnel-axis" x="${xPos(i)}" y="${H - 10}" text-anchor="middle">${lab}</text>`;
+        });
+
+        let polylines = "",
+          dots = "";
+        series.forEach((s) => {
+          const pts = s.data.map((v, i) => `${xPos(i)},${yPos(v)}`).join(" ");
+          polylines += `<polyline fill="none" stroke="${s.color}" stroke-width="2.5" points="${pts}"></polyline>`;
+          s.data.forEach((v, i) => {
+            dots += `<circle cx="${xPos(i)}" cy="${yPos(v)}" r="3.5" fill="#fff" stroke="${s.color}" stroke-width="2"></circle>`;
+          });
+        });
+
+        const legend = series
+          .map(
+            (s) =>
+              `<span><i style="background:${s.color}"></i>${s.name}</span>`,
+          )
+          .join("");
+
+        return `
+        <div class="combo-chart">
+          <svg viewBox="0 0 ${W} ${H}" preserveAspectRatio="xMidYMid meet">
+            ${grid}
+            ${polylines}
+            ${dots}
+            ${yLabels}
+            ${xLabels}
+          </svg>
+        </div>
+        <div class="line-legend">${legend}</div>`;
+      }
+
+      function renderFirstRechargeTrend() {
+        const labels = [
+          "07/11",
+          "07/12",
+          "07/13",
+          "07/14",
+          "07/15",
+          "07/16",
+          "07/17",
+        ];
+        const firstCount = [720, 745, 758, 780, 795, 810, 860];
+        const firstRate = [8.8, 9.0, 9.1, 9.2, 9.2, 9.3, 9.4];
+
+        const W = 620,
+          H = 280,
+          padL = 48,
+          padR = 48,
+          padT = 24,
+          padB = 36;
+        const plotW = W - padL - padR;
+        const plotH = H - padT - padB;
+        const n = labels.length;
+        const step = plotW / n;
+        const leftMax = 1000;
+        const rightMax = 12;
+        const barW = 22;
+        const yCount = (v) => padT + plotH * (1 - v / leftMax);
+        const yPct = (v) => padT + plotH * (1 - v / rightMax);
+
+        let grid = "",
+          leftAxis = "",
+          rightAxis = "";
+        for (let i = 0; i <= 4; i++) {
+          const y = padT + (plotH / 4) * i;
+          grid += `<line class="grid-line" x1="${padL}" y1="${y}" x2="${W - padR}" y2="${y}"></line>`;
+          leftAxis += `<text class="axis-label" x="${padL - 8}" y="${y + 3}" text-anchor="end">${Math.round(leftMax - (leftMax / 4) * i).toLocaleString("zh-CN")}</text>`;
+          rightAxis += `<text class="axis-label" x="${W - padR + 8}" y="${y + 3}" text-anchor="start">${(rightMax - (rightMax / 4) * i).toFixed(1)}%</text>`;
+        }
+
+        let bars = "",
+          xLabels = "",
+          linePts = [],
+          dots = "";
+        labels.forEach((lab, i) => {
+          const cx = padL + step * i + step / 2;
+          bars += `<rect x="${cx - barW / 2}" y="${yCount(firstCount[i])}" width="${barW}" height="${(plotH * firstCount[i]) / leftMax}" rx="3" fill="#165DFF"></rect>`;
+          const ly = yPct(firstRate[i]);
+          linePts.push(`${cx},${ly}`);
+          dots += `<circle cx="${cx}" cy="${ly}" r="3.5" fill="#fff" stroke="#722ED1" stroke-width="2"></circle>`;
+          xLabels += `<text class="axis-label" x="${cx}" y="${H - 10}" text-anchor="middle">${lab}</text>`;
+        });
+
+        return `
+        <div class="combo-chart">
+          <svg viewBox="0 0 ${W} ${H}" preserveAspectRatio="xMidYMid meet">
+            ${grid}
+            ${bars}
+            <polyline fill="none" stroke="#722ED1" stroke-width="2.5" points="${linePts.join(" ")}"></polyline>
+            ${dots}
+            ${leftAxis}
+            ${rightAxis}
+            ${xLabels}
+          </svg>
+        </div>
+        <div class="line-legend">
+          <span><i style="background:#165DFF"></i>首充人数</span>
+          <span><i style="background:#722ED1"></i>首充率</span>
+        </div>`;
+      }
+
+      function renderSingleAxisDualLine({ labels, seriesA, seriesB, maxVal }) {
+        const W = 620,
+          H = 280,
+          padL = 48,
+          padR = 16,
+          padT = 24,
+          padB = 36;
+        const plotW = W - padL - padR;
+        const plotH = H - padT - padB;
+        const n = labels.length;
+        const xPos = (i) =>
+          padL + (n === 1 ? plotW / 2 : (i / (n - 1)) * plotW);
+        const yPos = (v) => padT + plotH * (1 - v / maxVal);
+        const fmtAxis = (v) =>
+          Number.isInteger(v) ? v.toLocaleString("zh-CN") : v.toFixed(1);
+
+        let grid = "",
+          yLabels = "",
+          xLabels = "";
+        [0, 0.25, 0.5, 0.75, 1].forEach((t) => {
+          const y = padT + plotH * (1 - t);
+          grid += `<line class="grid-line" x1="${padL}" y1="${y}" x2="${W - padR}" y2="${y}"></line>`;
+          yLabels += `<text class="funnel-axis" x="${padL - 8}" y="${y + 4}" text-anchor="end">${fmtAxis(maxVal * t)}</text>`;
+        });
+        labels.forEach((lab, i) => {
+          xLabels += `<text class="funnel-axis" x="${xPos(i)}" y="${H - 10}" text-anchor="middle">${lab}</text>`;
+        });
+
+        const ptsA = seriesA.data
+          .map((v, i) => `${xPos(i)},${yPos(v)}`)
+          .join(" ");
+        const ptsB = seriesB.data
+          .map((v, i) => `${xPos(i)},${yPos(v)}`)
+          .join(" ");
+        let dots = "";
+        seriesA.data.forEach((v, i) => {
+          dots += `<circle cx="${xPos(i)}" cy="${yPos(v)}" r="3.5" fill="#fff" stroke="${seriesA.color}" stroke-width="2"></circle>`;
+        });
+        seriesB.data.forEach((v, i) => {
+          dots += `<circle cx="${xPos(i)}" cy="${yPos(v)}" r="3.5" fill="#fff" stroke="${seriesB.color}" stroke-width="2"></circle>`;
+        });
+
+        return `
+        <div class="combo-chart">
+          <svg viewBox="0 0 ${W} ${H}" preserveAspectRatio="xMidYMid meet">
+            ${grid}
+            <polyline fill="none" stroke="${seriesA.color}" stroke-width="2.5" points="${ptsA}"></polyline>
+            <polyline fill="none" stroke="${seriesB.color}" stroke-width="2.5" points="${ptsB}"></polyline>
+            ${dots}
+            ${yLabels}
+            ${xLabels}
+          </svg>
+        </div>
+        <div class="line-legend">
+          <span><i style="background:${seriesA.color}"></i>${seriesA.name}</span>
+          <span><i style="background:${seriesB.color}"></i>${seriesB.name}</span>
+        </div>`;
+      }
+
+      function renderOverallArpuTrend() {
+        const labels = [
+          "07/11",
+          "07/12",
+          "07/13",
+          "07/14",
+          "07/15",
+          "07/16",
+          "07/17",
+        ];
+        return renderSingleAxisDualLine({
+          labels,
+          seriesA: {
+            name: "总ARPU",
+            data: [58.5, 59.2, 60.1, 60.8, 61.2, 62.0, 62.8],
+            color: "#165DFF",
+          },
+          seriesB: {
+            name: "新增ARPU",
+            data: [45.2, 46.0, 46.5, 47.1, 47.5, 48.0, 48.2],
+            color: "#14C9C9",
+          },
+          maxVal: 70,
+        });
+      }
+
+      function renderOverallArppuTrend() {
+        const labels = [
+          "07/11",
+          "07/12",
+          "07/13",
+          "07/14",
+          "07/15",
+          "07/16",
+          "07/17",
+        ];
+        return renderSingleAxisDualLine({
+          labels,
+          seriesA: {
+            name: "总ARPPU",
+            data: [296.5, 297.8, 298.5, 299.2, 299.8, 300.1, 300.5],
+            color: "#165DFF",
+          },
+          seriesB: {
+            name: "新增ARPPU",
+            data: [295.0, 296.5, 297.2, 298.5, 299.5, 300.2, 301.5],
+            color: "#F7BA1E",
+          },
+          maxVal: 320,
+        });
+      }
+
+      function renderOverallValueTrendCharts() {
+        return `
+        <section class="chart-grid" aria-label="整体价值趋势图表" style="grid-template-columns:1fr 1fr;margin-bottom:16px">
+          <article class="chart-card">
+            <div class="chart-title">ARPU 趋势 <span class="status-tag info">双折线</span></div>
+            <div class="chart-subtitle">近七日总ARPU / 新增ARPU</div>
+            ${renderOverallArpuTrend()}
+          </article>
+          <article class="chart-card">
+            <div class="chart-title">ARPPU 趋势 <span class="status-tag info">双折线</span></div>
+            <div class="chart-subtitle">近七日总ARPPU / 新增ARPPU</div>
+            ${renderOverallArppuTrend()}
+          </article>
+        </section>`;
+      }
+
+      function buildRecentTrendLabels(dayCount = 30) {
+        const labels = [];
+        for (let i = 0; i < dayCount; i++) {
+          const d = new Date(2025, 5, 18 + i);
+          labels.push(`${pad2(d.getMonth() + 1)}/${pad2(d.getDate())}`);
+        }
+        return labels;
+      }
+
+      function buildTrendLabelsBeforeEnd(dayCount, endDate = new Date(2025, 6, 17)) {
+        const labels = [];
+        for (let i = dayCount - 1; i >= 0; i--) {
+          const d = new Date(endDate);
+          d.setDate(d.getDate() - i);
+          labels.push(`${pad2(d.getMonth() + 1)}/${pad2(d.getDate())}`);
+        }
+        return labels;
+      }
+
+      function genTrendSeries(dayCount, start, end, wave, decimals) {
+        const data = [];
+        for (let i = 0; i < dayCount; i++) {
+          const t = i / (dayCount - 1);
+          const v = start + t * (end - start) + Math.sin(i * 0.42) * wave;
+          data.push(decimals ? +v.toFixed(decimals) : Math.round(v));
+        }
+        return data;
+      }
+
+      const LTV_COHORT_COLORS = [
+        "#165DFF",
+        "#14C9C9",
+        "#F7BA1E",
+        "#722ED1",
+        "#00B42A",
+        "#F5319D",
+        "#FF7D00",
+        "#3491FA",
+      ];
+      const LTV_DX_LABELS = ["D1", "D2", "D3", "D4", "D5", "D6", "D7"];
+
+      function buildLtvCohortSeries(page) {
+        return page.sampleData.map((row, idx) => {
+          const dateLabel = String(row[0]).slice(5).replace("-", "/");
+          return {
+            name: `${dateLabel} ${row[1]}`,
+            data: row.slice(3, 10).map((v) => Number(v)),
+            color: LTV_COHORT_COLORS[idx % LTV_COHORT_COLORS.length],
+          };
+        });
+      }
+
+      function renderMultiLineTrendChart({
+        labels,
+        series,
+        maxVal,
+        yStep,
+        xLabelStep = 1,
+        showDots = true,
+      }) {
+        const W = 620,
+          H = 260,
+          padL = 52,
+          padR = 16,
+          padT = 20,
+          padB = 32;
+        const plotW = W - padL - padR;
+        const plotH = H - padT - padB;
+        const n = labels.length;
+        const step = yStep || maxVal / 4;
+        const xPos = (i) =>
+          padL + (n === 1 ? plotW / 2 : (i / (n - 1)) * plotW);
+        const yPos = (v) => padT + plotH * (1 - v / maxVal);
+        const fmtAxis = (v) =>
+          Number.isInteger(v) ? v.toLocaleString("zh-CN") : v.toFixed(1);
+
+        let grid = "",
+          yLabels = "",
+          xLabels = "";
+        for (let v = 0; v <= maxVal; v += step) {
+          const y = yPos(v);
+          grid += `<line class="grid-line" x1="${padL}" y1="${y}" x2="${W - padR}" y2="${y}"></line>`;
+          yLabels += `<text class="funnel-axis" x="${padL - 8}" y="${y + 4}" text-anchor="end">${fmtAxis(v)}</text>`;
+        }
+        labels.forEach((lab, i) => {
+          if (i % xLabelStep !== 0 && i !== n - 1) return;
+          xLabels += `<text class="funnel-axis" x="${xPos(i)}" y="${H - 8}" text-anchor="middle">${lab}</text>`;
+        });
+
+        let polylines = "",
+          dots = "";
+        series.forEach((s) => {
+          const pts = s.data.map((v, i) => `${xPos(i)},${yPos(v)}`).join(" ");
+          polylines += `<polyline fill="none" stroke="${s.color}" stroke-width="2.5" points="${pts}"></polyline>`;
+          if (showDots) {
+            s.data.forEach((v, i) => {
+              dots += `<circle cx="${xPos(i)}" cy="${yPos(v)}" r="3.5" fill="#fff" stroke="${s.color}" stroke-width="2"></circle>`;
+            });
+          }
+        });
+
+        const legend = series
+          .map(
+            (s) =>
+              `<span><i style="background:${s.color}"></i>${s.name}</span>`,
+          )
+          .join("");
+
+        return `
+        <div class="combo-chart">
+          <svg viewBox="0 0 ${W} ${H}" preserveAspectRatio="xMidYMid meet">
+            ${grid}
+            ${polylines}
+            ${dots}
+            ${yLabels}
+            ${xLabels}
+          </svg>
+        </div>
+        <div class="line-legend">${legend}</div>`;
+      }
+
+      function renderLtvCohortChart(page) {
+        const series = buildLtvCohortSeries(page);
+        const yStep = 20;
+        const dataMax = Math.max(...series.flatMap((s) => s.data));
+        const maxVal = Math.ceil(dataMax / yStep) * yStep;
+        return `
+        <article class="chart-card" style="margin-bottom:16px">
+          <div class="chart-title">${page.title}趋势 <span class="status-tag info">折线图</span></div>
+          <div class="chart-subtitle">查询日期 D1 ~ D7 LTV 对比（每条曲线代表一个查询日期）</div>
+          ${renderMultiLineTrendChart({ labels: LTV_DX_LABELS, series, maxVal, yStep })}
+        </article>`;
+      }
+
+      function renderDualAxisTrendChart({
+        labels,
+        leftSeries,
+        rightSeries,
+        leftMin = 0,
+        leftMax,
+        rightMax,
+        leftStep,
+        formatLeft,
+        formatRight,
+      }) {
+        const W = 620,
+          H = 240,
+          padL = 52,
+          padR = 56,
+          padT = 20,
+          padB = 32;
+        const plotW = W - padL - padR;
+        const plotH = H - padT - padB;
+        const leftRange = leftMax - leftMin;
+        const n = labels.length;
+        const dotR = 2;
+        const xPos = (i) =>
+          padL + (n === 1 ? plotW / 2 : (i / (n - 1)) * plotW);
+        const yLeft = (v) => padT + plotH * (1 - (v - leftMin) / leftRange);
+        const yRight = (v) => padT + plotH * (1 - v / rightMax);
+        const fmtLeft =
+          formatLeft ||
+          ((v) =>
+            Number.isInteger(v) ? v.toLocaleString("zh-CN") : v.toFixed(1));
+        const fmtRight = formatRight || fmtLeft;
+
+        let grid = "",
+          leftAxis = "",
+          rightAxis = "";
+        if (leftStep) {
+          for (let v = leftMin; v <= leftMax; v += leftStep) {
+            const y = yLeft(v);
+            grid += `<line class="grid-line" x1="${padL}" y1="${y}" x2="${W - padR}" y2="${y}"></line>`;
+            leftAxis += `<text class="axis-label" x="${padL - 8}" y="${y + 3}" text-anchor="end">${fmtLeft(v)}</text>`;
+            const rightVal = rightMax * ((v - leftMin) / leftRange);
+            rightAxis += `<text class="axis-label" x="${W - padR + 8}" y="${y + 3}" text-anchor="start">${fmtRight(rightVal)}</text>`;
+          }
+        } else {
+          for (let i = 0; i <= 4; i++) {
+            const y = padT + (plotH / 4) * i;
+            const leftVal = leftMax - (leftRange / 4) * i;
+            grid += `<line class="grid-line" x1="${padL}" y1="${y}" x2="${W - padR}" y2="${y}"></line>`;
+            leftAxis += `<text class="axis-label" x="${padL - 8}" y="${y + 3}" text-anchor="end">${fmtLeft(leftVal)}</text>`;
+            rightAxis += `<text class="axis-label" x="${W - padR + 8}" y="${y + 3}" text-anchor="start">${fmtRight(rightMax - (rightMax / 4) * i)}</text>`;
+          }
+        }
+
+        const drawLine = (series, yFn) => {
+          let polylines = "",
+            dots = "";
+          const pts = series.data
+            .map((v, i) => `${xPos(i)},${yFn(v)}`)
+            .join(" ");
+          polylines += `<polyline fill="none" stroke="${series.color}" stroke-width="2" points="${pts}"></polyline>`;
+          series.data.forEach((v, i) => {
+            dots += `<circle cx="${xPos(i)}" cy="${yFn(v)}" r="${dotR}" fill="#fff" stroke="${series.color}" stroke-width="1.5"></circle>`;
+          });
+          return polylines + dots;
+        };
+
+        let xLabels = "";
+        labels.forEach((lab, i) => {
+          if (i % 5 === 0 || i === n - 1) {
+            xLabels += `<text class="axis-label" x="${xPos(i)}" y="${H - 8}" text-anchor="middle">${lab}</text>`;
+          }
+        });
+
+        const legend = [leftSeries, rightSeries]
+          .map(
+            (s) =>
+              `<span><i style="background:${s.color}"></i>${s.name}</span>`,
+          )
+          .join("");
+
+        return `
+        <div class="combo-chart">
+          <svg viewBox="0 0 ${W} ${H}" preserveAspectRatio="xMidYMid meet">
+            ${grid}
+            ${drawLine(leftSeries, yLeft)}
+            ${drawLine(rightSeries, yRight)}
+            ${leftAxis}
+            ${rightAxis}
+            ${xLabels}
+          </svg>
+        </div>
+        <div class="line-legend">${legend}</div>`;
+      }
+
+      function renderOldUserIncomeTrend() {
+        const dayCount = 30;
+        const labels = buildRecentTrendLabels(dayCount);
+        const countData = [];
+        const amountData = genTrendSeries(dayCount, 710000, 828800, 12000);
+        for (let i = 0; i < dayCount; i++) {
+          const t = i / (dayCount - 1);
+          countData.push(
+            Math.round(
+              2050 + t * 220 + Math.sin(i * 0.9) * 200 + Math.sin(i * 1.7) * 95,
+            ),
+          );
+        }
+        countData[dayCount - 1] = 2420;
+        amountData[dayCount - 1] = 828800;
+
+        const W = 620,
+          H = 240,
+          padL = 52,
+          padR = 56,
+          padT = 20,
+          padB = 32;
+        const plotW = W - padL - padR;
+        const plotH = H - padT - padB;
+        const n = labels.length;
+        const step = plotW / n;
+        const barW = Math.min(10, step * 0.55);
+        const leftMax = 2800;
+        const rightMax = 900000;
+        const yCount = (v) => padT + plotH * (1 - v / leftMax);
+        const yAmount = (v) => padT + plotH * (1 - v / rightMax);
+        const fmtRight = (v) =>
+          v >= 10000
+            ? (v / 10000).toFixed(0) + "万"
+            : v.toLocaleString("zh-CN");
+
+        let grid = "",
+          leftAxis = "",
+          rightAxis = "";
+        for (let i = 0; i <= 4; i++) {
+          const y = padT + (plotH / 4) * i;
+          grid += `<line class="grid-line" x1="${padL}" y1="${y}" x2="${W - padR}" y2="${y}"></line>`;
+          leftAxis += `<text class="axis-label" x="${padL - 8}" y="${y + 3}" text-anchor="end">${Math.round(leftMax - (leftMax / 4) * i).toLocaleString("zh-CN")}</text>`;
+          rightAxis += `<text class="axis-label" x="${W - padR + 8}" y="${y + 3}" text-anchor="start">${fmtRight(rightMax - (rightMax / 4) * i)}</text>`;
+        }
+
+        let bars = "",
+          xLabels = "",
+          linePts = "",
+          dots = "";
+        labels.forEach((lab, i) => {
+          const cx = padL + step * i + step / 2;
+          const barTop = yCount(countData[i]);
+          bars += `<rect x="${cx - barW / 2}" y="${barTop}" width="${barW}" height="${padT + plotH - barTop}" rx="2" fill="#165DFF"></rect>`;
+          const ly = yAmount(amountData[i]);
+          linePts += `${i ? " " : ""}${cx},${ly}`;
+          dots += `<circle cx="${cx}" cy="${ly}" r="2.5" fill="#fff" stroke="#F7BA1E" stroke-width="1.5"></circle>`;
+          if (i % 5 === 0 || i === n - 1) {
+            xLabels += `<text class="axis-label" x="${cx}" y="${H - 8}" text-anchor="middle">${lab}</text>`;
+          }
+        });
+
+        return `
+        <div class="combo-chart">
+          <svg viewBox="0 0 ${W} ${H}" preserveAspectRatio="xMidYMid meet">
+            <text class="axis-title" x="${padL - 8}" y="${padT - 4}" text-anchor="end">充值人数</text>
+            <text class="axis-title" x="${W - padR + 8}" y="${padT - 4}" text-anchor="start">充值金额</text>
+            ${grid}
+            ${bars}
+            <polyline fill="none" stroke="#F7BA1E" stroke-width="2.5" points="${linePts}"></polyline>
+            ${dots}
+            ${leftAxis}
+            ${rightAxis}
+            ${xLabels}
+          </svg>
+        </div>
+        <div class="line-legend">
+          <span><i style="background:#165DFF"></i>老用户充值人数</span>
+          <span><i style="background:#F7BA1E"></i>老用户充值金额</span>
+        </div>`;
+      }
+
+      function renderOldUserValueArpuTrend() {
+        const dayCount = 30;
+        const labels = buildRecentTrendLabels(dayCount);
+        const arpuData = genTrendSeries(dayCount, 68, 74, 0.8, 1);
+        const arppuData = genTrendSeries(dayCount, 292, 300.3, 1.2, 1);
+        arpuData[dayCount - 1] = 74.0;
+        arppuData[dayCount - 1] = 300.3;
+        return renderDualAxisTrendChart({
+          labels,
+          leftSeries: { name: "老用户ARPU", data: arpuData, color: "#165DFF" },
+          rightSeries: {
+            name: "老用户ARPPU",
+            data: arppuData,
+            color: "#14C9C9",
+          },
+          leftMax: 85,
+          rightMax: 320,
+        });
+      }
+
+      function renderOldUserFundTrend() {
+        const dayCount = 30;
+        const labels = buildRecentTrendLabels(dayCount);
+        const diffData = [];
+        const marginData = [];
+        for (let i = 0; i < dayCount; i++) {
+          const t = i / (dayCount - 1);
+          diffData.push(
+            Math.round(
+              400000 +
+                Math.pow(t, 1.4) * 100000 +
+                Math.sin(i * 0.85) * 38000 +
+                Math.sin(i * 1.55) * 22000,
+            ),
+          );
+          marginData.push(
+            +(
+              47.5 -
+              t * 2.8 +
+              Math.sin(i * 0.55) * 1.5 +
+              Math.max(0, t - 0.65) * 5
+            ).toFixed(1),
+          );
+        }
+        diffData[dayCount - 1] = 512300;
+        marginData[dayCount - 1] = 48.1;
+
+        const W = 620,
+          H = 240,
+          padL = 52,
+          padR = 56,
+          padT = 20,
+          padB = 32;
+        const plotW = W - padL - padR;
+        const plotH = H - padT - padB;
+        const leftMin = 300000;
+        const leftMax = 530000;
+        const leftRange = leftMax - leftMin;
+        const leftStep = 20000;
+        const rightMax = 52;
+        const n = labels.length;
+        const step = plotW / n;
+        const barW = Math.min(10, step * 0.55);
+        const yDiff = (v) => padT + plotH * (1 - (v - leftMin) / leftRange);
+        const yMargin = (v) => padT + plotH * (1 - v / rightMax);
+        const fmtLeft = (v) =>
+          v >= 10000
+            ? (v / 10000).toFixed(0) + "万"
+            : v.toLocaleString("zh-CN");
+        const fmtRight = (v) => v.toFixed(1) + "%";
+
+        let grid = "",
+          leftAxis = "",
+          rightAxis = "";
+        for (let v = leftMin; v <= leftMax; v += leftStep) {
+          const y = yDiff(v);
+          grid += `<line class="grid-line" x1="${padL}" y1="${y}" x2="${W - padR}" y2="${y}"></line>`;
+          leftAxis += `<text class="axis-label" x="${padL - 8}" y="${y + 3}" text-anchor="end">${fmtLeft(v)}</text>`;
+          const rightVal = rightMax * ((v - leftMin) / leftRange);
+          rightAxis += `<text class="axis-label" x="${W - padR + 8}" y="${y + 3}" text-anchor="start">${fmtRight(rightVal)}</text>`;
+        }
+
+        let bars = "",
+          xLabels = "",
+          linePts = "",
+          dots = "";
+        labels.forEach((lab, i) => {
+          const cx = padL + step * i + step / 2;
+          const barTop = yDiff(diffData[i]);
+          bars += `<rect x="${cx - barW / 2}" y="${barTop}" width="${barW}" height="${padT + plotH - barTop}" rx="2" fill="#165DFF"></rect>`;
+          const ly = yMargin(marginData[i]);
+          linePts += `${i ? " " : ""}${cx},${ly}`;
+          dots += `<circle cx="${cx}" cy="${ly}" r="2.5" fill="#fff" stroke="#FF7D00" stroke-width="1.5"></circle>`;
+          if (i % 5 === 0 || i === n - 1) {
+            xLabels += `<text class="axis-label" x="${cx}" y="${H - 8}" text-anchor="middle">${lab}</text>`;
+          }
+        });
+
+        return `
+        <div class="combo-chart">
+          <svg viewBox="0 0 ${W} ${H}" preserveAspectRatio="xMidYMid meet">
+            <text class="axis-title" x="${padL - 8}" y="${padT - 4}" text-anchor="end">充提差</text>
+            <text class="axis-title" x="${W - padR + 8}" y="${padT - 4}" text-anchor="start">盈余率</text>
+            ${grid}
+            ${bars}
+            <polyline fill="none" stroke="#FF7D00" stroke-width="2.5" points="${linePts}"></polyline>
+            ${dots}
+            ${leftAxis}
+            ${rightAxis}
+            ${xLabels}
+          </svg>
+        </div>
+        <div class="line-legend">
+          <span><i style="background:#165DFF"></i>老用户充提差</span>
+          <span><i style="background:#FF7D00"></i>老用户盈余率</span>
+        </div>`;
+      }
+
+      function renderOldUserValueTrendCharts() {
+        return `
+        <section class="chart-grid" aria-label="老用户价值趋势图表" style="grid-template-columns:1fr 1fr;margin-bottom:16px">
+          <article class="chart-card">
+            <div class="chart-title">老用户收入趋势 <span class="status-tag info">柱线图</span></div>
+            <div class="chart-subtitle">近30日老用户充值人数（柱）/ 老用户充值金额（线）</div>
+            ${renderOldUserIncomeTrend()}
+          </article>
+          <article class="chart-card">
+            <div class="chart-title">老用户价值趋势 <span class="status-tag info">双折线</span></div>
+            <div class="chart-subtitle">近30日老用户ARPU / 老用户ARPPU</div>
+            ${renderOldUserValueArpuTrend()}
+          </article>
+        </section>
+        <article class="chart-card" style="margin-bottom:16px">
+          <div class="chart-title">老用户资金与利润趋势 <span class="status-tag info">柱线图</span></div>
+          <div class="chart-subtitle">近30日老用户充提差（柱）/ 老用户盈余率（线）</div>
+          ${renderOldUserFundTrend()}
+        </article>`;
+      }
+
+      function renderConversionRateTrendChart() {
+        return `
+        <section class="chart-grid" aria-label="用户转化趋势图表" style="margin-bottom:16px">
+          <article class="chart-card">
+            <div class="chart-title">付费转化率趋势图 <span class="status-tag info">折线图</span></div>
+            <div class="chart-subtitle">近七日首充率 / 新用户付费率 / 老用户付费率 / 总付费率</div>
+            ${renderPayConversionRateTrend()}
+          </article>
+          <article class="chart-card">
+            <div class="chart-title">首充转化趋势 <span class="status-tag info">双轴图</span></div>
+            <div class="chart-subtitle">近七日首充人数 / 首充率</div>
+            ${renderFirstRechargeTrend()}
+          </article>
+        </section>`;
+      }
+
+      function renderConversionFixedCharts() {
+        return `
+        <section class="chart-grid" aria-label="用户转化图表">
+          <article class="chart-card">
+            <div class="chart-title">用户付费转化漏斗 <span class="status-tag info">漏斗</span></div>
+            <div class="chart-subtitle">新增用户 → 首充 → 新增付费</div>
+            ${renderPayConversionFunnel()}
+          </article>
+          <article class="chart-card">
+            <div class="chart-title">新老用户付费率对比 <span class="status-tag info">对比</span></div>
+            <div class="chart-subtitle">新用户 / 老用户 / 总付费率</div>
+            ${renderPayRateCompare()}
+          </article>
+        </section>
+        <article class="chart-card" style="margin-bottom:16px">
+          <div class="chart-title">付费人数趋势图 <span class="status-tag info">双折线</span></div>
+          <div class="chart-subtitle">近七日充值人数 / 新增付费人数</div>
+          ${renderPayCountTrend()}
+        </article>`;
+      }
+
+      function renderActivationFixedCharts() {
+        // 漏斗阶段按激活路径递减排列（含用户指定的全部指标）
+        const steps = [
+          { name: "新增用户数", value: 9120 },
+          { name: "新用户登录人数", value: 8650 },
+          { name: "新用户活跃人数", value: 7820 },
+          { name: "首次游戏人数", value: 6980 },
+          { name: "首次投注人数", value: 5240 },
+          { name: "首充人数", value: 860 },
+        ];
+        return `
+        <section class="chart-grid" aria-label="用户激活图表">
+          <article class="chart-card">
+            <div class="chart-title">新用户激活漏斗 <span class="status-tag info">漏斗</span></div>
+            <div class="chart-subtitle">新增 → 登录 → 活跃 → 首次游戏 → 首次投注 → 首充</div>
+            ${renderFunnelChart(steps)}
+          </article>
+          <article class="chart-card">
+            <div class="chart-title">新用户激活趋势图 <span class="status-tag info">双折线</span></div>
+            <div class="chart-subtitle">近七日新增用户数 / 新用户DAU</div>
+            ${renderActivationDualLine()}
+          </article>
+        </section>`;
+      }
+
+      function buildStackedAreaPath(topVals, bottomVals, xPos, yPos) {
+        const n = topVals.length;
+        let d = `M ${xPos(0)},${yPos(topVals[0])}`;
+        for (let i = 1; i < n; i++) d += ` L ${xPos(i)},${yPos(topVals[i])}`;
+        for (let i = n - 1; i >= 0; i--)
+          d += ` L ${xPos(i)},${yPos(bottomVals[i])}`;
+        return `${d} Z`;
+      }
+
+      function renderDauStackedAreaChart() {
+        const labels = [
+          "07/11",
+          "07/12",
+          "07/13",
+          "07/14",
+          "07/15",
+          "07/16",
+          "07/17",
+        ];
+        const dau = [14200, 14500, 14800, 15050, 14900, 15200, 15680];
+        const oldDau = [10200, 10400, 10550, 10700, 10650, 10850, 11200];
+        const W = 620,
+          H = 260,
+          padL = 52,
+          padR = 16,
+          padT = 20,
+          padB = 32;
+        const plotW = W - padL - padR;
+        const plotH = H - padT - padB;
+        const maxVal = 18000;
+        const n = labels.length;
+        const xPos = (i) =>
+          padL + (n === 1 ? plotW / 2 : (i / (n - 1)) * plotW);
+        const yPos = (v) => padT + plotH * (1 - v / maxVal);
+        const zeroLine = new Array(n).fill(0);
+
+        let grid = "",
+          yLabels = "",
+          xLabels = "";
+        [0, 0.25, 0.5, 0.75, 1].forEach((t) => {
+          const y = padT + plotH * (1 - t);
+          grid += `<line class="grid-line" x1="${padL}" y1="${y}" x2="${W - padR}" y2="${y}"></line>`;
+          yLabels += `<text class="funnel-axis" x="${padL - 8}" y="${y + 4}" text-anchor="end">${Math.round(maxVal * t).toLocaleString("zh-CN")}</text>`;
+        });
+        labels.forEach((lab, i) => {
+          xLabels += `<text class="funnel-axis" x="${xPos(i)}" y="${H - 8}" text-anchor="middle">${lab}</text>`;
+        });
+
+        const oldArea = buildStackedAreaPath(oldDau, zeroLine, xPos, yPos);
+        const newArea = buildStackedAreaPath(dau, oldDau, xPos, yPos);
+        const dauLine = dau.map((v, i) => `${xPos(i)},${yPos(v)}`).join(" ");
+
+        return `
+        <div class="combo-chart">
+          <svg viewBox="0 0 ${W} ${H}" preserveAspectRatio="xMidYMid meet">
+            ${grid}
+            <path d="${oldArea}" fill="#165DFF" fill-opacity="0.55"></path>
+            <path d="${newArea}" fill="#14C9C9" fill-opacity="0.55"></path>
+            <polyline fill="none" stroke="#165DFF" stroke-width="2" points="${dauLine}"></polyline>
+            ${yLabels}
+            ${xLabels}
+          </svg>
+        </div>
+        <div class="line-legend">
+          <span><i style="background:#165DFF"></i>老用户日活</span>
+          <span><i style="background:#14C9C9"></i>新用户日活</span>
+          <span><i style="background:#165DFF;opacity:0.35"></i>DAU（合计）</span>
+        </div>`;
+      }
+
+      function renderOldUserActiveRateTrend() {
+        const labels = [
+          "07/11",
+          "07/12",
+          "07/13",
+          "07/14",
+          "07/15",
+          "07/16",
+          "07/17",
+        ];
+        const series = [
+          {
+            name: "老用户活跃率",
+            data: [67.2, 67.5, 67.8, 68.0, 68.2, 68.3, 68.5],
+            color: "#165DFF",
+          },
+        ];
+        return renderMultiLineTrendChart({
+          labels,
+          series,
+          maxVal: 100,
+          yStep: 25,
+        });
+      }
+
+      function renderRetentionActiveCharts() {
+        return `
+        <section class="chart-grid" aria-label="用户活跃图表" style="grid-template-columns:1fr 1fr;margin-bottom:16px">
+          <article class="chart-card">
+            <div class="chart-title">日活构成 <span class="status-tag info">堆叠面积图</span></div>
+            <div class="chart-subtitle">DAU = 老用户日活 + 新用户日活，差值代表新用户贡献</div>
+            ${renderDauStackedAreaChart()}
+          </article>
+          <article class="chart-card">
+            <div class="chart-title">老用户活跃趋势 <span class="status-tag info">折线图</span></div>
+            <div class="chart-subtitle">近七日老用户活跃率走势</div>
+            ${renderOldUserActiveRateTrend()}
+          </article>
+        </section>`;
+      }
+
+      function renderAcquisitionTrendChart() {
+        return `
+        <article class="chart-card">
+          <div class="chart-title">用户获取趋势总览 <span class="status-tag info">双轴图</span></div>
+          <div class="chart-subtitle">安装人数 / 新增用户数（柱状，左轴）· 注册转化率（折线，右轴）</div>
+          ${renderComboChart()}
+        </article>`;
+      }
+
+      const RT_METRICS = [
+        {
+          group: "实时数据",
+          items: [
+            "实时在线人数",
+            "实时新增用户",
+            "实时新增订单数",
+            "实时充值金额",
+            "实时提现金额",
+            "实时提现人数",
+            "实时首充提现人数",
+            "实时流水金额",
+            "实时充值人数",
+          ],
+        },
+        {
+          group: "活动奖金发放",
+          items: [
+            "今日平台发放总额",
+            "累充转盘发放",
+            "排行榜发放",
+            "SMS任务发放",
+            "兑换码发放",
+            "新人礼包发放",
+            "代理活动发放",
+            "每日邀请活动发放",
+            "宝箱活动发放",
+            "倒计时钱包活动发放",
+            "充值Bonus奖励发放",
+            "站内信活动发放",
+            "VIP奖金发放",
+            "提现补偿金发放",
+          ],
+        },
+      ];
+      const RT_COLORS = [
+        "#14C9C9",
+        "#165DFF",
+        "#F7BA1E",
+        "#00B42A",
+        "#722ED1",
+        "#F5319D",
+        "#0FC6C2",
+        "#FF7D00",
+        "#3491FA",
+        "#F53F3F",
+      ];
+
+      function pad2(n) {
+        return String(n).padStart(2, "0");
+      }
+
+      function formatDateYMD(d) {
+        return `${d.getFullYear()}-${pad2(d.getMonth() + 1)}-${pad2(d.getDate())}`;
+      }
+
+      function parseYMD(str) {
+        const [y, m, d] = str.split("-").map(Number);
+        return new Date(y, m - 1, d);
+      }
+
+      function eachDateInclusive(startStr, endStr) {
+        const dates = [];
+        const cur = parseYMD(startStr);
+        const end = parseYMD(endStr);
+        while (cur <= end) {
+          dates.push(formatDateYMD(cur));
+          cur.setDate(cur.getDate() + 1);
+        }
+        return dates;
+      }
+
+      function isToday(dateStr) {
+        return dateStr === formatDateYMD(new Date());
+      }
+
+      /** 5 分钟粒度的数据点（分钟数 0~1435） */
+      function generateRtSeries(metric, dateStr) {
+        const points = [];
+        const isTd = isToday(dateStr);
+        const now = new Date();
+        const nowMin = now.getHours() * 60 + now.getMinutes();
+        // 当天数据画到当前分钟（对齐 5 分钟）；历史日画满全天
+        const endMin = isTd ? Math.floor(nowMin / 5) * 5 : 23 * 60 + 55;
+        const seed = [...(metric + dateStr)].reduce(
+          (a, c) => a + c.charCodeAt(0),
+          0,
+        );
+        let val = 1200 + (seed % 700);
+        for (let m = 0; m <= endMin; m += 5) {
+          const hour = Math.floor(m / 60);
+          // 模拟夜间低谷、白天回升
+          const nightFactor =
+            hour >= 2 && hour < 6 ? 0.35 : hour >= 6 && hour < 9 ? 0.7 : 1;
+          const wave =
+            Math.sin((m + seed) / 90) * 180 +
+            Math.cos((m + seed * 2) / 140) * 90;
+          val = Math.max(
+            40,
+            Math.min(2480, val * 0.86 + (900 + wave) * nightFactor * 0.14),
+          );
+          points.push({ minute: m, value: Math.round(val) });
+        }
+        return points;
+      }
+
+      /** 取最靠近当前分钟的 step 分钟刻度 */
+      function nearestStepMinute(nowMin, step) {
+        return Math.round(nowMin / step) * step;
+      }
+
+      function getXTicks(dates) {
+        const hasToday = dates.some(isToday);
+        if (hasToday && dates.length === 1) {
+          // 当天：默认 20 分钟一刻度；刻度过多（超过 X 轴可容纳数量）则改为 50 分钟
+          const now = new Date();
+          const nowMin = now.getHours() * 60 + now.getMinutes();
+          const MAX_TICKS = 24; // X 轴可容纳的大致刻度上限
+
+          let step = 20;
+          let endTick = nearestStepMinute(nowMin, step);
+          endTick = Math.max(0, Math.min(endTick, 23 * 60 + 40));
+          let tickCount = Math.floor(endTick / step) + 1;
+          if (tickCount > MAX_TICKS) {
+            step = 50;
+            endTick = nearestStepMinute(nowMin, step);
+            endTick = Math.max(0, Math.min(endTick, 23 * 60 + 20));
+          }
+
+          const ticks = [];
+          for (let m = 0; m <= endTick; m += step) ticks.push(m);
+          if (!ticks.length) ticks.push(0);
+          const maxMin = Math.max(endTick, step);
+          return { ticks, maxMin, stepLabel: step };
+        }
+        // 非当天或跨天：00:00 起，50 分钟一刻度，到 23:20
+        const ticks = [];
+        for (let m = 0; m <= 23 * 60 + 20; m += 50) ticks.push(m);
+        return { ticks, maxMin: 23 * 60 + 20, stepLabel: 50 };
+      }
+
+      function minuteToLabel(m) {
+        return `${pad2(Math.floor(m / 60))}:${pad2(m % 60)}`;
+      }
+
+      function renderRealtimePanel() {
+        const today = formatDateYMD(new Date());
+        const optionsHtml = RT_METRICS.map(
+          (g) => `
+        <div class="ms-group-title">${g.group}</div>
+        ${g.items
+          .map(
+            (item) => `
+          <label class="ms-option">
+            <input type="checkbox" value="${item}" ${item === "实时在线人数" ? "checked" : ""} />
+            <span>${item}</span>
+          </label>`,
+          )
+          .join("")}
+      `,
+        ).join("");
+
+        return `
+        <section class="realtime-panel" id="realtimePanel" aria-label="分时数据对比">
+          <div class="realtime-panel-head">
+            <div class="chart-title">分时数据对比</div>
+            <button type="button" class="realtime-refresh" id="rtRefreshBtn" title="清空">↻</button>
+          </div>
+          <div class="realtime-filters">
+            <div class="ms-wrap" id="rtMetricSelect">
+              <div class="ms-trigger" id="rtMetricTrigger" tabindex="0">
+                <span class="ms-placeholder">请选择数据源</span>
+              </div>
+              <div class="ms-dropdown" id="rtMetricDropdown">${optionsHtml}</div>
+            </div>
+            <div class="realtime-date-range">
+              <input type="date" id="rtStartDate" value="${today}" />
+              <span>至</span>
+              <input type="date" id="rtEndDate" value="${today}" />
+            </div>
+            <button type="button" class="btn btn-primary" id="rtQueryBtn">查询</button>
+          </div>
+          <div class="rt-legend" id="rtLegend"></div>
+          <div class="realtime-chart-wrap" id="rtChartWrap">
+            <svg id="rtChartSvg" viewBox="0 0 960 300" preserveAspectRatio="none"></svg>
+            <div class="rt-tooltip" id="rtTooltip"></div>
+          </div>
+        </section>`;
+      }
+
+      function renderOverviewKpiCard(k) {
+        const fmtArrow = (dir) =>
+          dir === "down" ? "↓" : dir === "flat" ? "→" : "↑";
+        const fmtPct = (dir, pct) => `${fmtArrow(dir)} ${pct}`;
+        return `
+        <article class="metric-card">
+          <div class="metric-module">${k.module}</div>
+          <div class="metric-label">${k.name}</div>
+          <div class="metric-value">${k.value}</div>
+          <div class="metric-compares">
+            <div class="metric-compare ${k.dayDir}">
+              <span class="cmp-label">同比</span>
+              <span class="cmp-value">${fmtPct(k.dayDir, k.dayPct)}</span>
+            </div>
+            <div class="metric-compare ${k.weekDir}">
+              <span class="cmp-label">环比</span>
+              <span class="cmp-value">${fmtPct(k.weekDir, k.weekPct)}</span>
+            </div>
+          </div>
+        </article>`;
+      }
+
+      function renderOverviewInsights() {
+        const kpis = [
+          {
+            module: "用户规模",
+            name: "安装人数",
+            value: "10,230",
+            dayDir: "up",
+            dayPct: "8.6%",
+            weekDir: "down",
+            weekPct: "3.2%",
+          },
+          {
+            module: "用户活跃",
+            name: "日活跃人数",
+            value: "15,680",
+            dayDir: "up",
+            dayPct: "5.1%",
+            weekDir: "up",
+            weekPct: "4.3%",
+          },
+          {
+            module: "用户变现",
+            name: "充值人数",
+            value: "3,280",
+            dayDir: "up",
+            dayPct: "7.5%",
+            weekDir: "up",
+            weekPct: "2.1%",
+          },
+          {
+            module: "用户变现",
+            name: "新用户充值金额",
+            value: "¥156,800",
+            dayDir: "up",
+            dayPct: "6.8%",
+            weekDir: "up",
+            weekPct: "4.2%",
+          },
+          {
+            module: "用户变现",
+            name: "老用户充值金额",
+            value: "¥828,800",
+            dayDir: "up",
+            dayPct: "4.8%",
+            weekDir: "up",
+            weekPct: "3.6%",
+          },
+          {
+            module: "用户变现",
+            name: "ARPPU",
+            value: "300.5",
+            dayDir: "up",
+            dayPct: "0.6%",
+            weekDir: "up",
+            weekPct: "0.4%",
+          },
+          {
+            module: "平台盈利",
+            name: "平台游戏输赢",
+            value: "¥573,300",
+            dayDir: "up",
+            dayPct: "11.6%",
+            weekDir: "up",
+            weekPct: "9.2%",
+          },
+          {
+            module: "平台盈利",
+            name: "盈余率",
+            value: "58.2%",
+            dayDir: "up",
+            dayPct: "1.9%",
+            weekDir: "down",
+            weekPct: "0.6%",
+          },
+          {
+            module: "资金流动",
+            name: "提现金额",
+            value: "¥412,300",
+            dayDir: "up",
+            dayPct: "3.5%",
+            weekDir: "down",
+            weekPct: "1.8%",
+          },
+        ];
+        return `
+        <section class="overview-insights" aria-label="核心经营指标">
+          ${kpis.map(renderOverviewKpiCard).join("")}
+        </section>
+        ${renderRealtimePanel()}`;
+      }
+
+      function getSelectedRtMetrics() {
+        const dropdown = document.getElementById("rtMetricDropdown");
+        if (!dropdown) return [];
+        return [...dropdown.querySelectorAll("input:checked")].map(
+          (el) => el.value,
+        );
+      }
+
+      function updateRtMetricTags() {
+        const trigger = document.getElementById("rtMetricTrigger");
+        if (!trigger) return;
+        const selected = getSelectedRtMetrics();
+        if (!selected.length) {
+          trigger.innerHTML =
+            '<span class="ms-placeholder">请选择数据源</span>';
+          return;
+        }
+        trigger.innerHTML = selected
+          .map(
+            (name) =>
+              `<span class="ms-tag" data-value="${name}">${name}<button type="button" aria-label="移除">×</button></span>`,
+          )
+          .join("");
+      }
+
+      function buildRtSeriesList(metrics, dates) {
+        const series = [];
+        let colorIdx = 0;
+        metrics.forEach((metric) => {
+          dates.forEach((date) => {
+            series.push({
+              metric,
+              date,
+              label: `${date} ${metric.replace(/^实时/, "")}`,
+              color: RT_COLORS[colorIdx % RT_COLORS.length],
+              points: generateRtSeries(metric, date),
+            });
+            colorIdx += 1;
+          });
+        });
+        return series;
+      }
+
+      function drawRealtimeChart() {
+        const svg = document.getElementById("rtChartSvg");
+        const legend = document.getElementById("rtLegend");
+        const wrap = document.getElementById("rtChartWrap");
+        if (!svg || !legend || !wrap) return;
+
+        const start = document.getElementById("rtStartDate")?.value;
+        const end = document.getElementById("rtEndDate")?.value;
+        const metrics = getSelectedRtMetrics();
+        if (!start || !end || !metrics.length) {
+          svg.innerHTML = "";
+          legend.innerHTML =
+            '<span style="color:var(--arco-text-3)">请选择数据源与日期后查询</span>';
+          return;
+        }
+
+        const dates = eachDateInclusive(start, end);
+        const seriesList = buildRtSeriesList(metrics, dates);
+        const { ticks, maxMin } = getXTicks(dates);
+
+        const W = 960,
+          H = 300;
+        const padL = 52,
+          padR = 16,
+          padT = 16,
+          padB = 36;
+        const plotW = W - padL - padR;
+        const plotH = H - padT - padB;
+        const yMax = 2500;
+        const yTicks = [0, 500, 1000, 1500, 2000, 2500];
+        const xPos = (m) => padL + (m / maxMin) * plotW;
+        const yPos = (v) => padT + plotH * (1 - v / yMax);
+
+        let html = "";
+        yTicks.forEach((v) => {
+          const y = yPos(v);
+          html += `<line class="rt-grid" x1="${padL}" y1="${y}" x2="${W - padR}" y2="${y}"></line>`;
+          html += `<text class="rt-axis" x="${padL - 8}" y="${y + 4}" text-anchor="end">${v.toLocaleString("zh-CN")}</text>`;
+        });
+        ticks.forEach((m) => {
+          html += `<text class="rt-axis" x="${xPos(m)}" y="${H - 10}" text-anchor="middle">${minuteToLabel(m)}</text>`;
+        });
+
+        seriesList.forEach((s) => {
+          const pts = s.points
+            .map((p) => `${xPos(Math.min(p.minute, maxMin))},${yPos(p.value)}`)
+            .join(" ");
+          html += `<polyline fill="none" stroke="${s.color}" stroke-width="2" points="${pts}"></polyline>`;
+        });
+
+        html += `<line class="rt-crosshair" id="rtCrosshair" x1="0" y1="${padT}" x2="0" y2="${padT + plotH}" visibility="hidden"></line>`;
+        html += `<g id="rtHoverDots"></g>`;
+        svg.setAttribute("viewBox", `0 0 ${W} ${H}`);
+        svg.innerHTML = html;
+
+        legend.innerHTML = seriesList
+          .map(
+            (s) =>
+              `<span><i style="background:${s.color}"></i>${s.date} ${s.metric}</span>`,
+          )
+          .join("");
+
+        // 缓存供 hover 使用
+        wrap._rtState = {
+          seriesList,
+          maxMin,
+          padL,
+          padR,
+          padT,
+          plotW,
+          plotH,
+          yMax,
+          W,
+          H,
+        };
+      }
+
+      function initRealtimeChart() {
+        const panel = document.getElementById("realtimePanel");
+        if (!panel) return;
+
+        if (window._rtAbort) window._rtAbort.abort();
+        window._rtAbort = new AbortController();
+        const { signal } = window._rtAbort;
+
+        const trigger = document.getElementById("rtMetricTrigger");
+        const dropdown = document.getElementById("rtMetricDropdown");
+        const wrap = document.getElementById("rtChartWrap");
+        const tooltip = document.getElementById("rtTooltip");
+        const svg = document.getElementById("rtChartSvg");
+
+        const msWrap = document.getElementById("rtMetricSelect");
+
+        const closeMetricDropdown = (shouldRefresh = true) => {
+          dropdown?.classList.remove("open");
+          trigger?.classList.remove("open");
+          if (shouldRefresh) drawRealtimeChart();
+        };
+
+        const clearRealtimeSelection = () => {
+          dropdown?.querySelectorAll('input[type="checkbox"]').forEach((el) => {
+            el.checked = false;
+          });
+          closeMetricDropdown();
+          updateRtMetricTags();
+          drawRealtimeChart();
+        };
+
+        updateRtMetricTags();
+        drawRealtimeChart();
+
+        trigger?.addEventListener(
+          "click",
+          (e) => {
+            if (e.target.closest(".ms-tag button")) return;
+            e.stopPropagation();
+            const open = dropdown.classList.toggle("open");
+            trigger.classList.toggle("open", open);
+            if (!open) drawRealtimeChart();
+          },
+          { signal },
+        );
+
+        trigger?.addEventListener(
+          "click",
+          (e) => {
+            const btn = e.target.closest(".ms-tag button");
+            if (!btn) return;
+            e.stopPropagation();
+            const tag = btn.closest(".ms-tag");
+            const val = tag?.dataset.value;
+            const input = dropdown.querySelector(`input[value="${val}"]`);
+            if (input) input.checked = false;
+            updateRtMetricTags();
+            drawRealtimeChart();
+          },
+          { signal },
+        );
+
+        dropdown?.addEventListener("click", (e) => e.stopPropagation(), {
+          signal,
+        });
+        dropdown?.addEventListener(
+          "change",
+          () => {
+            updateRtMetricTags();
+            drawRealtimeChart();
+          },
+          { signal },
+        );
+
+        // 点击多选框以外的空白区域收起下拉
+        document.addEventListener(
+          "click",
+          (e) => {
+            if (!msWrap?.contains(e.target)) closeMetricDropdown();
+          },
+          { signal },
+        );
+
+        document
+          .getElementById("rtQueryBtn")
+          ?.addEventListener("click", drawRealtimeChart, { signal });
+        document.getElementById("rtRefreshBtn")?.addEventListener(
+          "click",
+          (e) => {
+            e.stopPropagation();
+            clearRealtimeSelection();
+          },
+          { signal },
+        );
+
+        wrap?.addEventListener(
+          "mousemove",
+          (e) => {
+            const state = wrap._rtState;
+            if (!state || !state.seriesList.length) return;
+            const rect = svg.getBoundingClientRect();
+            const scaleX = state.W / rect.width;
+            const mx = (e.clientX - rect.left) * scaleX;
+            if (mx < state.padL || mx > state.W - state.padR) {
+              tooltip.style.display = "none";
+              document
+                .getElementById("rtCrosshair")
+                ?.setAttribute("visibility", "hidden");
+              document.getElementById("rtHoverDots").innerHTML = "";
+              return;
+            }
+            const minuteRaw = ((mx - state.padL) / state.plotW) * state.maxMin;
+            const minute = Math.round(minuteRaw / 5) * 5;
+            const clamped = Math.max(0, Math.min(state.maxMin, minute));
+            const x = state.padL + (clamped / state.maxMin) * state.plotW;
+
+            const cross = document.getElementById("rtCrosshair");
+            if (cross) {
+              cross.setAttribute("x1", x);
+              cross.setAttribute("x2", x);
+              cross.setAttribute("visibility", "visible");
+            }
+
+            const yPos = (v) => state.padT + state.plotH * (1 - v / state.yMax);
+            let dots = "";
+            const rows = state.seriesList
+              .map((s) => {
+                if (!s.points.length) return null;
+                const pt =
+                  s.points.find((p) => p.minute === clamped) ||
+                  s.points.reduce(
+                    (best, p) =>
+                      Math.abs(p.minute - clamped) <
+                      Math.abs(best.minute - clamped)
+                        ? p
+                        : best,
+                    s.points[0],
+                  );
+                if (!pt || Math.abs(pt.minute - clamped) > 5) return null;
+                dots += `<circle cx="${x}" cy="${yPos(pt.value)}" r="4" fill="#fff" stroke="${s.color}" stroke-width="2"></circle>`;
+                return `<div class="rt-tip-row"><span class="rt-tip-dot" style="background:${s.color}"></span>${s.date} ${s.metric}: ${pt.value.toLocaleString("zh-CN")}</div>`;
+              })
+              .filter(Boolean);
+
+            document.getElementById("rtHoverDots").innerHTML = dots;
+            if (!rows.length) {
+              tooltip.style.display = "none";
+              return;
+            }
+            tooltip.innerHTML = `<div class="rt-tip-time">${minuteToLabel(clamped)}</div>${rows.join("")}`;
+            tooltip.style.display = "block";
+            const tipX = (x / state.W) * rect.width;
+            tooltip.style.left = `${tipX}px`;
+            tooltip.style.top = `${(state.padT / state.H) * rect.height + 20}px`;
+          },
+          { signal },
+        );
+
+        wrap?.addEventListener(
+          "mouseleave",
+          () => {
+            tooltip.style.display = "none";
+            document
+              .getElementById("rtCrosshair")
+              ?.setAttribute("visibility", "hidden");
+            const dots = document.getElementById("rtHoverDots");
+            if (dots) dots.innerHTML = "";
+          },
+          { signal },
+        );
+      }
+
+      function initSurplusRateChart() {
+        const toggle = document.getElementById("surplusRateRangeToggle");
+        const wrap = document.getElementById("surplusRateChartWrap");
+        const subtitle = document.getElementById("surplusRateSubtitle");
+        if (!toggle || !wrap) return;
+
+        if (window._surplusRateAbort) window._surplusRateAbort.abort();
+        window._surplusRateAbort = new AbortController();
+        const { signal } = window._surplusRateAbort;
+
+        const subtitleMap = {
+          7: "近七日盈余率走势",
+          30: "近30日盈余率走势",
+          90: "近90日盈余率走势",
+        };
+
+        const updateChart = (dayCount) => {
+          wrap.innerHTML = renderSurplusRateTrend(dayCount);
+          if (subtitle) subtitle.textContent = subtitleMap[dayCount] || subtitleMap[7];
+        };
+
+        toggle.querySelectorAll(".range-btn").forEach((btn) => {
+          btn.addEventListener(
+            "click",
+            () => {
+              toggle
+                .querySelectorAll(".range-btn")
+                .forEach((b) => b.classList.remove("active"));
+              btn.classList.add("active");
+              updateChart(Number(btn.dataset.days));
+            },
+            { signal },
+          );
+        });
+      }
+
+      function renderKpiCard(k) {
+        const dir =
+          k.dir === "down" ? "down" : k.dir === "flat" ? "flat" : "up";
+        const arrow = dir === "down" ? "↓" : dir === "flat" ? "→" : "↑";
+        const tag = k.tag
+          ? ` <span class="status-tag ${k.tagType || "info"}">${k.tag}</span>`
+          : "";
+        const trend = k.trend
+          ? `<div class="metric-trend ${dir === "flat" ? "" : dir}">${arrow} ${k.trend}</div>`
+          : "";
+        return `<article class="metric-card"><div class="metric-label">${k.label}${tag}</div><div class="metric-value">${k.value}</div>${trend}</article>`;
+      }
+
+      function renderInsightsPanel(page) {
+        if (!page.insights || !page.insights.length) return "";
+        const cols = page.insights.length;
+        const heading = page.question
+          ? `<div class="section-heading">${page.title} <span class="hint">${page.question}</span></div>`
+          : "";
+        return `
+        <div class="analysis-block">
+          ${heading}
+          <section class="kpi-grid" style="grid-template-columns:repeat(${cols},minmax(0,1fr))" aria-label="${page.title}核心指标">
+            ${page.insights.map(renderKpiCard).join("")}
+          </section>
+        </div>`;
+      }
+
+      function renderLifecycleTrendInsights(page) {
+        return `
+        <div class="analysis-block">
+          <div class="section-heading">${page.title} <span class="hint">${page.question || ""}</span></div>
+          <section class="chart-grid">
+            <article class="chart-card">
+              <div class="chart-title">用户规模趋势 <span class="status-tag info">折线图</span></div>
+              <div class="chart-subtitle">新增用户数 / 活跃用户数</div>
+              <div class="line-chart"><svg viewBox="0 0 400 140" preserveAspectRatio="none">
+                <polyline fill="none" stroke="#165DFF" stroke-width="2.5" points="0,95 50,88 100,82 150,72 200,66 250,58 300,50 350,42 400,36"/>
+                <polyline fill="none" stroke="#14C9C9" stroke-width="2.5" points="0,110 50,104 100,98 150,90 200,84 250,78 300,70 350,64 400,58"/>
+              </svg></div>
+              <div class="line-legend"><span><i style="background:#165DFF"></i>新增用户数</span><span><i style="background:#14C9C9"></i>活跃用户数</span></div>
+            </article>
+            <article class="chart-card">
+              <div class="chart-title">付费趋势 <span class="status-tag info">折线图</span></div>
+              <div class="chart-subtitle">付费人数 / 充值金额</div>
+              <div class="line-chart"><svg viewBox="0 0 400 140" preserveAspectRatio="none">
+                <polyline fill="none" stroke="#F7BA1E" stroke-width="2.5" points="0,100 50,94 100,90 150,82 200,76 250,68 300,60 350,52 400,46"/>
+                <polyline fill="none" stroke="#165DFF" stroke-width="2.5" points="0,90 50,82 100,76 150,66 200,58 250,50 300,42 350,34 400,28"/>
+              </svg></div>
+              <div class="line-legend"><span><i style="background:#F7BA1E"></i>付费人数</span><span><i style="background:#165DFF"></i>充值金额</span></div>
+            </article>
+          </section>
+          <section class="chart-grid">
+            <article class="chart-card">
+              <div class="chart-title">用户价值趋势 <span class="status-tag info">折线图</span></div>
+              <div class="chart-subtitle">总ARPU / 总ARPPU</div>
+              <div class="line-chart"><svg viewBox="0 0 400 140" preserveAspectRatio="none">
+                <polyline fill="none" stroke="#00B42A" stroke-width="2.5" points="0,80 50,76 100,72 150,66 200,60 250,54 300,48 350,44 400,40"/>
+                <polyline fill="none" stroke="#722ED1" stroke-width="2.5" points="0,60 50,58 100,55 150,52 200,50 250,47 300,45 350,42 400,40"/>
+              </svg></div>
+              <div class="line-legend"><span><i style="background:#00B42A"></i>总ARPU</span><span><i style="background:#722ED1"></i>总ARPPU</span></div>
+            </article>
+            <article class="chart-card">
+              <div class="chart-title">留存趋势 <span class="status-tag info">折线图</span></div>
+              <div class="chart-subtitle">次日留存 / 7日留存</div>
+              <div class="line-chart"><svg viewBox="0 0 400 140" preserveAspectRatio="none">
+                <polyline fill="none" stroke="#165DFF" stroke-width="2.5" points="0,55 50,53 100,51 150,49 200,47 250,46 300,44 350,42 400,40"/>
+                <polyline fill="none" stroke="#F53F3F" stroke-width="2.5" points="0,95 50,94 100,92 150,90 200,89 250,88 300,86 350,85 400,84"/>
+              </svg></div>
+              <div class="line-legend"><span><i style="background:#165DFF"></i>次日留存</span><span><i style="background:#F53F3F"></i>7日留存</span></div>
+            </article>
+          </section>
+        </div>`;
+      }
+
+      function renderAnalysisPanel(page) {
+        if (!page) return "";
+        if (page.trendCharts) return renderLifecycleTrendInsights(page);
+        return renderInsightsPanel(page);
+      }
+
+      function renderPage(pageId) {
+        const page = PAGES[pageId];
+        if (!page) return;
+
+        const container = document.getElementById("pageContainer");
+        container.innerHTML = `
+          ${pageId === "overview" ? renderOverviewInsights() : ""}
+          ${page.overviewFunnelChart ? renderOverviewFunnelChart() : ""}
+          ${renderAnalysisPanel(page)}
+          ${page.chartView ? renderAcquisitionFixedCharts() : ""}
+          ${page.activationCharts ? renderActivationFixedCharts() : ""}
+          ${page.retentionActiveCharts ? renderRetentionActiveCharts() : ""}
+          ${page.conversionCharts ? renderConversionRateTrendChart() : ""}
+          ${page.valueOverallCharts ? renderOverallValueTrendCharts() : ""}
+          ${page.valueOldCharts ? renderOldUserValueTrendCharts() : ""}
+        <div class="page-panel active" id="panel-${pageId}">
+          ${renderTable(page)}
+        </div>
+      `;
+
+        document.getElementById("breadcrumbTitle").textContent =
+          page.breadcrumb;
+        initFilterBar();
+        initViewToggle();
+        if (pageId === "overview") {
+          initRealtimeChart();
+          initSurplusRateChart();
+        }
+      }
+
+      function initViewToggle() {
+        const toggle = document.querySelector(".view-toggle");
+        if (!toggle) return;
+        const tableView = document.getElementById("tableView");
+        const chartView = document.getElementById("chartView");
+        toggle.querySelectorAll(".vt-btn").forEach((btn) => {
+          btn.addEventListener("click", () => {
+            toggle
+              .querySelectorAll(".vt-btn")
+              .forEach((b) => b.classList.remove("active"));
+            btn.classList.add("active");
+            const isChart = btn.dataset.view === "chart";
+            if (chartView) chartView.hidden = !isChart;
+            if (tableView) tableView.hidden = isChart;
+          });
+        });
+      }
+
+      function clearMenuActive() {
+        document
+          .querySelectorAll(".menu-top, .menu-child, .menu-grandchild")
+          .forEach((el) => el.classList.remove("active"));
+      }
+
+      function setActivePage(pageId, options = {}) {
+        const { topEl, childEl, grandchildEl, group, subGroup } = options;
+        clearMenuActive();
+        if (grandchildEl) {
+          grandchildEl.classList.add("active");
+          subGroup
+            ?.querySelector(".menu-child.has-child")
+            ?.classList.add("active");
+          group?.querySelector(".menu-top")?.classList.add("active");
+        } else if (childEl) {
+          childEl.classList.add("active");
+          group?.querySelector(".menu-top")?.classList.add("active");
+        } else if (topEl) {
+          topEl.classList.add("active");
+        }
+        renderPage(pageId);
+      }
+
+      function initMenu() {
+        // 一级菜单（无子项）：经营总览、盈利分析
+        document.querySelectorAll(".menu-top[data-page]").forEach((top) => {
+          top.addEventListener("click", () => {
+            setActivePage(top.dataset.page, { topEl: top });
+          });
+        });
+
+        // 一级菜单（有子项）：点击展开/收起
+        document.querySelectorAll(".menu-group").forEach((group) => {
+          const top = group.querySelector(".menu-top.has-child");
+          if (!top) return;
+
+          top.addEventListener("click", () => {
+            const isExpanded = group.classList.contains("expanded");
+            if (isExpanded) {
+              group.classList.remove("expanded");
+              return;
+            }
+            group.classList.add("expanded");
+            // 优先打开第一个可展开二级菜单的首个子页
+            const firstSub = group.querySelector(".menu-sub-group");
+            if (firstSub) {
+              firstSub.classList.add("expanded");
+              const firstGrandchild =
+                firstSub.querySelector(".menu-grandchild");
+              if (firstGrandchild) {
+                setActivePage(firstGrandchild.dataset.page, {
+                  grandchildEl: firstGrandchild,
+                  subGroup: firstSub,
+                  group,
+                });
+                return;
+              }
+            }
+            const firstChild = group.querySelector(".menu-child[data-page]");
+            if (firstChild) {
+              setActivePage(firstChild.dataset.page, {
+                childEl: firstChild,
+                group,
+              });
+            }
+          });
+        });
+
+        // 二级菜单（可展开：用户生命周期）
+        document.querySelectorAll(".menu-sub-group").forEach((subGroup) => {
+          const child = subGroup.querySelector(".menu-child.has-child");
+          if (!child) return;
+
+          child.addEventListener("click", (e) => {
+            e.stopPropagation();
+            const group = subGroup.closest(".menu-group");
+            group.classList.add("expanded");
+
+            const isExpanded = subGroup.classList.contains("expanded");
+            if (isExpanded) {
+              subGroup.classList.remove("expanded");
+              return;
+            }
+            subGroup.classList.add("expanded");
+            const firstGrandchild = subGroup.querySelector(".menu-grandchild");
+            if (firstGrandchild) {
+              setActivePage(firstGrandchild.dataset.page, {
+                grandchildEl: firstGrandchild,
+                subGroup,
+                group,
+              });
+            }
+          });
+        });
+
+        // 三级菜单
+        document.querySelectorAll(".menu-grandchild").forEach((grandchild) => {
+          grandchild.addEventListener("click", (e) => {
+            e.stopPropagation();
+            const subGroup = grandchild.closest(".menu-sub-group");
+            const group = grandchild.closest(".menu-group");
+            group.classList.add("expanded");
+            subGroup.classList.add("expanded");
+            setActivePage(grandchild.dataset.page, {
+              grandchildEl: grandchild,
+              subGroup,
+              group,
+            });
+          });
+        });
+
+        // 二级菜单（直接跳转）
+        document.querySelectorAll(".menu-child[data-page]").forEach((child) => {
+          child.addEventListener("click", (e) => {
+            e.stopPropagation();
+            const group = child.closest(".menu-group");
+            group.classList.add("expanded");
+            setActivePage(child.dataset.page, { childEl: child, group });
+          });
+        });
+      }
+
+      // 初始化
+      initMenu();
+      renderPage("overview");
+    </script>
+  </body>
+</html>
