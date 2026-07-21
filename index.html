@@ -7927,6 +7927,10 @@
           key: "游客登录",
           steps: ["进入登录弹窗", "输入手机号", "绑定成功", "登录成功"],
         },
+        {
+          key: "注册",
+          steps: ["进入注册弹窗", "获取验证码", "注册成功", "登录成功"],
+        },
       ];
 
       function getCoreAcquireFlow(flowKey) {
@@ -8045,6 +8049,16 @@
             k1: { label: "授权发起率", value: calcRate(authCall, enter) },
             k2: { label: "授权成功率", value: calcRate(authOk, authCall) },
             k3: { label: "登录成功率", value: calcRate(loginSuccess, authOk) },
+          };
+        }
+        if (flowKey === "注册") {
+          const enterRegister = byName["进入注册弹窗"] || 0;
+          const getCode = byName["获取验证码"] || 0;
+          const registerOk = byName["注册成功"] || 0;
+          return {
+            k1: { label: "验证码获取率", value: calcRate(getCode, enterRegister) },
+            k2: { label: "注册成功率", value: calcRate(registerOk, getCode) },
+            k3: { label: "登录成功率", value: calcRate(loginSuccess, registerOk) },
           };
         }
         // 游客登录
