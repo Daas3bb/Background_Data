@@ -371,6 +371,35 @@
         font-size: 13px;
       }
 
+      .header-platform-filter {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .header-platform-filter label {
+        color: var(--arco-text-2);
+        font-size: 13px;
+        white-space: nowrap;
+      }
+
+      .header-platform-filter select {
+        height: 32px;
+        padding: 0 12px;
+        border: 1px solid var(--border);
+        border-radius: var(--arco-radius);
+        font-size: 13px;
+        min-width: 120px;
+        color: var(--arco-text-1);
+        background: var(--arco-bg-1);
+        outline: none;
+      }
+
+      .header-platform-filter select:hover,
+      .header-platform-filter select:focus {
+        border-color: var(--arco-primary);
+      }
+
       .header-badge {
         padding: 2px 8px;
         border-radius: 10px;
@@ -407,6 +436,34 @@
         align-items: center;
         gap: 16px 24px;
         background: var(--arco-bg-1);
+      }
+
+      .filter-bar-global {
+        position: sticky;
+        top: 0;
+        z-index: 30;
+        margin-bottom: 16px;
+        border: 1px solid var(--border);
+        border-radius: var(--arco-radius);
+        box-shadow: var(--arco-shadow-light);
+      }
+
+      .filter-bar-local {
+        padding: 10px 0 12px;
+        margin: 8px 0 4px;
+        border-bottom: 1px dashed var(--border);
+        background: transparent;
+      }
+
+      .chart-card > .filter-bar-local {
+        padding-left: 0;
+        padding-right: 0;
+      }
+
+      .page-panel > .filter-bar-local {
+        padding: 12px 20px;
+        margin: 0;
+        border-bottom: 1px solid var(--border);
       }
 
       .filter-item {
@@ -956,6 +1013,114 @@
         width: 100%;
         height: 100%;
         display: block;
+      }
+      .realtime-chart-wrap.rt-animating::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+        background: linear-gradient(
+          105deg,
+          transparent 35%,
+          rgba(22, 93, 255, 0.08) 50%,
+          transparent 65%
+        );
+        background-size: 220% 100%;
+        animation: rt-shimmer 1.1s ease-out;
+      }
+      @keyframes rt-shimmer {
+        from {
+          background-position: 100% 0;
+        }
+        to {
+          background-position: -100% 0;
+        }
+      }
+      .rt-series-line {
+        fill: none;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+      }
+      .rt-series-line.rt-line-flow {
+        stroke-dasharray: 7 11;
+        animation: rt-flow 1.4s linear infinite;
+      }
+      @keyframes rt-flow {
+        to {
+          stroke-dashoffset: -36;
+        }
+      }
+      .rt-flow-dot {
+        opacity: 0;
+      }
+      .rt-flow-dot.is-running {
+        opacity: 1;
+        filter: drop-shadow(0 0 3px currentColor);
+      }
+      .rt-legend.rt-animating span {
+        animation: rt-legend-in 0.45s ease both;
+      }
+      .rt-legend.rt-animating span:nth-child(1) {
+        animation-delay: 0.05s;
+      }
+      .rt-legend.rt-animating span:nth-child(2) {
+        animation-delay: 0.12s;
+      }
+      .rt-legend.rt-animating span:nth-child(3) {
+        animation-delay: 0.19s;
+      }
+      .rt-legend.rt-animating span:nth-child(4) {
+        animation-delay: 0.26s;
+      }
+      .rt-legend.rt-animating span:nth-child(5) {
+        animation-delay: 0.33s;
+      }
+      .rt-legend.rt-animating span:nth-child(n + 6) {
+        animation-delay: 0.4s;
+      }
+      @keyframes rt-legend-in {
+        from {
+          opacity: 0;
+          transform: translateY(6px);
+        }
+        to {
+          opacity: 1;
+          transform: none;
+        }
+      }
+      .rt-data-table tbody tr.rt-row-anim {
+        animation: rt-row-in 0.38s ease both;
+      }
+      @keyframes rt-row-in {
+        from {
+          opacity: 0;
+          transform: translateX(-10px);
+        }
+        to {
+          opacity: 1;
+          transform: none;
+        }
+      }
+      .realtime-table-panel {
+        margin-top: 16px;
+      }
+      .realtime-table-panel .table-wrap {
+        max-height: none;
+        overflow-x: auto;
+        overflow-y: visible;
+      }
+      .rt-table-empty {
+        padding: 32px 20px;
+        text-align: center;
+        color: var(--arco-text-3);
+        font-size: 13px;
+      }
+      .rt-data-table .sticky-col-1 {
+        min-width: 88px;
+        max-width: 88px;
+      }
+      .rt-data-table thead tr.col-row th {
+        top: 0;
       }
       .rt-axis {
         font-size: 11px;
@@ -1793,6 +1958,10 @@
             <div class="menu-top active" data-page="overview">经营总览</div>
           </div>
 
+          <div class="menu-group">
+            <div class="menu-top" data-page="realtime-compare">分时数据对比</div>
+          </div>
+
           <div class="menu-group" data-group="lifecycle">
             <div class="menu-top has-child">
               <span>用户生命周期</span>
@@ -1901,6 +2070,14 @@
             数据统计 / <strong id="breadcrumbTitle">经营总览</strong>
           </div>
           <div class="header-actions">
+            <div class="header-platform-filter">
+              <label for="globalPlatformFilter">所属平台</label>
+              <select id="globalPlatformFilter">
+                <option selected>T1-A</option>
+                <option>T1-B</option>
+                <option>R1</option>
+              </select>
+            </div>
             <span class="header-badge">数据正常</span>
             <span>大山</span>
           </div>
@@ -2002,6 +2179,11 @@
               "57.3%",
             ],
           ],
+        },
+        "realtime-compare": {
+          title: "分时数据对比",
+          breadcrumb: "分时数据对比",
+          realtimePage: true,
         },
         "life-acquisition": {
           title: "用户获取",
@@ -3393,13 +3575,53 @@
         );
       }
 
-      function initFilterBar() {
-        const sourceSelect = document.getElementById("sourceChannelFilter");
-        const nameWrap = document.getElementById("channelNameFilterWrap");
-        const nameInput = document.getElementById("channelNameSearch");
-        const nameList = document.getElementById("channelNameList");
-        const filterBar = document.querySelector(".filter-bar");
-        if (!sourceSelect || !filterBar) return;
+      function renderGlobalFilterBar() {
+        return `
+        <div class="filter-bar filter-bar-global" id="globalFilterBar">
+          <div class="filter-item">
+            <label>时间</label>
+            <input type="date" id="globalStartDate" value="2025-07-11" />
+            <span>—</span>
+            <input type="date" id="globalEndDate" value="2025-07-17" />
+          </div>
+          <button class="btn btn-primary" type="button" id="globalFilterQuery">查询</button>
+          <button class="btn btn-reset" type="button" id="globalFilterReset">重置</button>
+        </div>`;
+      }
+
+      function renderLocalChannelFilter(id, { hideChannelName = false } = {}) {
+        return `
+        <div class="filter-bar filter-bar-local" data-local-filter="${id}">
+          <div class="filter-item">
+            <label>来源渠道</label>
+            <select class="local-source-channel" data-filter-id="${id}">
+              ${renderSourceChannelFilter()}
+            </select>
+          </div>
+          ${
+            hideChannelName
+              ? ""
+              : `
+          <div class="filter-item filter-item-channel-name local-channel-name-wrap" data-filter-id="${id}">
+            <label>渠道名</label>
+            <input type="text" class="local-channel-name" data-filter-id="${id}" list="channelNameList-${id}" placeholder="请先选择来源渠道" autocomplete="off" />
+            <datalist id="channelNameList-${id}"></datalist>
+          </div>`
+          }
+        </div>`;
+      }
+
+      function bindLocalChannelFilter(scope) {
+        const sourceSelect = scope.querySelector(".local-source-channel");
+        if (!sourceSelect) return;
+        const filterId = sourceSelect.dataset.filterId;
+        const nameWrap = scope.querySelector(
+          `.local-channel-name-wrap[data-filter-id="${filterId}"]`,
+        );
+        const nameInput = scope.querySelector(
+          `.local-channel-name[data-filter-id="${filterId}"]`,
+        );
+        const nameList = scope.querySelector(`#channelNameList-${filterId}`);
 
         const updateChannelNameFilter = () => {
           if (!nameWrap || !nameInput || !nameList) return;
@@ -3419,11 +3641,49 @@
         };
 
         sourceSelect.addEventListener("change", updateChannelNameFilter);
+      }
 
-        filterBar.querySelector(".btn-reset")?.addEventListener("click", () => {
-          sourceSelect.value = "";
-          updateChannelNameFilter();
+      function initLocalChannelFilters() {
+        document
+          .querySelectorAll("[data-local-filter]")
+          .forEach((scope) => bindLocalChannelFilter(scope));
+      }
+
+      function mountChartChannelFilters(hideChannelName = false) {
+        const cards = document.querySelectorAll(
+          ".chart-card:not(.no-channel-filter)",
+        );
+        cards.forEach((card, index) => {
+          if (card.closest("#realtimePanel")) return;
+          if (card.querySelector("[data-local-filter]")) return;
+          const id = `chart-filter-${index + 1}`;
+          const anchor =
+            card.querySelector(".chart-subtitle") ||
+            card.querySelector(".chart-title");
+          if (!anchor) return;
+          anchor.insertAdjacentHTML(
+            "afterend",
+            renderLocalChannelFilter(id, { hideChannelName }),
+          );
         });
+      }
+
+      function initGlobalFilterBar() {
+        const resetBtn = document.getElementById("globalFilterReset");
+        const platform = document.getElementById("globalPlatformFilter");
+        const startDate = document.getElementById("globalStartDate");
+        const endDate = document.getElementById("globalEndDate");
+        if (!resetBtn) return;
+        resetBtn.addEventListener("click", () => {
+          if (platform) platform.value = "T1-A";
+          if (startDate) startDate.value = "2025-07-11";
+          if (endDate) endDate.value = "2025-07-17";
+        });
+      }
+
+      function pageHasKpiCards(page, pageId) {
+        if (pageId === "overview") return true;
+        return !!(page.insights && page.insights.length);
       }
 
       function renderTable(page) {
@@ -3464,41 +3724,9 @@
         });
 
         return `
-        <div class="filter-bar">
-          <div class="filter-item">
-            <label>所属平台</label>
-            <select>
-              <option selected>T1-A</option>
-              <option>T1-B</option>
-              <option>R1</option>
-            </select>
-          </div>
-          <div class="filter-item">
-            <label>来源渠道</label>
-            <select id="sourceChannelFilter">
-              ${renderSourceChannelFilter()}
-            </select>
-          </div>
-          ${
-            page.hideChannelNameFilter
-              ? ""
-              : `
-          <div class="filter-item filter-item-channel-name" id="channelNameFilterWrap">
-            <label>渠道名</label>
-            <input type="text" id="channelNameSearch" list="channelNameList" placeholder="请先选择来源渠道" autocomplete="off" />
-            <datalist id="channelNameList"></datalist>
-          </div>`
-          }
-          <div class="filter-item">
-            <label>时间</label>
-            <input type="date" value="2025-07-11" />
-            <span>—</span>
-            <input type="date" value="2025-07-17" />
-          </div>
-          <button class="btn btn-primary" type="button">查询</button>
-          <button class="btn btn-reset" type="button">重置</button>
-        </div>
-        ${page.ltvCharts ? renderLtvCohortChart(page) : ""}
+        ${renderLocalChannelFilter("table-main", {
+          hideChannelName: !!page.hideChannelNameFilter,
+        })}
         <div class="toolbar">
           <span class="page-title">${page.title}</span>
           <div class="toolbar-actions">
@@ -4951,14 +5179,17 @@
         return dateStr === formatDateYMD(new Date());
       }
 
-      /** 5 分钟粒度的数据点（分钟数 0~1435） */
+      /** 5 分钟粒度的数据点（分钟数 0~1400，即 00:00~23:20） */
       function generateRtSeries(metric, dateStr) {
         const points = [];
         const isTd = isToday(dateStr);
         const now = new Date();
         const nowMin = now.getHours() * 60 + now.getMinutes();
-        // 当天数据画到当前分钟（对齐 5 分钟）；历史日画满全天
-        const endMin = isTd ? Math.floor(nowMin / 5) * 5 : 23 * 60 + 55;
+        const dayEnd = 23 * 60 + 20;
+        // 当天数据画到当前分钟（对齐 5 分钟）；历史日画到 23:20
+        const endMin = isTd
+          ? Math.min(Math.floor(nowMin / 5) * 5, dayEnd)
+          : dayEnd;
         const seed = [...(metric + dateStr)].reduce(
           (a, c) => a + c.charCodeAt(0),
           0,
@@ -5051,9 +5282,8 @@
               <div class="ms-dropdown" id="rtMetricDropdown">${optionsHtml}</div>
             </div>
             <div class="realtime-date-range">
-              <input type="date" id="rtStartDate" value="${today}" />
-              <span>至</span>
-              <input type="date" id="rtEndDate" value="${today}" />
+              <label for="rtDate">日期</label>
+              <input type="date" id="rtDate" value="${today}" />
             </div>
             <button type="button" class="btn btn-primary" id="rtQueryBtn">查询</button>
           </div>
@@ -5063,6 +5293,28 @@
             <div class="rt-tooltip" id="rtTooltip"></div>
           </div>
         </section>`;
+      }
+
+      function renderRealtimeTablePanel() {
+        return `
+        <div class="page-panel active realtime-table-panel" id="panel-realtime-table">
+          <div class="toolbar">
+            <span class="page-title">分时明细</span>
+            <div class="toolbar-actions">
+              <button class="btn btn-primary" type="button">导出报表</button>
+            </div>
+          </div>
+          <div class="table-wrap" id="rtTableWrap">
+            <div class="rt-table-empty">请选择数据源与日期后查询</div>
+          </div>
+        </div>`;
+      }
+
+      function renderRealtimePage() {
+        return `
+          ${renderRealtimePanel()}
+          ${renderRealtimeTablePanel()}
+        `;
       }
 
       function renderOverviewKpiCard(k) {
@@ -5174,8 +5426,7 @@
         return `
         <section class="overview-insights" aria-label="核心经营指标">
           ${kpis.map(renderOverviewKpiCard).join("")}
-        </section>
-        ${renderRealtimePanel()}`;
+        </section>`;
       }
 
       function getSelectedRtMetrics() {
@@ -5221,23 +5472,208 @@
         return series;
       }
 
+      function drawRealtimeTable(metrics, date, seriesList) {
+        const wrap = document.getElementById("rtTableWrap");
+        if (!wrap) return;
+
+        if (!date || !metrics.length) {
+          wrap.innerHTML =
+            '<div class="rt-table-empty">请选择数据源与日期后查询</div>';
+          return;
+        }
+
+        const valueMaps = {};
+        seriesList.forEach((s) => {
+          const map = {};
+          s.points.forEach((p) => {
+            map[p.minute] = p.value;
+          });
+          valueMaps[s.metric] = map;
+        });
+
+        const endMin = 23 * 60 + 20;
+        const step = 50;
+        let headCols = `<th class="sticky-col-1">时间</th>`;
+        metrics.forEach((m) => {
+          headCols += `<th>${m}</th>`;
+        });
+
+        let bodyRows = "";
+        let rowIndex = 0;
+        for (let m = 0; m <= endMin; m += step) {
+          const delay = Math.min(rowIndex * 0.028, 0.75);
+          bodyRows += `<tr class="rt-row-anim" style="animation-delay:${delay}s">`;
+          bodyRows += `<td class="sticky-col-1">${minuteToLabel(m)}</td>`;
+          metrics.forEach((metric) => {
+            const val = valueMaps[metric]?.[m];
+            bodyRows += `<td>${val == null ? "-" : val.toLocaleString("zh-CN")}</td>`;
+          });
+          bodyRows += "</tr>";
+          rowIndex += 1;
+        }
+
+        wrap.innerHTML = `
+          <table class="data-table rt-data-table">
+            <thead>
+              <tr class="col-row">${headCols}</tr>
+            </thead>
+            <tbody>${bodyRows}</tbody>
+          </table>`;
+      }
+
+      function stopRealtimeFlowAnimations(svg) {
+        if (!svg) return;
+        if (svg._rtFlowRaf) {
+          cancelAnimationFrame(svg._rtFlowRaf);
+          svg._rtFlowRaf = null;
+        }
+        svg.querySelectorAll(".rt-flow-dot").forEach((el) => el.remove());
+        svg.querySelectorAll(".rt-series-line").forEach((line) => {
+          line.classList.remove("rt-line-flow");
+          line.style.strokeDasharray = "";
+          line.style.strokeDashoffset = "";
+          line.style.transition = "";
+        });
+      }
+
+      function playRealtimeFlowAnimation(svg, wrap, legend) {
+        if (!svg) return;
+        stopRealtimeFlowAnimations(svg);
+
+        wrap?.classList.remove("rt-animating");
+        legend?.classList.remove("rt-animating");
+        void wrap?.offsetWidth;
+        wrap?.classList.add("rt-animating");
+        legend?.classList.add("rt-animating");
+
+        const lines = [...svg.querySelectorAll("polyline.rt-series-line")];
+        if (!lines.length) return;
+
+        const drawDuration = 1100;
+        const stagger = 120;
+        let pending = lines.length;
+        let flowStarted = false;
+
+        const startFlowPhase = () => {
+          if (flowStarted) return;
+          flowStarted = true;
+          lines.forEach((line) => {
+            line.style.transition = "";
+            line.style.strokeDasharray = "7 11";
+            line.classList.add("rt-line-flow");
+          });
+
+          const dots = lines.map((line) => {
+            const dot = document.createElementNS(
+              "http://www.w3.org/2000/svg",
+              "circle",
+            );
+            dot.setAttribute("r", "3.5");
+            dot.setAttribute("fill", line.getAttribute("stroke") || "#165DFF");
+            dot.classList.add("rt-flow-dot", "is-running");
+            svg.appendChild(dot);
+            let length = 0;
+            try {
+              length = line.getTotalLength();
+            } catch (e) {
+              length = 0;
+            }
+            return { line, dot, length };
+          });
+
+          const start = performance.now();
+          const duration = 1600;
+          const tick = (now) => {
+            const t = Math.min(1, (now - start) / duration);
+            const ease = 1 - Math.pow(1 - t, 3);
+            dots.forEach(({ line, dot, length }) => {
+              if (!length) return;
+              const pt = line.getPointAtLength(length * ease);
+              dot.setAttribute("cx", pt.x);
+              dot.setAttribute("cy", pt.y);
+            });
+            if (t < 1) {
+              svg._rtFlowRaf = requestAnimationFrame(tick);
+            } else {
+              dots.forEach(({ dot }) => dot.remove());
+              setTimeout(() => {
+                lines.forEach((l) => {
+                  l.classList.remove("rt-line-flow");
+                  l.style.strokeDasharray = "";
+                  l.style.strokeDashoffset = "";
+                });
+                wrap?.classList.remove("rt-animating");
+                legend?.classList.remove("rt-animating");
+              }, 1600);
+            }
+          };
+          svg._rtFlowRaf = requestAnimationFrame(tick);
+        };
+
+        lines.forEach((line, idx) => {
+          let length = 0;
+          try {
+            length = line.getTotalLength();
+          } catch (e) {
+            length = 0;
+          }
+          if (!length) {
+            pending -= 1;
+            if (pending <= 0) startFlowPhase();
+            return;
+          }
+
+          line.style.strokeDasharray = `${length}`;
+          line.style.strokeDashoffset = `${length}`;
+          void line.getBoundingClientRect();
+          line.style.transition = `stroke-dashoffset ${drawDuration}ms cubic-bezier(0.22, 1, 0.36, 1) ${idx * stagger}ms`;
+          line.style.strokeDashoffset = "0";
+
+          const onDone = (e) => {
+            if (e.propertyName && e.propertyName !== "stroke-dashoffset")
+              return;
+            line.removeEventListener("transitionend", onDone);
+            pending -= 1;
+            if (pending <= 0) startFlowPhase();
+          };
+          line.addEventListener("transitionend", onDone);
+        });
+
+        // 兜底：避免个别浏览器不触发 transitionend
+        const totalWait = drawDuration + (lines.length - 1) * stagger + 80;
+        setTimeout(() => {
+          if (pending > 0) {
+            pending = 0;
+            startFlowPhase();
+          }
+        }, totalWait);
+      }
+
       function drawRealtimeChart() {
         const svg = document.getElementById("rtChartSvg");
         const legend = document.getElementById("rtLegend");
         const wrap = document.getElementById("rtChartWrap");
         if (!svg || !legend || !wrap) return;
 
-        const start = document.getElementById("rtStartDate")?.value;
-        const end = document.getElementById("rtEndDate")?.value;
+        const date = document.getElementById("rtDate")?.value;
         const metrics = getSelectedRtMetrics();
-        if (!start || !end || !metrics.length) {
+        const signature = `${date || ""}|${metrics.join(",")}`;
+        const shouldAnimate =
+          !!date &&
+          !!metrics.length &&
+          signature !== (wrap._rtSignature || "");
+
+        if (!date || !metrics.length) {
+          stopRealtimeFlowAnimations(svg);
           svg.innerHTML = "";
           legend.innerHTML =
             '<span style="color:var(--arco-text-3)">请选择数据源与日期后查询</span>';
+          drawRealtimeTable([], date, []);
+          wrap._rtSignature = signature;
           return;
         }
 
-        const dates = eachDateInclusive(start, end);
+        const dates = [date];
         const seriesList = buildRtSeriesList(metrics, dates);
         const { ticks, maxMin } = getXTicks(dates);
 
@@ -5254,6 +5690,8 @@
         const xPos = (m) => padL + (m / maxMin) * plotW;
         const yPos = (v) => padT + plotH * (1 - v / yMax);
 
+        stopRealtimeFlowAnimations(svg);
+
         let html = "";
         yTicks.forEach((v) => {
           const y = yPos(v);
@@ -5268,7 +5706,7 @@
           const pts = s.points
             .map((p) => `${xPos(Math.min(p.minute, maxMin))},${yPos(p.value)}`)
             .join(" ");
-          html += `<polyline fill="none" stroke="${s.color}" stroke-width="2" points="${pts}"></polyline>`;
+          html += `<polyline class="rt-series-line" fill="none" stroke="${s.color}" stroke-width="2.5" points="${pts}"></polyline>`;
         });
 
         html += `<line class="rt-crosshair" id="rtCrosshair" x1="0" y1="${padT}" x2="0" y2="${padT + plotH}" visibility="hidden"></line>`;
@@ -5279,7 +5717,7 @@
         legend.innerHTML = seriesList
           .map(
             (s) =>
-              `<span><i style="background:${s.color}"></i>${s.date} ${s.metric}</span>`,
+              `<span><i style="background:${s.color}"></i>${s.metric}</span>`,
           )
           .join("");
 
@@ -5296,6 +5734,15 @@
           W,
           H,
         };
+
+        drawRealtimeTable(metrics, date, seriesList);
+        wrap._rtSignature = signature;
+
+        if (shouldAnimate) {
+          requestAnimationFrame(() =>
+            playRealtimeFlowAnimation(svg, wrap, legend),
+          );
+        }
       }
 
       function initRealtimeChart() {
@@ -5384,6 +5831,9 @@
         document
           .getElementById("rtQueryBtn")
           ?.addEventListener("click", drawRealtimeChart, { signal });
+        document
+          .getElementById("rtDate")
+          ?.addEventListener("change", drawRealtimeChart, { signal });
         document.getElementById("rtRefreshBtn")?.addEventListener(
           "click",
           (e) => {
@@ -5583,8 +6033,22 @@
 
       function renderAnalysisPanel(page) {
         if (!page) return "";
-        if (page.trendCharts) return renderLifecycleTrendInsights(page);
+        if (page.trendCharts) return "";
         return renderInsightsPanel(page);
+      }
+
+      function renderPageCharts(page, pageId) {
+        return `
+          ${page.overviewFunnelChart ? renderOverviewFunnelChart() : ""}
+          ${page.trendCharts ? renderLifecycleTrendInsights(page) : ""}
+          ${page.chartView ? renderAcquisitionFixedCharts() : ""}
+          ${page.activationCharts ? renderActivationFixedCharts() : ""}
+          ${page.retentionActiveCharts ? renderRetentionActiveCharts() : ""}
+          ${page.conversionCharts ? renderConversionRateTrendChart() : ""}
+          ${page.valueOverallCharts ? renderOverallValueTrendCharts() : ""}
+          ${page.valueOldCharts ? renderOldUserValueTrendCharts() : ""}
+          ${page.ltvCharts ? renderLtvCohortChart(page) : ""}
+        `;
       }
 
       function renderPage(pageId) {
@@ -5592,29 +6056,31 @@
         if (!page) return;
 
         const container = document.getElementById("pageContainer");
-        container.innerHTML = `
-          ${pageId === "overview" ? renderOverviewInsights() : ""}
-          ${page.overviewFunnelChart ? renderOverviewFunnelChart() : ""}
-          ${renderAnalysisPanel(page)}
-          ${page.chartView ? renderAcquisitionFixedCharts() : ""}
-          ${page.activationCharts ? renderActivationFixedCharts() : ""}
-          ${page.retentionActiveCharts ? renderRetentionActiveCharts() : ""}
-          ${page.conversionCharts ? renderConversionRateTrendChart() : ""}
-          ${page.valueOverallCharts ? renderOverallValueTrendCharts() : ""}
-          ${page.valueOldCharts ? renderOldUserValueTrendCharts() : ""}
-        <div class="page-panel active" id="panel-${pageId}">
-          ${renderTable(page)}
-        </div>
-      `;
-
         document.getElementById("breadcrumbTitle").textContent =
           page.breadcrumb;
-        initFilterBar();
-        initViewToggle();
-        if (pageId === "overview") {
+
+        if (page.realtimePage) {
+          container.innerHTML = renderRealtimePage();
           initRealtimeChart();
-          initSurplusRateChart();
+          return;
         }
+
+        const hasKpi = pageHasKpiCards(page, pageId);
+        const hideChannelName = !!page.hideChannelNameFilter;
+        container.innerHTML = `
+          ${hasKpi ? (pageId === "overview" ? renderOverviewInsights() : renderAnalysisPanel(page)) : ""}
+          ${renderGlobalFilterBar()}
+          ${renderPageCharts(page, pageId)}
+          <div class="page-panel active" id="panel-${pageId}">
+            ${renderTable(page)}
+          </div>
+        `;
+
+        initGlobalFilterBar();
+        mountChartChannelFilters(hideChannelName);
+        initLocalChannelFilters();
+        initViewToggle();
+        if (pageId === "overview") initSurplusRateChart();
       }
 
       function initViewToggle() {
