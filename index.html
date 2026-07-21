@@ -648,89 +648,7 @@
       }
       @media (max-width: 1180px) {
         .app-path-depth,
-        .app-dual-grid,
-        .app-core-flow-grid {
-          grid-template-columns: 1fr;
-        }
-      }
-
-      .app-core-theme-tags {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 8px;
-        margin-bottom: 16px;
-      }
-      .app-core-theme-tags .tag {
-        padding: 4px 12px;
-        border-radius: 999px;
-        font-size: 12px;
-        color: var(--arco-primary);
-        background: var(--arco-primary-light);
-        border: 1px solid #bedaff;
-      }
-      .app-core-flow-grid {
-        display: grid;
-        grid-template-columns: 1fr;
-        gap: 16px;
-        margin-bottom: 16px;
-      }
-      .app-core-kpi-row {
-        display: grid;
-        grid-template-columns: repeat(3, minmax(0, 1fr));
-        gap: 12px;
-        margin: 12px 0 8px;
-      }
-      .app-core-kpi {
-        padding: 12px 14px;
-        border: 1px solid var(--border);
-        border-radius: var(--arco-radius);
-        background: var(--arco-bg-2);
-      }
-      .app-core-kpi .kpi-label {
-        font-size: 12px;
-        color: var(--arco-text-3);
-        margin-bottom: 6px;
-      }
-      .app-core-kpi .kpi-value {
-        font-size: 20px;
-        font-weight: 600;
-        color: var(--arco-text-1);
-        font-variant-numeric: tabular-nums;
-      }
-      .app-core-kpi .kpi-sub {
-        margin-top: 4px;
-        font-size: 12px;
-        color: var(--arco-text-3);
-      }
-      .app-core-funnel-chart {
-        width: 100%;
-        height: auto;
-      }
-      .app-core-funnel-chart .ga-funnel {
-        margin-top: 0;
-      }
-      .app-core-activity-select {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        margin-bottom: 12px;
-      }
-      .app-core-activity-select label {
-        font-size: 13px;
-        color: var(--arco-text-2);
-        white-space: nowrap;
-      }
-      .app-core-activity-select select {
-        min-width: 220px;
-        padding: 6px 10px;
-        border: 1px solid var(--border);
-        border-radius: var(--arco-radius);
-        background: var(--arco-bg-1);
-        color: var(--arco-text-1);
-        font-size: 13px;
-      }
-      @media (max-width: 900px) {
-        .app-core-kpi-row {
+        .app-dual-grid {
           grid-template-columns: 1fr;
         }
       }
@@ -2627,9 +2545,6 @@
               <div class="menu-child" data-page="app-usage-frequency">
                 应用使用频率
               </div>
-              <div class="menu-child" data-page="app-core-flow">
-                核心业务流程分析
-              </div>
               <div class="menu-child" data-page="app-churn-page">流失页面分析</div>
               <div class="menu-child" data-page="app-user-path">
                 用户具体行为分析
@@ -4184,11 +4099,6 @@
           title: "应用使用频率",
           breadcrumb: "应用分析 / 应用使用频率",
           appPageType: "usage-frequency",
-        },
-        "app-core-flow": {
-          title: "核心业务流程分析",
-          breadcrumb: "应用分析 / 核心业务流程分析",
-          appPageType: "core-flow",
         },
         "app-churn-page": {
           title: "流失页面分析",
@@ -7905,94 +7815,6 @@
         updateAppChurnHeatmap();
       }
 
-      const CORE_ACQUIRE_FLOWS = [
-        {
-          key: "手机号OTP登录",
-          steps: ["进入登录弹窗", "获取验证码", "点击登录", "登录成功"],
-        },
-        {
-          key: "手机密码登录",
-          steps: ["进入登录弹窗", "输入密码", "点击登录", "登录成功"],
-        },
-        {
-          key: "Google登录",
-          steps: [
-            "进入登录弹窗",
-            "调用第三方谷歌授权",
-            "授权成功",
-            "登录成功",
-          ],
-        },
-        {
-          key: "游客登录",
-          steps: ["进入登录弹窗", "输入手机号", "绑定成功", "登录成功"],
-        },
-        {
-          key: "注册",
-          steps: ["进入注册弹窗", "获取验证码", "注册成功", "登录成功"],
-        },
-      ];
-
-      function getCoreAcquireFlow(flowKey) {
-        return (
-          CORE_ACQUIRE_FLOWS.find((f) => f.key === flowKey) ||
-          CORE_ACQUIRE_FLOWS[0]
-        );
-      }
-
-      function getCoreAcquireSteps(flowKey) {
-        return getCoreAcquireFlow(flowKey).steps;
-      }
-
-      function getCoreAcquirePathText(flowKey) {
-        return getCoreAcquireSteps(flowKey).join(" → ");
-      }
-      const CORE_GAME_STEPS = [
-        "进入游戏大厅",
-        "查看游戏",
-        "进入游戏",
-        "进行投注",
-      ];
-      const CORE_GAME_FLOWS = ["游戏大厅", "搜索游戏", "厂商分类"];
-      const CORE_RECHARGE_STEPS = [
-        "进入充值页",
-        "选择金额",
-        "提交订单",
-        "支付成功",
-        "到账成功",
-      ];
-      const CORE_RECHARGE_FLOWS = ["充值", "UTR反馈", "钱包充值"];
-      const CORE_WITHDRAW_STEPS = [
-        "进入提现页",
-        "填写金额",
-        "提交提现",
-        "审核通过",
-        "提现成功",
-      ];
-      const CORE_WITHDRAW_FLOWS = ["提现", "改卡补偿", "异常反馈"];
-      const CORE_ACTIVITY_STEPS = [
-        "活动曝光",
-        "进入活动",
-        "活动参与",
-        "奖励领取",
-      ];
-      const CORE_ACTIVITY_TYPES = [
-        "累充转盘",
-        "排行榜",
-        "每日邀请",
-        "新人礼包",
-        "宝箱活动",
-        "代理活动",
-        "短信SMS任务",
-        "充值bonus活动",
-        "VIP活动",
-        "站内信活动",
-        "兑换码活动",
-        "倒计时钱包活动",
-        "亏损金钱包活动",
-        "常规充值活动",
-      ];
-
       function hashCoreFlowSeed(key) {
         let hash = 0;
         for (let i = 0; i < key.length; i += 1) {
@@ -8000,294 +7822,6 @@
           hash |= 0;
         }
         return Math.abs(hash);
-      }
-
-      function buildCoreFunnelValues(stepNames, flowKey, base = 100000) {
-        const ratios = stepNames.slice(1).map((step, i) => {
-          const seed = hashCoreFlowSeed(`${flowKey}-${step}-${i}`);
-          const r = 0.52 + (seed % 380) / 1000;
-          return r;
-        });
-        let current = base;
-        return stepNames.map((name, i) => {
-          if (i > 0) current = Math.round(current * ratios[i - 1]);
-          return { name, value: current };
-        });
-      }
-
-      function calcRate(numerator, denominator) {
-        if (!denominator) return "0.0%";
-        return `${((numerator / denominator) * 100).toFixed(1)}%`;
-      }
-
-      function getCoreAcquireKpis(data, flowKey) {
-        const byName = Object.fromEntries(data.map((d) => [d.name, d.value]));
-        const enter = byName["进入登录弹窗"] || 0;
-        const loginSuccess = byName["登录成功"] || 0;
-        const clickLogin = byName["点击登录"] || 0;
-
-        if (flowKey === "手机号OTP登录") {
-          const getCode = byName["获取验证码"] || 0;
-          return {
-            k1: { label: "验证码获取率", value: calcRate(getCode, enter) },
-            k2: { label: "登录点击率", value: calcRate(clickLogin, getCode) },
-            k3: { label: "登录成功率", value: calcRate(loginSuccess, clickLogin) },
-          };
-        }
-        if (flowKey === "手机密码登录") {
-          const inputPwd = byName["输入密码"] || 0;
-          return {
-            k1: { label: "密码输入率", value: calcRate(inputPwd, enter) },
-            k2: { label: "登录点击率", value: calcRate(clickLogin, inputPwd) },
-            k3: { label: "登录成功率", value: calcRate(loginSuccess, clickLogin) },
-          };
-        }
-        if (flowKey === "Google登录") {
-          const authCall = byName["调用第三方谷歌授权"] || 0;
-          const authOk = byName["授权成功"] || 0;
-          return {
-            k1: { label: "授权发起率", value: calcRate(authCall, enter) },
-            k2: { label: "授权成功率", value: calcRate(authOk, authCall) },
-            k3: { label: "登录成功率", value: calcRate(loginSuccess, authOk) },
-          };
-        }
-        if (flowKey === "注册") {
-          const enterRegister = byName["进入注册弹窗"] || 0;
-          const getCode = byName["获取验证码"] || 0;
-          const registerOk = byName["注册成功"] || 0;
-          return {
-            k1: { label: "验证码获取率", value: calcRate(getCode, enterRegister) },
-            k2: { label: "注册成功率", value: calcRate(registerOk, getCode) },
-            k3: { label: "登录成功率", value: calcRate(loginSuccess, registerOk) },
-          };
-        }
-        // 游客登录
-        const inputPhone = byName["输入手机号"] || 0;
-        const bindOk = byName["绑定成功"] || 0;
-        return {
-          k1: { label: "手机号填写率", value: calcRate(inputPhone, enter) },
-          k2: { label: "绑定成功率", value: calcRate(bindOk, inputPhone) },
-          k3: { label: "登录成功率", value: calcRate(loginSuccess, bindOk) },
-        };
-      }
-
-      function getCoreGameKpis(data) {
-        const byName = Object.fromEntries(data.map((d) => [d.name, d.value]));
-        const enterLobby = byName["进入游戏大厅"] || 0;
-        const viewGame = byName["查看游戏"] || 0;
-        const enterGame = byName["进入游戏"] || 0;
-        const bet = byName["进行投注"] || 0;
-        return {
-          k1: { label: "游戏查看率", value: calcRate(viewGame, enterLobby) },
-          k2: { label: "游戏启动率", value: calcRate(enterGame, viewGame) },
-          k3: { label: "首局完成率", value: calcRate(bet, enterGame) },
-        };
-      }
-
-      function getCoreRechargeKpis(data) {
-        const byName = Object.fromEntries(data.map((d) => [d.name, d.value]));
-        const enter = byName["进入充值页"] || 0;
-        const submit = byName["提交订单"] || 0;
-        const paySuccess = byName["支付成功"] || 0;
-        const arrived = byName["到账成功"] || 0;
-        return {
-          k1: { label: "充值转化率", value: calcRate(paySuccess, enter) },
-          k2: { label: "支付成功率", value: calcRate(paySuccess, submit) },
-          k3: { label: "到账成功率", value: calcRate(arrived, paySuccess) },
-        };
-      }
-
-      function getCoreWithdrawKpis(data, flowKey) {
-        const byName = Object.fromEntries(data.map((d) => [d.name, d.value]));
-        const enter = byName["进入提现页"] || 0;
-        const submit = byName["提交提现"] || 0;
-        const success = byName["提现成功"] || 0;
-        const failed = Math.max(submit - success, 0);
-        const seed = hashCoreFlowSeed(`withdraw-abnormal-${flowKey}`);
-        const abnormalRate = 1.5 + (seed % 120) / 10;
-        return {
-          k1: { label: "提现成功率", value: calcRate(success, enter) },
-          k2: { label: "失败率", value: calcRate(failed, submit) },
-          k3: { label: "异常率", value: `${abnormalRate.toFixed(1)}%` },
-        };
-      }
-
-      function getCoreActivityKpis(data) {
-        const byName = Object.fromEntries(data.map((d) => [d.name, d.value]));
-        return {
-          k1: {
-            label: "进入活动率",
-            value: calcRate(byName["进入活动"] || 0, byName["活动曝光"] || 0),
-          },
-          k2: {
-            label: "参与转化率",
-            value: calcRate(byName["活动参与"] || 0, byName["进入活动"] || 0),
-          },
-          k3: {
-            label: "奖励领取率",
-            value: calcRate(byName["奖励领取"] || 0, byName["活动参与"] || 0),
-          },
-        };
-      }
-
-      function renderCoreKpiRow(kpis) {
-        return `<div class="app-core-kpi-row">
-          ${[kpis.k1, kpis.k2, kpis.k3]
-            .map(
-              (k) => `
-            <div class="app-core-kpi">
-              <div class="kpi-label">${k.label}</div>
-              <div class="kpi-value">${k.value}</div>
-            </div>`,
-            )
-            .join("")}
-        </div>`;
-      }
-
-      function renderAppCoreFlowContent(page) {
-        const defaultAcquireKey = CORE_ACQUIRE_FLOWS[0].key;
-        const initialAcquire = buildCoreFunnelValues(
-          getCoreAcquireSteps(defaultAcquireKey),
-          defaultAcquireKey,
-        );
-        const acquireTabs = CORE_ACQUIRE_FLOWS.map(
-          (f, i) =>
-            `<button type="button" class="tab-btn ${i === 0 ? "active" : ""}" data-core-acquire-flow="${f.key}">${f.key}</button>`,
-        ).join("");
-        const initialGame = buildCoreFunnelValues(
-          CORE_GAME_STEPS,
-          CORE_GAME_FLOWS[0],
-          86000,
-        );
-        const initialRecharge = buildCoreFunnelValues(
-          CORE_RECHARGE_STEPS,
-          CORE_RECHARGE_FLOWS[0],
-          72000,
-        );
-        const initialWithdraw = buildCoreFunnelValues(
-          CORE_WITHDRAW_STEPS,
-          CORE_WITHDRAW_FLOWS[0],
-          58000,
-        );
-        const initialActivity = buildCoreFunnelValues(
-          CORE_ACTIVITY_STEPS,
-          CORE_ACTIVITY_TYPES[0],
-          120000,
-        );
-        const activityOptions = CORE_ACTIVITY_TYPES.map(
-          (t, i) =>
-            `<option value="${t}" ${i === 0 ? "selected" : ""}>${t}</option>`,
-        ).join("");
-        return `
-          ${renderAppFilterBar("app-core-flow")}
-          <div class="app-analysis-block">
-            <div class="page-panel active">
-              <div class="toolbar"><span class="page-title">${page.title}</span></div>
-              <div style="padding:16px 20px 20px">
-                <div class="app-core-theme-tags">
-                  <span class="tag">用户增长</span>
-                  <span class="tag">用户活跃</span>
-                  <span class="tag">用户付费</span>
-                  <span class="tag">用户留存</span>
-                  <span class="tag">用户盈利</span>
-                </div>
-                <div class="app-core-flow-grid">
-                  <article class="chart-card">
-                    <div class="chart-title">用户获取漏斗</div>
-                    <div class="app-metric-tabs" id="coreAcquireFlowTabs">${acquireTabs}</div>
-                    <div class="chart-subtitle" id="coreAcquirePathText">路径：${getCoreAcquirePathText(defaultAcquireKey)}</div>
-                    <div id="coreAcquireKpis">${renderCoreKpiRow(getCoreAcquireKpis(initialAcquire, defaultAcquireKey))}</div>
-                    <div id="coreAcquireFunnel" class="app-core-funnel-chart">${renderFunnelChart(initialAcquire)}</div>
-                  </article>
-                  <article class="chart-card">
-                    <div class="chart-title">游戏参与漏斗</div>
-                    <div class="chart-subtitle">路径：进入游戏大厅 → 查看游戏 → 进入游戏 → 进行投注</div>
-                    <div id="coreGameKpis">${renderCoreKpiRow(getCoreGameKpis(initialGame))}</div>
-                    <div id="coreGameFunnel" class="app-core-funnel-chart">${renderFunnelChart(initialGame)}</div>
-                  </article>
-                  <article class="chart-card">
-                    <div class="chart-title">充值漏斗</div>
-                    <div class="chart-subtitle">路径：进入充值页 → 选择金额 → 提交订单 → 支付成功 → 到账成功</div>
-                    <div id="coreRechargeKpis">${renderCoreKpiRow(getCoreRechargeKpis(initialRecharge))}</div>
-                    <div id="coreRechargeFunnel" class="app-core-funnel-chart">${renderFunnelChart(initialRecharge)}</div>
-                  </article>
-                  <article class="chart-card">
-                    <div class="chart-title">提现漏斗</div>
-                    <div class="chart-subtitle">路径：进入提现页 → 填写金额 → 提交提现 → 审核通过 → 提现成功</div>
-                    <div id="coreWithdrawKpis">${renderCoreKpiRow(getCoreWithdrawKpis(initialWithdraw, CORE_WITHDRAW_FLOWS[0]))}</div>
-                    <div id="coreWithdrawFunnel" class="app-core-funnel-chart">${renderFunnelChart(initialWithdraw)}</div>
-                  </article>
-                  <article class="chart-card">
-                    <div class="chart-title">活动参与漏斗</div>
-                    <div class="chart-subtitle">路径：活动曝光 → 进入活动 → 活动参与 → 奖励领取</div>
-                    <div class="app-core-activity-select">
-                      <label for="coreActivitySelect">活动类型</label>
-                      <select id="coreActivitySelect">${activityOptions}</select>
-                    </div>
-                    <div id="coreActivityKpis">${renderCoreKpiRow(getCoreActivityKpis(initialActivity))}</div>
-                    <div id="coreActivityFunnel" class="app-core-funnel-chart">${renderFunnelChart(initialActivity)}</div>
-                  </article>
-                </div>
-              </div>
-            </div>
-          </div>`;
-      }
-
-      function updateCoreGaFunnelEl(elId, steps) {
-        const el = document.getElementById(elId);
-        if (el) el.innerHTML = renderFunnelChart(steps);
-      }
-
-      function disposeAppCoreFlowCharts() {}
-
-      function updateCoreAcquireFunnel(flowKey) {
-        const data = buildCoreFunnelValues(
-          getCoreAcquireSteps(flowKey),
-          flowKey,
-        );
-        const pathEl = document.getElementById("coreAcquirePathText");
-        if (pathEl) pathEl.textContent = `路径：${getCoreAcquirePathText(flowKey)}`;
-        const kpiEl = document.getElementById("coreAcquireKpis");
-        if (kpiEl) {
-          kpiEl.innerHTML = renderCoreKpiRow(getCoreAcquireKpis(data, flowKey));
-        }
-        updateCoreGaFunnelEl("coreAcquireFunnel", data);
-      }
-
-      function updateCoreActivityFunnel(activityKey) {
-        const data = buildCoreFunnelValues(
-          CORE_ACTIVITY_STEPS,
-          activityKey,
-          120000,
-        );
-        const kpiEl = document.getElementById("coreActivityKpis");
-        if (kpiEl) {
-          kpiEl.innerHTML = renderCoreKpiRow(getCoreActivityKpis(data));
-        }
-        updateCoreGaFunnelEl("coreActivityFunnel", data);
-      }
-
-      function initAppCoreFlowCharts() {
-        if (!document.getElementById("coreAcquireFunnel")) return;
-
-        document
-          .querySelectorAll("#coreAcquireFlowTabs [data-core-acquire-flow]")
-          .forEach((btn) => {
-            btn.addEventListener("click", () => {
-              document
-                .querySelectorAll("#coreAcquireFlowTabs [data-core-acquire-flow]")
-                .forEach((b) => b.classList.remove("active"));
-              btn.classList.add("active");
-              updateCoreAcquireFunnel(btn.dataset.coreAcquireFlow);
-            });
-          });
-
-        const activitySelect = document.getElementById("coreActivitySelect");
-        if (activitySelect) {
-          activitySelect.addEventListener("change", () => {
-            updateCoreActivityFunnel(activitySelect.value);
-          });
-        }
       }
 
       const PATH_KEY_EVENTS = [
@@ -9000,8 +8534,6 @@
             return renderAppUsageFrequencyContent(page);
           case "churn-page":
             return renderAppChurnPageContent(page);
-          case "core-flow":
-            return renderAppCoreFlowContent(page);
           case "user-path-explore":
             return renderAppUserPathExploreContent(page);
           default:
@@ -9013,7 +8545,6 @@
         initLocalChannelFilters();
         initAppPathSankey();
         initAppChurnHeatmap();
-        initAppCoreFlowCharts();
         initPathExploration();
         document.querySelectorAll(".app-metric-tabs").forEach((tabs) => {
           tabs.querySelectorAll(".tab-btn").forEach((btn) => {
@@ -9033,7 +8564,6 @@
 
         disposeAppPathSankey();
         disposeAppChurnHeatmap();
-        disposeAppCoreFlowCharts();
         disposePathExploration();
 
         const container = document.getElementById("pageContainer");
