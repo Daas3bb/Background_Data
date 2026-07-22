@@ -1,5 +1,4 @@
-﻿
-<!doctype html>
+﻿<!doctype html>
 <html lang="zh-CN">
   <head>
     <meta charset="UTF-8" />
@@ -598,13 +597,214 @@
       }
       .app-hbar-fill {
         height: 100%;
+        width: 0;
         border-radius: 2px;
         background: linear-gradient(90deg, #4080ff, #165dff);
+        animation: app-hbar-grow 1.2s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+        animation-delay: calc(var(--bar-i, 0) * 35ms);
+      }
+      @keyframes app-hbar-grow {
+        from {
+          width: 0;
+        }
+        to {
+          width: var(--bar-w, 0%);
+        }
       }
       .app-hbar-row strong {
         text-align: right;
         color: var(--arco-text-1);
         font-variant-numeric: tabular-nums;
+      }
+      .app-exp-legend {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px 16px;
+        margin: 4px 0 10px;
+        font-size: 12px;
+        color: var(--arco-text-2);
+      }
+      .app-exp-legend span {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+      }
+      .app-exp-legend i {
+        width: 10px;
+        height: 10px;
+        border-radius: 2px;
+        display: inline-block;
+      }
+      .app-hbar-row.is-group {
+        grid-template-columns: 96px 1fr;
+        align-items: start;
+      }
+      .app-hbar-group {
+        display: grid;
+        gap: 6px;
+      }
+      .app-hbar-seg {
+        display: grid;
+        grid-template-columns: 56px 1fr 72px;
+        gap: 8px;
+        align-items: center;
+        font-size: 12px;
+      }
+      .app-hbar-seg .lab {
+        color: var(--arco-text-3);
+      }
+      .app-hbar-seg .track {
+        height: 10px;
+        background: var(--arco-bg-3);
+        border-radius: 2px;
+        overflow: hidden;
+      }
+      .app-hbar-seg .fill {
+        height: 100%;
+        width: 0;
+        border-radius: 2px;
+        animation: app-hbar-grow 1.2s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+        animation-delay: calc(var(--bar-i, 0) * 28ms);
+      }
+      .app-hbar-seg .val {
+        text-align: right;
+        color: var(--arco-text-1);
+        font-variant-numeric: tabular-nums;
+      }
+      .app-exp-ratio-up {
+        color: #00b42a;
+        font-weight: 500;
+      }
+      .app-exp-ratio-down {
+        color: #f53f3f;
+        font-weight: 500;
+      }
+      .app-exp-ratio-flat {
+        color: var(--arco-text-3);
+      }
+      .app-exp-table-toolbar {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        flex-wrap: wrap;
+      }
+      .app-exp-seg-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 6px 14px;
+        border-radius: 4px;
+        font-size: 14px;
+        font-weight: 600;
+        line-height: 1.2;
+        border: 1px solid transparent;
+        letter-spacing: 0.02em;
+      }
+      .app-exp-seg-badge .dot {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: currentColor;
+        flex-shrink: 0;
+      }
+      .app-exp-seg-badge .name {
+        font-size: 15px;
+      }
+      .app-exp-seg-badge .sub {
+        font-size: 12px;
+        font-weight: 400;
+        opacity: 0.85;
+      }
+      .app-exp-matrix-block {
+        margin-bottom: 16px;
+      }
+      .app-exp-heatmap-wrap {
+        border: 1px solid var(--border);
+        border-radius: var(--arco-radius);
+        background: var(--arco-bg-1);
+        overflow: visible;
+      }
+      .app-exp-heatmap {
+        width: 100%;
+        height: 280px;
+      }
+      .app-exp-insights {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 12px;
+        margin: 12px 0 0;
+      }
+      .app-exp-insight-card {
+        padding: 12px 14px;
+        border: 1px solid var(--border);
+        border-radius: var(--arco-radius);
+        background: var(--arco-bg-2);
+      }
+      .app-exp-insight-card .label {
+        font-size: 12px;
+        color: var(--arco-text-3);
+        margin-bottom: 6px;
+      }
+      .app-exp-insight-card .title {
+        font-size: 14px;
+        font-weight: 500;
+        color: var(--arco-text-1);
+        margin-bottom: 4px;
+        line-height: 1.4;
+      }
+      .app-exp-insight-card .desc {
+        font-size: 12px;
+        color: var(--arco-text-2);
+        line-height: 1.5;
+      }
+      .app-exp-drill {
+        margin-top: 12px;
+        padding: 14px 16px;
+        border: 1px dashed #bedaff;
+        border-radius: var(--arco-radius);
+        background: #f7faff;
+        display: none;
+      }
+      .app-exp-drill.is-open {
+        display: block;
+      }
+      .app-exp-drill-head {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        margin-bottom: 8px;
+      }
+      .app-exp-drill-head .title {
+        font-size: 14px;
+        font-weight: 500;
+        color: var(--arco-text-1);
+      }
+      .app-exp-drill-head .hint {
+        font-size: 12px;
+        color: var(--arco-text-3);
+      }
+      .app-exp-drill-close {
+        border: none;
+        background: transparent;
+        color: var(--arco-text-3);
+        cursor: pointer;
+        font-size: 16px;
+        line-height: 1;
+        padding: 2px 6px;
+      }
+      .app-exp-drill-close:hover {
+        color: var(--arco-primary);
+      }
+      @media (max-width: 1100px) {
+        .app-exp-insights {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+      }
+      @media (max-width: 720px) {
+        .app-exp-insights {
+          grid-template-columns: 1fr;
+        }
       }
       .app-vbar {
         height: 180px;
@@ -1835,7 +2035,7 @@
       }
 
       .chart-subtitle {
-        margin-top: 4px;
+        margin: 10px 0;
         color: var(--arco-text-3);
         font-size: 12px;
       }
@@ -2460,7 +2660,9 @@
           </div>
 
           <div class="menu-group">
-            <div class="menu-top" data-page="realtime-compare">分时数据对比</div>
+            <div class="menu-top" data-page="realtime-compare">
+              分时数据对比
+            </div>
           </div>
 
           <div class="menu-group" data-group="lifecycle">
@@ -2532,7 +2734,9 @@
               <span class="menu-arrow">▶</span>
             </div>
             <div class="submenu">
-              <div class="menu-child" data-page="app-page-path">页面访问路径</div>
+              <div class="menu-child" data-page="app-page-path">
+                页面访问路径
+              </div>
               <div class="menu-child" data-page="app-feature-engagement">
                 功能参与度
               </div>
@@ -2545,7 +2749,9 @@
               <div class="menu-child" data-page="app-usage-frequency">
                 应用使用频率
               </div>
-              <div class="menu-child" data-page="app-churn-page">流失页面分析</div>
+              <div class="menu-child" data-page="app-churn-page">
+                流失页面分析
+              </div>
               <div class="menu-child" data-page="app-user-path">
                 用户具体行为分析
               </div>
@@ -5044,7 +5250,10 @@
         return labels;
       }
 
-      function buildTrendLabelsBeforeEnd(dayCount, endDate = new Date(2025, 6, 17)) {
+      function buildTrendLabelsBeforeEnd(
+        dayCount,
+        endDate = new Date(2025, 6, 17),
+      ) {
         const labels = [];
         for (let i = dayCount - 1; i >= 0; i--) {
           const d = new Date(endDate);
@@ -5756,18 +5965,12 @@
           (a, c) => a + c.charCodeAt(0),
           0,
         );
-        const metricSeed = [...metric].reduce(
-          (a, c) => a + c.charCodeAt(0),
-          0,
-        );
+        const metricSeed = [...metric].reduce((a, c) => a + c.charCodeAt(0), 0);
         const dateObj = parseYMD(dateStr);
         const dayOfWeek = dateObj.getDay();
         const baseLevel = 720 + (metricSeed % 620) + (seed % 380);
         const dayLevelShift =
-          dayIndex * 95 +
-          dayOfWeek * 48 +
-          ((seed >> 3) % 220) -
-          110;
+          dayIndex * 95 + dayOfWeek * 48 + ((seed >> 3) % 220) - 110;
         const ampScale = 0.68 + ((seed + metricSeed) % 55) / 100;
         const phase = seed * 1.6 + dayIndex * 41 + metricSeed * 0.45;
         const wavePeriod1 = 78 + (dayOfWeek % 4) * 11 + (metricSeed % 17);
@@ -5788,7 +5991,10 @@
             Math.min(
               2480,
               val * 0.84 +
-                (baseLevel + dayLevelShift + wave) * nightFactor * lunchDip * 0.16,
+                (baseLevel + dayLevelShift + wave) *
+                  nightFactor *
+                  lunchDip *
+                  0.16,
             ),
           );
           points.push({ minute: m, value: Math.round(val) });
@@ -6321,8 +6527,7 @@
 
         legend.innerHTML = seriesList
           .map((s) => {
-            const text =
-              dates.length > 1 ? `${s.date} ${s.metric}` : s.metric;
+            const text = dates.length > 1 ? `${s.date} ${s.metric}` : s.metric;
             return `<span title="${s.label}"><i style="background:${s.color}"></i>${text}</span>`;
           })
           .join("");
@@ -6438,22 +6643,26 @@
         document
           .getElementById("rtQueryBtn")
           ?.addEventListener("click", drawRealtimeChart, { signal });
-        document
-          .getElementById("rtTableQueryBtn")
-          ?.addEventListener("click", () => {
+        document.getElementById("rtTableQueryBtn")?.addEventListener(
+          "click",
+          () => {
             drawRealtimeTable(
               getSelectedRtMetrics(),
               document.getElementById("rtTableDate")?.value,
             );
-          }, { signal });
-        document
-          .getElementById("rtTableDate")
-          ?.addEventListener("change", () => {
+          },
+          { signal },
+        );
+        document.getElementById("rtTableDate")?.addEventListener(
+          "change",
+          () => {
             drawRealtimeTable(
               getSelectedRtMetrics(),
               document.getElementById("rtTableDate")?.value,
             );
-          }, { signal });
+          },
+          { signal },
+        );
         document.getElementById("rtRefreshBtn")?.addEventListener(
           "click",
           (e) => {
@@ -6558,7 +6767,8 @@
 
         const updateChart = (dayCount) => {
           wrap.innerHTML = renderSurplusRateTrend(dayCount);
-          if (subtitle) subtitle.textContent = subtitleMap[dayCount] || subtitleMap[7];
+          if (subtitle)
+            subtitle.textContent = subtitleMap[dayCount] || subtitleMap[7];
         };
 
         toggle.querySelectorAll(".range-btn").forEach((btn) => {
@@ -6751,10 +6961,10 @@
         const max = Math.max(...items.map((i) => i.value), 1);
         return `<div class="app-hbar">${items
           .map(
-            (it) => `
+            (it, i) => `
           <div class="app-hbar-row">
             <span>${it.name}</span>
-            <div class="app-hbar-track"><div class="app-hbar-fill" style="width:${Math.max(6, Math.round((it.value / max) * 100))}%"></div></div>
+            <div class="app-hbar-track"><div class="app-hbar-fill" style="--bar-w:${Math.max(6, Math.round((it.value / max) * 100))}%;--bar-i:${i}"></div></div>
             <strong>${it.value.toLocaleString("zh-CN")}</strong>
           </div>`,
           )
@@ -6943,8 +7153,7 @@
               if (params.dataType === "edge") {
                 const from =
                   displayMap[params.data.source] || params.data.source;
-                const to =
-                  displayMap[params.data.target] || params.data.target;
+                const to = displayMap[params.data.target] || params.data.target;
                 return `${from} → ${to}<br/>会话数：${Number(
                   params.data.value,
                 ).toLocaleString("zh-CN")}`;
@@ -7187,65 +7396,920 @@
       }
 
       function renderAppPageExperienceContent(page) {
+        const segmentOptions = APP_EXP_SEGMENTS.map(
+          (s) =>
+            `<option value="${s.id}" ${s.id === appExperienceState.segment ? "selected" : ""}>${s.label}</option>`,
+        ).join("");
         const extra = `
           <div class="filter-item">
             <label>页面</label>
-            <input type="text" placeholder="全部 / 支持模糊搜索" value="全部" />
+            <input type="text" id="appExpPageKeyword" placeholder="全部 / 支持模糊搜索" value="全部" />
+          </div>
+          <div class="filter-item">
+            <label>用户分群</label>
+            <select id="appExpSegment">${segmentOptions}</select>
           </div>`;
-        const tabs = [
-          "页面访问次数",
-          "页面平均加载时长",
-          "页面停留时长",
-          "页面平均停留时长",
-          "页面平均访问深度",
-          "页面跳出率",
-        ];
-        const top10 = [
-          { name: "首页", value: 18600 },
-          { name: "游戏大厅", value: 15200 },
-          { name: "品牌", value: 12800 },
-          { name: "宝箱", value: 9800 },
-          { name: "代理", value: 7600 },
-          { name: "IM", value: 6900 },
-          { name: "充值", value: 5800 },
-          { name: "提现", value: 4200 },
-          { name: "VIP", value: 3600 },
-          { name: "站内信", value: 2900 },
-        ];
-        const cols = [
-          "页面名称",
-          "页面访问次数",
-          "页面平均加载时长",
-          "页面停留时长",
-          "页面平均停留时长",
-          "页面平均访问深度",
-          "页面跳出率",
-        ];
-        const rows = [
-          ["首页", 1000, "12秒", "12时23分45秒", "12时23分45秒", "23.56%", "23.56%"],
-          ["游戏大厅", 1000, "17秒", "45秒", "45秒", "68.66%", "68.66%"],
-          ["品牌", 1000, "8秒", "64时23分45秒", "64时23分45秒", "98.28%", "98.28%"],
-          ["宝箱", 1000, "12秒", "23分45秒", "23分45秒", "12.23%", "12.23%"],
-          ["代理", 1000, "10秒", "18分20秒", "18分20秒", "35.40%", "28.90%"],
-          ["IM", 1000, "9秒", "6分15秒", "6分15秒", "41.20%", "33.10%"],
-          ["合计", 6000, "13秒", "64时23分45秒", "64时23分45秒", "46.55%", "44.27%"],
-        ];
         return `
           ${renderAppFilterBar("app-experience", extra)}
-          <div class="app-analysis-block">
+          <div class="app-analysis-block" id="appExperiencePanel">
             <section class="chart-grid" style="grid-template-columns:1fr;margin-bottom:16px">
               <article class="chart-card">
-                <div class="chart-title">页面TOP10 <span class="status-tag info">条形图</span></div>
-                <div class="chart-subtitle">默认：页面访问次数</div>
-                ${renderAppMetricTabs(tabs, "页面访问次数")}
-                <div id="appExperienceTopChart">${renderAppHBar(top10)}</div>
+                <div class="chart-title">页面TOP10 <span class="status-tag info" id="appExpChartTag">条形图</span></div>
+                <div class="chart-subtitle" id="appExpChartSubtitle"></div>
+                <div id="appExpMetricTabs"></div>
+                <div id="appExpLegend"></div>
+                <div id="appExperienceTopChart"></div>
               </article>
             </section>
-            <div class="page-panel active">
-              <div class="toolbar"><span class="page-title">${page.title}</span></div>
-              ${renderAppDataTable(cols, rows)}
+            <div class="page-panel active" style="margin-bottom:16px">
+              <div class="toolbar">
+                <div class="app-exp-table-toolbar">
+                  <span class="page-title">${page.title}</span>
+                  <span id="appExpSegBadge" class="app-exp-seg-badge"></span>
+                  <span id="appExpTableHint" style="font-size:12px;color:var(--arco-text-3)"></span>
+                </div>
+              </div>
+              <div id="appExpTableWrap"></div>
             </div>
+            <section class="app-exp-matrix-block">
+              <article class="chart-card">
+                <div class="chart-title">页面分群停留矩阵 <span class="status-tag info">热力图</span></div>
+                <div class="chart-subtitle">X=页面，Y=新/老 × VIP/非VIP 四象限；色深=平均停留时长。点击单元格可下钻时长分布</div>
+                <div class="app-exp-heatmap-wrap">
+                  <div id="appExpHeatmap" class="app-exp-heatmap"></div>
+                </div>
+                <div class="app-exp-insights" id="appExpInsights"></div>
+                <div class="app-exp-drill" id="appExpDrill">
+                  <div class="app-exp-drill-head">
+                    <div>
+                      <div class="title" id="appExpDrillTitle">时长分布</div>
+                      <div class="hint">按单次页面停留时长区间统计用户会话数</div>
+                    </div>
+                    <button type="button" class="app-exp-drill-close" id="appExpDrillClose" title="关闭">×</button>
+                  </div>
+                  <div id="appExpDrillChart"></div>
+                </div>
+              </article>
+            </section>
           </div>`;
+      }
+
+      const APP_EXP_SEGMENTS = [
+        { id: "all", label: "全部" },
+        { id: "compare", label: "全部对比" },
+        { id: "new", label: "新用户" },
+        { id: "old", label: "老用户" },
+        { id: "vip", label: "VIP" },
+        { id: "nonvip", label: "非VIP" },
+      ];
+
+      const APP_EXP_SEG_META = {
+        all: { label: "全部", color: "#165dff" },
+        new: { label: "新用户", color: "#14c9c9" },
+        old: { label: "老用户", color: "#722ed1" },
+        vip: { label: "VIP", color: "#f7ba1e" },
+        nonvip: { label: "非VIP", color: "#86909c" },
+      };
+
+      function hexToRgba(hex, alpha) {
+        const h = String(hex || "#165dff").replace("#", "");
+        const full =
+          h.length === 3
+            ? h
+                .split("")
+                .map((c) => c + c)
+                .join("")
+            : h;
+        const n = parseInt(full, 16);
+        const r = (n >> 16) & 255;
+        const g = (n >> 8) & 255;
+        const b = n & 255;
+        return `rgba(${r},${g},${b},${alpha})`;
+      }
+
+      /** 同色系按名次降低透明度，区分层次 */
+      function getAppExpRankOpacity(index, total) {
+        if (total <= 1) return 1;
+        const maxA = 1;
+        const minA = 0.36;
+        return maxA - (index / (total - 1)) * (maxA - minA);
+      }
+
+      const APP_EXP_METRICS = [
+        "页面访问次数",
+        "页面平均加载时长",
+        "页面停留时长",
+        "页面平均停留时长",
+        "页面平均访问深度",
+        "页面跳出率",
+      ];
+
+      let appExperienceState = {
+        segment: "all",
+        metric: "页面访问次数",
+      };
+
+      /** 秒数 mock：各页面 × 分群平均停留 */
+      const APP_EXP_PAGE_DATA = [
+        {
+          name: "首页",
+          visits: 18600,
+          avgLoadSec: 12,
+          stayTotalSec: 44625,
+          avgStaySec: { all: 180, new: 95, old: 240, vip: 210, nonvip: 160 },
+          depth: 23.56,
+          bounce: 23.56,
+        },
+        {
+          name: "游戏大厅",
+          visits: 15200,
+          avgLoadSec: 17,
+          stayTotalSec: 684000,
+          avgStaySec: { all: 45, new: 38, old: 52, vip: 61, nonvip: 40 },
+          depth: 68.66,
+          bounce: 18.2,
+        },
+        {
+          name: "品牌",
+          visits: 12800,
+          avgLoadSec: 8,
+          stayTotalSec: 2318400,
+          avgStaySec: { all: 181, new: 220, old: 160, vip: 145, nonvip: 195 },
+          depth: 98.28,
+          bounce: 12.4,
+        },
+        {
+          name: "宝箱",
+          visits: 9800,
+          avgLoadSec: 12,
+          stayTotalSec: 1425900,
+          avgStaySec: { all: 145.5, new: 168, old: 132, vip: 190, nonvip: 120 },
+          depth: 12.23,
+          bounce: 28.9,
+        },
+        {
+          name: "代理",
+          visits: 7600,
+          avgLoadSec: 10,
+          stayTotalSec: 836000,
+          avgStaySec: { all: 110, new: 72, old: 148, vip: 175, nonvip: 88 },
+          depth: 35.4,
+          bounce: 28.9,
+        },
+        {
+          name: "IM",
+          visits: 6900,
+          avgLoadSec: 9,
+          stayTotalSec: 258750,
+          avgStaySec: { all: 37.5, new: 28, old: 46, vip: 55, nonvip: 30 },
+          depth: 41.2,
+          bounce: 33.1,
+        },
+        {
+          name: "充值",
+          visits: 5800,
+          avgLoadSec: 11,
+          stayTotalSec: 522000,
+          avgStaySec: { all: 90, new: 78, old: 102, vip: 135, nonvip: 70 },
+          depth: 52.1,
+          bounce: 22.5,
+        },
+        {
+          name: "提现",
+          visits: 4200,
+          avgLoadSec: 14,
+          stayTotalSec: 504000,
+          avgStaySec: { all: 120, new: 65, old: 155, vip: 180, nonvip: 95 },
+          depth: 48.6,
+          bounce: 19.8,
+        },
+        {
+          name: "VIP",
+          visits: 3600,
+          avgLoadSec: 9,
+          stayTotalSec: 756000,
+          avgStaySec: { all: 210, new: 95, old: 265, vip: 320, nonvip: 88 },
+          depth: 61.3,
+          bounce: 15.2,
+        },
+        {
+          name: "站内信",
+          visits: 2900,
+          avgLoadSec: 7,
+          stayTotalSec: 87000,
+          avgStaySec: { all: 30, new: 42, old: 24, vip: 28, nonvip: 31 },
+          depth: 22.4,
+          bounce: 41.6,
+        },
+      ];
+
+      const APP_EXP_CROSS_SEGS = [
+        { id: "new_nonvip", label: "新·非VIP" },
+        { id: "new_vip", label: "新·VIP" },
+        { id: "old_nonvip", label: "老·非VIP" },
+        { id: "old_vip", label: "老·VIP" },
+      ];
+
+      const APP_EXP_STAY_BUCKETS = [
+        { name: "0s-3s", center: 1.5 },
+        { name: "3s-10s", center: 6.5 },
+        { name: "10s-30s", center: 20 },
+        { name: "30s-1min", center: 45 },
+        { name: "1min-3min", center: 120 },
+        { name: "3min-5min", center: 240 },
+        { name: "5min-10min", center: 450 },
+        { name: "10min-20min", center: 900 },
+        { name: "20min以上", center: 1500 },
+      ];
+
+      let appExpHeatmapChart = null;
+      let appExpDrillState = { page: "", crossId: "" };
+
+      function getAppExpCrossStay(row, crossId) {
+        const seed = hashCoreFlowSeed(`${row.name}::${crossId}`);
+        const jitter = 0.9 + (seed % 21) / 100;
+        let base = row.avgStaySec.all;
+        switch (crossId) {
+          case "new_nonvip":
+            base = row.avgStaySec.new * 0.82;
+            break;
+          case "new_vip":
+            base = row.avgStaySec.new * 1.42;
+            break;
+          case "old_nonvip":
+            base = row.avgStaySec.old * 0.76;
+            break;
+          case "old_vip":
+            base =
+              row.avgStaySec.old *
+              (row.name === "VIP" || row.name === "提现" || row.name === "代理"
+                ? 1.55
+                : 1.28);
+            break;
+          default:
+            break;
+        }
+        return Math.max(5, Math.round(base * jitter));
+      }
+
+      function buildAppExpHeatmapSeries() {
+        const pages = APP_EXP_PAGE_DATA.map((r) => r.name);
+        const segs = APP_EXP_CROSS_SEGS.map((s) => s.label);
+        const data = [];
+        let maxV = 0;
+        APP_EXP_PAGE_DATA.forEach((row, x) => {
+          APP_EXP_CROSS_SEGS.forEach((seg, y) => {
+            const v = getAppExpCrossStay(row, seg.id);
+            maxV = Math.max(maxV, v);
+            data.push({
+              value: [x, y, v],
+              page: row.name,
+              crossId: seg.id,
+              crossLabel: seg.label,
+              raw: v,
+            });
+          });
+        });
+        return { pages, segs, data, maxV };
+      }
+
+      function buildAppExpStayBuckets(pageName, crossId) {
+        const row = APP_EXP_PAGE_DATA.find((r) => r.name === pageName);
+        if (!row) return [];
+        const mean = getAppExpCrossStay(row, crossId);
+        const seed = hashCoreFlowSeed(`${pageName}-${crossId}-bucket`);
+        const totalSessions = 800 + (seed % 4200);
+        const weights = APP_EXP_STAY_BUCKETS.map((b, i) => {
+          const dist = Math.abs(Math.log((b.center + 1) / (mean + 1)));
+          const w =
+            Math.exp(-dist * dist * 1.15) * (1 + ((seed + i * 17) % 20) / 100);
+          return w;
+        });
+        const sum = weights.reduce((a, b) => a + b, 0) || 1;
+        return APP_EXP_STAY_BUCKETS.map((b, i) => ({
+          name: b.name,
+          value: Math.max(12, Math.round((totalSessions * weights[i]) / sum)),
+        }));
+      }
+
+      function renderAppExpInsights() {
+        const pages = APP_EXP_PAGE_DATA;
+        const scoreNew = (row) =>
+          (getAppExpCrossStay(row, "new_nonvip") +
+            getAppExpCrossStay(row, "new_vip")) /
+          2;
+        const scoreNewVip = (row) => getAppExpCrossStay(row, "new_vip");
+        const scoreOld = (row) =>
+          (getAppExpCrossStay(row, "old_nonvip") +
+            getAppExpCrossStay(row, "old_vip")) /
+          2;
+        const scoreOldVip = (row) => getAppExpCrossStay(row, "old_vip");
+
+        const pickTop = (scoreFn) =>
+          [...pages].sort((a, b) => scoreFn(b) - scoreFn(a))[0];
+
+        const topNew = pickTop(scoreNew);
+        const topNewVip = pickTop(scoreNewVip);
+        const topOld = pickTop(scoreOld);
+        const topOldVip = pickTop(scoreOldVip);
+
+        return `
+          <div class="app-exp-insight-card">
+            <div class="label">新用户停留最长</div>
+            <div class="title">${topNew.name} · ${formatDurationSec(scoreNew(topNew))}</div>
+            <div class="desc">新用户（含新·VIP / 新·非VIP）平均停留最高的页面</div>
+          </div>
+          <div class="app-exp-insight-card">
+            <div class="label">新 VIP 停留最长</div>
+            <div class="title">${topNewVip.name} · ${formatDurationSec(scoreNewVip(topNewVip))}</div>
+            <div class="desc">新·VIP 在此页平均停留最高</div>
+          </div>
+          <div class="app-exp-insight-card">
+            <div class="label">老用户停留最长</div>
+            <div class="title">${topOld.name} · ${formatDurationSec(scoreOld(topOld))}</div>
+            <div class="desc">老用户（含老·VIP / 老·非VIP）平均停留最高的页面</div>
+          </div>
+          <div class="app-exp-insight-card">
+            <div class="label">老 VIP 停留最长</div>
+            <div class="title">${topOldVip.name} · ${formatDurationSec(scoreOldVip(topOldVip))}</div>
+            <div class="desc">老·VIP 在此页平均停留最高</div>
+          </div>`;
+      }
+
+      function disposeAppExpHeatmap(resetDrill = true) {
+        if (appExpHeatmapChart) {
+          appExpHeatmapChart.dispose();
+          appExpHeatmapChart = null;
+        }
+        window.removeEventListener("resize", onAppExpHeatmapResize);
+        if (resetDrill) {
+          appExpDrillState = { page: "", crossId: "" };
+          document.getElementById("appExpDrill")?.classList.remove("is-open");
+        }
+      }
+
+      function onAppExpHeatmapResize() {
+        if (appExpHeatmapChart) appExpHeatmapChart.resize();
+      }
+
+      function openAppExpDrill(pageName, crossId, options = {}) {
+        const { scroll = true } = options;
+        const crossLabel =
+          APP_EXP_CROSS_SEGS.find((s) => s.id === crossId)?.label || crossId;
+        const drill = document.getElementById("appExpDrill");
+        const title = document.getElementById("appExpDrillTitle");
+        const chartEl = document.getElementById("appExpDrillChart");
+        if (!drill || !chartEl) return;
+        appExpDrillState = { page: pageName, crossId };
+        drill.classList.add("is-open");
+        if (title) {
+          title.textContent = `${pageName} × ${crossLabel} · 停留时长分布`;
+        }
+        const buckets = buildAppExpStayBuckets(pageName, crossId);
+        chartEl.innerHTML = renderAppVBar(buckets);
+        if (scroll) {
+          drill.scrollIntoView({ behavior: "smooth", block: "nearest" });
+        }
+      }
+
+      function closeAppExpDrill() {
+        const drill = document.getElementById("appExpDrill");
+        drill?.classList.remove("is-open");
+        appExpDrillState = { page: "", crossId: "" };
+      }
+
+      function initAppExpHeatmap() {
+        const el = document.getElementById("appExpHeatmap");
+        if (!el || typeof echarts === "undefined") return;
+        const keepDrill = { ...appExpDrillState };
+        disposeAppExpHeatmap(false);
+        appExpDrillState = keepDrill;
+        const { pages, segs, data, maxV } = buildAppExpHeatmapSeries();
+        appExpHeatmapChart = echarts.init(el);
+        appExpHeatmapChart.setOption({
+          tooltip: {
+            appendToBody: true,
+            extraCssText: "z-index: 10000; pointer-events: none;",
+            position(pos, _params, _dom, _rect, size) {
+              const [mouseX, mouseY] = pos;
+              const boxW = size.contentSize[0];
+              const boxH = size.contentSize[1];
+              const viewW = size.viewSize[0];
+              // 靠近顶部时向下展开，避免首行标签被遮挡
+              let x = mouseX + 12;
+              let y = mouseY < boxH + 24 ? mouseY + 16 : mouseY - boxH - 12;
+              if (x + boxW > viewW) x = Math.max(8, mouseX - boxW - 12);
+              if (x < 8) x = 8;
+              if (y < 8) y = 8;
+              return [x, y];
+            },
+            formatter(params) {
+              const d = params.data || {};
+              return [
+                `<strong>${d.page}</strong> · ${d.crossLabel}`,
+                `平均停留：${formatDurationSec(d.raw)}`,
+                "点击查看时长分布",
+              ].join("<br/>");
+            },
+          },
+          grid: {
+            left: 88,
+            right: 36,
+            top: 28,
+            bottom: 48,
+            containLabel: false,
+          },
+          xAxis: {
+            type: "category",
+            data: pages,
+            splitArea: { show: true },
+            axisLabel: { interval: 0, color: "#4e5969", fontSize: 11 },
+          },
+          yAxis: {
+            type: "category",
+            data: segs,
+            splitArea: { show: true },
+            axisLabel: { color: "#4e5969", fontSize: 12 },
+          },
+          visualMap: {
+            min: 0,
+            max: maxV,
+            calculable: true,
+            orient: "horizontal",
+            left: "center",
+            bottom: 4,
+            itemWidth: 12,
+            itemHeight: 100,
+            text: ["高", "低"],
+            textStyle: { color: "#86909c", fontSize: 11 },
+            inRange: {
+              color: ["#e8f3ff", "#bedaff", "#4080ff", "#165dff", "#0e42d2"],
+            },
+            formatter: (v) => formatDurationSec(v),
+          },
+          series: [
+            {
+              type: "heatmap",
+              data,
+              label: {
+                show: true,
+                formatter(p) {
+                  return formatDurationSec(p.data.raw);
+                },
+                color: "#1d2129",
+                fontSize: 10,
+              },
+              emphasis: {
+                itemStyle: {
+                  shadowBlur: 8,
+                  shadowColor: "rgba(22,93,255,0.35)",
+                },
+              },
+            },
+          ],
+        });
+        appExpHeatmapChart.on("click", (params) => {
+          if (!params.data?.page || !params.data?.crossId) return;
+          openAppExpDrill(params.data.page, params.data.crossId);
+        });
+        window.addEventListener("resize", onAppExpHeatmapResize);
+      }
+
+      function refreshAppExpMatrix() {
+        const insights = document.getElementById("appExpInsights");
+        if (insights) insights.innerHTML = renderAppExpInsights();
+        const keep = { ...appExpDrillState };
+        initAppExpHeatmap();
+        if (keep.page && keep.crossId) {
+          openAppExpDrill(keep.page, keep.crossId, { scroll: false });
+        }
+      }
+
+      function formatDurationSec(sec) {
+        const s = Math.max(0, Math.round(sec));
+        if (s < 60) return `${s}秒`;
+        const m = Math.floor(s / 60);
+        const rs = s % 60;
+        if (m < 60) return rs ? `${m}分${rs}秒` : `${m}分`;
+        const h = Math.floor(m / 60);
+        const rm = m % 60;
+        return rm ? `${h}时${rm}分` : `${h}时`;
+      }
+
+      function formatExpRatio(a, b) {
+        if (!b) return { text: "-", cls: "app-exp-ratio-flat" };
+        const r = a / b;
+        const text = `${r.toFixed(2)}x`;
+        if (r >= 1.15) return { text, cls: "app-exp-ratio-up" };
+        if (r <= 0.85) return { text, cls: "app-exp-ratio-down" };
+        return { text, cls: "app-exp-ratio-flat" };
+      }
+
+      function getAppExpMetricValue(row, metric, segmentId) {
+        const seg = segmentId === "compare" ? "all" : segmentId || "all";
+        const visitFactor =
+          seg === "all"
+            ? 1
+            : seg === "new"
+              ? 0.38
+              : seg === "old"
+                ? 0.62
+                : seg === "vip"
+                  ? 0.28
+                  : 0.72;
+        const stayFactor =
+          seg === "all"
+            ? 1
+            : seg === "new"
+              ? 0.32
+              : seg === "old"
+                ? 0.68
+                : seg === "vip"
+                  ? 0.35
+                  : 0.65;
+        const loadFactor =
+          seg === "all"
+            ? 1
+            : seg === "new"
+              ? 1.18
+              : seg === "old"
+                ? 0.92
+                : seg === "vip"
+                  ? 0.85
+                  : 1.08;
+        const depthFactor =
+          seg === "all"
+            ? 1
+            : seg === "new"
+              ? 0.78
+              : seg === "old"
+                ? 1.12
+                : seg === "vip"
+                  ? 1.22
+                  : 0.9;
+        const bounceFactor =
+          seg === "all"
+            ? 1
+            : seg === "new"
+              ? 1.25
+              : seg === "old"
+                ? 0.88
+                : seg === "vip"
+                  ? 0.72
+                  : 1.1;
+        switch (metric) {
+          case "页面访问次数":
+            return Math.round(row.visits * visitFactor);
+          case "页面平均加载时长":
+            return Math.max(1, Math.round(row.avgLoadSec * loadFactor));
+          case "页面停留时长":
+            return Math.round(row.stayTotalSec * stayFactor);
+          case "页面平均停留时长":
+            return row.avgStaySec[seg] ?? row.avgStaySec.all;
+          case "页面平均访问深度":
+            return Math.min(100, Number((row.depth * depthFactor).toFixed(2)));
+          case "页面跳出率":
+            return Math.min(100, Number((row.bounce * bounceFactor).toFixed(2)));
+          default:
+            return 0;
+        }
+      }
+
+      function formatAppExpMetricDisplay(value, metric) {
+        if (metric === "页面访问次数") return value.toLocaleString("zh-CN");
+        if (
+          metric === "页面平均加载时长" ||
+          metric === "页面停留时长" ||
+          metric === "页面平均停留时长"
+        ) {
+          return formatDurationSec(value);
+        }
+        return `${Number(value).toFixed(2)}%`;
+      }
+
+      function renderAppExpGroupHBar(rows, metric) {
+        const segs = ["new", "old", "vip", "nonvip"];
+        const valuesByRow = rows.map((row) =>
+          segs.map((s) => getAppExpMetricValue(row, metric, s)),
+        );
+        const max = Math.max(...valuesByRow.flat(), 1);
+        return `<div class="app-hbar">${rows
+          .map(
+            (row, ri) => `
+          <div class="app-hbar-row is-group">
+            <span>${row.name}</span>
+            <div class="app-hbar-group">
+              ${segs
+                .map((s, si) => {
+                  const v = valuesByRow[ri][si];
+                  const meta = APP_EXP_SEG_META[s];
+                  const w = Math.max(4, Math.round((v / max) * 100));
+                  return `<div class="app-hbar-seg">
+                    <span class="lab">${meta.label}</span>
+                    <div class="track"><div class="fill" style="--bar-w:${w}%;--bar-i:${ri * 4 + si};background:${meta.color}"></div></div>
+                    <span class="val">${formatAppExpMetricDisplay(v, metric)}</span>
+                  </div>`;
+                })
+                .join("")}
+            </div>
+          </div>`,
+          )
+          .join("")}</div>`;
+      }
+
+      function renderAppExpLegend(segmentId) {
+        const ids =
+          segmentId === "compare"
+            ? ["new", "old", "vip", "nonvip"]
+            : [segmentId === "all" ? "all" : segmentId];
+        return `<div class="app-exp-legend">${ids
+          .map((id) => {
+            const m = APP_EXP_SEG_META[id];
+            return `<span><i style="background:${m.color}"></i>${m.label}</span>`;
+          })
+          .join("")}</div>`;
+      }
+
+      function getAppExpTopItems(metric, segmentId) {
+        const ranked = [...APP_EXP_PAGE_DATA]
+          .map((row) => ({
+            name: row.name,
+            value: getAppExpMetricValue(row, metric, segmentId),
+          }))
+          .sort((a, b) => b.value - a.value)
+          .slice(0, 10);
+        return ranked;
+      }
+
+      function renderAppExpTable() {
+        const segment = appExperienceState.segment || "all";
+
+        // 仅「全部对比」展示分群对比字段
+        if (segment === "compare") {
+          const cols = [
+            "页面名称",
+            "访问次数",
+            "全量均停",
+            "新用户均停",
+            "老用户均停",
+            "VIP均停",
+            "非VIP均停",
+            "新/老比",
+            "VIP/非VIP比",
+            "跳出率",
+          ];
+          const head = cols
+            .map((c) => `<th>${c}<span class="sort-icon">▲<br>▼</span></th>`)
+            .join("");
+          const bodyRows = APP_EXP_PAGE_DATA.map((row) => {
+            const newOld = formatExpRatio(
+              row.avgStaySec.new,
+              row.avgStaySec.old,
+            );
+            const vipNon = formatExpRatio(
+              row.avgStaySec.vip,
+              row.avgStaySec.nonvip,
+            );
+            return `<tr>
+            <td>${row.name}</td>
+            <td>${row.visits.toLocaleString("zh-CN")}</td>
+            <td>${formatDurationSec(row.avgStaySec.all)}</td>
+            <td>${formatDurationSec(row.avgStaySec.new)}</td>
+            <td>${formatDurationSec(row.avgStaySec.old)}</td>
+            <td>${formatDurationSec(row.avgStaySec.vip)}</td>
+            <td>${formatDurationSec(row.avgStaySec.nonvip)}</td>
+            <td class="${newOld.cls}">${newOld.text}</td>
+            <td class="${vipNon.cls}">${vipNon.text}</td>
+            <td>${row.bounce.toFixed(2)}%</td>
+          </tr>`;
+          }).join("");
+
+          const sumVisits = APP_EXP_PAGE_DATA.reduce((s, r) => s + r.visits, 0);
+          const avg = (key) =>
+            APP_EXP_PAGE_DATA.reduce((s, r) => s + r.avgStaySec[key], 0) /
+            APP_EXP_PAGE_DATA.length;
+          const sumNewOld = formatExpRatio(avg("new"), avg("old"));
+          const sumVipNon = formatExpRatio(avg("vip"), avg("nonvip"));
+          const avgBounce =
+            APP_EXP_PAGE_DATA.reduce((s, r) => s + r.bounce, 0) /
+            APP_EXP_PAGE_DATA.length;
+
+          const totalRow = `<tr>
+          <td>合计/均值</td>
+          <td>${sumVisits.toLocaleString("zh-CN")}</td>
+          <td>${formatDurationSec(avg("all"))}</td>
+          <td>${formatDurationSec(avg("new"))}</td>
+          <td>${formatDurationSec(avg("old"))}</td>
+          <td>${formatDurationSec(avg("vip"))}</td>
+          <td>${formatDurationSec(avg("nonvip"))}</td>
+          <td class="${sumNewOld.cls}">${sumNewOld.text}</td>
+          <td class="${sumVipNon.cls}">${sumVipNon.text}</td>
+          <td>${avgBounce.toFixed(2)}%</td>
+        </tr>`;
+
+          return `
+          <div class="table-wrap" style="max-height:none">
+            <table class="data-table">
+              <thead><tr class="col-row">${head}</tr></thead>
+              <tbody>${bodyRows}${totalRow}</tbody>
+            </table>
+          </div>
+          <div class="pagination">
+            <button disabled>‹</button>
+            <button class="active">1</button>
+            <button>›</button>
+            <span class="pagination-info">共 ${APP_EXP_PAGE_DATA.length} 条</span>
+          </div>`;
+        }
+
+        // 全部 / 新用户 / 老用户 / VIP / 非VIP：展示该分群下 6 个指标字段
+        const segId = segment || "all";
+        const cols = ["页面名称", ...APP_EXP_METRICS];
+        const head = cols
+          .map((c) => `<th>${c}<span class="sort-icon">▲<br>▼</span></th>`)
+          .join("");
+        const cell = (row, metric) =>
+          formatAppExpMetricDisplay(
+            getAppExpMetricValue(row, metric, segId),
+            metric,
+          );
+        const bodyRows = APP_EXP_PAGE_DATA.map(
+          (row) => `<tr>
+            <td>${row.name}</td>
+            ${APP_EXP_METRICS.map((m) => `<td>${cell(row, m)}</td>`).join("")}
+          </tr>`,
+        ).join("");
+
+        const sumOrAvg = (metric) => {
+          const values = APP_EXP_PAGE_DATA.map((r) =>
+            getAppExpMetricValue(r, metric, segId),
+          );
+          if (metric === "页面访问次数" || metric === "页面停留时长") {
+            return values.reduce((s, v) => s + v, 0);
+          }
+          return values.reduce((s, v) => s + v, 0) / values.length;
+        };
+        const totalRow = `<tr>
+            <td>合计/均值</td>
+            ${APP_EXP_METRICS.map(
+              (m) => `<td>${formatAppExpMetricDisplay(sumOrAvg(m), m)}</td>`,
+            ).join("")}
+          </tr>`;
+
+        return `
+          <div class="table-wrap" style="max-height:none">
+            <table class="data-table">
+              <thead><tr class="col-row">${head}</tr></thead>
+              <tbody>${bodyRows}${totalRow}</tbody>
+            </table>
+          </div>
+          <div class="pagination">
+            <button disabled>‹</button>
+            <button class="active">1</button>
+            <button>›</button>
+            <span class="pagination-info">共 ${APP_EXP_PAGE_DATA.length} 条</span>
+          </div>`;
+      }
+
+      function refreshAppExperienceView(options = {}) {
+        const panel = document.getElementById("appExperiencePanel");
+        if (!panel) return;
+
+        const { refreshMatrix = true, preserveScroll = false } = options;
+        const scrollY = preserveScroll ? window.scrollY : null;
+        const { segment, metric } = appExperienceState;
+
+        const tabsEl = document.getElementById("appExpMetricTabs");
+        if (tabsEl) {
+          if (!tabsEl.dataset.bound) {
+            tabsEl.innerHTML = renderAppMetricTabs(APP_EXP_METRICS, metric);
+            tabsEl.querySelectorAll(".tab-btn").forEach((btn) => {
+              btn.addEventListener("click", (e) => {
+                e.preventDefault();
+                appExperienceState.metric = btn.dataset.tab;
+                refreshAppExperienceView({
+                  refreshMatrix: false,
+                  preserveScroll: true,
+                });
+              });
+            });
+            tabsEl.dataset.bound = "1";
+          } else {
+            tabsEl.querySelectorAll(".tab-btn").forEach((btn) => {
+              btn.classList.toggle("active", btn.dataset.tab === metric);
+            });
+          }
+        }
+
+        const subtitle = document.getElementById("appExpChartSubtitle");
+        const tag = document.getElementById("appExpChartTag");
+        const legend = document.getElementById("appExpLegend");
+        const chart = document.getElementById("appExperienceTopChart");
+        const tableWrap = document.getElementById("appExpTableWrap");
+
+        if (segment === "compare") {
+          if (subtitle) {
+            subtitle.textContent = `分群对比：同一页面展示新用户 / 老用户 / VIP / 非VIP 的「${metric}」`;
+          }
+          if (tag) tag.textContent = "分组条形图";
+          if (legend) legend.innerHTML = renderAppExpLegend("compare");
+          if (chart) {
+            const ranked = [...APP_EXP_PAGE_DATA]
+              .sort(
+                (a, b) =>
+                  getAppExpMetricValue(b, metric, "all") -
+                  getAppExpMetricValue(a, metric, "all"),
+              )
+              .slice(0, 10);
+            chart.innerHTML = renderAppExpGroupHBar(ranked, metric);
+          }
+        } else {
+          const segLabel =
+            APP_EXP_SEGMENTS.find((s) => s.id === segment)?.label || "全部";
+          if (subtitle) {
+            subtitle.textContent = `当前分群：${segLabel} · 指标：${metric}`;
+          }
+          if (tag) tag.textContent = "条形图";
+          if (legend) legend.innerHTML = renderAppExpLegend(segment);
+          if (chart) {
+            const items = getAppExpTopItems(metric, segment);
+            const displayItems = items.map((it) => ({
+              name: it.name,
+              value: it.value,
+              display: formatAppExpMetricDisplay(it.value, metric),
+            }));
+            const max = Math.max(...displayItems.map((i) => i.value), 1);
+            const baseColor = APP_EXP_SEG_META[segment]?.color || "#165dff";
+            chart.innerHTML = `<div class="app-hbar">${displayItems
+              .map(
+                (it, i) => `
+              <div class="app-hbar-row">
+                <span>${it.name}</span>
+                <div class="app-hbar-track"><div class="app-hbar-fill" style="--bar-w:${Math.max(6, Math.round((it.value / max) * 100))}%;--bar-i:${i};background:${hexToRgba(baseColor, getAppExpRankOpacity(i, displayItems.length))}"></div></div>
+                <strong>${it.display}</strong>
+              </div>`,
+              )
+              .join("")}</div>`;
+          }
+        }
+
+        if (tableWrap) tableWrap.innerHTML = renderAppExpTable();
+        const tableHint = document.getElementById("appExpTableHint");
+        const segBadge = document.getElementById("appExpSegBadge");
+        const segLabel =
+          APP_EXP_SEGMENTS.find((s) => s.id === segment)?.label || "全部";
+        const segColor =
+          segment === "compare"
+            ? "#165dff"
+            : APP_EXP_SEG_META[segment]?.color || "#165dff";
+        if (segBadge) {
+          const scopeText =
+            segment === "compare"
+              ? "分群对比统计"
+              : segment === "all"
+                ? "全量用户统计"
+                : `${segLabel}专项统计`;
+          segBadge.style.color = segColor;
+          segBadge.style.background = hexToRgba(segColor, 0.12);
+          segBadge.style.borderColor = hexToRgba(segColor, 0.35);
+          segBadge.innerHTML = `<i class="dot" aria-hidden="true"></i><span class="name">${segLabel}</span><span class="sub">${scopeText}</span>`;
+        }
+        if (tableHint) {
+          tableHint.textContent =
+            segment === "compare"
+              ? "字段含各分群均停与比值（新用户=注册≤7天）"
+              : segment === "all"
+                ? "下表为全量用户六项体验指标"
+                : `下表仅统计「${segLabel}」的六项体验指标`;
+        }
+        if (refreshMatrix) refreshAppExpMatrix();
+        if (preserveScroll && scrollY != null) {
+          requestAnimationFrame(() => window.scrollTo(0, scrollY));
+        }
+      }
+
+      function initAppPageExperience() {
+        if (!document.getElementById("appExperiencePanel")) return;
+        const segSel = document.getElementById("appExpSegment");
+        segSel?.addEventListener("change", () => {
+          appExperienceState.segment = segSel.value;
+          if (appExperienceState.segment === "compare") {
+            appExperienceState.metric = "页面平均停留时长";
+          }
+          refreshAppExperienceView();
+        });
+        document
+          .querySelector(
+            '[data-local-filter="app-experience"] .btn.btn-primary',
+          )
+          ?.addEventListener("click", (e) => {
+            e.preventDefault();
+            refreshAppExperienceView();
+          });
+        document
+          .getElementById("appExpDrillClose")
+          ?.addEventListener("click", closeAppExpDrill);
+        refreshAppExperienceView();
       }
 
       function renderAppUsageDurationContent(page) {
@@ -7615,8 +8679,7 @@
         const titleEl = document.getElementById("appChurnTableTitle");
         if (!tableEl) return;
         const levelLabels = ["一级页面", "二级页面", "三级页面"];
-        const levelLabel =
-          levelLabels[appChurnDrillPath.length] || "三级页面";
+        const levelLabel = levelLabels[appChurnDrillPath.length] || "三级页面";
         if (titleEl) {
           titleEl.textContent = `${levelLabel}流失明细`;
         }
@@ -7716,8 +8779,7 @@
           window.addEventListener("resize", onAppChurnHeatmapResize);
         }
         const levelLabels = ["一级页面", "二级页面", "三级页面"];
-        const levelLabel =
-          levelLabels[appChurnDrillPath.length] || "三级页面";
+        const levelLabel = levelLabels[appChurnDrillPath.length] || "三级页面";
         appChurnHeatmapChart.setOption(
           {
             tooltip: {
@@ -8192,7 +9254,9 @@
               ? [...parts.slice(0, depth), meta.label]
               : [meta.label, ...parts.slice(0, depth)];
           const rawPct = Number(parts[parts.length - 1]) || 0;
-          const seed = hashCoreFlowSeed(`${variantKey}::top::${path.join("->")}`);
+          const seed = hashCoreFlowSeed(
+            `${variantKey}::top::${path.join("->")}`,
+          );
           const factor = 0.86 + ((seed % 1000) / 1000) * 0.28; // 0.86 ~ 1.14
           const pctNum = Math.max(1, rawPct * factor);
           return { path, pctNum };
@@ -8327,7 +9391,9 @@
         let paths = "";
         for (let i = 0; i < cols.length - 1; i += 1) {
           const leftNodes = [
-            ...cols[i].querySelectorAll(":scope > .path-explore-nodes > .path-explore-node"),
+            ...cols[i].querySelectorAll(
+              ":scope > .path-explore-nodes > .path-explore-node",
+            ),
           ];
           const rightNodes = [
             ...cols[i + 1].querySelectorAll(
@@ -8388,7 +9454,9 @@
         const categories = [...new Set(PATH_KEY_EVENTS.map((e) => e.category))];
         return categories
           .map((category) => {
-            const options = PATH_KEY_EVENTS.filter((e) => e.category === category)
+            const options = PATH_KEY_EVENTS.filter(
+              (e) => e.category === category,
+            )
               .map(
                 (e) =>
                   `<option value="${e.id}" ${e.id === selectedId ? "selected" : ""}>${e.label}</option>`,
@@ -8471,43 +9539,52 @@
         pathExploreState.expanded = {};
         refreshPathExploration();
 
-        document.getElementById("pathExploreQuery")?.addEventListener("click", () => {
-          readPathExploreFilters();
-          pathExploreState.expanded = {};
-          refreshPathExploration();
-        });
-
-        document.querySelectorAll("#pathExploreMode [data-direction]").forEach((btn) => {
-          btn.addEventListener("click", () => {
-            pathExploreState.direction = btn.dataset.direction;
+        document
+          .getElementById("pathExploreQuery")
+          ?.addEventListener("click", () => {
+            readPathExploreFilters();
             pathExploreState.expanded = {};
-            document
-              .querySelectorAll("#pathExploreMode [data-direction]")
-              .forEach((b) => b.classList.remove("active"));
-            btn.classList.add("active");
             refreshPathExploration();
           });
-        });
 
-        document.querySelectorAll("#pathExploreMode .depth-btn").forEach((btn) => {
-          btn.addEventListener("click", () => {
-            pathExploreState.depth = Number(btn.dataset.depth);
-            pathExploreState.expanded = {};
-            document
-              .querySelectorAll("#pathExploreMode .depth-btn")
-              .forEach((b) => b.classList.remove("active"));
-            btn.classList.add("active");
-            refreshPathExploration();
+        document
+          .querySelectorAll("#pathExploreMode [data-direction]")
+          .forEach((btn) => {
+            btn.addEventListener("click", () => {
+              pathExploreState.direction = btn.dataset.direction;
+              pathExploreState.expanded = {};
+              document
+                .querySelectorAll("#pathExploreMode [data-direction]")
+                .forEach((b) => b.classList.remove("active"));
+              btn.classList.add("active");
+              refreshPathExploration();
+            });
           });
-        });
+
+        document
+          .querySelectorAll("#pathExploreMode .depth-btn")
+          .forEach((btn) => {
+            btn.addEventListener("click", () => {
+              pathExploreState.depth = Number(btn.dataset.depth);
+              pathExploreState.expanded = {};
+              document
+                .querySelectorAll("#pathExploreMode .depth-btn")
+                .forEach((b) => b.classList.remove("active"));
+              btn.classList.add("active");
+              refreshPathExploration();
+            });
+          });
 
         board.addEventListener("click", (e) => {
           const node = e.target.closest(".path-explore-node[data-node-key]");
           if (!node || e.target.closest(".path-explore-children")) return;
           const key = node.dataset.nodeKey;
-          const inner = node.querySelector(":scope > .path-explore-node-card .path-explore-node-name .expand-icon");
+          const inner = node.querySelector(
+            ":scope > .path-explore-node-card .path-explore-node-name .expand-icon",
+          );
           if (!inner) return;
-          if (pathExploreState.expanded[key]) delete pathExploreState.expanded[key];
+          if (pathExploreState.expanded[key])
+            delete pathExploreState.expanded[key];
           else pathExploreState.expanded[key] = true;
           refreshPathExploration();
         });
@@ -8546,7 +9623,16 @@
         initAppPathSankey();
         initAppChurnHeatmap();
         initPathExploration();
+        initAppPageExperience();
         document.querySelectorAll(".app-metric-tabs").forEach((tabs) => {
+          // 应用页面体验的指标切换由 refreshAppExperienceView 自行绑定
+          if (
+            tabs.closest("#appExperiencePanel") ||
+            tabs.id === "appExpMetricTabs" ||
+            tabs.parentElement?.id === "appExpMetricTabs"
+          ) {
+            return;
+          }
           tabs.querySelectorAll(".tab-btn").forEach((btn) => {
             btn.addEventListener("click", () => {
               tabs
@@ -8564,6 +9650,7 @@
 
         disposeAppPathSankey();
         disposeAppChurnHeatmap();
+        disposeAppExpHeatmap();
         disposePathExploration();
 
         const container = document.getElementById("pageContainer");
