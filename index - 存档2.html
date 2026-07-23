@@ -1221,23 +1221,6 @@
         display: flex;
       }
 
-      .filter-field-hint {
-        color: var(--arco-text-3);
-        font-size: 12px;
-        line-height: 18px;
-      }
-      .filter-item-game-name {
-        align-items: flex-start;
-      }
-      .filter-item-game-name > label {
-        line-height: 32px;
-      }
-      .filter-item-game-name .filter-field-control {
-        display: flex;
-        flex-direction: column;
-        gap: 4px;
-      }
-
       /* Arco Button */
       .btn {
         height: 32px;
@@ -1955,24 +1938,6 @@
       .metric-trend.down {
         color: var(--arco-danger);
       }
-      .metric-best {
-        margin-top: 8px;
-        color: var(--arco-text-3);
-        font-size: 12px;
-        line-height: 18px;
-      }
-      .metric-best strong {
-        color: var(--arco-primary);
-        font-weight: 600;
-      }
-      .metric-note-value {
-        margin-top: 8px;
-        color: var(--arco-primary);
-        font-size: 18px;
-        line-height: 26px;
-        font-weight: 600;
-        font-variant-numeric: tabular-nums;
-      }
 
       .metric-hint {
         margin-top: 2px;
@@ -2218,31 +2183,6 @@
         line-height: 20px;
       }
 
-      #gameStayCharts.ga-stay-rank-charts {
-        margin-bottom: 16px;
-      }
-      #gameStayCharts.ga-stay-rank-charts .ga-chart-card {
-        max-height: calc(100vh - 200px);
-        display: flex;
-        flex-direction: column;
-        overflow: hidden;
-      }
-      #gameStayCharts.ga-stay-rank-charts .ga-chart-head {
-        flex-shrink: 0;
-      }
-      #gameStayCharts.ga-stay-rank-charts .combo-chart {
-        flex: 1;
-        min-height: 0;
-        margin-top: 8px;
-        display: flex;
-        align-items: stretch;
-      }
-      #gameStayCharts.ga-stay-rank-charts .combo-chart svg {
-        width: 100%;
-        height: 100%;
-        max-height: calc(100vh - 280px);
-      }
-
       .game-metric-charts {
         display: grid;
         grid-template-columns: 1fr 1fr;
@@ -2486,12 +2426,6 @@
         color: var(--arco-text-3);
         font-size: 12px;
         font-weight: 400;
-      }
-      .kpi-best-hint {
-        margin-bottom: 12px;
-        color: var(--arco-text-2);
-        font-size: 13px;
-        line-height: 20px;
       }
       .kpi-grid {
         display: grid;
@@ -3136,7 +3070,7 @@
             </div>
             <div class="submenu">
               <div class="menu-child" data-page="game-activity">投注玩家活跃分析</div>
-              <div class="menu-child" data-page="game-participation">投注参与度</div>
+              <div class="menu-child" data-page="game-participation">游戏参与</div>
               <div class="menu-child" data-page="game-stay">投注用户停留分析</div>
               <div class="menu-child" data-page="bet-report">投注报表</div>
               <div class="menu-child" data-page="game-value">游戏价值</div>
@@ -4324,8 +4258,8 @@
           gameMetricPage: "activity",
         },
         "game-participation": {
-          title: "投注参与度",
-          breadcrumb: "游戏分析 / 投注参与度",
+          title: "游戏参与",
+          breadcrumb: "游戏分析 / 游戏参与",
           gameMetricPage: "participation",
         },
         "game-stay": {
@@ -7346,13 +7280,7 @@
         const trend = k.trend
           ? `<div class="metric-trend ${dir === "flat" ? "" : dir}">${arrow} ${k.trend}</div>`
           : "";
-        const best = k.bestGame
-          ? `<div class="metric-best">最优游戏：<strong>${k.bestGame}</strong></div>`
-          : "";
-        const note = k.note
-          ? `<div class="metric-note-value">${k.note}</div>`
-          : "";
-        return `<article class="metric-card"><div class="metric-label">${k.label}${tag}</div><div class="metric-value">${k.value}</div>${trend}${best}${note}</article>`;
+        return `<article class="metric-card"><div class="metric-label">${k.label}${tag}</div><div class="metric-value">${k.value}</div>${trend}</article>`;
       }
 
       function renderInsightsPanel(page) {
@@ -7466,12 +7394,6 @@
         lastRowHtml = "",
       ) {
         const queryBtn = `<button class="btn btn-primary" type="button">查询</button>`;
-        const showGameHint = [
-          "game-activity",
-          "game-participation",
-          "game-stay",
-          "game-value",
-        ].includes(filterId);
         return `
         <div class="filter-bar filter-bar-global" data-local-filter="${filterId}">
           <div class="filter-item">
@@ -7513,12 +7435,9 @@
               <option>INOUT</option>
             </select>
           </div>
-          <div class="filter-item filter-item-game-name">
+          <div class="filter-item">
             <label>游戏名称</label>
-            <div class="filter-field-control">
-              <input type="text" class="game-name-filter" placeholder="请输入游戏名称" />
-              ${showGameHint ? `<span class="filter-field-hint">输入游戏名称查询后显示单个游戏分析数据</span>` : ""}
-            </div>
+            <input type="text" placeholder="请输入游戏名称" />
           </div>
           ${extraHtml}
           ${
@@ -7638,24 +7557,15 @@
           kpis: [
             { label: "投注用户数", value: "6,520", trend: "3.8% 日环比", dir: "up" },
             { label: "投注用户占比", value: "66.3%", trend: "0.6% 日环比", dir: "down" },
-            { label: "人均投注次数", value: "8.6", trend: "2.1% 日环比", dir: "up" },
-            { label: "单次投注金额", value: "¥42.5", trend: "1.3% 日环比", dir: "up" },
-            { label: "人均投注金额", value: "¥365.5", trend: "3.4% 日环比", dir: "up" },
+            { label: "游戏留存率", value: "42.8%", trend: "1.5% 日环比", dir: "up" },
           ],
-          metricCols: [
-            "投注用户数",
-            "投注用户占比",
-            "人均投注次数",
-            "单次投注金额",
-            "人均投注金额",
-            "总投注金额",
-          ],
+          metricCols: ["投注用户数", "投注用户占比", "游戏留存率"],
           rows: [
-            ["One", "MG", "Aviator", 2680, "75.3%", 12.4, "¥58.2", "¥722.0", "¥1,934,960"],
-            ["Inout", "JDB", "7up7down", 1680, "66.1%", 9.8, "¥36.5", "¥357.7", "¥600,936"],
-            ["壹号 平台", "PG", "Money Coming", 1420, "65.1%", 7.2, "¥41.0", "¥295.2", "¥419,184"],
-            ["One", "INOUT", "Fortune Ox", 1240, "66.7%", 8.1, "¥39.8", "¥322.4", "¥399,776"],
-            ["合计", "-", "-", 6520, "66.3%", 8.6, "¥42.5", "¥365.5", "¥2,383,060"],
+            ["One", "MG", "Aviator", 2680, "75.3%", "48.6%"],
+            ["Inout", "JDB", "7up7down", 1680, "66.1%", "41.2%"],
+            ["壹号 平台", "PG", "Money Coming", 1420, "65.1%", "39.8%"],
+            ["One", "INOUT", "Fortune Ox", 1240, "66.7%", "38.5%"],
+            ["合计", "-", "-", 6520, "66.3%", "42.8%"],
           ],
         },
         stay: {
@@ -7663,6 +7573,7 @@
           metricCols: [
             "平均游戏停留时长",
             "单次访问停留时长",
+            "人均游戏次数",
             "退出率",
           ],
         },
@@ -7732,14 +7643,15 @@
           kpis: [
             { label: "平均游戏停留时长", value: "18分32秒", trend: "2.4% 日环比", dir: "up" },
             { label: "单次访问停留时长", value: "6分18秒", trend: "1.6% 日环比", dir: "up" },
+            { label: "人均游戏次数", value: "4.8次", trend: "2.2% 日环比", dir: "up" },
             { label: "退出率", value: "12.4%", trend: "0.5% 日环比", dir: "down" },
           ],
           rows: [
-            ["One", "MG", "Aviator", "22分15秒", "7分05秒", "11.8%"],
-            ["Inout", "JDB", "7up7down", "16分48秒", "5分42秒", "13.6%"],
-            ["壹号 平台", "PG", "Money Coming", "19分06秒", "6分28秒", "12.1%"],
-            ["One", "INOUT", "Fortune Ox", "15分32秒", "5分15秒", "14.2%"],
-            ["合计", "-", "-", "18分32秒", "6分18秒", "12.4%"],
+            ["One", "MG", "Aviator", "22分15秒", "7分05秒", "5.2次", "11.8%"],
+            ["Inout", "JDB", "7up7down", "16分48秒", "5分42秒", "4.1次", "13.6%"],
+            ["壹号 平台", "PG", "Money Coming", "19分06秒", "6分28秒", "4.6次", "12.1%"],
+            ["One", "INOUT", "Fortune Ox", "15分32秒", "5分15秒", "3.9次", "14.2%"],
+            ["合计", "-", "-", "18分32秒", "6分18秒", "4.8次", "12.4%"],
           ],
           compare: [
             { name: "新玩家", value: 612, display: "10分12秒", color: "#14c9c9" },
@@ -7752,14 +7664,15 @@
           kpis: [
             { label: "平均游戏停留时长", value: "10分12秒", trend: "3.1% 日环比", dir: "up" },
             { label: "单次访问停留时长", value: "4分05秒", trend: "2.0% 日环比", dir: "up" },
+            { label: "人均游戏次数", value: "2.6次", trend: "1.4% 日环比", dir: "up" },
             { label: "退出率", value: "18.6%", trend: "0.8% 日环比", dir: "down" },
           ],
           rows: [
-            ["One", "MG", "Aviator", "12分40秒", "4分50秒", "16.2%"],
-            ["Inout", "JDB", "7up7down", "9分20秒", "3分55秒", "19.5%"],
-            ["壹号 平台", "PG", "Money Coming", "10分05秒", "4分10秒", "17.8%"],
-            ["One", "INOUT", "Fortune Ox", "8分45秒", "3分28秒", "21.4%"],
-            ["合计", "-", "-", "10分12秒", "4分05秒", "18.6%"],
+            ["One", "MG", "Aviator", "12分40秒", "4分50秒", "3.1次", "16.2%"],
+            ["Inout", "JDB", "7up7down", "9分20秒", "3分55秒", "2.4次", "19.5%"],
+            ["壹号 平台", "PG", "Money Coming", "10分05秒", "4分10秒", "2.7次", "17.8%"],
+            ["One", "INOUT", "Fortune Ox", "8分45秒", "3分28秒", "2.1次", "21.4%"],
+            ["合计", "-", "-", "10分12秒", "4分05秒", "2.6次", "18.6%"],
           ],
           daily: buildGameStayDailySeries(1, [540, 580, 560, 620, 600, 650, 612]),
         },
@@ -7767,14 +7680,15 @@
           kpis: [
             { label: "平均游戏停留时长", value: "23分05秒", trend: "2.8% 日环比", dir: "up" },
             { label: "单次访问停留时长", value: "7分42秒", trend: "1.9% 日环比", dir: "up" },
+            { label: "人均游戏次数", value: "5.8次", trend: "2.6% 日环比", dir: "up" },
             { label: "退出率", value: "9.2%", trend: "0.4% 日环比", dir: "down" },
           ],
           rows: [
-            ["One", "MG", "Aviator", "26分30秒", "8分20秒", "8.1%"],
-            ["Inout", "JDB", "7up7down", "21分15秒", "7分05秒", "10.3%"],
-            ["壹号 平台", "PG", "Money Coming", "23分40秒", "7分55秒", "8.8%"],
-            ["One", "INOUT", "Fortune Ox", "19分50秒", "6分40秒", "11.0%"],
-            ["合计", "-", "-", "23分05秒", "7分42秒", "9.2%"],
+            ["One", "MG", "Aviator", "26分30秒", "8分20秒", "6.4次", "8.1%"],
+            ["Inout", "JDB", "7up7down", "21分15秒", "7分05秒", "5.2次", "10.3%"],
+            ["壹号 平台", "PG", "Money Coming", "23分40秒", "7分55秒", "5.9次", "8.8%"],
+            ["One", "INOUT", "Fortune Ox", "19分50秒", "6分40秒", "4.8次", "11.0%"],
+            ["合计", "-", "-", "23分05秒", "7分42秒", "5.8次", "9.2%"],
           ],
           daily: buildGameStayDailySeries(3, [1180, 1250, 1220, 1320, 1280, 1400, 1385]),
         },
@@ -7782,14 +7696,15 @@
           kpis: [
             { label: "平均游戏停留时长", value: "22分15秒", trend: "3.3% 日环比", dir: "up" },
             { label: "单次访问停留时长", value: "7分20秒", trend: "2.1% 日环比", dir: "up" },
+            { label: "人均游戏次数", value: "5.5次", trend: "2.4% 日环比", dir: "up" },
             { label: "退出率", value: "8.6%", trend: "0.3% 日环比", dir: "down" },
           ],
           rows: [
-            ["One", "MG", "Aviator", "25分10秒", "8分05秒", "7.4%"],
-            ["Inout", "JDB", "7up7down", "20分35秒", "6分50秒", "9.8%"],
-            ["壹号 平台", "PG", "Money Coming", "22分50秒", "7分35秒", "8.2%"],
-            ["One", "INOUT", "Fortune Ox", "19分20秒", "6分25秒", "10.1%"],
-            ["合计", "-", "-", "22分15秒", "7分20秒", "8.6%"],
+            ["One", "MG", "Aviator", "25分10秒", "8分05秒", "6.1次", "7.4%"],
+            ["Inout", "JDB", "7up7down", "20分35秒", "6分50秒", "5.0次", "9.8%"],
+            ["壹号 平台", "PG", "Money Coming", "22分50秒", "7分35秒", "5.6次", "8.2%"],
+            ["One", "INOUT", "Fortune Ox", "19分20秒", "6分25秒", "4.7次", "10.1%"],
+            ["合计", "-", "-", "22分15秒", "7分20秒", "5.5次", "8.6%"],
           ],
           daily: buildGameStayDailySeries(5, [1120, 1200, 1180, 1280, 1240, 1350, 1335]),
         },
@@ -7797,14 +7712,15 @@
           kpis: [
             { label: "平均游戏停留时长", value: "7分08秒", trend: "1.2% 日环比", dir: "down" },
             { label: "单次访问停留时长", value: "3分15秒", trend: "0.8% 日环比", dir: "down" },
+            { label: "人均游戏次数", value: "1.8次", trend: "0.6% 日环比", dir: "flat" },
             { label: "退出率", value: "24.5%", trend: "1.1% 日环比", dir: "up" },
           ],
           rows: [
-            ["One", "MG", "Aviator", "8分30秒", "3分40秒", "21.8%"],
-            ["Inout", "JDB", "7up7down", "6分45秒", "3分05秒", "25.6%"],
-            ["壹号 平台", "PG", "Money Coming", "7分20秒", "3分18秒", "23.4%"],
-            ["One", "INOUT", "Fortune Ox", "5分50秒", "2分48秒", "27.2%"],
-            ["合计", "-", "-", "7分08秒", "3分15秒", "24.5%"],
+            ["One", "MG", "Aviator", "8分30秒", "3分40秒", "2.1次", "21.8%"],
+            ["Inout", "JDB", "7up7down", "6分45秒", "3分05秒", "1.7次", "25.6%"],
+            ["壹号 平台", "PG", "Money Coming", "7分20秒", "3分18秒", "1.9次", "23.4%"],
+            ["One", "INOUT", "Fortune Ox", "5分50秒", "2分48秒", "1.5次", "27.2%"],
+            ["合计", "-", "-", "7分08秒", "3分15秒", "1.8次", "24.5%"],
           ],
           daily: buildGameStayDailySeries(7, [380, 420, 400, 450, 430, 460, 428]),
         },
@@ -7908,55 +7824,9 @@
         }
       }
 
-      function renderGameStayRankingCharts() {
-        const stayRank = [
-          ["Aviator", 1510],
-          ["Money Coming", 1370],
-          ["Dragon Tiger", 1285],
-          ["7up7down", 1235],
-          ["Fortune Ox", 1160],
-          ["Sugar Rush", 1095],
-          ["Gates of Olympus", 1020],
-          ["Lucky Neko", 965],
-          ["Fishing Master", 910],
-          ["Crash", 845],
-        ].map(([name, value]) => ({ name, value }));
-        return `<div class="game-metric-charts ga-stay-rank-charts" id="gameStayCharts">${renderGameMetricChartCard("avg-stay-top10", "平均游戏停留时长 Top10游戏", "平均游戏停留时长", "平均游戏停留时长最高的10款游戏", renderGameActivityTop10Chart(stayRank, "平均游戏停留时长", "sec", { height: 220 }), { expandable: false, spanFull: true })}</div>`;
-      }
-
-      function renderGameStayCharts(showAllGames = false) {
-        if (showAllGames) return renderGameStayRankingCharts();
-        return `
-          <div id="gameStayCharts">
-            <section class="chart-grid" style="grid-template-columns:1fr;margin-bottom:16px">
-              <div id="gameStayChart">${renderGameStayChart()}</div>
-            </section>
-          </div>`;
-      }
-
-      function initGameStayFilter(scope) {
-        const input = scope.querySelector('.filter-bar[data-local-filter="game-stay"] .game-name-filter');
-        const queryBtn = scope.querySelector('.filter-bar[data-local-filter="game-stay"] .btn-primary');
-        if (!input || !queryBtn) return;
-        queryBtn.addEventListener("click", () => {
-          const showAllGames = !input.value.trim();
-          const kpiWrap = scope.querySelector("#gameStayKpiWrap");
-          const charts = scope.querySelector("#gameStayCharts");
-          if (kpiWrap) kpiWrap.style.display = showAllGames ? "none" : "";
-          if (!charts) return;
-          charts.outerHTML = renderGameStayCharts(showAllGames);
-          if (!showAllGames) {
-            bindGameStayRangeToggle();
-            bindSvgChartTooltips(scope.querySelector("#gameStayCharts"));
-          }
-        });
-      }
-
       function initGameStayPage() {
-        const scope = document.getElementById("pageContainer") || document;
         bindGameStayRangeToggle();
-        bindSvgChartTooltips(document.getElementById("gameStayCharts"));
-        initGameStayFilter(scope);
+        bindSvgChartTooltips(document.getElementById("gameStayChart"));
       }
 
       function renderGameMetricTable(config) {
@@ -8003,12 +7873,14 @@
         const view = getGameStayViewConfig();
         return `
           ${renderGameAnalysisFilterBar(view.filterId, "")}
-          <div class="analysis-block" id="gameStayKpiWrap" style="display:none;margin-bottom:16px">
-            <section id="gameStayKpi" class="kpi-grid" style="grid-template-columns:repeat(3,minmax(0,1fr))" aria-label="${page.title}核心指标">
+          <div class="analysis-block" style="margin-bottom:16px">
+            <section id="gameStayKpi" class="kpi-grid" style="grid-template-columns:repeat(4,minmax(0,1fr))" aria-label="${page.title}核心指标">
               ${view.kpis.map(renderKpiCard).join("")}
             </section>
           </div>
-          ${renderGameStayCharts(true)}
+          <section class="chart-grid" style="grid-template-columns:1fr;margin-bottom:16px">
+            <div id="gameStayChart">${renderGameStayChart()}</div>
+          </section>
           <div class="page-panel active">
             <div class="toolbar">
               <span class="page-title" id="gameStayTableTitle">${page.title}</span>
@@ -8020,35 +7892,118 @@
           </div>`;
       }
 
-      function renderGameActivityBetPlayerTrend() {
+      function renderGameActivityDauTrend() {
         const dayCount = 30;
         const labels = buildRecentTrendLabels(dayCount);
-        const newDau = genTrendSeries(dayCount, 2680, 3260, 180);
-        const oldDau = genTrendSeries(dayCount, 8520, 9320, 260);
-        newDau[dayCount - 1] = 3260;
-        oldDau[dayCount - 1] = 9320;
-        const totalDau = newDau.map((v, i) => v + oldDau[i]);
+        const data = genTrendSeries(dayCount, 11200, 12580, 320);
+        data[dayCount - 1] = 12580;
         return renderMultiLineTrendChart({
           labels,
-          series: [
-            { name: "投注玩家DAU", data: totalDau, color: "#165DFF" },
-            { name: "新投注玩家DAU", data: newDau, color: "#14C9C9" },
-            { name: "老投注玩家DAU", data: oldDau, color: "#FF7D00" },
-          ],
+          series: [{ name: "投注玩家DAU", data, color: "#165DFF" }],
           maxVal: 15000,
           yStep: 3000,
           xLabelStep: 5,
         });
       }
 
-      function renderGameActivityStructureArea() {
+      function renderGameActivityNewVsOldChart() {
         const dayCount = 30;
         const labels = buildRecentTrendLabels(dayCount);
         const newPlayers = genTrendSeries(dayCount, 2680, 3260, 180);
-        const oldPlayers = genTrendSeries(dayCount, 8520, 9320, 260);
+        const oldDau = genTrendSeries(dayCount, 8520, 9320, 260);
         newPlayers[dayCount - 1] = 3260;
-        oldPlayers[dayCount - 1] = 9320;
-        const total = newPlayers.map((v, i) => v + oldPlayers[i]);
+        oldDau[dayCount - 1] = 9320;
+
+        const W = 620,
+          H = 240,
+          padL = 52,
+          padR = 56,
+          padT = 20,
+          padB = 32;
+        const plotW = W - padL - padR;
+        const plotH = H - padT - padB;
+        const n = labels.length;
+        const step = plotW / n;
+        const barW = Math.min(10, step * 0.55);
+        const leftMax = 4000;
+        const rightMax = 12000;
+        const yNew = (v) => padT + plotH * (1 - v / leftMax);
+        const yOld = (v) => padT + plotH * (1 - v / rightMax);
+
+        let grid = "",
+          leftAxis = "",
+          rightAxis = "";
+        for (let i = 0; i <= 4; i++) {
+          const y = padT + (plotH / 4) * i;
+          grid += `<line class="grid-line" x1="${padL}" y1="${y}" x2="${W - padR}" y2="${y}"></line>`;
+          leftAxis += `<text class="axis-label" x="${padL - 8}" y="${y + 3}" text-anchor="end">${Math.round(leftMax - (leftMax / 4) * i).toLocaleString("zh-CN")}</text>`;
+          rightAxis += `<text class="axis-label" x="${W - padR + 8}" y="${y + 3}" text-anchor="start">${Math.round(rightMax - (rightMax / 4) * i).toLocaleString("zh-CN")}</text>`;
+        }
+
+        let bars = "",
+          xLabels = "",
+          linePts = "",
+          dots = "";
+        const tipPoints = [];
+        labels.forEach((lab, i) => {
+          const cx = padL + step * i + step / 2;
+          const barTop = yNew(newPlayers[i]);
+          bars += `<rect x="${cx - barW / 2}" y="${barTop}" width="${barW}" height="${padT + plotH - barTop}" rx="2" fill="#165DFF"></rect>`;
+          const ly = yOld(oldDau[i]);
+          linePts += `${i ? " " : ""}${cx},${ly}`;
+          dots += `<circle cx="${cx}" cy="${ly}" r="2.5" fill="#fff" stroke="#FF7D00" stroke-width="1.5"></circle>`;
+          tipPoints.push([
+            {
+              name: "新增投注玩家数",
+              color: "#165DFF",
+              x: cx,
+              y: barTop,
+              text: formatChartTipNumber(newPlayers[i]),
+            },
+            {
+              name: "老投注玩家DAU",
+              color: "#FF7D00",
+              x: cx,
+              y: ly,
+              text: formatChartTipNumber(oldDau[i]),
+            },
+          ]);
+          if (i % 5 === 0 || i === n - 1) {
+            xLabels += `<text class="axis-label" x="${cx}" y="${H - 8}" text-anchor="middle">${lab}</text>`;
+          }
+        });
+
+        return `
+        ${renderComboChartWithTip(
+          `<text class="axis-title" x="${padL - 8}" y="${padT - 4}" text-anchor="end">新增投注玩家数</text>
+            <text class="axis-title" x="${W - padR + 8}" y="${padT - 4}" text-anchor="start">老投注玩家DAU</text>
+            ${grid}
+            ${bars}
+            <polyline fill="none" stroke="#FF7D00" stroke-width="2.5" points="${linePts}"></polyline>
+            ${dots}
+            ${leftAxis}
+            ${rightAxis}
+            ${xLabels}`,
+          {
+            labels,
+            points: tipPoints,
+            layout: { W, H, padL, padR, padT, padB, xMode: "band" },
+          },
+        )}
+        <div class="line-legend">
+          <span><i style="background:#165DFF"></i>新增投注玩家数</span>
+          <span><i style="background:#FF7D00"></i>老投注玩家DAU</span>
+        </div>`;
+      }
+
+      function renderGameActivityStructureStacked() {
+        const dayCount = 30;
+        const labels = buildRecentTrendLabels(dayCount);
+        const newDau = genTrendSeries(dayCount, 2680, 3260, 180);
+        const oldDau = genTrendSeries(dayCount, 8520, 9320, 260);
+        newDau[dayCount - 1] = 3260;
+        oldDau[dayCount - 1] = 9320;
+        const gameDau = newDau.map((v, i) => v + oldDau[i]);
 
         const W = 620,
           H = 260,
@@ -8060,14 +8015,16 @@
         const plotH = H - padT - padB;
         const maxVal = 15000;
         const n = labels.length;
-        const xPos = (i) =>
-          padL + (n === 1 ? plotW / 2 : (i / (n - 1)) * plotW);
+        const step = plotW / n;
+        const barW = Math.min(12, step * 0.6);
         const yPos = (v) => padT + plotH * (1 - v / maxVal);
-        const zeroLine = new Array(n).fill(0);
 
         let grid = "",
           yLabels = "",
-          xLabels = "";
+          xLabels = "",
+          bars = "",
+          linePts = "";
+        const tipPoints = [];
         for (let i = 0; i <= 5; i++) {
           const val = (maxVal / 5) * i;
           const y = yPos(val);
@@ -8075,90 +8032,105 @@
           yLabels += `<text class="axis-label" x="${padL - 8}" y="${y + 3}" text-anchor="end">${Math.round(val).toLocaleString("zh-CN")}</text>`;
         }
         labels.forEach((lab, i) => {
+          const cx = padL + step * i + step / 2;
+          const oldH = (oldDau[i] / maxVal) * plotH;
+          const newH = (newDau[i] / maxVal) * plotH;
+          const oldTop = padT + plotH - oldH;
+          const newTop = oldTop - newH;
+          bars += `<rect x="${cx - barW / 2}" y="${oldTop}" width="${barW}" height="${oldH}" fill="#165DFF"></rect>`;
+          bars += `<rect x="${cx - barW / 2}" y="${newTop}" width="${barW}" height="${newH}" fill="#14C9C9"></rect>`;
+          linePts += `${i ? " " : ""}${cx},${yPos(gameDau[i])}`;
+          tipPoints.push([
+            {
+              name: "新增投注玩家数",
+              color: "#14C9C9",
+              x: cx,
+              y: newTop + newH / 2,
+              text: formatChartTipNumber(newDau[i]),
+            },
+            {
+              name: "老投注玩家DAU",
+              color: "#165DFF",
+              x: cx,
+              y: oldTop + oldH / 2,
+              text: formatChartTipNumber(oldDau[i]),
+            },
+            {
+              name: "投注玩家DAU",
+              color: "#F7BA1E",
+              x: cx,
+              y: yPos(gameDau[i]),
+              text: formatChartTipNumber(gameDau[i]),
+            },
+          ]);
           if (i % 5 === 0 || i === n - 1) {
-            xLabels += `<text class="axis-label" x="${xPos(i)}" y="${H - 8}" text-anchor="middle">${lab}</text>`;
+            xLabels += `<text class="axis-label" x="${cx}" y="${H - 8}" text-anchor="middle">${lab}</text>`;
           }
         });
 
-        const oldArea = buildStackedAreaPath(oldPlayers, zeroLine, xPos, yPos);
-        const newArea = buildStackedAreaPath(total, oldPlayers, xPos, yPos);
-        const tipPoints = labels.map((_, i) => [
-          {
-            name: "新增投注玩家",
-            color: "#14C9C9",
-            x: xPos(i),
-            y: yPos(total[i]),
-            text: formatChartTipNumber(newPlayers[i]),
-          },
-          {
-            name: "老投注玩家",
-            color: "#165DFF",
-            x: xPos(i),
-            y: yPos(oldPlayers[i] / 2),
-            text: formatChartTipNumber(oldPlayers[i]),
-          },
-        ]);
-
         return `
         ${renderComboChartWithTip(
-          `${grid}
-            <path d="${oldArea}" fill="#165DFF" fill-opacity="0.55"></path>
-            <path d="${newArea}" fill="#14C9C9" fill-opacity="0.55"></path>
-            ${yLabels}${xLabels}`,
+          `${grid}${bars}<polyline fill="none" stroke="#F7BA1E" stroke-width="2" points="${linePts}"></polyline>${yLabels}${xLabels}`,
           {
             labels,
             points: tipPoints,
-            layout: { W, H, padL, padR, padT, padB, xMode: "spread" },
+            layout: { W, H, padL, padR, padT, padB, xMode: "band" },
           },
         )}
         <div class="line-legend">
-          <span><i style="background:#14C9C9"></i>新增投注玩家</span>
-          <span><i style="background:#165DFF"></i>老投注玩家</span>
+          <span><i style="background:#14C9C9"></i>新增投注玩家数</span>
+          <span><i style="background:#165DFF"></i>老投注玩家DAU</span>
+          <span><i style="background:#F7BA1E"></i>投注玩家DAU</span>
         </div>`;
       }
 
-      function renderGameActivityTop10Chart(data, valueLabel, suffix = "", options = {}) {
-        const W = 620;
-        const H = options.height || 300;
-        const padL = 150;
-        const padR = suffix === "sec" ? 96 : 72;
-        const padT = 16;
-        const padB = 14;
-        const plotW = W - padL - padR;
-        const rowH = (H - padT - padB) / data.length;
-        const maxVal = Math.max(...data.map((item) => item.value));
-        const rows = data.map((item, index) => {
-          const y = padT + index * rowH;
-          const width = (item.value / maxVal) * plotW;
-          let display;
-          if (suffix === "%") {
-            display = `${item.value.toFixed(1)}%`;
-          } else if (suffix === "¥") {
-            const num = Number(item.value);
-            display =
-              "¥" +
-              (Number.isInteger(num)
-                ? num.toLocaleString("zh-CN")
-                : num.toLocaleString("zh-CN", {
-                    minimumFractionDigits: 1,
-                    maximumFractionDigits: 1,
-                  }));
-          } else if (suffix === "sec") {
-            display = formatStaySec(item.value);
-          } else {
-            display = item.value.toLocaleString("zh-CN");
-          }
-          const barH = Math.max(10, rowH - 8);
-          const barY = y + (rowH - barH) / 2;
-          return `<text class="axis-label" x="${padL - 10}" y="${y + rowH / 2 + 4}" text-anchor="end">${index + 1}. ${item.name}</text><rect x="${padL}" y="${barY}" width="${plotW}" height="${barH}" rx="3" fill="#f2f3f5"></rect><rect x="${padL}" y="${barY}" width="${width}" height="${barH}" rx="3" fill="${index < 3 ? "#165DFF" : "#14C9C9"}"></rect><text class="axis-label" x="${padL + width + 8}" y="${y + rowH / 2 + 4}">${display}</text>`;
-        }).join("");
-        return `<div class="combo-chart"><svg viewBox="0 0 ${W} ${H}" preserveAspectRatio="xMidYMid meet" role="img" aria-label="${valueLabel} Top10 横向柱状排行榜">${rows}</svg></div>`;
+      function renderGameActivityActivePie() {
+        const newActive = 2680;
+        const oldActive = 7160;
+        const total = newActive + oldActive;
+        const newPct = +((newActive / total) * 100).toFixed(1);
+        const oldPct = +((100 - newPct).toFixed(1));
+        return `
+        <div class="pie-wrap">
+          <div class="pie-chart" style="background:conic-gradient(#14C9C9 0 ${newPct}%,#165DFF ${newPct}% 100%)"></div>
+          <div class="pie-legend">
+            <div class="pie-legend-item">
+              <span><i class="dot" style="background:#14C9C9"></i>新增投注玩家</span>
+              <strong>${newActive.toLocaleString("zh-CN")}（${newPct}%）</strong>
+            </div>
+            <div class="pie-legend-item">
+              <span><i class="dot" style="background:#165DFF"></i>老投注玩家</span>
+              <strong>${oldActive.toLocaleString("zh-CN")}（${oldPct}%）</strong>
+            </div>
+            <div class="pie-legend-item">
+              <span>投注活跃玩家数合计</span>
+              <strong>${total.toLocaleString("zh-CN")}</strong>
+            </div>
+          </div>
+        </div>`;
       }
 
-      function renderGameActivityRankingCharts() {
-        const dauRank = [["Aviator", 4280], ["7up7down", 3120], ["Money Coming", 2860], ["Fortune Ox", 2320], ["Dragon Tiger", 2180], ["Sugar Rush", 1960], ["Gates of Olympus", 1840], ["Lucky Neko", 1710], ["Fishing Master", 1580], ["Crash", 1460]].map(([name, value]) => ({ name, value }));
-        const conversionRank = [["Aviator", 83.2], ["Dragon Tiger", 82.6], ["7up7down", 81.4], ["Fortune Ox", 80.2], ["Sugar Rush", 79.8], ["Lucky Neko", 78.9], ["Money Coming", 76.2], ["Gates of Olympus", 75.6], ["Fishing Master", 74.8], ["Crash", 73.5]].map(([name, value]) => ({ name, value }));
-        return `<div class="game-metric-charts" id="gameActivityCharts">${renderGameMetricChartCard("dau-top10", "投注玩家DAU Top10游戏", "投注玩家DAU", "游戏名称未筛选时，展示平台全部游戏的投注玩家 DAU 排行", renderGameActivityTop10Chart(dauRank, "投注玩家DAU"))}${renderGameMetricChartCard("conversion-top10", "投注转化率 TOP10游戏", "投注转化率", "展示投注转化率最高的 10 款游戏", renderGameActivityTop10Chart(conversionRank, "投注转化率", "%"))}</div>`;
+      function renderGameActivityDauRateDualChart() {
+        const dayCount = 30;
+        const labels = buildRecentTrendLabels(dayCount);
+        const dauData = genTrendSeries(dayCount, 11200, 12580, 320);
+        const rateData = genTrendSeries(dayCount, 74.5, 78.2, 1.2, 1);
+        dauData[dayCount - 1] = 12580;
+        rateData[dayCount - 1] = 78.2;
+        return renderDualAxisTrendChart({
+          labels,
+          leftSeries: { name: "投注玩家DAU", data: dauData, color: "#165DFF" },
+          rightSeries: {
+            name: "投注转化率",
+            data: rateData,
+            color: "#14C9C9",
+          },
+          leftMax: 15000,
+          rightMax: 100,
+          formatLeft: (v) => Math.round(v).toLocaleString("zh-CN"),
+          formatRight: (v) =>
+            (Number.isInteger(v) ? v : v.toFixed(1)) + "%",
+        });
       }
 
       const GAME_METRIC_DEFS = {
@@ -8167,7 +8139,6 @@
         游戏名称: "具体游戏产品名称，表格明细按游戏维度展示。",
         游戏DAU: "统计周期内进入过游戏的去重活跃用户数（按用户ID去重）。",
         投注玩家DAU: "当日产生投注行为的去重用户数。",
-        新投注玩家DAU: "当日首次产生投注行为的去重用户数。",
         新增投注玩家数: "首次产生投注行为的新用户数量。",
         老投注玩家DAU: "非首次投注用户中，当日产生投注行为的人数。",
         投注活跃玩家数: "当日产生投注行为的用户数（去重）。",
@@ -8197,18 +8168,6 @@
           "统计周期内在该游戏产生过有效投注行为的去重用户数。",
         投注用户占比:
           "投注用户数 / 游戏DAU × 100%，反映进入游戏的用户中实际产生投注的比例。",
-        投注参与度:
-          "投注用户数。",
-        投注参与率:
-          "投注用户数 / 游戏DAU × 100%，反映进入游戏的用户中实际产生投注的比例。",
-        人均投注次数:
-          "统计周期内总投注次数 ÷ 投注用户数，反映投注用户的平均投注频次。",
-        单次投注金额:
-          "统计周期内投注总金额 ÷ 总投注次数，反映单笔投注的平均金额。",
-        人均投注金额:
-          "统计周期内投注总金额 ÷ 投注用户数，反映投注用户的平均投注金额。",
-        总投注金额:
-          "统计周期内该游戏产生的投注金额合计。",
         游戏留存率:
           "选定观察窗口内，回访该游戏的用户占对应注册/首次进入队列的比例（默认取7日留存）。",
         注册日期: "用户注册或首次进入该游戏的日期，作为留存队列的起始日（D0）。",
@@ -8289,59 +8248,47 @@
         </article>`;
       }
 
-      function renderGameActivityCharts(showAllGames = false) {
-        if (showAllGames) return renderGameActivityRankingCharts();
+      function renderGameActivityCharts() {
         return `
         <div class="game-metric-charts" id="gameActivityCharts">
           ${renderGameMetricChartCard(
-            "bet-trend",
-            "投注玩家趋势",
-            "投注玩家DAU，新投注玩家DAU，老投注玩家DAU",
-            "近30日投注玩家DAU / 新投注玩家DAU / 老投注玩家DAU 变化",
-            renderGameActivityBetPlayerTrend(),
+            "dau-trend",
+            "游戏活跃趋势",
+            "游戏DAU",
+            "近30日游戏DAU变化（X轴日期 / Y轴游戏DAU）",
+            renderGameActivityDauTrend(),
           )}
           ${renderGameMetricChartCard(
-            "bet-structure",
-            "投注用户结构",
-            "新增投注玩家，老投注玩家",
-            "堆叠面积图：新增投注玩家与老投注玩家构成",
-            renderGameActivityStructureArea(),
+            "new-vs-old",
+            "新老玩家活跃趋势",
+            "新增游戏玩家，老用户DAU",
+            "近30日新增游戏玩家（柱）/ 老用户DAU（线）",
+            renderGameActivityNewVsOldChart(),
+          )}
+          ${renderGameMetricChartCard(
+            "structure",
+            "玩家结构趋势",
+            "新玩家DAU，老用户DAU，游戏DAU",
+            "新玩家DAU + 老用户DAU = 游戏DAU，用于判断增长来源",
+            renderGameActivityStructureStacked(),
+          )}
+          ${renderGameMetricChartCard(
+            "active-pie",
+            "活跃用户构成",
+            "新玩家，老用户",
+            "活跃玩家数中新玩家与老用户构成",
+            renderGameActivityActivePie(),
+            { expandable: false },
+          )}
+          ${renderGameMetricChartCard(
+            "dau-rate",
+            "游戏兴趣趋势",
+            "游戏DAU，游戏活跃率",
+            "近30日游戏DAU（左轴）/ 游戏活跃率（右轴），用于观察游戏玩家兴趣趋势",
+            renderGameActivityDauRateDualChart(),
+            { spanFull: true },
           )}
         </div>`;
-      }
-
-      function getGameActivityKpis(showAllGames = false) {
-        const base = GAME_METRIC_PAGES.activity.kpis;
-        if (!showAllGames) return base;
-        return [
-          { label: "投注玩家DAU", value: "Aviator", note: "4,280" },
-          { label: "新增投注玩家数", value: "Aviator", note: "1,120" },
-          { label: "老投注玩家DAU", value: "Aviator", note: "3,160" },
-          { label: "投注活跃玩家数", value: "Aviator", note: "3,560" },
-          { label: "投注转化率", value: "Aviator", note: "83.2%" },
-        ];
-      }
-
-      function initGameActivityFilter(scope) {
-        const input = scope.querySelector('.filter-bar[data-local-filter="game-activity"] .game-name-filter');
-        const queryBtn = scope.querySelector('.filter-bar[data-local-filter="game-activity"] .btn-primary');
-        if (!input || !queryBtn) return;
-        queryBtn.addEventListener("click", () => {
-          const showAllGames = !input.value.trim();
-          const charts = scope.querySelector("#gameActivityCharts");
-          const kpiGrid = scope.querySelector("#gameActivityKpi");
-          const kpiHint = scope.querySelector("#gameActivityKpiHint");
-          if (kpiHint) kpiHint.style.display = showAllGames ? "" : "none";
-          if (kpiGrid) {
-            kpiGrid.innerHTML = getGameActivityKpis(showAllGames)
-              .map(renderKpiCard)
-              .join("");
-          }
-          if (!charts) return;
-          charts.outerHTML = renderGameActivityCharts(showAllGames);
-          bindSvgChartTooltips(scope);
-          bindGameMetricChartFocus(scope, "#gameActivityCharts");
-        });
       }
 
       function renderGameParticipationDauBetChart() {
@@ -8379,147 +8326,150 @@
         });
       }
 
-      function renderGameParticipationAvgBetCountChart() {
-        const dayCount = 30;
-        const labels = buildRecentTrendLabels(dayCount);
-        const countData = genTrendSeries(dayCount, 7.2, 12.4, 0.6, 1);
-        countData[dayCount - 1] = 12.4;
-        return renderMultiLineTrendChart({
+      function buildGameParticipationRetentionRows() {
+        const rows = [];
+        for (let i = 0; i < 14; i++) {
+          const d = new Date(2025, 5, 20 + i);
+          const label = `${pad2(d.getMonth() + 1)}/${pad2(d.getDate())}`;
+          const t = i / 13;
+          const d1 = +(
+            61.2 -
+            t * 5.8 +
+            Math.sin(i * 0.75) * 2.6 +
+            Math.sin(i * 1.4) * 1.2
+          ).toFixed(1);
+          const d3 = +(
+            52.5 -
+            t * 6.2 +
+            Math.sin(i * 0.7) * 2.4 +
+            Math.sin(i * 1.3) * 1.1
+          ).toFixed(1);
+          const d7 = +(
+            45.8 -
+            t * 5.4 +
+            Math.sin(i * 0.55) * 2 +
+            Math.sin(i * 1.1) * 0.9
+          ).toFixed(1);
+          const d14 = +(
+            38.6 -
+            t * 4.8 +
+            Math.sin(i * 0.45) * 1.6 +
+            Math.sin(i * 0.95) * 0.8
+          ).toFixed(1);
+          rows.push({
+            date: label,
+            users: Math.round(920 + t * 180 + Math.sin(i * 0.8) * 60),
+            d1: Math.max(35, d1),
+            d3: Math.max(30, d3),
+            d7: Math.max(25, d7),
+            d14: Math.max(20, d14),
+          });
+        }
+        rows[rows.length - 1].d1 = 56.4;
+        rows[rows.length - 1].d3 = 48.6;
+        rows[rows.length - 1].d7 = 42.8;
+        rows[rows.length - 1].d14 = 36.2;
+        return rows;
+      }
+
+      function retainHeatStyle(pct) {
+        const alpha = Math.max(0.12, Math.min(0.72, pct / 100));
+        return `background:rgba(22,93,255,${alpha.toFixed(2)})`;
+      }
+
+      function renderGameParticipationRetentionBoard() {
+        const rows = buildGameParticipationRetentionRows();
+        const labels = rows.map((r) => r.date);
+        const curve = renderMultiLineTrendChart({
           labels,
           series: [
-            { name: "人均投注次数", data: countData, color: "#722ED1" },
+            {
+              name: "次日留存",
+              data: rows.map((r) => r.d1),
+              color: "#722ED1",
+              suffix: "%",
+            },
+            {
+              name: "3日留存",
+              data: rows.map((r) => r.d3),
+              color: "#165DFF",
+              suffix: "%",
+            },
+            {
+              name: "7日留存",
+              data: rows.map((r) => r.d7),
+              color: "#14C9C9",
+              suffix: "%",
+            },
+            {
+              name: "14日留存",
+              data: rows.map((r) => r.d14),
+              color: "#FF7D00",
+              suffix: "%",
+            },
           ],
-          maxVal: 15,
-          yStep: 3,
-          xLabelStep: 5,
+          maxVal: 100,
+          yStep: 25,
+          xLabelStep: 2,
         });
+        const tableRows = rows
+          .map(
+            (r) => `
+            <tr>
+              <td>${r.date}</td>
+              <td>${r.users.toLocaleString("zh-CN")}</td>
+              <td class="heat" style="${retainHeatStyle(r.d1)}">${r.d1}%</td>
+              <td class="heat" style="${retainHeatStyle(r.d3)}">${r.d3}%</td>
+              <td class="heat" style="${retainHeatStyle(r.d7)}">${r.d7}%</td>
+              <td class="heat" style="${retainHeatStyle(r.d14)}">${r.d14}%</td>
+            </tr>`,
+          )
+          .join("");
+        return `
+        ${curve}
+        <div class="retain-matrix-wrap">
+          <table class="retain-matrix">
+            <thead>
+              <tr>
+                <th>注册日期${renderGameMetricHelpBtn("注册日期")}</th>
+                <th>注册人数${renderGameMetricHelpBtn("注册人数")}</th>
+                <th>次日留存${renderGameMetricHelpBtn("次日留存")}</th>
+                <th>3日留存${renderGameMetricHelpBtn("3日留存")}</th>
+                <th>7日留存${renderGameMetricHelpBtn("7日留存")}</th>
+                <th>14日留存${renderGameMetricHelpBtn("14日留存")}</th>
+              </tr>
+            </thead>
+            <tbody>${tableRows}</tbody>
+          </table>
+        </div>`;
       }
 
-      function renderGameParticipationRankingCharts() {
-        const participationRank = [
-          ["Aviator", 2680],
-          ["7up7down", 1680],
-          ["Money Coming", 1420],
-          ["Fortune Ox", 1240],
-          ["Dragon Tiger", 1180],
-          ["Sugar Rush", 1060],
-          ["Gates of Olympus", 980],
-          ["Lucky Neko", 920],
-          ["Fishing Master", 860],
-          ["Crash", 780],
-        ].map(([name, value]) => ({ name, value }));
-        const rateRank = [
-          ["Aviator", 75.3],
-          ["Fortune Ox", 66.7],
-          ["7up7down", 66.1],
-          ["Money Coming", 65.1],
-          ["Dragon Tiger", 64.8],
-          ["Lucky Neko", 63.5],
-          ["Sugar Rush", 62.9],
-          ["Gates of Olympus", 61.4],
-          ["Fishing Master", 60.2],
-          ["Crash", 58.6],
-        ].map(([name, value]) => ({ name, value }));
-        const totalBetAmountRank = [
-          ["Aviator", 1934960],
-          ["7up7down", 600936],
-          ["Dragon Tiger", 574070],
-          ["Money Coming", 419184],
-          ["Fortune Ox", 399776],
-          ["Sugar Rush", 295316],
-          ["Lucky Neko", 235796],
-          ["Gates of Olympus", 236964],
-          ["Fishing Master", 196424],
-          ["Crash", 168402],
-        ].map(([name, value]) => ({ name, value }));
-        const avgBetAmountRank = [
-          ["Aviator", 722.0],
-          ["Dragon Tiger", 486.5],
-          ["7up7down", 357.7],
-          ["Fortune Ox", 322.4],
-          ["Money Coming", 295.2],
-          ["Sugar Rush", 278.6],
-          ["Lucky Neko", 256.3],
-          ["Gates of Olympus", 241.8],
-          ["Fishing Master", 228.4],
-          ["Crash", 215.9],
-        ].map(([name, value]) => ({ name, value }));
-        const avgBetCountRank = [
-          ["Aviator", 12.4],
-          ["Dragon Tiger", 11.2],
-          ["7up7down", 9.8],
-          ["Fortune Ox", 8.1],
-          ["Lucky Neko", 7.8],
-          ["Money Coming", 7.2],
-          ["Sugar Rush", 6.9],
-          ["Gates of Olympus", 6.4],
-          ["Fishing Master", 5.8],
-          ["Crash", 5.2],
-        ].map(([name, value]) => ({ name, value }));
-        return `<div class="game-metric-charts" id="gameParticipationCharts">${renderGameMetricChartCard("total-bet-amount-top10", "总投注金额 Top10游戏", "总投注金额", "总投注金额最高的10款游戏", renderGameActivityTop10Chart(totalBetAmountRank, "总投注金额", "¥"))}${renderGameMetricChartCard("avg-bet-amount-top10", "人均投注金额 Top10游戏", "人均投注金额", "人均投注金额最高的10款游戏", renderGameActivityTop10Chart(avgBetAmountRank, "人均投注金额", "¥"))}${renderGameMetricChartCard("participation-top10", "平台投注参与度 TOP10", "投注参与度", "展示平台全部游戏的投注参与度排行", renderGameActivityTop10Chart(participationRank, "投注参与度"))}${renderGameMetricChartCard("rate-top10", "平台投注参与率 TOP10", "投注参与率", "展示投注参与率最高的 10 款游戏", renderGameActivityTop10Chart(rateRank, "投注参与率", "%"))}${renderGameMetricChartCard("avg-bet-count-top10", "人均投注次数 Top10游戏", "人均投注次数", "人均投注次数最高的10款游戏", renderGameActivityTop10Chart(avgBetCountRank, "人均投注次数"))}</div>`;
-      }
-
-      function renderGameParticipationCharts(showAllGames = false) {
-        if (showAllGames) return renderGameParticipationRankingCharts();
+      function renderGameParticipationCharts() {
         return `
         <div class="game-metric-charts" id="gameParticipationCharts">
           ${renderGameMetricChartCard(
             "dau-bet",
-            "投注参与度趋势",
+            "游戏参与趋势",
             "游戏DAU，投注用户数",
             "近30日游戏DAU / 投注用户数对比",
             renderGameParticipationDauBetChart(),
           )}
           ${renderGameMetricChartCard(
             "bet-rate",
-            "投注参与率趋势",
+            "游戏参与率趋势",
             "投注用户占比",
             "近30日投注用户占活跃用户比例趋势",
             renderGameParticipationBetRateChart(),
           )}
           ${renderGameMetricChartCard(
-            "avg-bet-count",
-            "人均投注次数趋势",
-            "人均投注次数",
-            "筛选日期范围内人均投注次数变化（X轴日期 / Y轴人均投注次数）",
-            renderGameParticipationAvgBetCountChart(),
+            "retention",
+            "游戏留存分析",
+            "次日留存，3日留存，7日留存，14日留存",
+            "按注册日期查看 次日 / 3日 / 7日 / 14日留存表现",
+            renderGameParticipationRetentionBoard(),
             { spanFull: true },
           )}
         </div>`;
-      }
-
-      function getGameParticipationKpis(showAllGames = false) {
-        const base = GAME_METRIC_PAGES.participation.kpis;
-        if (!showAllGames) return base;
-        return [
-          { label: "投注用户数", value: "Aviator", note: "2,680" },
-          { label: "投注用户占比", value: "Aviator", note: "75.3%" },
-          { label: "人均投注次数", value: "Aviator", note: "12.4" },
-          { label: "单次投注金额", value: "Aviator", note: "¥58.2" },
-          { label: "人均投注金额", value: "Aviator", note: "¥722.0" },
-        ];
-      }
-
-      function initGameParticipationFilter(scope) {
-        const input = scope.querySelector('.filter-bar[data-local-filter="game-participation"] .game-name-filter');
-        const queryBtn = scope.querySelector('.filter-bar[data-local-filter="game-participation"] .btn-primary');
-        if (!input || !queryBtn) return;
-        queryBtn.addEventListener("click", () => {
-          const showAllGames = !input.value.trim();
-          const charts = scope.querySelector("#gameParticipationCharts");
-          const kpiGrid = scope.querySelector("#gameParticipationKpi");
-          const kpiHint = scope.querySelector("#gameParticipationKpiHint");
-          if (kpiHint) kpiHint.style.display = showAllGames ? "" : "none";
-          if (kpiGrid) {
-            kpiGrid.innerHTML = getGameParticipationKpis(showAllGames)
-              .map(renderKpiCard)
-              .join("");
-          }
-          if (!charts) return;
-          charts.outerHTML = renderGameParticipationCharts(showAllGames);
-          bindSvgChartTooltips(scope);
-          bindGameMetricChartFocus(scope, "#gameParticipationCharts");
-        });
       }
 
       function formatGameMoney(v) {
@@ -8653,71 +8603,7 @@
         });
       }
 
-      function renderGameValueRankingCharts() {
-        const winLoseRank = [
-          ["Aviator", 186200],
-          ["7up7down", 142800],
-          ["Money Coming", 138600],
-          ["Fortune Ox", 105700],
-          ["Dragon Tiger", 98600],
-          ["Sugar Rush", 87200],
-          ["Gates of Olympus", 76500],
-          ["Lucky Neko", 68400],
-          ["Fishing Master", 59100],
-          ["Crash", 48200],
-        ].map(([name, value]) => ({ name, value }));
-        const ggrRank = [
-          ["Aviator", 198500],
-          ["7up7down", 156200],
-          ["Money Coming", 152800],
-          ["Fortune Ox", 121000],
-          ["Dragon Tiger", 108400],
-          ["Sugar Rush", 95600],
-          ["Gates of Olympus", 84200],
-          ["Lucky Neko", 75800],
-          ["Fishing Master", 65300],
-          ["Crash", 54100],
-        ].map(([name, value]) => ({ name, value }));
-        const rtpRank = [
-          ["Fortune Ox", 96.8],
-          ["7up7down", 96.5],
-          ["Lucky Neko", 96.3],
-          ["Money Coming", 96.1],
-          ["Sugar Rush", 96.0],
-          ["Aviator", 95.8],
-          ["Gates of Olympus", 95.6],
-          ["Dragon Tiger", 95.4],
-          ["Fishing Master", 95.2],
-          ["Crash", 94.9],
-        ].map(([name, value]) => ({ name, value }));
-        const killRank = [
-          ["Crash", 5.1],
-          ["Fishing Master", 4.8],
-          ["Dragon Tiger", 4.6],
-          ["Gates of Olympus", 4.4],
-          ["Aviator", 4.2],
-          ["Money Coming", 3.9],
-          ["Sugar Rush", 4.0],
-          ["Lucky Neko", 3.7],
-          ["7up7down", 3.5],
-          ["Fortune Ox", 3.2],
-        ].map(([name, value]) => ({ name, value }));
-        return `<div class="game-metric-charts" id="gameValueCharts">${renderGameMetricChartCard("winlose-top10", "平台游戏输赢 Top10游戏", "平台游戏输赢", "平台游戏输赢最高的10款游戏", renderGameActivityTop10Chart(winLoseRank, "平台游戏输赢", "¥"))}${renderGameMetricChartCard("ggr-top10", "GGR Top10游戏", "GGR", "GGR最高的10款游戏", renderGameActivityTop10Chart(ggrRank, "GGR", "¥"))}${renderGameMetricChartCard("rtp-top10", "RTP Top10游戏", "RTP", "RTP最高的10款游戏", renderGameActivityTop10Chart(rtpRank, "RTP", "%"))}${renderGameMetricChartCard("kill-top10", "杀率 Top10游戏", "杀率", "杀率最高的10款游戏", renderGameActivityTop10Chart(killRank, "杀率", "%"))}</div>`;
-      }
-
-      function getGameValueKpis(showAllGames = false) {
-        const base = GAME_METRIC_PAGES.value.kpis;
-        if (!showAllGames) return base;
-        return [
-          { label: "平台游戏输赢", value: "Aviator", note: "¥186,200" },
-          { label: "GGR", value: "Aviator", note: "¥198,500" },
-          { label: "RTP", value: "Fortune Ox", note: "96.8%" },
-          { label: "杀率", value: "Crash", note: "5.1%" },
-        ];
-      }
-
-      function renderGameValueCharts(showAllGames = false) {
-        if (showAllGames) return renderGameValueRankingCharts();
+      function renderGameValueCharts() {
         return `
         <div class="game-metric-charts" id="gameValueCharts">
           ${renderGameMetricChartCard(
@@ -8743,28 +8629,6 @@
             { spanFull: true },
           )}
         </div>`;
-      }
-
-      function initGameValueFilter(scope) {
-        const input = scope.querySelector('.filter-bar[data-local-filter="game-value"] .game-name-filter');
-        const queryBtn = scope.querySelector('.filter-bar[data-local-filter="game-value"] .btn-primary');
-        if (!input || !queryBtn) return;
-        queryBtn.addEventListener("click", () => {
-          const showAllGames = !input.value.trim();
-          const charts = scope.querySelector("#gameValueCharts");
-          const kpiGrid = scope.querySelector("#gameValueKpi");
-          const kpiHint = scope.querySelector("#gameValueKpiHint");
-          if (kpiHint) kpiHint.style.display = showAllGames ? "" : "none";
-          if (kpiGrid) {
-            kpiGrid.innerHTML = getGameValueKpis(showAllGames)
-              .map(renderKpiCard)
-              .join("");
-          }
-          if (!charts) return;
-          charts.outerHTML = renderGameValueCharts(showAllGames);
-          bindSvgChartTooltips(scope);
-          bindGameMetricChartFocus(scope, "#gameValueCharts");
-        });
       }
 
       function bindGameMetricChartFocus(root = document, wrapId) {
@@ -8813,52 +8677,21 @@
         const config = GAME_METRIC_PAGES[page.gameMetricPage];
         if (!config) return "";
         const cols = Math.min(config.kpis.length, 6);
-        const isActivity = page.gameMetricPage === "activity";
-        const isParticipation = page.gameMetricPage === "participation";
-        const isValue = page.gameMetricPage === "value";
         let chartsHtml = "";
-        if (isActivity) {
-          chartsHtml = renderGameActivityCharts(true);
-        } else if (isParticipation) {
-          chartsHtml = renderGameParticipationCharts(true);
-        } else if (isValue) {
-          chartsHtml = renderGameValueCharts(true);
+        if (page.gameMetricPage === "activity") {
+          chartsHtml = renderGameActivityCharts();
+        } else if (page.gameMetricPage === "participation") {
+          chartsHtml = renderGameParticipationCharts();
+        } else if (page.gameMetricPage === "value") {
+          chartsHtml = renderGameValueCharts();
         }
-        const hideKpiOnEmpty = ' style="margin-bottom:16px"';
-        const kpiItems = isValue
-          ? getGameValueKpis(true)
-          : isActivity
-            ? getGameActivityKpis(true)
-            : isParticipation
-              ? getGameParticipationKpis(true)
-              : config.kpis;
-        const kpiSectionId = isValue
-          ? "gameValueKpi"
-          : isActivity
-            ? "gameActivityKpi"
-            : isParticipation
-              ? "gameParticipationKpi"
-              : "";
-        const kpiHintId = isValue
-          ? "gameValueKpiHint"
-          : isActivity
-            ? "gameActivityKpiHint"
-            : isParticipation
-              ? "gameParticipationKpiHint"
-              : "";
-        const kpiHintHtml = kpiHintId
-          ? `<div class="kpi-best-hint" id="${kpiHintId}">展示当日数据最优游戏名称</div>`
-          : "";
-        const kpiBlock = `
-          <div class="analysis-block"${hideKpiOnEmpty}>
-            ${kpiHintHtml}
-            <section${kpiSectionId ? ` id="${kpiSectionId}"` : ""} class="kpi-grid" style="grid-template-columns:repeat(${cols},minmax(0,1fr))" aria-label="${page.title}核心指标">
-              ${kpiItems.map(renderKpiCard).join("")}
-            </section>
-          </div>`;
         return `
           ${renderGameAnalysisFilterBar(config.filterId, config.extraFilter || "")}
-          ${kpiBlock}
+          <div class="analysis-block" style="margin-bottom:16px">
+            <section class="kpi-grid" style="grid-template-columns:repeat(${cols},minmax(0,1fr))" aria-label="${page.title}核心指标">
+              ${config.kpis.map(renderKpiCard).join("")}
+            </section>
+          </div>
           ${chartsHtml}
           <div class="page-panel active">
             <div class="toolbar">
@@ -11649,17 +11482,14 @@
           if (page.gameMetricPage === "activity") {
             bindSvgChartTooltips(container);
             bindGameMetricChartFocus(container, "#gameActivityCharts");
-            initGameActivityFilter(container);
           }
           if (page.gameMetricPage === "participation") {
             bindSvgChartTooltips(container);
             bindGameMetricChartFocus(container, "#gameParticipationCharts");
-            initGameParticipationFilter(container);
           }
           if (page.gameMetricPage === "value") {
             bindSvgChartTooltips(container);
             bindGameMetricChartFocus(container, "#gameValueCharts");
-            initGameValueFilter(container);
           }
           return;
         }

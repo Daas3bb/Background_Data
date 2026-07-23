@@ -1,13 +1,11 @@
-﻿<!doctype html>
+<!doctype html>
 <html lang="zh-CN">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>数据后台</title>
-    <link rel="icon" type="image/svg+xml" href="favicon.svg" />
-    <link rel="alternate icon" type="image/png" href="favicon.png" />
-    <link rel="apple-touch-icon" href="favicon.png" />
+    <title>游戏盈利效率 路 鏁版嵁鍚庡彴</title>
     <style>
+
       :root {
         /* Arco Design Tokens */
         --arco-primary: #165dff;
@@ -1145,14 +1143,6 @@
         border-radius: var(--arco-radius);
         box-shadow: var(--arco-shadow-light);
       }
-      .filter-bar-last-row {
-        flex-basis: 100%;
-        width: 100%;
-        display: flex;
-        align-items: center;
-        flex-wrap: wrap;
-        gap: 16px 24px;
-      }
 
       .filter-bar-local {
         padding: 10px 0 12px;
@@ -1219,23 +1209,6 @@
 
       .filter-item-channel-name.is-visible {
         display: flex;
-      }
-
-      .filter-field-hint {
-        color: var(--arco-text-3);
-        font-size: 12px;
-        line-height: 18px;
-      }
-      .filter-item-game-name {
-        align-items: flex-start;
-      }
-      .filter-item-game-name > label {
-        line-height: 32px;
-      }
-      .filter-item-game-name .filter-field-control {
-        display: flex;
-        flex-direction: column;
-        gap: 4px;
       }
 
       /* Arco Button */
@@ -1955,24 +1928,6 @@
       .metric-trend.down {
         color: var(--arco-danger);
       }
-      .metric-best {
-        margin-top: 8px;
-        color: var(--arco-text-3);
-        font-size: 12px;
-        line-height: 18px;
-      }
-      .metric-best strong {
-        color: var(--arco-primary);
-        font-weight: 600;
-      }
-      .metric-note-value {
-        margin-top: 8px;
-        color: var(--arco-primary);
-        font-size: 18px;
-        line-height: 26px;
-        font-weight: 600;
-        font-variant-numeric: tabular-nums;
-      }
 
       .metric-hint {
         margin-top: 2px;
@@ -2074,314 +2029,6 @@
         justify-content: space-between;
         color: var(--arco-text-1);
         font-size: 14px;
-        font-weight: 500;
-        gap: 8px;
-      }
-
-      .ga-chart-head {
-        margin-bottom: 4px;
-      }
-      .ga-chart-title-row {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        gap: 12px;
-      }
-      .ga-chart-name {
-        color: var(--arco-text-1);
-        font-size: 16px;
-        font-weight: 700;
-        line-height: 24px;
-      }
-      .ga-chart-expand-hint {
-        flex-shrink: 0;
-        color: var(--arco-text-3);
-        font-size: 12px;
-        font-weight: 400;
-        line-height: 20px;
-        white-space: nowrap;
-      }
-      .ga-chart-expand-hint .ga-collapse-tip {
-        display: none;
-      }
-      .ga-chart-card.is-focused .ga-chart-expand-hint .ga-expand-tip {
-        display: none;
-      }
-      .ga-chart-card.is-focused .ga-chart-expand-hint .ga-collapse-tip {
-        display: inline;
-      }
-      .ga-chart-meta {
-        display: flex;
-        align-items: center;
-        flex-wrap: wrap;
-        gap: 6px 8px;
-        margin-top: 6px;
-      }
-      .ga-chart-metric {
-        display: inline-flex;
-        align-items: center;
-        gap: 4px;
-        padding: 0 6px 0 8px;
-        height: 22px;
-        border-radius: 2px;
-        color: var(--arco-primary);
-        background: var(--arco-primary-light);
-        font-size: 12px;
-        font-weight: 500;
-        line-height: 22px;
-      }
-      .ga-metric-help {
-        position: relative;
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        width: 14px;
-        height: 14px;
-        border-radius: 50%;
-        border: 1px solid currentColor;
-        color: var(--arco-primary);
-        background: transparent;
-        font-size: 10px;
-        font-weight: 600;
-        line-height: 1;
-        cursor: help;
-        opacity: 0.8;
-        flex-shrink: 0;
-        padding: 0;
-      }
-      .ga-metric-help:hover,
-      .ga-metric-help:focus-visible {
-        opacity: 1;
-      }
-      .ga-metric-help-tip {
-        display: none;
-        position: absolute;
-        left: 50%;
-        bottom: calc(100% + 8px);
-        transform: translateX(-50%);
-        width: max-content;
-        max-width: 280px;
-        padding: 8px 10px;
-        background: rgba(29, 33, 41, 0.92);
-        color: #fff;
-        border-radius: 6px;
-        font-size: 12px;
-        font-weight: 400;
-        line-height: 1.55;
-        white-space: normal;
-        text-align: left;
-        z-index: 40;
-        pointer-events: none;
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.18);
-      }
-      .ga-metric-help-tip::after {
-        content: "";
-        position: absolute;
-        left: 50%;
-        top: 100%;
-        transform: translateX(-50%);
-        border: 5px solid transparent;
-        border-top-color: rgba(29, 33, 41, 0.92);
-      }
-      .ga-metric-help:hover .ga-metric-help-tip,
-      .ga-metric-help:focus-visible .ga-metric-help-tip {
-        display: block;
-      }
-      .data-table thead .ga-metric-help,
-      .retain-matrix thead .ga-metric-help {
-        margin-left: 4px;
-        vertical-align: middle;
-      }
-      .data-table thead .ga-metric-help-tip,
-      .retain-matrix thead .ga-metric-help-tip {
-        bottom: auto;
-        top: calc(100% + 8px);
-      }
-      .data-table thead .ga-metric-help-tip::after,
-      .retain-matrix thead .ga-metric-help-tip::after {
-        top: auto;
-        bottom: 100%;
-        border-top-color: transparent;
-        border-bottom-color: rgba(29, 33, 41, 0.92);
-      }
-      .page-panel .table-wrap,
-      .retain-matrix-wrap {
-        overflow: auto;
-      }
-      .page-panel .data-table thead th,
-      .retain-matrix thead th {
-        overflow: visible;
-      }
-      .ga-chart-note {
-        color: var(--arco-text-3);
-        font-size: 12px;
-        line-height: 20px;
-      }
-
-      #gameStayCharts.ga-stay-rank-charts {
-        margin-bottom: 16px;
-      }
-      #gameStayCharts.ga-stay-rank-charts .ga-chart-card {
-        max-height: calc(100vh - 200px);
-        display: flex;
-        flex-direction: column;
-        overflow: hidden;
-      }
-      #gameStayCharts.ga-stay-rank-charts .ga-chart-head {
-        flex-shrink: 0;
-      }
-      #gameStayCharts.ga-stay-rank-charts .combo-chart {
-        flex: 1;
-        min-height: 0;
-        margin-top: 8px;
-        display: flex;
-        align-items: stretch;
-      }
-      #gameStayCharts.ga-stay-rank-charts .combo-chart svg {
-        width: 100%;
-        height: 100%;
-        max-height: calc(100vh - 280px);
-      }
-
-      .game-metric-charts {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 16px;
-        margin-bottom: 16px;
-      }
-      .game-metric-charts .ga-chart-card.ga-span-full,
-      .game-metric-charts .ga-chart-card[data-chart-key="dau-rate"] {
-        grid-column: 1 / -1;
-      }
-      .game-metric-charts .ga-chart-expandable {
-        cursor: pointer;
-        transition: border-color 0.15s ease, box-shadow 0.15s ease;
-      }
-      .game-metric-charts:not(.is-focus-mode) .ga-chart-expandable:hover {
-        border-color: var(--arco-primary);
-        box-shadow: 0 0 0 1px var(--arco-primary-light);
-      }
-      .game-metric-charts.is-focus-mode {
-        grid-template-columns: minmax(0, 1fr) 220px;
-        align-items: start;
-      }
-      .game-metric-charts.is-focus-mode .ga-chart-card.is-focused {
-        grid-column: 1;
-        grid-row: 1 / span 4;
-        min-height: 520px;
-        box-shadow: var(--arco-shadow-light);
-        border-color: var(--arco-primary);
-        cursor: zoom-out;
-      }
-      .game-metric-charts.is-focus-mode .ga-chart-card.is-focused .combo-chart {
-        margin-top: 12px;
-      }
-      .game-metric-charts.is-focus-mode .ga-chart-card.is-focused .combo-chart svg {
-        min-height: 420px;
-      }
-      .game-metric-charts.is-focus-mode .ga-chart-card.is-focused .retain-matrix-wrap {
-        max-height: none;
-      }
-      .game-metric-charts.is-focus-mode .ga-chart-card:not(.is-focused) {
-        grid-column: 2;
-        padding: 12px;
-        min-height: 0;
-        transition: border-color 0.15s ease, box-shadow 0.15s ease;
-      }
-      .game-metric-charts.is-focus-mode .ga-chart-expandable:not(.is-focused) {
-        cursor: pointer;
-      }
-      .game-metric-charts.is-focus-mode .ga-chart-expandable:not(.is-focused):hover {
-        border-color: var(--arco-primary);
-        box-shadow: 0 0 0 1px var(--arco-primary-light);
-      }
-      .game-metric-charts.is-focus-mode .ga-chart-static {
-        cursor: default;
-      }
-      .game-metric-charts.is-focus-mode .ga-chart-card:not(.is-focused) .ga-chart-name {
-        font-size: 12px;
-        font-weight: 600;
-        line-height: 18px;
-      }
-      .game-metric-charts.is-focus-mode .ga-chart-card:not(.is-focused) .ga-chart-meta,
-      .game-metric-charts.is-focus-mode .ga-chart-card:not(.is-focused) .ga-chart-expand-hint,
-      .game-metric-charts.is-focus-mode .ga-chart-card:not(.is-focused) .line-legend,
-      .game-metric-charts.is-focus-mode .ga-chart-card:not(.is-focused) .retain-matrix-wrap {
-        display: none;
-      }
-      .game-metric-charts.is-focus-mode .ga-chart-card:not(.is-focused) .combo-chart {
-        margin-top: 6px;
-      }
-      .game-metric-charts.is-focus-mode .ga-chart-card:not(.is-focused) .pie-wrap {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 8px;
-        margin-top: 8px;
-        min-height: 0;
-      }
-      .game-metric-charts.is-focus-mode .ga-chart-card:not(.is-focused) .pie-chart {
-        width: 64px;
-        height: 64px;
-      }
-      .game-metric-charts.is-focus-mode .ga-chart-card:not(.is-focused) .pie-legend {
-        gap: 4px;
-      }
-      .game-metric-charts.is-focus-mode .ga-chart-card:not(.is-focused) .pie-legend-item {
-        font-size: 11px;
-      }
-      .game-metric-charts.is-focus-mode .ga-chart-card:not(.is-focused) .pie-legend-item:last-child {
-        display: none;
-      }
-
-      @media (max-width: 960px) {
-        .game-metric-charts.is-focus-mode {
-          grid-template-columns: 1fr;
-        }
-        .game-metric-charts.is-focus-mode .ga-chart-card.is-focused {
-          grid-column: 1;
-          grid-row: auto;
-          min-height: 360px;
-        }
-        .game-metric-charts.is-focus-mode .ga-chart-card:not(.is-focused) {
-          grid-column: 1;
-        }
-      }
-
-      .retain-matrix-wrap {
-        margin-top: 12px;
-        overflow: auto;
-        max-height: 280px;
-        border: 1px solid var(--border);
-        border-radius: var(--arco-radius);
-      }
-      .retain-matrix {
-        width: 100%;
-        border-collapse: collapse;
-        font-size: 12px;
-      }
-      .retain-matrix th,
-      .retain-matrix td {
-        padding: 8px 10px;
-        text-align: center;
-        border-bottom: 1px solid var(--border);
-        white-space: nowrap;
-      }
-      .retain-matrix th {
-        background: var(--arco-bg-2);
-        color: var(--arco-text-2);
-        font-weight: 500;
-        position: sticky;
-        top: 0;
-        z-index: 1;
-      }
-      .retain-matrix td:first-child,
-      .retain-matrix th:first-child {
-        text-align: left;
-        color: var(--arco-text-1);
-      }
-      .retain-matrix .heat {
-        color: var(--arco-text-1);
-        font-variant-numeric: tabular-nums;
         font-weight: 500;
       }
 
@@ -2486,12 +2133,6 @@
         color: var(--arco-text-3);
         font-size: 12px;
         font-weight: 400;
-      }
-      .kpi-best-hint {
-        margin-bottom: 12px;
-        color: var(--arco-text-2);
-        font-size: 13px;
-        line-height: 20px;
       }
       .kpi-grid {
         display: grid;
@@ -2814,7 +2455,6 @@
 
       /* 双轴组合图 */
       .combo-chart {
-        position: relative;
         margin-top: 16px;
         width: 100%;
       }
@@ -2822,15 +2462,6 @@
         width: 100%;
         height: auto;
         display: block;
-      }
-      .combo-chart.has-chart-tip svg {
-        cursor: crosshair;
-      }
-      .chart-tip-crosshair {
-        stroke: var(--arco-primary);
-        stroke-width: 1;
-        stroke-dasharray: 3 3;
-        pointer-events: none;
       }
       .combo-chart .axis-label {
         font-size: 8px;
@@ -3011,10 +2642,12 @@
           max-height: none;
         }
       }
+    
+      body.figma-export .sidebar { flex-shrink: 0; }
     </style>
   </head>
-  <body>
-    <div class="layout">
+  <body class="figma-export">
+<div class="layout">
       <!-- 侧边栏 -->
       <aside class="sidebar">
         <div class="sidebar-logo">
@@ -3129,20 +2762,6 @@
             <div class="menu-top" data-page="game-operation">游戏运营</div>
           </div>
 
-          <div class="menu-group" data-group="game-analysis">
-            <div class="menu-top has-child">
-              <span>游戏分析</span>
-              <span class="menu-arrow">▶</span>
-            </div>
-            <div class="submenu">
-              <div class="menu-child" data-page="game-activity">投注玩家活跃分析</div>
-              <div class="menu-child" data-page="game-participation">投注参与度</div>
-              <div class="menu-child" data-page="game-stay">投注用户停留分析</div>
-              <div class="menu-child" data-page="bet-report">投注报表</div>
-              <div class="menu-child" data-page="game-value">游戏价值</div>
-            </div>
-          </div>
-
           <div class="menu-group" data-group="profit">
             <div class="menu-top has-child">
               <span>盈利分析</span>
@@ -3202,9 +2821,9 @@
         </div>
       </div>
     </div>
-
     <script src="https://cdn.jsdelivr.net/npm/echarts@5.5.1/dist/echarts.min.js"></script>
     <script>
+
       // 基础固定列 & 渠道筛选项
       const BASE_COLS = ["日期", "来源渠道", "渠道名", "所属平台"];
       const STICKY_COLS = 4;
@@ -4272,6 +3891,7 @@
               cls: "g-participate",
               cols: ["投注人数", "投注金额", "有效投注"],
             },
+            { name: "高价值用户", cls: "g-vip", cols: ["大R玩家"] },
             { name: "活动参与", cls: "g-activity", cols: ["奖金投注占比"] },
           ],
           sampleData: [
@@ -4285,6 +3905,7 @@
               8950,
               3256800,
               2895600,
+              128,
               "35.8%",
             ],
             [
@@ -4297,6 +3918,7 @@
               8520,
               3012400,
               2689200,
+              115,
               "34.7%",
             ],
             [
@@ -4309,34 +3931,10 @@
               7680,
               2756800,
               2453200,
+              98,
               "36.9%",
             ],
           ],
-        },
-        "bet-report": {
-          title: "投注报表",
-          breadcrumb: "游戏分析 / 投注报表",
-          betReportPage: true,
-        },
-        "game-activity": {
-          title: "投注玩家活跃分析",
-          breadcrumb: "游戏分析 / 投注玩家活跃分析",
-          gameMetricPage: "activity",
-        },
-        "game-participation": {
-          title: "投注参与度",
-          breadcrumb: "游戏分析 / 投注参与度",
-          gameMetricPage: "participation",
-        },
-        "game-stay": {
-          title: "投注用户停留分析",
-          breadcrumb: "游戏分析 / 投注用户停留分析",
-          gameMetricPage: "stay",
-        },
-        "game-value": {
-          title: "游戏价值",
-          breadcrumb: "游戏分析 / 游戏价值",
-          gameMetricPage: "value",
         },
         "profit-platform": {
           title: "平台收益",
@@ -5698,126 +5296,6 @@
         });
       }
 
-      function formatChartTipNumber(v) {
-        if (typeof v !== "number" || Number.isNaN(v)) return String(v);
-        return Number.isInteger(v)
-          ? v.toLocaleString("zh-CN")
-          : v.toLocaleString("zh-CN", { maximumFractionDigits: 2 });
-      }
-
-      function renderComboChartWithTip(svgBody, tipPayload) {
-        const { W, H, padT, padB } = tipPayload.layout;
-        return `
-        <div class="combo-chart has-chart-tip" data-chart-tip="${encodeURIComponent(JSON.stringify(tipPayload))}">
-          <svg viewBox="0 0 ${W} ${H}" preserveAspectRatio="xMidYMid meet">
-            ${svgBody}
-            <line class="chart-tip-crosshair" x1="0" y1="${padT}" x2="0" y2="${H - padB}" visibility="hidden"></line>
-            <g class="chart-tip-marks"></g>
-          </svg>
-          <div class="rt-tooltip chart-svg-tooltip"></div>
-        </div>`;
-      }
-
-      function bindSvgChartTooltips(root = document) {
-        root.querySelectorAll(".has-chart-tip").forEach((wrap) => {
-          if (wrap.dataset.tipBound === "1") return;
-          wrap.dataset.tipBound = "1";
-          const tipEl = wrap.querySelector(".chart-svg-tooltip");
-          const svg = wrap.querySelector("svg");
-          const crosshair = svg?.querySelector(".chart-tip-crosshair");
-          const marks = svg?.querySelector(".chart-tip-marks");
-          if (!tipEl || !svg || !crosshair || !marks) return;
-
-          let payload;
-          try {
-            payload = JSON.parse(decodeURIComponent(wrap.dataset.chartTip || ""));
-          } catch {
-            return;
-          }
-          const { labels = [], points = [], layout } = payload;
-          if (!layout || !labels.length) return;
-          const { W, H, padL, padR, padT, padB, xMode = "spread" } = layout;
-          const plotW = W - padL - padR;
-          const n = labels.length;
-
-          const xPos = (i) => {
-            if (n === 1) return padL + plotW / 2;
-            if (xMode === "band") {
-              const step = plotW / n;
-              return padL + step * i + step / 2;
-            }
-            return padL + (i / (n - 1)) * plotW;
-          };
-
-          const idxFromX = (svgX) => {
-            if (n <= 1) return 0;
-            if (xMode === "band") {
-              const step = plotW / n;
-              return Math.max(
-                0,
-                Math.min(n - 1, Math.floor((svgX - padL) / step)),
-              );
-            }
-            const t = (svgX - padL) / plotW;
-            return Math.max(0, Math.min(n - 1, Math.round(t * (n - 1))));
-          };
-
-          const toSvgPoint = (clientX, clientY) => {
-            const pt = svg.createSVGPoint();
-            pt.x = clientX;
-            pt.y = clientY;
-            const ctm = svg.getScreenCTM();
-            if (!ctm) return null;
-            return pt.matrixTransform(ctm.inverse());
-          };
-
-          const hideTip = () => {
-            tipEl.style.display = "none";
-            crosshair.setAttribute("visibility", "hidden");
-            marks.innerHTML = "";
-          };
-
-          wrap.addEventListener("mousemove", (e) => {
-            const p = toSvgPoint(e.clientX, e.clientY);
-            if (!p) return;
-            if (
-              p.x < padL ||
-              p.x > W - padR ||
-              p.y < padT ||
-              p.y > H - padB
-            ) {
-              hideTip();
-              return;
-            }
-            const i = idxFromX(p.x);
-            const cx = xPos(i);
-            const dayPoints = points[i] || [];
-            crosshair.setAttribute("x1", cx);
-            crosshair.setAttribute("x2", cx);
-            crosshair.setAttribute("visibility", "visible");
-            marks.innerHTML = dayPoints
-              .map(
-                (d) =>
-                  `<circle cx="${d.x}" cy="${d.y}" r="4.5" fill="#fff" stroke="${d.color}" stroke-width="2"></circle>`,
-              )
-              .join("");
-            tipEl.innerHTML = `<div class="rt-tip-time">${labels[i]}</div>${dayPoints
-              .map(
-                (d) =>
-                  `<div class="rt-tip-row"><span class="rt-tip-dot" style="background:${d.color}"></span>${d.name}：${d.text}</div>`,
-              )
-              .join("")}`;
-            tipEl.style.display = "block";
-            const wrapRect = wrap.getBoundingClientRect();
-            const svgRect = svg.getBoundingClientRect();
-            tipEl.style.left = `${svgRect.left - wrapRect.left + (cx / W) * svgRect.width}px`;
-            tipEl.style.top = `${svgRect.top - wrapRect.top + (padT / H) * svgRect.height + 8}px`;
-          });
-
-          wrap.addEventListener("mouseleave", hideTip);
-        });
-      }
-
       function renderMultiLineTrendChart({
         labels,
         series,
@@ -5867,20 +5345,6 @@
           }
         });
 
-        const tipPoints = labels.map((_, i) =>
-          series.map((s) => ({
-            name: s.name,
-            color: s.color,
-            x: xPos(i),
-            y: yPos(s.data[i]),
-            text:
-              (typeof s.formatTip === "function"
-                ? s.formatTip(s.data[i])
-                : formatChartTipNumber(s.data[i])) +
-              (s.suffix != null ? s.suffix : ""),
-          })),
-        );
-
         const legend = series
           .map(
             (s) =>
@@ -5889,14 +5353,15 @@
           .join("");
 
         return `
-        ${renderComboChartWithTip(
-          `${grid}${polylines}${dots}${yLabels}${xLabels}`,
-          {
-            labels,
-            points: tipPoints,
-            layout: { W, H, padL, padR, padT, padB, xMode: "spread" },
-          },
-        )}
+        <div class="combo-chart">
+          <svg viewBox="0 0 ${W} ${H}" preserveAspectRatio="xMidYMid meet">
+            ${grid}
+            ${polylines}
+            ${dots}
+            ${yLabels}
+            ${xLabels}
+          </svg>
+        </div>
         <div class="line-legend">${legend}</div>`;
       }
 
@@ -5993,32 +5458,17 @@
           )
           .join("");
 
-        const tipPoints = labels.map((_, i) => [
-          {
-            name: leftSeries.name,
-            color: leftSeries.color,
-            x: xPos(i),
-            y: yLeft(leftSeries.data[i]),
-            text: fmtLeft(leftSeries.data[i]),
-          },
-          {
-            name: rightSeries.name,
-            color: rightSeries.color,
-            x: xPos(i),
-            y: yRight(rightSeries.data[i]),
-            text: fmtRight(rightSeries.data[i]),
-          },
-        ]);
-
         return `
-        ${renderComboChartWithTip(
-          `${grid}${drawLine(leftSeries, yLeft)}${drawLine(rightSeries, yRight)}${leftAxis}${rightAxis}${xLabels}`,
-          {
-            labels,
-            points: tipPoints,
-            layout: { W, H, padL, padR, padT, padB, xMode: "spread" },
-          },
-        )}
+        <div class="combo-chart">
+          <svg viewBox="0 0 ${W} ${H}" preserveAspectRatio="xMidYMid meet">
+            ${grid}
+            ${drawLine(leftSeries, yLeft)}
+            ${drawLine(rightSeries, yRight)}
+            ${leftAxis}
+            ${rightAxis}
+            ${xLabels}
+          </svg>
+        </div>
         <div class="line-legend">${legend}</div>`;
       }
 
@@ -7346,13 +6796,7 @@
         const trend = k.trend
           ? `<div class="metric-trend ${dir === "flat" ? "" : dir}">${arrow} ${k.trend}</div>`
           : "";
-        const best = k.bestGame
-          ? `<div class="metric-best">最优游戏：<strong>${k.bestGame}</strong></div>`
-          : "";
-        const note = k.note
-          ? `<div class="metric-note-value">${k.note}</div>`
-          : "";
-        return `<article class="metric-card"><div class="metric-label">${k.label}${tag}</div><div class="metric-value">${k.value}</div>${trend}${best}${note}</article>`;
+        return `<article class="metric-card"><div class="metric-label">${k.label}${tag}</div><div class="metric-value">${k.value}</div>${trend}</article>`;
       }
 
       function renderInsightsPanel(page) {
@@ -7458,1417 +6902,6 @@
               `<option value="${name}" ${name === selected ? "selected" : ""}>${name}</option>`,
           )
           .join("");
-      }
-
-      function renderGameAnalysisFilterBar(
-        filterId,
-        extraHtml = "",
-        lastRowHtml = "",
-      ) {
-        const queryBtn = `<button class="btn btn-primary" type="button">查询</button>`;
-        const showGameHint = [
-          "game-activity",
-          "game-participation",
-          "game-stay",
-          "game-value",
-        ].includes(filterId);
-        return `
-        <div class="filter-bar filter-bar-global" data-local-filter="${filterId}">
-          <div class="filter-item">
-            <label>时间</label>
-            <input type="date" value="2025-07-17" />
-            <span>—</span>
-            <input type="date" value="2025-07-17" />
-          </div>
-          <div class="filter-item">
-            <label>来源渠道</label>
-            <select class="local-source-channel" data-filter-id="${filterId}">
-              <option selected>全部</option>
-              <option>投放</option>
-              <option>官网</option>
-              <option>特殊流量</option>
-              <option>裂变</option>
-            </select>
-          </div>
-          <div class="filter-item filter-item-channel-name local-channel-name-wrap is-visible" data-filter-id="${filterId}">
-            <label>渠道账号</label>
-            <input type="text" class="local-channel-name" data-filter-id="${filterId}" placeholder="请选择（可多选）" autocomplete="off" />
-          </div>
-          <div class="filter-item">
-            <label>游戏平台</label>
-            <select>
-              <option selected>全部</option>
-              <option>One</option>
-              <option>Inout</option>
-              <option>壹号 平台</option>
-            </select>
-          </div>
-          <div class="filter-item">
-            <label>游戏厂商</label>
-            <select>
-              <option selected>全部</option>
-              <option>MG</option>
-              <option>JDB</option>
-              <option>PG</option>
-              <option>INOUT</option>
-            </select>
-          </div>
-          <div class="filter-item filter-item-game-name">
-            <label>游戏名称</label>
-            <div class="filter-field-control">
-              <input type="text" class="game-name-filter" placeholder="请输入游戏名称" />
-              ${showGameHint ? `<span class="filter-field-hint">输入游戏名称查询后显示单个游戏分析数据</span>` : ""}
-            </div>
-          </div>
-          ${extraHtml}
-          ${
-            lastRowHtml
-              ? `<div class="filter-bar-last-row">${lastRowHtml}${queryBtn}</div>`
-              : queryBtn
-          }
-        </div>`;
-      }
-
-      function renderBetReportFilterBar() {
-        return renderGameAnalysisFilterBar("bet-report");
-      }
-
-      const BET_REPORT_COLS = [
-        "游戏平台",
-        "游戏厂商",
-        "游戏名称",
-        "投注人次",
-        "总注单量",
-        "总投注金额",
-        "返奖金额",
-        "会员输赢",
-        "占单量",
-        "投注金额占比",
-        "RTP",
-        "投注用户平均停留时长",
-      ];
-
-      const BET_REPORT_ROWS = [
-        ["One", "MG", "Aviator", 10000, 10000, 10000, 10000, 10000, "10000", "10000", "10000", "6分32秒"],
-        ["Inout", "JDB", "7up7down", 10000, 10000, 10000, 10000, 10000, "10000", "10000", "10000", "5分48秒"],
-        ["壹号 平台", "PG", "Money Coming", 10000, 10000, 10000, 10000, 10000, "10000", "10000", "10000", "7分15秒"],
-        ["One", "INOUT", "Fortune Ox", 10000, 10000, 10000, 10000, 10000, "10000", "10000", "10000", "4分56秒"],
-        ["合计", "-", "-", 50000, 50000, 50000, 50000, 50000, "50000", "50000", "50000", "6分08秒"],
-      ];
-
-      function renderBetReportTable() {
-        const head = BET_REPORT_COLS.map((c, i) => {
-          const stickyCls = i < 3 ? `sticky-col-${i + 1}` : "";
-          return `<th class="${stickyCls}">${c}<span class="sort-icon">▲<br>▼</span></th>`;
-        }).join("");
-        const body = BET_REPORT_ROWS.map((row, ri) => {
-          const isTotal = ri === BET_REPORT_ROWS.length - 1;
-          const cells = row
-            .map((cell, i) => {
-              const stickyCls = i < 3 ? `sticky-col-${i + 1}` : "";
-              const val =
-                typeof cell === "number" ? cell.toLocaleString("zh-CN") : cell;
-              return `<td class="${stickyCls}${isTotal ? " is-total" : ""}">${val}</td>`;
-            })
-            .join("");
-          return `<tr class="${isTotal ? "total-row" : ""}">${cells}</tr>`;
-        }).join("");
-        return `
-          <div class="table-wrap">
-            <table class="data-table">
-              <thead><tr class="col-row">${head}</tr></thead>
-              <tbody>${body}</tbody>
-            </table>
-          </div>
-          <div class="pagination">
-            <button disabled>‹</button>
-            <button>1</button>
-            <button class="active">2</button>
-            <button>3</button>
-            <button>4</button>
-            <button>5</button>
-            <button>›</button>
-            <span class="pagination-info">10 条/页</span>
-            <span class="pagination-info">跳至</span>
-            <span class="pagination-info">页</span>
-          </div>`;
-      }
-
-      function renderBetReportContent(page) {
-        return `
-          ${renderBetReportFilterBar()}
-          <div class="page-panel active">
-            <div class="toolbar">
-              <span class="page-title">${page.title}</span>
-              <div class="toolbar-actions">
-                <button class="btn btn-primary" type="button">导出报表</button>
-              </div>
-            </div>
-            ${renderBetReportTable()}
-          </div>`;
-      }
-
-      const GAME_METRIC_PAGES = {
-        activity: {
-          filterId: "game-activity",
-          kpis: [
-            { label: "投注玩家DAU", value: "12,580", trend: "5.2% 日环比", dir: "up" },
-            { label: "新增投注玩家数", value: "3,260", trend: "8.6% 日环比", dir: "up" },
-            { label: "老投注玩家DAU", value: "9,320", trend: "3.4% 日环比", dir: "up" },
-            { label: "投注活跃玩家数", value: "9,840", trend: "4.1% 日环比", dir: "up" },
-            { label: "投注转化率", value: "78.2%", trend: "1.2% 日环比", dir: "up" },
-          ],
-          metricCols: [
-            "投注玩家DAU",
-            "新增投注玩家数",
-            "老投注玩家DAU",
-            "投注活跃玩家数",
-            "投注转化率",
-          ],
-          rows: [
-            ["One", "MG", "Aviator", 4280, 1120, 3160, 3560, "83.2%"],
-            ["Inout", "JDB", "7up7down", 3120, 860, 2260, 2540, "81.4%"],
-            ["壹号 平台", "PG", "Money Coming", 2860, 720, 2140, 2180, "76.2%"],
-            ["One", "INOUT", "Fortune Ox", 2320, 560, 1760, 1860, "80.2%"],
-            ["合计", "-", "-", 12580, 3260, 9320, 9840, "78.2%"],
-          ],
-        },
-        participation: {
-          filterId: "game-participation",
-          kpis: [
-            { label: "投注用户数", value: "6,520", trend: "3.8% 日环比", dir: "up" },
-            { label: "投注用户占比", value: "66.3%", trend: "0.6% 日环比", dir: "down" },
-            { label: "人均投注次数", value: "8.6", trend: "2.1% 日环比", dir: "up" },
-            { label: "单次投注金额", value: "¥42.5", trend: "1.3% 日环比", dir: "up" },
-            { label: "人均投注金额", value: "¥365.5", trend: "3.4% 日环比", dir: "up" },
-          ],
-          metricCols: [
-            "投注用户数",
-            "投注用户占比",
-            "人均投注次数",
-            "单次投注金额",
-            "人均投注金额",
-            "总投注金额",
-          ],
-          rows: [
-            ["One", "MG", "Aviator", 2680, "75.3%", 12.4, "¥58.2", "¥722.0", "¥1,934,960"],
-            ["Inout", "JDB", "7up7down", 1680, "66.1%", 9.8, "¥36.5", "¥357.7", "¥600,936"],
-            ["壹号 平台", "PG", "Money Coming", 1420, "65.1%", 7.2, "¥41.0", "¥295.2", "¥419,184"],
-            ["One", "INOUT", "Fortune Ox", 1240, "66.7%", 8.1, "¥39.8", "¥322.4", "¥399,776"],
-            ["合计", "-", "-", 6520, "66.3%", 8.6, "¥42.5", "¥365.5", "¥2,383,060"],
-          ],
-        },
-        stay: {
-          filterId: "game-stay",
-          metricCols: [
-            "平均游戏停留时长",
-            "单次访问停留时长",
-            "退出率",
-          ],
-        },
-        value: {
-          filterId: "game-value",
-          kpis: [
-            { label: "平台游戏输赢", value: "¥573,300", trend: "11.6% 日环比", dir: "up" },
-            { label: "GGR", value: "¥628,500", trend: "9.8% 日环比", dir: "up" },
-            { label: "RTP", value: "96.2%", trend: "0.3% 日环比", dir: "down" },
-            { label: "杀率", value: "3.8%", trend: "0.3% 日环比", dir: "up" },
-          ],
-          metricCols: [
-            "平台游戏输赢",
-            "GGR",
-            "RTP",
-            "杀率",
-          ],
-          rows: [
-            ["One", "MG", "Aviator", "¥186,200", "¥198,500", "95.8%", "4.2%"],
-            ["Inout", "JDB", "7up7down", "¥142,800", "¥156,200", "96.5%", "3.5%"],
-            ["壹号 平台", "PG", "Money Coming", "¥138,600", "¥152,800", "96.1%", "3.9%"],
-            ["One", "INOUT", "Fortune Ox", "¥105,700", "¥121,000", "96.8%", "3.2%"],
-            ["合计", "-", "-", "¥573,300", "¥628,500", "96.2%", "3.8%"],
-          ],
-        },
-      };
-
-      const GAME_STAY_SEGMENT_META = {
-        全部: { color: "#165dff" },
-        新玩家: { color: "#14c9c9" },
-        老玩家: { color: "#722ed1" },
-        投注玩家: { color: "#f7ba1e" },
-        未投注玩家: { color: "#86909c" },
-      };
-
-      const GAME_STAY_DAILY_LABELS = (() => {
-        const labels = [];
-        const end = new Date(2025, 6, 17); // 2025-07-17
-        for (let i = 29; i >= 0; i--) {
-          const d = new Date(end);
-          d.setDate(end.getDate() - i);
-          const m = String(d.getMonth() + 1).padStart(2, "0");
-          const day = String(d.getDate()).padStart(2, "0");
-          labels.push(`${m}-${day}`);
-        }
-        return labels;
-      })();
-
-      function buildGameStayDailySeries(seedBase, last7) {
-        // 用近7日样本向前扩展到30日
-        const out = [];
-        for (let i = 0; i < 30; i++) {
-          const sample = last7[i % last7.length];
-          const wave = Math.sin((i + seedBase) * 0.55) * 0.08;
-          const drift = ((i % 9) - 4) * 0.015;
-          out.push(Math.max(60, Math.round(sample * (1 + wave + drift))));
-        }
-        // 保证末尾 7 日贴近原样本
-        for (let i = 0; i < 7; i++) {
-          out[23 + i] = last7[i];
-        }
-        return out;
-      }
-
-      const GAME_STAY_BY_SEGMENT = {
-        全部: {
-          kpis: [
-            { label: "平均游戏停留时长", value: "18分32秒", trend: "2.4% 日环比", dir: "up" },
-            { label: "单次访问停留时长", value: "6分18秒", trend: "1.6% 日环比", dir: "up" },
-            { label: "退出率", value: "12.4%", trend: "0.5% 日环比", dir: "down" },
-          ],
-          rows: [
-            ["One", "MG", "Aviator", "22分15秒", "7分05秒", "11.8%"],
-            ["Inout", "JDB", "7up7down", "16分48秒", "5分42秒", "13.6%"],
-            ["壹号 平台", "PG", "Money Coming", "19分06秒", "6分28秒", "12.1%"],
-            ["One", "INOUT", "Fortune Ox", "15分32秒", "5分15秒", "14.2%"],
-            ["合计", "-", "-", "18分32秒", "6分18秒", "12.4%"],
-          ],
-          compare: [
-            { name: "新玩家", value: 612, display: "10分12秒", color: "#14c9c9" },
-            { name: "老玩家", value: 1385, display: "23分05秒", color: "#722ed1" },
-            { name: "投注玩家", value: 1335, display: "22分15秒", color: "#f7ba1e" },
-            { name: "未投注玩家", value: 428, display: "7分08秒", color: "#86909c" },
-          ],
-        },
-        新玩家: {
-          kpis: [
-            { label: "平均游戏停留时长", value: "10分12秒", trend: "3.1% 日环比", dir: "up" },
-            { label: "单次访问停留时长", value: "4分05秒", trend: "2.0% 日环比", dir: "up" },
-            { label: "退出率", value: "18.6%", trend: "0.8% 日环比", dir: "down" },
-          ],
-          rows: [
-            ["One", "MG", "Aviator", "12分40秒", "4分50秒", "16.2%"],
-            ["Inout", "JDB", "7up7down", "9分20秒", "3分55秒", "19.5%"],
-            ["壹号 平台", "PG", "Money Coming", "10分05秒", "4分10秒", "17.8%"],
-            ["One", "INOUT", "Fortune Ox", "8分45秒", "3分28秒", "21.4%"],
-            ["合计", "-", "-", "10分12秒", "4分05秒", "18.6%"],
-          ],
-          daily: buildGameStayDailySeries(1, [540, 580, 560, 620, 600, 650, 612]),
-        },
-        老玩家: {
-          kpis: [
-            { label: "平均游戏停留时长", value: "23分05秒", trend: "2.8% 日环比", dir: "up" },
-            { label: "单次访问停留时长", value: "7分42秒", trend: "1.9% 日环比", dir: "up" },
-            { label: "退出率", value: "9.2%", trend: "0.4% 日环比", dir: "down" },
-          ],
-          rows: [
-            ["One", "MG", "Aviator", "26分30秒", "8分20秒", "8.1%"],
-            ["Inout", "JDB", "7up7down", "21分15秒", "7分05秒", "10.3%"],
-            ["壹号 平台", "PG", "Money Coming", "23分40秒", "7分55秒", "8.8%"],
-            ["One", "INOUT", "Fortune Ox", "19分50秒", "6分40秒", "11.0%"],
-            ["合计", "-", "-", "23分05秒", "7分42秒", "9.2%"],
-          ],
-          daily: buildGameStayDailySeries(3, [1180, 1250, 1220, 1320, 1280, 1400, 1385]),
-        },
-        投注玩家: {
-          kpis: [
-            { label: "平均游戏停留时长", value: "22分15秒", trend: "3.3% 日环比", dir: "up" },
-            { label: "单次访问停留时长", value: "7分20秒", trend: "2.1% 日环比", dir: "up" },
-            { label: "退出率", value: "8.6%", trend: "0.3% 日环比", dir: "down" },
-          ],
-          rows: [
-            ["One", "MG", "Aviator", "25分10秒", "8分05秒", "7.4%"],
-            ["Inout", "JDB", "7up7down", "20分35秒", "6分50秒", "9.8%"],
-            ["壹号 平台", "PG", "Money Coming", "22分50秒", "7分35秒", "8.2%"],
-            ["One", "INOUT", "Fortune Ox", "19分20秒", "6分25秒", "10.1%"],
-            ["合计", "-", "-", "22分15秒", "7分20秒", "8.6%"],
-          ],
-          daily: buildGameStayDailySeries(5, [1120, 1200, 1180, 1280, 1240, 1350, 1335]),
-        },
-        未投注玩家: {
-          kpis: [
-            { label: "平均游戏停留时长", value: "7分08秒", trend: "1.2% 日环比", dir: "down" },
-            { label: "单次访问停留时长", value: "3分15秒", trend: "0.8% 日环比", dir: "down" },
-            { label: "退出率", value: "24.5%", trend: "1.1% 日环比", dir: "up" },
-          ],
-          rows: [
-            ["One", "MG", "Aviator", "8分30秒", "3分40秒", "21.8%"],
-            ["Inout", "JDB", "7up7down", "6分45秒", "3分05秒", "25.6%"],
-            ["壹号 平台", "PG", "Money Coming", "7分20秒", "3分18秒", "23.4%"],
-            ["One", "INOUT", "Fortune Ox", "5分50秒", "2分48秒", "27.2%"],
-            ["合计", "-", "-", "7分08秒", "3分15秒", "24.5%"],
-          ],
-          daily: buildGameStayDailySeries(7, [380, 420, 400, 450, 430, 460, 428]),
-        },
-      };
-
-      let gameStayState = { days: 7 };
-      const GAME_STAY_SEGMENT = "投注玩家";
-
-      function formatStaySec(sec) {
-        const s = Math.max(0, Math.round(sec));
-        if (s < 60) return `${s}秒`;
-        const m = Math.floor(s / 60);
-        const rs = s % 60;
-        return rs ? `${m}分${String(rs).padStart(2, "0")}秒` : `${m}分`;
-      }
-
-      function renderGameStayDailyChart(days = 7) {
-        const segment = GAME_STAY_SEGMENT;
-        const data = GAME_STAY_BY_SEGMENT[segment];
-        const color = GAME_STAY_SEGMENT_META[segment]?.color || "#f7ba1e";
-        const dayCount = [7, 15, 30].includes(Number(days)) ? Number(days) : 7;
-        const allDaily = data?.daily || [];
-        const daily = allDaily.slice(-dayCount);
-        const labels = GAME_STAY_DAILY_LABELS.slice(-dayCount);
-        const maxRaw = Math.max(...daily, 1);
-        const yStep = dayCount >= 30 ? 400 : 300;
-        const maxVal = Math.ceil(maxRaw / yStep) * yStep || yStep;
-        const xLabelStep = dayCount >= 30 ? 3 : dayCount >= 15 ? 2 : 1;
-        return `
-          <article class="chart-card no-channel-filter">
-            <div class="chart-title">
-              <span class="chart-title-text">投注用户 · 每日停留时长 <span class="status-tag info">折线图</span></span>
-              <div class="chart-range-toggle" id="gameStayRangeToggle" role="radiogroup" aria-label="停留时长趋势时间范围">
-                <button type="button" class="range-btn ${dayCount === 7 ? "active" : ""}" data-days="7">近7日</button>
-                <button type="button" class="range-btn ${dayCount === 15 ? "active" : ""}" data-days="15">近15日</button>
-                <button type="button" class="range-btn ${dayCount === 30 ? "active" : ""}" data-days="30">近30日</button>
-              </div>
-            </div>
-            <div class="chart-subtitle" id="gameStayRangeSubtitle">近${dayCount}日投注用户平均游戏停留时长趋势（单位：秒）</div>
-            <div id="gameStayDailyChartWrap">
-              ${renderMultiLineTrendChart({
-                labels,
-                series: [{ name: "投注用户", color, data: daily }],
-                maxVal,
-                yStep,
-                xLabelStep,
-              })}
-              <div style="margin-top:8px;font-size:12px;color:var(--arco-text-3)">
-                最新一日平均停留：${formatStaySec(daily[daily.length - 1] || 0)}
-              </div>
-            </div>
-          </article>`;
-      }
-
-      function bindGameStayRangeToggle() {
-        const toggle = document.getElementById("gameStayRangeToggle");
-        if (!toggle) return;
-        toggle.querySelectorAll(".range-btn").forEach((btn) => {
-          btn.addEventListener("click", () => {
-            gameStayState.days = Number(btn.dataset.days) || 7;
-            refreshGameStayView();
-          });
-        });
-      }
-
-      function renderGameStayChart() {
-        return renderGameStayDailyChart(gameStayState.days || 7);
-      }
-
-      function getGameStayViewConfig() {
-        const base = GAME_METRIC_PAGES.stay;
-        const seg =
-          GAME_STAY_BY_SEGMENT[GAME_STAY_SEGMENT] || GAME_STAY_BY_SEGMENT["全部"];
-        return {
-          ...base,
-          kpis: seg.kpis,
-          rows: seg.rows,
-          metricCols: base.metricCols,
-        };
-      }
-
-      function refreshGameStayView() {
-        const view = getGameStayViewConfig();
-        const kpiEl = document.getElementById("gameStayKpi");
-        const chartEl = document.getElementById("gameStayChart");
-        const tableEl = document.getElementById("gameStayTable");
-        const titleEl = document.getElementById("gameStayTableTitle");
-        if (kpiEl) {
-          kpiEl.innerHTML = view.kpis.map(renderKpiCard).join("");
-        }
-        if (chartEl) {
-          chartEl.innerHTML = renderGameStayChart();
-          bindGameStayRangeToggle();
-          bindSvgChartTooltips(chartEl);
-        }
-        if (tableEl) {
-          tableEl.innerHTML = renderGameMetricTable(view);
-        }
-        if (titleEl) {
-          titleEl.textContent = "投注用户停留分析";
-        }
-      }
-
-      function renderGameStayRankingCharts() {
-        const stayRank = [
-          ["Aviator", 1510],
-          ["Money Coming", 1370],
-          ["Dragon Tiger", 1285],
-          ["7up7down", 1235],
-          ["Fortune Ox", 1160],
-          ["Sugar Rush", 1095],
-          ["Gates of Olympus", 1020],
-          ["Lucky Neko", 965],
-          ["Fishing Master", 910],
-          ["Crash", 845],
-        ].map(([name, value]) => ({ name, value }));
-        return `<div class="game-metric-charts ga-stay-rank-charts" id="gameStayCharts">${renderGameMetricChartCard("avg-stay-top10", "平均游戏停留时长 Top10游戏", "平均游戏停留时长", "平均游戏停留时长最高的10款游戏", renderGameActivityTop10Chart(stayRank, "平均游戏停留时长", "sec", { height: 220 }), { expandable: false, spanFull: true })}</div>`;
-      }
-
-      function renderGameStayCharts(showAllGames = false) {
-        if (showAllGames) return renderGameStayRankingCharts();
-        return `
-          <div id="gameStayCharts">
-            <section class="chart-grid" style="grid-template-columns:1fr;margin-bottom:16px">
-              <div id="gameStayChart">${renderGameStayChart()}</div>
-            </section>
-          </div>`;
-      }
-
-      function initGameStayFilter(scope) {
-        const input = scope.querySelector('.filter-bar[data-local-filter="game-stay"] .game-name-filter');
-        const queryBtn = scope.querySelector('.filter-bar[data-local-filter="game-stay"] .btn-primary');
-        if (!input || !queryBtn) return;
-        queryBtn.addEventListener("click", () => {
-          const showAllGames = !input.value.trim();
-          const kpiWrap = scope.querySelector("#gameStayKpiWrap");
-          const charts = scope.querySelector("#gameStayCharts");
-          if (kpiWrap) kpiWrap.style.display = showAllGames ? "none" : "";
-          if (!charts) return;
-          charts.outerHTML = renderGameStayCharts(showAllGames);
-          if (!showAllGames) {
-            bindGameStayRangeToggle();
-            bindSvgChartTooltips(scope.querySelector("#gameStayCharts"));
-          }
-        });
-      }
-
-      function initGameStayPage() {
-        const scope = document.getElementById("pageContainer") || document;
-        bindGameStayRangeToggle();
-        bindSvgChartTooltips(document.getElementById("gameStayCharts"));
-        initGameStayFilter(scope);
-      }
-
-      function renderGameMetricTable(config) {
-        const cols = ["游戏平台", "游戏厂商", "游戏名称", ...config.metricCols];
-        const head = cols
-          .map((c, i) => {
-            const stickyCls = i < 3 ? `sticky-col-${i + 1}` : "";
-            const help = i < 3 ? "" : renderGameMetricHelpBtn(c);
-            return `<th class="${stickyCls}">${c}${help}<span class="sort-icon">▲<br>▼</span></th>`;
-          })
-          .join("");
-        const body = config.rows
-          .map((row, ri) => {
-            const isTotal = ri === config.rows.length - 1;
-            const cells = row
-              .map((cell, i) => {
-                const stickyCls = i < 3 ? `sticky-col-${i + 1}` : "";
-                const val =
-                  typeof cell === "number" ? cell.toLocaleString("zh-CN") : cell;
-                return `<td class="${stickyCls}${isTotal ? " is-total" : ""}">${val}</td>`;
-              })
-              .join("");
-            return `<tr class="${isTotal ? "total-row" : ""}">${cells}</tr>`;
-          })
-          .join("");
-        return `
-          <div class="table-wrap">
-            <table class="data-table">
-              <thead><tr class="col-row">${head}</tr></thead>
-              <tbody>${body}</tbody>
-            </table>
-          </div>
-          <div class="pagination">
-            <button disabled>‹</button>
-            <button class="active">1</button>
-            <button>2</button>
-            <button>3</button>
-            <button>›</button>
-            <span class="pagination-info">共 ${config.rows.length - 1} 条</span>
-          </div>`;
-      }
-
-      function renderGameStayContent(page) {
-        const view = getGameStayViewConfig();
-        return `
-          ${renderGameAnalysisFilterBar(view.filterId, "")}
-          <div class="analysis-block" id="gameStayKpiWrap" style="display:none;margin-bottom:16px">
-            <section id="gameStayKpi" class="kpi-grid" style="grid-template-columns:repeat(3,minmax(0,1fr))" aria-label="${page.title}核心指标">
-              ${view.kpis.map(renderKpiCard).join("")}
-            </section>
-          </div>
-          ${renderGameStayCharts(true)}
-          <div class="page-panel active">
-            <div class="toolbar">
-              <span class="page-title" id="gameStayTableTitle">${page.title}</span>
-              <div class="toolbar-actions">
-                <button class="btn btn-primary" type="button">导出报表</button>
-              </div>
-            </div>
-            <div id="gameStayTable">${renderGameMetricTable(view)}</div>
-          </div>`;
-      }
-
-      function renderGameActivityBetPlayerTrend() {
-        const dayCount = 30;
-        const labels = buildRecentTrendLabels(dayCount);
-        const newDau = genTrendSeries(dayCount, 2680, 3260, 180);
-        const oldDau = genTrendSeries(dayCount, 8520, 9320, 260);
-        newDau[dayCount - 1] = 3260;
-        oldDau[dayCount - 1] = 9320;
-        const totalDau = newDau.map((v, i) => v + oldDau[i]);
-        return renderMultiLineTrendChart({
-          labels,
-          series: [
-            { name: "投注玩家DAU", data: totalDau, color: "#165DFF" },
-            { name: "新投注玩家DAU", data: newDau, color: "#14C9C9" },
-            { name: "老投注玩家DAU", data: oldDau, color: "#FF7D00" },
-          ],
-          maxVal: 15000,
-          yStep: 3000,
-          xLabelStep: 5,
-        });
-      }
-
-      function renderGameActivityStructureArea() {
-        const dayCount = 30;
-        const labels = buildRecentTrendLabels(dayCount);
-        const newPlayers = genTrendSeries(dayCount, 2680, 3260, 180);
-        const oldPlayers = genTrendSeries(dayCount, 8520, 9320, 260);
-        newPlayers[dayCount - 1] = 3260;
-        oldPlayers[dayCount - 1] = 9320;
-        const total = newPlayers.map((v, i) => v + oldPlayers[i]);
-
-        const W = 620,
-          H = 260,
-          padL = 52,
-          padR = 16,
-          padT = 20,
-          padB = 32;
-        const plotW = W - padL - padR;
-        const plotH = H - padT - padB;
-        const maxVal = 15000;
-        const n = labels.length;
-        const xPos = (i) =>
-          padL + (n === 1 ? plotW / 2 : (i / (n - 1)) * plotW);
-        const yPos = (v) => padT + plotH * (1 - v / maxVal);
-        const zeroLine = new Array(n).fill(0);
-
-        let grid = "",
-          yLabels = "",
-          xLabels = "";
-        for (let i = 0; i <= 5; i++) {
-          const val = (maxVal / 5) * i;
-          const y = yPos(val);
-          grid += `<line class="grid-line" x1="${padL}" y1="${y}" x2="${W - padR}" y2="${y}"></line>`;
-          yLabels += `<text class="axis-label" x="${padL - 8}" y="${y + 3}" text-anchor="end">${Math.round(val).toLocaleString("zh-CN")}</text>`;
-        }
-        labels.forEach((lab, i) => {
-          if (i % 5 === 0 || i === n - 1) {
-            xLabels += `<text class="axis-label" x="${xPos(i)}" y="${H - 8}" text-anchor="middle">${lab}</text>`;
-          }
-        });
-
-        const oldArea = buildStackedAreaPath(oldPlayers, zeroLine, xPos, yPos);
-        const newArea = buildStackedAreaPath(total, oldPlayers, xPos, yPos);
-        const tipPoints = labels.map((_, i) => [
-          {
-            name: "新增投注玩家",
-            color: "#14C9C9",
-            x: xPos(i),
-            y: yPos(total[i]),
-            text: formatChartTipNumber(newPlayers[i]),
-          },
-          {
-            name: "老投注玩家",
-            color: "#165DFF",
-            x: xPos(i),
-            y: yPos(oldPlayers[i] / 2),
-            text: formatChartTipNumber(oldPlayers[i]),
-          },
-        ]);
-
-        return `
-        ${renderComboChartWithTip(
-          `${grid}
-            <path d="${oldArea}" fill="#165DFF" fill-opacity="0.55"></path>
-            <path d="${newArea}" fill="#14C9C9" fill-opacity="0.55"></path>
-            ${yLabels}${xLabels}`,
-          {
-            labels,
-            points: tipPoints,
-            layout: { W, H, padL, padR, padT, padB, xMode: "spread" },
-          },
-        )}
-        <div class="line-legend">
-          <span><i style="background:#14C9C9"></i>新增投注玩家</span>
-          <span><i style="background:#165DFF"></i>老投注玩家</span>
-        </div>`;
-      }
-
-      function renderGameActivityTop10Chart(data, valueLabel, suffix = "", options = {}) {
-        const W = 620;
-        const H = options.height || 300;
-        const padL = 150;
-        const padR = suffix === "sec" ? 96 : 72;
-        const padT = 16;
-        const padB = 14;
-        const plotW = W - padL - padR;
-        const rowH = (H - padT - padB) / data.length;
-        const maxVal = Math.max(...data.map((item) => item.value));
-        const rows = data.map((item, index) => {
-          const y = padT + index * rowH;
-          const width = (item.value / maxVal) * plotW;
-          let display;
-          if (suffix === "%") {
-            display = `${item.value.toFixed(1)}%`;
-          } else if (suffix === "¥") {
-            const num = Number(item.value);
-            display =
-              "¥" +
-              (Number.isInteger(num)
-                ? num.toLocaleString("zh-CN")
-                : num.toLocaleString("zh-CN", {
-                    minimumFractionDigits: 1,
-                    maximumFractionDigits: 1,
-                  }));
-          } else if (suffix === "sec") {
-            display = formatStaySec(item.value);
-          } else {
-            display = item.value.toLocaleString("zh-CN");
-          }
-          const barH = Math.max(10, rowH - 8);
-          const barY = y + (rowH - barH) / 2;
-          return `<text class="axis-label" x="${padL - 10}" y="${y + rowH / 2 + 4}" text-anchor="end">${index + 1}. ${item.name}</text><rect x="${padL}" y="${barY}" width="${plotW}" height="${barH}" rx="3" fill="#f2f3f5"></rect><rect x="${padL}" y="${barY}" width="${width}" height="${barH}" rx="3" fill="${index < 3 ? "#165DFF" : "#14C9C9"}"></rect><text class="axis-label" x="${padL + width + 8}" y="${y + rowH / 2 + 4}">${display}</text>`;
-        }).join("");
-        return `<div class="combo-chart"><svg viewBox="0 0 ${W} ${H}" preserveAspectRatio="xMidYMid meet" role="img" aria-label="${valueLabel} Top10 横向柱状排行榜">${rows}</svg></div>`;
-      }
-
-      function renderGameActivityRankingCharts() {
-        const dauRank = [["Aviator", 4280], ["7up7down", 3120], ["Money Coming", 2860], ["Fortune Ox", 2320], ["Dragon Tiger", 2180], ["Sugar Rush", 1960], ["Gates of Olympus", 1840], ["Lucky Neko", 1710], ["Fishing Master", 1580], ["Crash", 1460]].map(([name, value]) => ({ name, value }));
-        const conversionRank = [["Aviator", 83.2], ["Dragon Tiger", 82.6], ["7up7down", 81.4], ["Fortune Ox", 80.2], ["Sugar Rush", 79.8], ["Lucky Neko", 78.9], ["Money Coming", 76.2], ["Gates of Olympus", 75.6], ["Fishing Master", 74.8], ["Crash", 73.5]].map(([name, value]) => ({ name, value }));
-        return `<div class="game-metric-charts" id="gameActivityCharts">${renderGameMetricChartCard("dau-top10", "投注玩家DAU Top10游戏", "投注玩家DAU", "游戏名称未筛选时，展示平台全部游戏的投注玩家 DAU 排行", renderGameActivityTop10Chart(dauRank, "投注玩家DAU"))}${renderGameMetricChartCard("conversion-top10", "投注转化率 TOP10游戏", "投注转化率", "展示投注转化率最高的 10 款游戏", renderGameActivityTop10Chart(conversionRank, "投注转化率", "%"))}</div>`;
-      }
-
-      const GAME_METRIC_DEFS = {
-        游戏平台: "游戏所属运营平台，用于区分不同平台下的游戏表现。",
-        游戏厂商: "游戏内容提供方（供应商），用于按厂商汇总对比。",
-        游戏名称: "具体游戏产品名称，表格明细按游戏维度展示。",
-        游戏DAU: "统计周期内进入过游戏的去重活跃用户数（按用户ID去重）。",
-        投注玩家DAU: "当日产生投注行为的去重用户数。",
-        新投注玩家DAU: "当日首次产生投注行为的去重用户数。",
-        新增投注玩家数: "首次产生投注行为的新用户数量。",
-        老投注玩家DAU: "非首次投注用户中，当日产生投注行为的人数。",
-        投注活跃玩家数: "当日产生投注行为的用户数（去重）。",
-        投注转化率: "用户从游戏浏览到投注的转化效率。",
-        新增投注玩家: "首次产生投注行为的新用户。",
-        老投注玩家: "非首次投注、当日产生投注行为的用户。",
-        新增游戏玩家:
-          "统计周期内首次进入该游戏的新玩家数（历史未玩过该游戏，按用户ID去重）。",
-        老用户DAU:
-          "统计周期内进入过游戏、且非首次进入该游戏的老玩家去重活跃用户数。",
-        老用户玩家DAU:
-          "统计周期内进入过游戏、且非首次进入该游戏的老玩家去重活跃用户数。",
-        新玩家DAU:
-          "统计周期内进入过游戏、且为首次进入该游戏的新玩家去重活跃用户数。",
-        活跃玩家数:
-          "统计周期内在该游戏有有效活跃行为的去重玩家数（可含投注/停留等活跃判定）。",
-        新用户: "在选择周期内注册的用户。",
-        新玩家: "在选择周期内注册的用户。",
-        老用户: "注册时间早于筛选周期开始时间的用户。",
-        老玩家: "注册时间早于筛选周期开始时间的用户。",
-        投注用户: "筛选周期内产生过充值的用户。",
-        投注玩家: "筛选周期内产生过充值的用户。",
-        未投注玩家: "筛选周期内未产生充值的用户。",
-        游戏活跃率:
-          "游戏DAU / 平台DAU × 100%，反映平台活跃用户中参与该游戏的比例。",
-        投注用户数:
-          "统计周期内在该游戏产生过有效投注行为的去重用户数。",
-        投注用户占比:
-          "投注用户数 / 游戏DAU × 100%，反映进入游戏的用户中实际产生投注的比例。",
-        投注参与度:
-          "投注用户数。",
-        投注参与率:
-          "投注用户数 / 游戏DAU × 100%，反映进入游戏的用户中实际产生投注的比例。",
-        人均投注次数:
-          "统计周期内总投注次数 ÷ 投注用户数，反映投注用户的平均投注频次。",
-        单次投注金额:
-          "统计周期内投注总金额 ÷ 总投注次数，反映单笔投注的平均金额。",
-        人均投注金额:
-          "统计周期内投注总金额 ÷ 投注用户数，反映投注用户的平均投注金额。",
-        总投注金额:
-          "统计周期内该游戏产生的投注金额合计。",
-        游戏留存率:
-          "选定观察窗口内，回访该游戏的用户占对应注册/首次进入队列的比例（默认取7日留存）。",
-        注册日期: "用户注册或首次进入该游戏的日期，作为留存队列的起始日（D0）。",
-        注册人数: "该注册日期对应队列的用户数，作为留存率计算分母。",
-        次日留存:
-          "注册日为 D0 的用户中，在 D1（次日）仍进入该游戏的用户占比。",
-        "3日留存":
-          "注册日为 D0 的用户中，在 D3 仍进入该游戏的用户占比。",
-        "7日留存":
-          "注册日为 D0 的用户中，在 D7 仍进入该游戏的用户占比。",
-        "14日留存":
-          "注册日为 D0 的用户中，在 D14 仍进入该游戏的用户占比。",
-        平台游戏输赢:
-          "统计周期内平台侧游戏输赢金额（玩家输赢净结果，正值表示平台盈利）。",
-        GGR: "Gross Gaming Revenue，毛游戏收入；通常为投注额扣除玩家返奖后的毛收入。",
-        RTP: "Return to Player，返奖率；玩家获得奖金占投注额的比例。",
-        杀率: "1 - RTP，反映平台抽成比例；杀率越高，平台理论盈利效率越高。",
-        平均游戏停留时长:
-          "在筛选时间范围内，目标用户群体在指定游戏中的累计游戏时长 ÷ 目标用户数量。",
-        单次访问停留时长:
-          "在筛选时间范围内，目标用户群体进入游戏产生的所有 Session 平均时长。",
-        投注用户平均停留时长:
-          "筛选周期内产生过充值的投注用户，在指定游戏中的平均停留时长。",
-      };
-
-      function getGameMetricDef(name) {
-        return (
-          GAME_METRIC_DEFS[name] ||
-          `「${name}」的统计口径说明待补充。`
-        );
-      }
-
-      function renderGameMetricHelpBtn(name) {
-        const tip = getGameMetricDef(name)
-          .replace(/&/g, "&amp;")
-          .replace(/"/g, "&quot;")
-          .replace(/</g, "&lt;");
-        return `<button type="button" class="ga-metric-help" aria-label="${name}口径说明">?<span class="ga-metric-help-tip">${tip}</span></button>`;
-      }
-
-      function renderGameMetricChartCard(
-        key,
-        title,
-        tag,
-        subtitle,
-        body,
-        { expandable = true, spanFull = false } = {},
-      ) {
-        const modeClass = expandable
-          ? "ga-chart-expandable"
-          : "ga-chart-static";
-        const spanClass = spanFull ? " ga-span-full" : "";
-        const metrics = (Array.isArray(tag) ? tag : String(tag || "").split(/[，,]/))
-          .map((item) => item.trim())
-          .filter(Boolean);
-        const metricsHtml = metrics
-          .map(
-            (item) =>
-              `<span class="ga-chart-metric">${item}${renderGameMetricHelpBtn(item)}</span>`,
-          )
-          .join("");
-        const expandHint = expandable
-          ? `<span class="ga-chart-expand-hint"><span class="ga-expand-tip">点击图表可放大展示</span><span class="ga-collapse-tip">再次点击可缩小</span></span>`
-          : "";
-        return `
-        <article class="chart-card ga-chart-card ${modeClass}${spanClass}" data-chart-key="${key}">
-          <div class="ga-chart-head">
-            <div class="ga-chart-title-row">
-              <div class="ga-chart-name">${title}</div>
-              ${expandHint}
-            </div>
-            <div class="ga-chart-meta">
-              ${metricsHtml}
-              <span class="ga-chart-note">${subtitle}</span>
-            </div>
-          </div>
-          ${body}
-        </article>`;
-      }
-
-      function renderGameActivityCharts(showAllGames = false) {
-        if (showAllGames) return renderGameActivityRankingCharts();
-        return `
-        <div class="game-metric-charts" id="gameActivityCharts">
-          ${renderGameMetricChartCard(
-            "bet-trend",
-            "投注玩家趋势",
-            "投注玩家DAU，新投注玩家DAU，老投注玩家DAU",
-            "近30日投注玩家DAU / 新投注玩家DAU / 老投注玩家DAU 变化",
-            renderGameActivityBetPlayerTrend(),
-          )}
-          ${renderGameMetricChartCard(
-            "bet-structure",
-            "投注用户结构",
-            "新增投注玩家，老投注玩家",
-            "堆叠面积图：新增投注玩家与老投注玩家构成",
-            renderGameActivityStructureArea(),
-          )}
-        </div>`;
-      }
-
-      function getGameActivityKpis(showAllGames = false) {
-        const base = GAME_METRIC_PAGES.activity.kpis;
-        if (!showAllGames) return base;
-        return [
-          { label: "投注玩家DAU", value: "Aviator", note: "4,280" },
-          { label: "新增投注玩家数", value: "Aviator", note: "1,120" },
-          { label: "老投注玩家DAU", value: "Aviator", note: "3,160" },
-          { label: "投注活跃玩家数", value: "Aviator", note: "3,560" },
-          { label: "投注转化率", value: "Aviator", note: "83.2%" },
-        ];
-      }
-
-      function initGameActivityFilter(scope) {
-        const input = scope.querySelector('.filter-bar[data-local-filter="game-activity"] .game-name-filter');
-        const queryBtn = scope.querySelector('.filter-bar[data-local-filter="game-activity"] .btn-primary');
-        if (!input || !queryBtn) return;
-        queryBtn.addEventListener("click", () => {
-          const showAllGames = !input.value.trim();
-          const charts = scope.querySelector("#gameActivityCharts");
-          const kpiGrid = scope.querySelector("#gameActivityKpi");
-          const kpiHint = scope.querySelector("#gameActivityKpiHint");
-          if (kpiHint) kpiHint.style.display = showAllGames ? "" : "none";
-          if (kpiGrid) {
-            kpiGrid.innerHTML = getGameActivityKpis(showAllGames)
-              .map(renderKpiCard)
-              .join("");
-          }
-          if (!charts) return;
-          charts.outerHTML = renderGameActivityCharts(showAllGames);
-          bindSvgChartTooltips(scope);
-          bindGameMetricChartFocus(scope, "#gameActivityCharts");
-        });
-      }
-
-      function renderGameParticipationDauBetChart() {
-        const dayCount = 30;
-        const labels = buildRecentTrendLabels(dayCount);
-        const dauData = genTrendSeries(dayCount, 11200, 12580, 320);
-        const betData = genTrendSeries(dayCount, 5820, 6520, 180);
-        dauData[dayCount - 1] = 12580;
-        betData[dayCount - 1] = 6520;
-        return renderMultiLineTrendChart({
-          labels,
-          series: [
-            { name: "游戏DAU", data: dauData, color: "#165DFF" },
-            { name: "投注用户数", data: betData, color: "#14C9C9" },
-          ],
-          maxVal: 15000,
-          yStep: 3000,
-          xLabelStep: 5,
-        });
-      }
-
-      function renderGameParticipationBetRateChart() {
-        const dayCount = 30;
-        const labels = buildRecentTrendLabels(dayCount);
-        const rateData = genTrendSeries(dayCount, 62.5, 66.3, 1.1, 1);
-        rateData[dayCount - 1] = 66.3;
-        return renderMultiLineTrendChart({
-          labels,
-          series: [
-            { name: "投注用户占比", data: rateData, color: "#FF7D00", suffix: "%" },
-          ],
-          maxVal: 100,
-          yStep: 25,
-          xLabelStep: 5,
-        });
-      }
-
-      function renderGameParticipationAvgBetCountChart() {
-        const dayCount = 30;
-        const labels = buildRecentTrendLabels(dayCount);
-        const countData = genTrendSeries(dayCount, 7.2, 12.4, 0.6, 1);
-        countData[dayCount - 1] = 12.4;
-        return renderMultiLineTrendChart({
-          labels,
-          series: [
-            { name: "人均投注次数", data: countData, color: "#722ED1" },
-          ],
-          maxVal: 15,
-          yStep: 3,
-          xLabelStep: 5,
-        });
-      }
-
-      function renderGameParticipationRankingCharts() {
-        const participationRank = [
-          ["Aviator", 2680],
-          ["7up7down", 1680],
-          ["Money Coming", 1420],
-          ["Fortune Ox", 1240],
-          ["Dragon Tiger", 1180],
-          ["Sugar Rush", 1060],
-          ["Gates of Olympus", 980],
-          ["Lucky Neko", 920],
-          ["Fishing Master", 860],
-          ["Crash", 780],
-        ].map(([name, value]) => ({ name, value }));
-        const rateRank = [
-          ["Aviator", 75.3],
-          ["Fortune Ox", 66.7],
-          ["7up7down", 66.1],
-          ["Money Coming", 65.1],
-          ["Dragon Tiger", 64.8],
-          ["Lucky Neko", 63.5],
-          ["Sugar Rush", 62.9],
-          ["Gates of Olympus", 61.4],
-          ["Fishing Master", 60.2],
-          ["Crash", 58.6],
-        ].map(([name, value]) => ({ name, value }));
-        const totalBetAmountRank = [
-          ["Aviator", 1934960],
-          ["7up7down", 600936],
-          ["Dragon Tiger", 574070],
-          ["Money Coming", 419184],
-          ["Fortune Ox", 399776],
-          ["Sugar Rush", 295316],
-          ["Lucky Neko", 235796],
-          ["Gates of Olympus", 236964],
-          ["Fishing Master", 196424],
-          ["Crash", 168402],
-        ].map(([name, value]) => ({ name, value }));
-        const avgBetAmountRank = [
-          ["Aviator", 722.0],
-          ["Dragon Tiger", 486.5],
-          ["7up7down", 357.7],
-          ["Fortune Ox", 322.4],
-          ["Money Coming", 295.2],
-          ["Sugar Rush", 278.6],
-          ["Lucky Neko", 256.3],
-          ["Gates of Olympus", 241.8],
-          ["Fishing Master", 228.4],
-          ["Crash", 215.9],
-        ].map(([name, value]) => ({ name, value }));
-        const avgBetCountRank = [
-          ["Aviator", 12.4],
-          ["Dragon Tiger", 11.2],
-          ["7up7down", 9.8],
-          ["Fortune Ox", 8.1],
-          ["Lucky Neko", 7.8],
-          ["Money Coming", 7.2],
-          ["Sugar Rush", 6.9],
-          ["Gates of Olympus", 6.4],
-          ["Fishing Master", 5.8],
-          ["Crash", 5.2],
-        ].map(([name, value]) => ({ name, value }));
-        return `<div class="game-metric-charts" id="gameParticipationCharts">${renderGameMetricChartCard("total-bet-amount-top10", "总投注金额 Top10游戏", "总投注金额", "总投注金额最高的10款游戏", renderGameActivityTop10Chart(totalBetAmountRank, "总投注金额", "¥"))}${renderGameMetricChartCard("avg-bet-amount-top10", "人均投注金额 Top10游戏", "人均投注金额", "人均投注金额最高的10款游戏", renderGameActivityTop10Chart(avgBetAmountRank, "人均投注金额", "¥"))}${renderGameMetricChartCard("participation-top10", "平台投注参与度 TOP10", "投注参与度", "展示平台全部游戏的投注参与度排行", renderGameActivityTop10Chart(participationRank, "投注参与度"))}${renderGameMetricChartCard("rate-top10", "平台投注参与率 TOP10", "投注参与率", "展示投注参与率最高的 10 款游戏", renderGameActivityTop10Chart(rateRank, "投注参与率", "%"))}${renderGameMetricChartCard("avg-bet-count-top10", "人均投注次数 Top10游戏", "人均投注次数", "人均投注次数最高的10款游戏", renderGameActivityTop10Chart(avgBetCountRank, "人均投注次数"))}</div>`;
-      }
-
-      function renderGameParticipationCharts(showAllGames = false) {
-        if (showAllGames) return renderGameParticipationRankingCharts();
-        return `
-        <div class="game-metric-charts" id="gameParticipationCharts">
-          ${renderGameMetricChartCard(
-            "dau-bet",
-            "投注参与度趋势",
-            "游戏DAU，投注用户数",
-            "近30日游戏DAU / 投注用户数对比",
-            renderGameParticipationDauBetChart(),
-          )}
-          ${renderGameMetricChartCard(
-            "bet-rate",
-            "投注参与率趋势",
-            "投注用户占比",
-            "近30日投注用户占活跃用户比例趋势",
-            renderGameParticipationBetRateChart(),
-          )}
-          ${renderGameMetricChartCard(
-            "avg-bet-count",
-            "人均投注次数趋势",
-            "人均投注次数",
-            "筛选日期范围内人均投注次数变化（X轴日期 / Y轴人均投注次数）",
-            renderGameParticipationAvgBetCountChart(),
-            { spanFull: true },
-          )}
-        </div>`;
-      }
-
-      function getGameParticipationKpis(showAllGames = false) {
-        const base = GAME_METRIC_PAGES.participation.kpis;
-        if (!showAllGames) return base;
-        return [
-          { label: "投注用户数", value: "Aviator", note: "2,680" },
-          { label: "投注用户占比", value: "Aviator", note: "75.3%" },
-          { label: "人均投注次数", value: "Aviator", note: "12.4" },
-          { label: "单次投注金额", value: "Aviator", note: "¥58.2" },
-          { label: "人均投注金额", value: "Aviator", note: "¥722.0" },
-        ];
-      }
-
-      function initGameParticipationFilter(scope) {
-        const input = scope.querySelector('.filter-bar[data-local-filter="game-participation"] .game-name-filter');
-        const queryBtn = scope.querySelector('.filter-bar[data-local-filter="game-participation"] .btn-primary');
-        if (!input || !queryBtn) return;
-        queryBtn.addEventListener("click", () => {
-          const showAllGames = !input.value.trim();
-          const charts = scope.querySelector("#gameParticipationCharts");
-          const kpiGrid = scope.querySelector("#gameParticipationKpi");
-          const kpiHint = scope.querySelector("#gameParticipationKpiHint");
-          if (kpiHint) kpiHint.style.display = showAllGames ? "" : "none";
-          if (kpiGrid) {
-            kpiGrid.innerHTML = getGameParticipationKpis(showAllGames)
-              .map(renderKpiCard)
-              .join("");
-          }
-          if (!charts) return;
-          charts.outerHTML = renderGameParticipationCharts(showAllGames);
-          bindSvgChartTooltips(scope);
-          bindGameMetricChartFocus(scope, "#gameParticipationCharts");
-        });
-      }
-
-      function formatGameMoney(v) {
-        return "¥" + Math.round(v).toLocaleString("zh-CN");
-      }
-
-      function renderGameValueGgrTrend() {
-        const dayCount = 30;
-        const labels = buildRecentTrendLabels(dayCount);
-        const ggr = genTrendSeries(dayCount, 520000, 628500, 18000);
-        ggr[dayCount - 1] = 628500;
-        return renderMultiLineTrendChart({
-          labels,
-          series: [
-            {
-              name: "GGR",
-              data: ggr,
-              color: "#165DFF",
-              formatTip: formatGameMoney,
-            },
-          ],
-          maxVal: 700000,
-          yStep: 140000,
-          xLabelStep: 5,
-        });
-      }
-
-      function renderGameValueProfitTrend() {
-        const dayCount = 30;
-        const labels = buildRecentTrendLabels(dayCount);
-        const ggr = genTrendSeries(dayCount, 520000, 628500, 18000);
-        const winlose = genTrendSeries(dayCount, 470000, 573300, 16000);
-        ggr[dayCount - 1] = 628500;
-        winlose[dayCount - 1] = 573300;
-
-        const W = 620,
-          H = 240,
-          padL = 58,
-          padR = 58,
-          padT = 20,
-          padB = 32;
-        const plotW = W - padL - padR;
-        const plotH = H - padT - padB;
-        const n = labels.length;
-        const step = plotW / n;
-        const barW = Math.min(10, step * 0.55);
-        const leftMax = 700000;
-        const rightMax = 700000;
-        const yGgr = (v) => padT + plotH * (1 - v / leftMax);
-        const yWin = (v) => padT + plotH * (1 - v / rightMax);
-        const fmtAxis = (v) =>
-          v >= 10000 ? (v / 10000).toFixed(0) + "万" : String(v);
-
-        let grid = "",
-          leftAxis = "",
-          rightAxis = "";
-        for (let i = 0; i <= 4; i++) {
-          const y = padT + (plotH / 4) * i;
-          grid += `<line class="grid-line" x1="${padL}" y1="${y}" x2="${W - padR}" y2="${y}"></line>`;
-          leftAxis += `<text class="axis-label" x="${padL - 8}" y="${y + 3}" text-anchor="end">${fmtAxis(leftMax - (leftMax / 4) * i)}</text>`;
-          rightAxis += `<text class="axis-label" x="${W - padR + 8}" y="${y + 3}" text-anchor="start">${fmtAxis(rightMax - (rightMax / 4) * i)}</text>`;
-        }
-
-        let bars = "",
-          xLabels = "",
-          linePts = "",
-          dots = "";
-        const tipPoints = [];
-        labels.forEach((lab, i) => {
-          const cx = padL + step * i + step / 2;
-          const barTop = yGgr(ggr[i]);
-          bars += `<rect x="${cx - barW / 2}" y="${barTop}" width="${barW}" height="${padT + plotH - barTop}" rx="2" fill="#165DFF"></rect>`;
-          const ly = yWin(winlose[i]);
-          linePts += `${i ? " " : ""}${cx},${ly}`;
-          dots += `<circle cx="${cx}" cy="${ly}" r="2.5" fill="#fff" stroke="#FF7D00" stroke-width="1.5"></circle>`;
-          tipPoints.push([
-            {
-              name: "GGR",
-              color: "#165DFF",
-              x: cx,
-              y: barTop,
-              text: formatGameMoney(ggr[i]),
-            },
-            {
-              name: "平台游戏输赢",
-              color: "#FF7D00",
-              x: cx,
-              y: ly,
-              text: formatGameMoney(winlose[i]),
-            },
-          ]);
-          if (i % 5 === 0 || i === n - 1) {
-            xLabels += `<text class="axis-label" x="${cx}" y="${H - 8}" text-anchor="middle">${lab}</text>`;
-          }
-        });
-
-        return `
-        ${renderComboChartWithTip(
-          `<text class="axis-title" x="${padL - 8}" y="${padT - 4}" text-anchor="end">GGR</text>
-            <text class="axis-title" x="${W - padR + 8}" y="${padT - 4}" text-anchor="start">平台游戏输赢</text>
-            ${grid}${bars}
-            <polyline fill="none" stroke="#FF7D00" stroke-width="2.5" points="${linePts}"></polyline>
-            ${dots}${leftAxis}${rightAxis}${xLabels}`,
-          {
-            labels,
-            points: tipPoints,
-            layout: { W, H, padL, padR, padT, padB, xMode: "band" },
-          },
-        )}
-        <div class="line-legend">
-          <span><i style="background:#165DFF"></i>GGR</span>
-          <span><i style="background:#FF7D00"></i>平台游戏输赢</span>
-        </div>`;
-      }
-
-      function renderGameValueEfficiencyTrend() {
-        const dayCount = 30;
-        const labels = buildRecentTrendLabels(dayCount);
-        const rtp = genTrendSeries(dayCount, 96.8, 96.2, 0.25, 1);
-        rtp[dayCount - 1] = 96.2;
-        const killRate = rtp.map((v) => +(100 - v).toFixed(1));
-        return renderMultiLineTrendChart({
-          labels,
-          series: [
-            { name: "RTP", data: rtp, color: "#165DFF", suffix: "%" },
-            { name: "杀率", data: killRate, color: "#F53F3F", suffix: "%" },
-          ],
-          maxVal: 100,
-          yStep: 25,
-          xLabelStep: 5,
-        });
-      }
-
-      function renderGameValueRankingCharts() {
-        const winLoseRank = [
-          ["Aviator", 186200],
-          ["7up7down", 142800],
-          ["Money Coming", 138600],
-          ["Fortune Ox", 105700],
-          ["Dragon Tiger", 98600],
-          ["Sugar Rush", 87200],
-          ["Gates of Olympus", 76500],
-          ["Lucky Neko", 68400],
-          ["Fishing Master", 59100],
-          ["Crash", 48200],
-        ].map(([name, value]) => ({ name, value }));
-        const ggrRank = [
-          ["Aviator", 198500],
-          ["7up7down", 156200],
-          ["Money Coming", 152800],
-          ["Fortune Ox", 121000],
-          ["Dragon Tiger", 108400],
-          ["Sugar Rush", 95600],
-          ["Gates of Olympus", 84200],
-          ["Lucky Neko", 75800],
-          ["Fishing Master", 65300],
-          ["Crash", 54100],
-        ].map(([name, value]) => ({ name, value }));
-        const rtpRank = [
-          ["Fortune Ox", 96.8],
-          ["7up7down", 96.5],
-          ["Lucky Neko", 96.3],
-          ["Money Coming", 96.1],
-          ["Sugar Rush", 96.0],
-          ["Aviator", 95.8],
-          ["Gates of Olympus", 95.6],
-          ["Dragon Tiger", 95.4],
-          ["Fishing Master", 95.2],
-          ["Crash", 94.9],
-        ].map(([name, value]) => ({ name, value }));
-        const killRank = [
-          ["Crash", 5.1],
-          ["Fishing Master", 4.8],
-          ["Dragon Tiger", 4.6],
-          ["Gates of Olympus", 4.4],
-          ["Aviator", 4.2],
-          ["Money Coming", 3.9],
-          ["Sugar Rush", 4.0],
-          ["Lucky Neko", 3.7],
-          ["7up7down", 3.5],
-          ["Fortune Ox", 3.2],
-        ].map(([name, value]) => ({ name, value }));
-        return `<div class="game-metric-charts" id="gameValueCharts">${renderGameMetricChartCard("winlose-top10", "平台游戏输赢 Top10游戏", "平台游戏输赢", "平台游戏输赢最高的10款游戏", renderGameActivityTop10Chart(winLoseRank, "平台游戏输赢", "¥"))}${renderGameMetricChartCard("ggr-top10", "GGR Top10游戏", "GGR", "GGR最高的10款游戏", renderGameActivityTop10Chart(ggrRank, "GGR", "¥"))}${renderGameMetricChartCard("rtp-top10", "RTP Top10游戏", "RTP", "RTP最高的10款游戏", renderGameActivityTop10Chart(rtpRank, "RTP", "%"))}${renderGameMetricChartCard("kill-top10", "杀率 Top10游戏", "杀率", "杀率最高的10款游戏", renderGameActivityTop10Chart(killRank, "杀率", "%"))}</div>`;
-      }
-
-      function getGameValueKpis(showAllGames = false) {
-        const base = GAME_METRIC_PAGES.value.kpis;
-        if (!showAllGames) return base;
-        return [
-          { label: "平台游戏输赢", value: "Aviator", note: "¥186,200" },
-          { label: "GGR", value: "Aviator", note: "¥198,500" },
-          { label: "RTP", value: "Fortune Ox", note: "96.8%" },
-          { label: "杀率", value: "Crash", note: "5.1%" },
-        ];
-      }
-
-      function renderGameValueCharts(showAllGames = false) {
-        if (showAllGames) return renderGameValueRankingCharts();
-        return `
-        <div class="game-metric-charts" id="gameValueCharts">
-          ${renderGameMetricChartCard(
-            "ggr-trend",
-            "游戏收入趋势",
-            "GGR",
-            "近30日GGR变化，观察游戏收入规模走势",
-            renderGameValueGgrTrend(),
-          )}
-          ${renderGameMetricChartCard(
-            "profit-trend",
-            "游戏盈利趋势",
-            "GGR，平台游戏输赢",
-            "柱状GGR / 折线平台游戏输赢，分析收入规模与实际盈利是否匹配",
-            renderGameValueProfitTrend(),
-          )}
-          ${renderGameMetricChartCard(
-            "efficiency",
-            "游戏盈利效率",
-            "RTP，杀率",
-            "双折线对比；杀率 = 1 - RTP",
-            renderGameValueEfficiencyTrend(),
-            { spanFull: true },
-          )}
-        </div>`;
-      }
-
-      function initGameValueFilter(scope) {
-        const input = scope.querySelector('.filter-bar[data-local-filter="game-value"] .game-name-filter');
-        const queryBtn = scope.querySelector('.filter-bar[data-local-filter="game-value"] .btn-primary');
-        if (!input || !queryBtn) return;
-        queryBtn.addEventListener("click", () => {
-          const showAllGames = !input.value.trim();
-          const charts = scope.querySelector("#gameValueCharts");
-          const kpiGrid = scope.querySelector("#gameValueKpi");
-          const kpiHint = scope.querySelector("#gameValueKpiHint");
-          if (kpiHint) kpiHint.style.display = showAllGames ? "" : "none";
-          if (kpiGrid) {
-            kpiGrid.innerHTML = getGameValueKpis(showAllGames)
-              .map(renderKpiCard)
-              .join("");
-          }
-          if (!charts) return;
-          charts.outerHTML = renderGameValueCharts(showAllGames);
-          bindSvgChartTooltips(scope);
-          bindGameMetricChartFocus(scope, "#gameValueCharts");
-        });
-      }
-
-      function bindGameMetricChartFocus(root = document, wrapId) {
-        const wrap = root.querySelector(wrapId);
-        if (!wrap || wrap.dataset.focusBound === "1") return;
-        wrap.dataset.focusBound = "1";
-
-        const setFocus = (key) => {
-          if (!key) {
-            wrap.classList.remove("is-focus-mode");
-            wrap
-              .querySelectorAll(".ga-chart-card")
-              .forEach((card) => card.classList.remove("is-focused"));
-            return;
-          }
-          wrap.classList.add("is-focus-mode");
-          wrap.querySelectorAll(".ga-chart-card").forEach((card) => {
-            card.classList.toggle("is-focused", card.dataset.chartKey === key);
-          });
-        };
-
-        wrap.addEventListener("click", (e) => {
-          if (e.target.closest(".ga-metric-help")) {
-            e.preventDefault();
-            e.stopPropagation();
-            return;
-          }
-          const card = e.target.closest(".ga-chart-expandable");
-          if (!card?.dataset.chartKey) return;
-          const key = card.dataset.chartKey;
-          if (
-            wrap.classList.contains("is-focus-mode") &&
-            card.classList.contains("is-focused")
-          ) {
-            setFocus(null);
-          } else {
-            setFocus(key);
-          }
-        });
-      }
-
-      function renderGameMetricContent(page) {
-        if (page.gameMetricPage === "stay") {
-          return renderGameStayContent(page);
-        }
-        const config = GAME_METRIC_PAGES[page.gameMetricPage];
-        if (!config) return "";
-        const cols = Math.min(config.kpis.length, 6);
-        const isActivity = page.gameMetricPage === "activity";
-        const isParticipation = page.gameMetricPage === "participation";
-        const isValue = page.gameMetricPage === "value";
-        let chartsHtml = "";
-        if (isActivity) {
-          chartsHtml = renderGameActivityCharts(true);
-        } else if (isParticipation) {
-          chartsHtml = renderGameParticipationCharts(true);
-        } else if (isValue) {
-          chartsHtml = renderGameValueCharts(true);
-        }
-        const hideKpiOnEmpty = ' style="margin-bottom:16px"';
-        const kpiItems = isValue
-          ? getGameValueKpis(true)
-          : isActivity
-            ? getGameActivityKpis(true)
-            : isParticipation
-              ? getGameParticipationKpis(true)
-              : config.kpis;
-        const kpiSectionId = isValue
-          ? "gameValueKpi"
-          : isActivity
-            ? "gameActivityKpi"
-            : isParticipation
-              ? "gameParticipationKpi"
-              : "";
-        const kpiHintId = isValue
-          ? "gameValueKpiHint"
-          : isActivity
-            ? "gameActivityKpiHint"
-            : isParticipation
-              ? "gameParticipationKpiHint"
-              : "";
-        const kpiHintHtml = kpiHintId
-          ? `<div class="kpi-best-hint" id="${kpiHintId}">展示当日数据最优游戏名称</div>`
-          : "";
-        const kpiBlock = `
-          <div class="analysis-block"${hideKpiOnEmpty}>
-            ${kpiHintHtml}
-            <section${kpiSectionId ? ` id="${kpiSectionId}"` : ""} class="kpi-grid" style="grid-template-columns:repeat(${cols},minmax(0,1fr))" aria-label="${page.title}核心指标">
-              ${kpiItems.map(renderKpiCard).join("")}
-            </section>
-          </div>`;
-        return `
-          ${renderGameAnalysisFilterBar(config.filterId, config.extraFilter || "")}
-          ${kpiBlock}
-          ${chartsHtml}
-          <div class="page-panel active">
-            <div class="toolbar">
-              <span class="page-title">${page.title}</span>
-              <div class="toolbar-actions">
-                <button class="btn btn-primary" type="button">导出报表</button>
-              </div>
-            </div>
-            ${renderGameMetricTable(config)}
-          </div>`;
       }
 
       function renderAppFilterBar(filterId, extraHtml = "") {
@@ -11636,34 +9669,6 @@
           return;
         }
 
-        if (page.betReportPage) {
-          container.innerHTML = renderBetReportContent(page);
-          initLocalChannelFilters();
-          return;
-        }
-
-        if (page.gameMetricPage) {
-          container.innerHTML = renderGameMetricContent(page);
-          initLocalChannelFilters();
-          if (page.gameMetricPage === "stay") initGameStayPage();
-          if (page.gameMetricPage === "activity") {
-            bindSvgChartTooltips(container);
-            bindGameMetricChartFocus(container, "#gameActivityCharts");
-            initGameActivityFilter(container);
-          }
-          if (page.gameMetricPage === "participation") {
-            bindSvgChartTooltips(container);
-            bindGameMetricChartFocus(container, "#gameParticipationCharts");
-            initGameParticipationFilter(container);
-          }
-          if (page.gameMetricPage === "value") {
-            bindSvgChartTooltips(container);
-            bindGameMetricChartFocus(container, "#gameValueCharts");
-            initGameValueFilter(container);
-          }
-          return;
-        }
-
         if (page.placeholder) {
           container.innerHTML = `
             ${renderGlobalFilterBar()}
@@ -11833,8 +9838,48 @@
       }
 
       // 初始化
+      // ===== Figma single-page boot =====
+      window.__FIGMA_PAGE_ID__ = "profit-game";
+      window.__FIGMA_EXPAND__ = ["profit"];
+
+      function applyFigmaPageActiveState(pageId) {
+        document.querySelectorAll(".menu-top, .menu-child, .menu-grandchild").forEach(function (el) {
+          el.classList.remove("active");
+        });
+        document.querySelectorAll(".menu-group, .menu-sub-group").forEach(function (el) {
+          el.classList.remove("expanded");
+        });
+
+        (window.__FIGMA_EXPAND__ || []).forEach(function (key) {
+          if (key === "lifecycle" || key === "app-analysis" || key === "profit" || key === "fund") {
+            var g = document.querySelector('.menu-group[data-group="' + key + '"]');
+            if (g) g.classList.add("expanded");
+          } else if (key === "value" || key === "retention") {
+            var label = key === "value" ? "\u7528\u6237\u4EF7\u503C" : "\u7528\u6237\u7559\u5B58";
+            document.querySelectorAll('.menu-group[data-group="lifecycle"] .menu-sub-group').forEach(function (sg) {
+              if ((sg.textContent || "").indexOf(label) !== -1) sg.classList.add("expanded");
+            });
+          }
+        });
+
+        var target =
+          document.querySelector('.menu-grandchild[data-page="' + pageId + '"]') ||
+          document.querySelector('.menu-child[data-page="' + pageId + '"]') ||
+          document.querySelector('.menu-top[data-page="' + pageId + '"]');
+        if (!target) return;
+        target.classList.add("active");
+        var group = target.closest(".menu-group");
+        if (group) group.classList.add("expanded");
+        var sub = target.closest(".menu-sub-group");
+        if (sub) sub.classList.add("expanded");
+        var top = group && group.querySelector(".menu-top");
+        if (top && !top.dataset.page) top.classList.add("active");
+      }
+
       initMenu();
-      renderPage("overview");
+      applyFigmaPageActiveState(window.__FIGMA_PAGE_ID__);
+      renderPage(window.__FIGMA_PAGE_ID__);
+    
     </script>
   </body>
 </html>

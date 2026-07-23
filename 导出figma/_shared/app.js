@@ -1,0 +1,7018 @@
+
+      // 基础固定列 & 渠道筛选项
+      const BASE_COLS = ["日期", "来源渠道", "渠道名", "所属平台"];
+      const STICKY_COLS = 4;
+      const SOURCE_CHANNEL_OPTIONS = ["投放", "官网", "裂变", "特殊流量"];
+      const CHANNEL_NAME_MAP = {
+        投放: ["投放01", "投放02", "投放03", "投放04"],
+        官网: ["官网01", "官网02", "官网03"],
+        裂变: ["裂变01", "裂变02", "裂变03"],
+        特殊流量: ["特殊流量01", "特殊流量02", "特殊流量03"],
+      };
+
+      const LTV_DAY_COLS = [
+        "1日LTV",
+        "2日LTV",
+        "3日LTV",
+        "4日LTV",
+        "5日LTV",
+        "6日LTV",
+        "7日LTV",
+      ];
+
+      // 页面配置：分组表头 + 列定义
+      const PAGES = {
+        overview: {
+          title: "经营总览",
+          breadcrumb: "经营总览",
+          stickyCols: STICKY_COLS,
+          overviewFunnelChart: true,
+          groups: [
+            { name: "基础", cls: "g-base", cols: BASE_COLS },
+            {
+              name: "用户",
+              cls: "g-user",
+              cols: ["安装人数(非去重)", "安装人数", "绑定人数", "日活跃人数"],
+            },
+            { name: "收入", cls: "g-income", cols: ["充值人数", "充值金额"] },
+            { name: "支出", cls: "g-expense", cols: ["提现金额", "活动奖金"] },
+            { name: "盈利", cls: "g-profit", cols: ["平台游戏输赢", "盈余率"] },
+          ],
+          sampleData: [
+            [
+              "2025-07-17",
+              "投放",
+              "投放01",
+              "T1-A",
+              12580,
+              10230,
+              8960,
+              15680,
+              3280,
+              985600,
+              412300,
+              85600,
+              573300,
+              "58.2%",
+            ],
+            [
+              "2025-07-16",
+              "裂变",
+              "裂变01",
+              "T1-A",
+              11890,
+              9680,
+              8520,
+              14920,
+              3050,
+              912400,
+              398500,
+              78900,
+              513900,
+              "56.3%",
+            ],
+            [
+              "2025-07-15",
+              "官网",
+              "官网01",
+              "T1-B",
+              10230,
+              8450,
+              7680,
+              13250,
+              2780,
+              856200,
+              365800,
+              68200,
+              490400,
+              "57.3%",
+            ],
+          ],
+        },
+        "realtime-compare": {
+          title: "分时数据对比",
+          breadcrumb: "分时数据对比",
+          realtimePage: true,
+        },
+        "life-acquisition": {
+          title: "用户获取",
+          breadcrumb: "用户生命周期 / 用户获取",
+          stickyCols: STICKY_COLS,
+          chartView: true,
+          question: "看量 · 用户从哪来、来了多少",
+          insights: [
+            {
+              label: "安装人数",
+              value: "10,230",
+              trend: "8.6% 日环比",
+              dir: "up",
+              tag: "去重",
+              tagType: "success",
+            },
+            {
+              label: "新增用户数",
+              value: "9,120",
+              trend: "5.4% 日环比",
+              dir: "up",
+            },
+            {
+              label: "绑定人数",
+              value: "8,960",
+              trend: "5.0% 日环比",
+              dir: "up",
+            },
+            {
+              label: "注册转化率",
+              value: "71.2%",
+              trend: "0.3% 日环比",
+              dir: "down",
+              tag: "关注",
+              tagType: "warning",
+            },
+          ],
+          groups: [
+            { name: "基础", cls: "g-base", cols: BASE_COLS },
+            {
+              name: "安装用户",
+              cls: "g-user",
+              cols: ["安装人数(非去重)", "安装人数", "新增设备数"],
+            },
+            {
+              name: "注册用户",
+              cls: "g-income",
+              cols: ["新增用户数", "绑定人数", "注册转化率"],
+            },
+          ],
+          sampleData: [
+            [
+              "2025-07-17",
+              "投放",
+              "投放01",
+              "T1-A",
+              12580,
+              10230,
+              9850,
+              9120,
+              8960,
+              "71.2%",
+            ],
+            [
+              "2025-07-16",
+              "裂变",
+              "裂变01",
+              "T1-A",
+              11890,
+              9680,
+              9320,
+              8650,
+              8520,
+              "71.7%",
+            ],
+            [
+              "2025-07-15",
+              "官网",
+              "官网01",
+              "T1-B",
+              10230,
+              8450,
+              8120,
+              7820,
+              7680,
+              "75.1%",
+            ],
+          ],
+        },
+        "life-activation": {
+          title: "用户激活",
+          breadcrumb: "用户生命周期 / 用户激活",
+          stickyCols: STICKY_COLS,
+          activationCharts: true,
+          question: "看激活 · 新用户来了有没有动起来",
+          insights: [
+            {
+              label: "新用户DAU",
+              value: "7,820",
+              trend: "4.2% 日环比",
+              dir: "up",
+            },
+            {
+              label: "新用户活跃率",
+              value: "85.7%",
+              trend: "0.5% 日环比",
+              dir: "up",
+              tag: "活跃",
+              tagType: "success",
+            },
+            {
+              label: "新用户游戏人数",
+              value: "6,980",
+              trend: "3.8% 日环比",
+              dir: "up",
+            },
+            {
+              label: "首充人数",
+              value: "860",
+              trend: "6.2% 日环比",
+              dir: "up",
+              tag: "转化",
+              tagType: "info",
+            },
+          ],
+          groups: [
+            { name: "基础", cls: "g-base", cols: BASE_COLS },
+            {
+              name: "激活用户",
+              cls: "g-user",
+              cols: [
+                "新用户登录人数",
+                "新用户DAU",
+                "新用户活跃率",
+                "新用户游戏人数",
+              ],
+            },
+            {
+              name: "新用户行为",
+              cls: "g-income",
+              cols: ["首次游戏人数", "首次投注人数", "首充人数"],
+            },
+          ],
+          sampleData: [
+            [
+              "2025-07-17",
+              "投放",
+              "投放01",
+              "T1-A",
+              8650,
+              7820,
+              "85.7%",
+              6980,
+              6980,
+              5240,
+              860,
+            ],
+            [
+              "2025-07-16",
+              "裂变",
+              "裂变01",
+              "T1-A",
+              8120,
+              7350,
+              "85.0%",
+              6540,
+              6540,
+              4920,
+              810,
+            ],
+            [
+              "2025-07-15",
+              "官网",
+              "官网01",
+              "T1-B",
+              7280,
+              6650,
+              "85.1%",
+              5980,
+              5980,
+              4480,
+              720,
+            ],
+          ],
+        },
+        "life-conversion": {
+          title: "用户转化",
+          breadcrumb: "用户生命周期 / 用户转化",
+          stickyCols: STICKY_COLS,
+          conversionCharts: true,
+          insightCols: 3,
+          question: "看转化 · 用户愿不愿意付费",
+          insights: [
+            {
+              label: "新用户付费率",
+              value: "15.2%",
+              hint: "新用户变现效率",
+              trend: "0.4% 日环比",
+              dir: "up",
+              tag: "新用户",
+              tagType: "success",
+            },
+            {
+              label: "首充率",
+              value: "9.4%",
+              hint: "新用户首次充值转化",
+              trend: "0.2% 日环比",
+              dir: "up",
+            },
+            {
+              label: "充值金额",
+              value: "¥985,600",
+              hint: "总收入规模",
+              trend: "8.0% 日环比",
+              dir: "up",
+              tag: "实时",
+              tagType: "info",
+            },
+          ],
+          groups: [
+            { name: "基础", cls: "g-base", cols: BASE_COLS },
+            {
+              name: "充值规模",
+              cls: "g-recharge",
+              cols: ["充值人数", "充值金额"],
+            },
+            {
+              name: "首充转化",
+              cls: "g-first",
+              cols: ["首充人数", "首充金额", "首充率"],
+            },
+            {
+              name: "新用户付费",
+              cls: "g-new",
+              cols: [
+                "新增付费人数",
+                "新增充值人数",
+                "新增充值金额",
+                "新增付费率",
+              ],
+            },
+            {
+              name: "付费转化率",
+              cls: "g-convert",
+              cols: ["新用户付费率", "老用户付费率", "总付费率"],
+            },
+          ],
+          sampleData: [
+            [
+              "2025-07-17",
+              "投放",
+              "投放01",
+              "T1-A",
+              3280,
+              985600,
+              860,
+              256800,
+              "9.4%",
+              680,
+              720,
+              156800,
+              "15.2%",
+              "12.5%",
+              "11.8%",
+              "18.3%",
+            ],
+            [
+              "2025-07-16",
+              "裂变",
+              "裂变01",
+              "T1-A",
+              3050,
+              912400,
+              810,
+              239400,
+              "9.2%",
+              635,
+              675,
+              145500,
+              "14.8%",
+              "12.1%",
+              "11.5%",
+              "17.6%",
+            ],
+            [
+              "2025-07-15",
+              "官网",
+              "官网01",
+              "T1-B",
+              2780,
+              856200,
+              720,
+              213600,
+              "9.6%",
+              558,
+              590,
+              123600,
+              "15.5%",
+              "12.8%",
+              "11.9%",
+              "18.9%",
+            ],
+          ],
+        },
+        "life-value-overall": {
+          title: "整体价值",
+          breadcrumb: "用户生命周期 / 用户价值 / 整体价值",
+          stickyCols: STICKY_COLS,
+          question: "看价值 · 平台整体用户价值表现",
+          insights: [
+            {
+              label: "新增ARPU",
+              value: "48.2",
+              trend: "1.5% 日环比",
+              dir: "up",
+            },
+            {
+              label: "新增ARPPU",
+              value: "301.5",
+              trend: "0.8% 日环比",
+              dir: "up",
+            },
+            { label: "总ARPU", value: "62.8", trend: "2.1% 日环比", dir: "up" },
+            {
+              label: "总ARPPU",
+              value: "300.5",
+              trend: "0.6% 日环比",
+              dir: "up",
+            },
+          ],
+          groups: [
+            { name: "基础", cls: "g-base", cols: BASE_COLS },
+            {
+              name: "整体价值",
+              cls: "g-value",
+              cols: ["新增ARPU", "新增ARPPU", "总ARPU", "总ARPPU"],
+            },
+          ],
+          sampleData: [
+            ["2025-07-17", "投放", "投放01", "T1-A", 48.2, 301.5, 62.8, 300.5],
+            ["2025-07-16", "裂变", "裂变01", "T1-A", 46.8, 298.2, 61.2, 299.1],
+            ["2025-07-15", "官网", "官网01", "T1-B", 49.1, 305.8, 64.6, 307.9],
+          ],
+          valueOverallCharts: true,
+        },
+        "life-value-new": {
+          title: "新用户价值",
+          breadcrumb: "用户生命周期 / 用户价值 / 新用户价值",
+          stickyCols: STICKY_COLS,
+          question: "看价值 · 新用户贡献与变现能力",
+          insights: [
+            {
+              label: "新用户ARPU",
+              value: "48.2",
+              trend: "1.5% 日环比",
+              dir: "up",
+              tag: "新用户",
+              tagType: "info",
+            },
+            {
+              label: "新用户盈余率",
+              value: "45.6%",
+              trend: "0.3% 日环比",
+              dir: "up",
+            },
+            {
+              label: "新用户充提差",
+              value: "89,600",
+              trend: "3.2% 日环比",
+              dir: "up",
+            },
+          ],
+          groups: [
+            { name: "基础", cls: "g-base", cols: BASE_COLS },
+            {
+              name: "新用户价值",
+              cls: "g-new",
+              cols: ["新用户ARPU", "新用户盈余率", "新用户充提差"],
+            },
+          ],
+          sampleData: [
+            ["2025-07-17", "投放", "投放01", "T1-A", 48.2, "45.6%", 89600],
+            ["2025-07-16", "裂变", "裂变01", "T1-A", 46.8, "44.2%", 82400],
+            ["2025-07-15", "官网", "官网01", "T1-B", 49.1, "46.1%", 78900],
+          ],
+        },
+        "life-value-new-ltv": {
+          title: "新用户LTV",
+          breadcrumb: "用户生命周期 / 用户价值 / 新用户LTV",
+          stickyCols: 2,
+          groups: [
+            { name: "基础", cls: "g-base", cols: ["日期", "来源渠道"] },
+            {
+              name: "新用户LTV",
+              cls: "g-new",
+              cols: ["新增用户数", ...LTV_DAY_COLS],
+            },
+          ],
+          sampleData: [
+            [
+              "2025-07-17",
+              "投放",
+              9120,
+              12.5,
+              30.0,
+              52.0,
+              78.0,
+              110.0,
+              155.0,
+              285.6,
+            ],
+            [
+              "2025-07-16",
+              "裂变",
+              8650,
+              8.0,
+              12.0,
+              18.0,
+              28.0,
+              45.0,
+              95.0,
+              278.3,
+            ],
+            [
+              "2025-07-15",
+              "官网",
+              8300,
+              20.0,
+              45.0,
+              70.0,
+              88.0,
+              95.0,
+              105.0,
+              291.2,
+            ],
+          ],
+          ltvCharts: true,
+          hideChannelNameFilter: true,
+        },
+        "life-value-old": {
+          title: "老用户价值",
+          breadcrumb: "用户生命周期 / 用户价值 / 老用户价值",
+          stickyCols: STICKY_COLS,
+          question: "看价值 · 老用户贡献与持续变现",
+          insights: [
+            {
+              label: "老用户ARPU",
+              value: "74.0",
+              trend: "1.2% 日环比",
+              dir: "up",
+              tag: "老用户",
+              tagType: "success",
+            },
+            {
+              label: "老用户ARPPU",
+              value: "300.3",
+              trend: "0.5% 日环比",
+              dir: "up",
+            },
+            {
+              label: "老用户充值金额",
+              value: "828,800",
+              trend: "4.8% 日环比",
+              dir: "up",
+            },
+          ],
+          groups: [
+            { name: "基础", cls: "g-base", cols: BASE_COLS },
+            {
+              name: "老用户价值",
+              cls: "g-old",
+              cols: [
+                "老用户ARPU",
+                "老用户ARPPU",
+                "老用户充提差",
+                "老用户盈余率",
+                "老用户充值人数",
+                "老用户充值金额",
+              ],
+            },
+          ],
+          sampleData: [
+            [
+              "2025-07-17",
+              "投放",
+              "投放01",
+              "T1-A",
+              74.0,
+              300.3,
+              512300,
+              "48.1%",
+              2420,
+              828800,
+            ],
+            [
+              "2025-07-16",
+              "裂变",
+              "裂变01",
+              "T1-A",
+              72.5,
+              299.1,
+              486900,
+              "46.5%",
+              2280,
+              766900,
+            ],
+            [
+              "2025-07-15",
+              "官网",
+              "官网01",
+              "T1-B",
+              76.5,
+              309.4,
+              465800,
+              "47.8%",
+              2180,
+              732600,
+            ],
+          ],
+          valueOldCharts: true,
+        },
+        "life-value-old-ltv": {
+          title: "老用户LTV",
+          breadcrumb: "用户生命周期 / 用户价值 / 老用户LTV",
+          stickyCols: 2,
+          groups: [
+            { name: "基础", cls: "g-base", cols: ["日期", "来源渠道"] },
+            {
+              name: "老用户LTV",
+              cls: "g-old",
+              cols: ["老用户数", ...LTV_DAY_COLS],
+            },
+          ],
+          sampleData: [
+            [
+              "2025-07-17",
+              "投放",
+              11200,
+              18.2,
+              38.0,
+              62.0,
+              92.0,
+              128.0,
+              168.0,
+              356.8,
+            ],
+            [
+              "2025-07-16",
+              "裂变",
+              10680,
+              14.0,
+              22.0,
+              32.0,
+              48.0,
+              72.0,
+              145.0,
+              348.2,
+            ],
+            [
+              "2025-07-15",
+              "官网",
+              9580,
+              28.0,
+              58.0,
+              88.0,
+              105.0,
+              112.0,
+              125.0,
+              362.5,
+            ],
+          ],
+          ltvCharts: true,
+          hideChannelNameFilter: true,
+        },
+        "life-retention": {
+          title: "用户留存",
+          breadcrumb: "用户生命周期 / 用户留存",
+          stickyCols: STICKY_COLS,
+          question: "看留存 · 用户会不会回来",
+          insights: [
+            {
+              label: "首存次日充值留存",
+              value: "42.5%",
+              trend: "0.7% 日环比",
+              dir: "up",
+            },
+            {
+              label: "7日充值留存",
+              value: "22.8%",
+              trend: "0.3% 日环比",
+              dir: "up",
+            },
+            {
+              label: "28日充值留存",
+              value: "12.8%",
+              trend: "0.1% 日环比",
+              dir: "up",
+              tag: "长期",
+              tagType: "info",
+            },
+            {
+              label: "老用户活跃率",
+              value: "68.5%",
+              trend: "0.6% 日环比",
+              dir: "up",
+              tag: "回流",
+              tagType: "success",
+            },
+          ],
+          groups: [
+            { name: "基础", cls: "g-base", cols: BASE_COLS },
+            {
+              name: "充值留存",
+              cls: "g-retain",
+              cols: [
+                "首存次日充值留存",
+                "3日充值留存",
+                "4日充值留存",
+                "5日充值留存",
+                "6日充值留存",
+                "7日充值留存",
+                "14日充值留存",
+                "21日充值留存",
+                "28日充值留存",
+              ],
+            },
+            {
+              name: "用户活跃",
+              cls: "g-active",
+              cols: ["DAU", "老用户日活", "老用户活跃率"],
+            },
+          ],
+          sampleData: [
+            [
+              "2025-07-17",
+              "投放",
+              "投放01",
+              "T1-A",
+              "42.5%",
+              "35.2%",
+              "30.8%",
+              "27.5%",
+              "25.1%",
+              "22.8%",
+              "18.5%",
+              "15.2%",
+              "12.8%",
+              15680,
+              11200,
+              "68.5%",
+            ],
+            [
+              "2025-07-16",
+              "裂变",
+              "裂变01",
+              "T1-A",
+              "41.8%",
+              "34.5%",
+              "30.1%",
+              "26.8%",
+              "24.5%",
+              "22.1%",
+              "17.8%",
+              "14.6%",
+              "12.2%",
+              14920,
+              10680,
+              "67.8%",
+            ],
+            [
+              "2025-07-15",
+              "官网",
+              "官网01",
+              "T1-B",
+              "43.2%",
+              "35.8%",
+              "31.5%",
+              "28.2%",
+              "25.8%",
+              "23.5%",
+              "19.2%",
+              "15.8%",
+              "13.5%",
+              13250,
+              9580,
+              "69.2%",
+            ],
+          ],
+        },
+        "life-retention-active": {
+          title: "用户活跃",
+          breadcrumb: "用户生命周期 / 用户留存 / 用户活跃",
+          stickyCols: 2,
+          hideChannelNameFilter: true,
+          question: "看活跃 · 活跃用户规模与回流表现",
+          insights: [
+            { label: "日活跃人数", value: "15,680" },
+            { label: "老用户日活", value: "11,200" },
+            {
+              label: "老用户活跃率",
+              value: "68.5%",
+              trend: "0.6% 日环比",
+              dir: "up",
+              tag: "回流",
+              tagType: "success",
+            },
+          ],
+          groups: [
+            { name: "基础", cls: "g-base", cols: ["日期", "来源渠道"] },
+            {
+              name: "用户活跃",
+              cls: "g-active",
+              cols: ["DAU", "老用户日活", "老用户活跃率"],
+            },
+          ],
+          sampleData: [
+            ["2025-07-17", "投放", 15680, 11200, "68.5%"],
+            ["2025-07-16", "裂变", 14920, 10680, "67.8%"],
+            ["2025-07-15", "官网", 13250, 9580, "69.2%"],
+          ],
+          retentionActiveCharts: true,
+        },
+        "life-retention-user": {
+          title: "用户留存",
+          breadcrumb: "用户生命周期 / 用户留存 / 用户留存",
+          stickyCols: 2,
+          hideChannelNameFilter: true,
+          question: "看留存 · 用户会不会回来",
+          insights: [
+            {
+              label: "次日留存",
+              value: "42.5%",
+              trend: "0.7% 日环比",
+              dir: "up",
+            },
+            {
+              label: "7日留存",
+              value: "22.8%",
+              trend: "0.3% 日环比",
+              dir: "up",
+            },
+            {
+              label: "14日留存",
+              value: "18.5%",
+              trend: "0.2% 日环比",
+              dir: "up",
+              tag: "长期",
+              tagType: "info",
+            },
+          ],
+          groups: [
+            { name: "基础", cls: "g-base", cols: ["日期", "来源渠道"] },
+            {
+              name: "用户留存",
+              cls: "g-retain",
+              cols: ["次日留存", "3日留存", "5日留存", "7日留存", "14日留存"],
+            },
+          ],
+          sampleData: [
+            ["2025-07-17", "投放", "42.5%", "35.2%", "28.6%", "22.8%", "18.5%"],
+            ["2025-07-16", "裂变", "41.8%", "34.5%", "27.9%", "22.1%", "17.8%"],
+            ["2025-07-15", "官网", "43.2%", "35.8%", "29.2%", "23.5%", "19.2%"],
+          ],
+        },
+        "life-retention-recharge": {
+          title: "充值留存",
+          breadcrumb: "用户生命周期 / 用户留存 / 充值留存",
+          stickyCols: 2,
+          hideChannelNameFilter: true,
+          question: "看充值留存 · 充值用户回流表现",
+          insights: [
+            {
+              label: "首存次日充值留存",
+              value: "42.5%",
+              trend: "0.7% 日环比",
+              dir: "up",
+            },
+            {
+              label: "7日充值留存",
+              value: "22.8%",
+              trend: "0.3% 日环比",
+              dir: "up",
+            },
+            {
+              label: "28日充值留存",
+              value: "12.8%",
+              trend: "0.1% 日环比",
+              dir: "up",
+              tag: "长期",
+              tagType: "info",
+            },
+          ],
+          groups: [
+            { name: "基础", cls: "g-base", cols: ["日期", "来源渠道"] },
+            {
+              name: "充值留存",
+              cls: "g-retain",
+              cols: [
+                "首存次日充值留存",
+                "3日充值留存",
+                "4日充值留存",
+                "5日充值留存",
+                "6日充值留存",
+                "7日充值留存",
+                "14日充值留存",
+                "21日充值留存",
+                "28日充值留存",
+              ],
+            },
+          ],
+          sampleData: [
+            [
+              "2025-07-17",
+              "投放",
+              "42.5%",
+              "35.2%",
+              "30.8%",
+              "27.5%",
+              "25.1%",
+              "22.8%",
+              "18.5%",
+              "15.2%",
+              "12.8%",
+            ],
+            [
+              "2025-07-16",
+              "裂变",
+              "41.8%",
+              "34.5%",
+              "30.1%",
+              "26.8%",
+              "24.5%",
+              "22.1%",
+              "17.8%",
+              "14.6%",
+              "12.2%",
+            ],
+            [
+              "2025-07-15",
+              "官网",
+              "43.2%",
+              "35.8%",
+              "31.5%",
+              "28.2%",
+              "25.8%",
+              "23.5%",
+              "19.2%",
+              "15.8%",
+              "13.5%",
+            ],
+          ],
+        },
+        "life-trend": {
+          title: "用户生命周期趋势",
+          breadcrumb: "用户生命周期 / 用户生命周期趋势",
+          stickyCols: STICKY_COLS,
+          question: "看趋势 · 用户价值在增长还是衰减",
+          trendCharts: true,
+          groups: [
+            { name: "基础", cls: "g-base", cols: BASE_COLS },
+            {
+              name: "用户规模趋势",
+              cls: "g-user",
+              cols: ["新增用户数", "活跃用户数"],
+            },
+            {
+              name: "付费趋势",
+              cls: "g-recharge",
+              cols: ["付费人数", "充值金额"],
+            },
+            {
+              name: "用户价值趋势",
+              cls: "g-value",
+              cols: ["总ARPU", "总ARPPU"],
+            },
+            {
+              name: "留存趋势",
+              cls: "g-retain",
+              cols: ["次日留存", "7日留存"],
+            },
+          ],
+          sampleData: [
+            [
+              "2025-07-17",
+              "全部",
+              "-",
+              "T1-A",
+              9120,
+              15680,
+              3280,
+              985600,
+              62.8,
+              300.5,
+              "42.5%",
+              "22.8%",
+            ],
+            [
+              "2025-07-16",
+              "全部",
+              "-",
+              "T1-A",
+              8650,
+              14920,
+              3050,
+              912400,
+              61.2,
+              299.1,
+              "41.8%",
+              "22.1%",
+            ],
+            [
+              "2025-07-15",
+              "全部",
+              "-",
+              "T1-B",
+              7820,
+              13250,
+              2780,
+              856200,
+              64.6,
+              307.9,
+              "43.2%",
+              "23.5%",
+            ],
+          ],
+        },
+        "game-operation": {
+          title: "游戏运营",
+          breadcrumb: "游戏运营",
+          stickyCols: STICKY_COLS,
+          question: "看游戏 · 用户玩得多不多、投得大不大",
+          insights: [
+            {
+              label: "日活跃人数",
+              value: "15,680",
+              trend: "5.1% 日环比",
+              dir: "up",
+              tag: "活跃",
+              tagType: "success",
+            },
+            {
+              label: "投注人数",
+              value: "8,950",
+              trend: "4.8% 日环比",
+              dir: "up",
+            },
+            {
+              label: "有效投注",
+              value: "¥2,895,600",
+              trend: "7.6% 日环比",
+              dir: "up",
+            },
+            {
+              label: "大R玩家",
+              value: "128",
+              trend: "11.3% 日环比",
+              dir: "up",
+              tag: "高价值",
+              tagType: "info",
+            },
+          ],
+          groups: [
+            { name: "基础", cls: "g-base", cols: BASE_COLS },
+            {
+              name: "活跃",
+              cls: "g-active",
+              cols: ["老用户日活", "日活跃人数"],
+            },
+            {
+              name: "游戏参与",
+              cls: "g-participate",
+              cols: ["投注人数", "投注金额", "有效投注"],
+            },
+            { name: "高价值用户", cls: "g-vip", cols: ["大R玩家"] },
+            { name: "活动参与", cls: "g-activity", cols: ["奖金投注占比"] },
+          ],
+          sampleData: [
+            [
+              "2025-07-17",
+              "投放",
+              "投放01",
+              "T1-A",
+              11200,
+              15680,
+              8950,
+              3256800,
+              2895600,
+              128,
+              "35.8%",
+            ],
+            [
+              "2025-07-16",
+              "裂变",
+              "裂变01",
+              "T1-A",
+              10680,
+              14920,
+              8520,
+              3012400,
+              2689200,
+              115,
+              "34.7%",
+            ],
+            [
+              "2025-07-15",
+              "官网",
+              "官网01",
+              "T1-B",
+              9580,
+              13250,
+              7680,
+              2756800,
+              2453200,
+              98,
+              "36.9%",
+            ],
+          ],
+        },
+        "profit-platform": {
+          title: "平台收益",
+          breadcrumb: "盈利分析 / 平台收益",
+          stickyCols: STICKY_COLS,
+          question: "看收入 · 平台最终赚了多少钱",
+          insights: [
+            {
+              label: "平台游戏输赢",
+              value: "¥573,300",
+              trend: "11.6% 日环比",
+              dir: "up",
+              tag: "最终收入",
+              tagType: "success",
+            },
+            {
+              label: "净收入",
+              value: "¥487,700",
+              trend: "12.1% 日环比",
+              dir: "up",
+            },
+            {
+              label: "毛收入",
+              value: "¥573,300",
+              trend: "11.6% 日环比",
+              dir: "up",
+            },
+            {
+              label: "月盈利",
+              value: "¥15,680,000",
+              trend: "5.8% 较上月",
+              dir: "up",
+              tag: "累计",
+              tagType: "info",
+            },
+          ],
+          groups: [
+            { name: "基础", cls: "g-base", cols: BASE_COLS },
+            {
+              name: "平台收益",
+              cls: "g-platform",
+              cols: ["平台游戏输赢", "净利润"],
+            },
+          ],
+          sampleData: [
+            ["2025-07-17", "投放", "投放01", "T1-A", 573300, 487700],
+            ["2025-07-16", "裂变", "裂变01", "T1-A", 513900, 435000],
+            ["2025-07-15", "官网", "官网01", "T1-B", 490400, 421500],
+          ],
+        },
+        "profit-user": {
+          title: "用户盈利贡献",
+          breadcrumb: "盈利分析 / 用户盈利贡献",
+          stickyCols: STICKY_COLS,
+          question: "看贡献 · 哪类用户在为平台创造盈利",
+          insights: [
+            {
+              label: "首存盈余率",
+              value: "52.3%",
+              trend: "1.5% 日环比",
+              dir: "up",
+              tag: "首充用户",
+              tagType: "info",
+            },
+            {
+              label: "新用户盈余率",
+              value: "45.6%",
+              trend: "1.4% 日环比",
+              dir: "up",
+              tag: "新用户",
+              tagType: "success",
+            },
+            {
+              label: "老用户盈余率",
+              value: "48.1%",
+              trend: "1.6% 日环比",
+              dir: "up",
+              tag: "长期用户",
+              tagType: "success",
+            },
+          ],
+          groups: [
+            { name: "基础", cls: "g-base", cols: BASE_COLS },
+            {
+              name: "新用户盈利",
+              cls: "g-new",
+              cols: ["首存盈余率", "新用户盈余率"],
+            },
+            { name: "老用户盈利", cls: "g-old", cols: ["老用户盈余率"] },
+          ],
+          sampleData: [
+            ["2025-07-17", "投放", "投放01", "T1-A", "52.3%", "45.6%", "48.1%"],
+            ["2025-07-16", "裂变", "裂变01", "T1-A", "50.8%", "44.2%", "46.5%"],
+            ["2025-07-15", "官网", "官网01", "T1-B", "51.5%", "46.1%", "47.8%"],
+          ],
+        },
+        "profit-game": {
+          title: "游戏盈利效率",
+          breadcrumb: "盈利分析 / 游戏盈利效率",
+          stickyCols: STICKY_COLS,
+          question: "看效率 · 资金投入与游戏产出关系",
+          insights: [
+            {
+              label: "充投比",
+              value: "3.31",
+              trend: "0.3% 日环比",
+              dir: "up",
+              tag: "投入产出",
+              tagType: "info",
+            },
+            {
+              label: "杀率",
+              value: "58.2%",
+              trend: "1.9% 日环比",
+              dir: "up",
+              tag: "留存比例",
+              tagType: "success",
+            },
+            {
+              label: "有效投注",
+              value: "¥2,895,600",
+              trend: "7.6% 日环比",
+              dir: "up",
+            },
+            {
+              label: "活动奖金",
+              value: "¥85,600",
+              trend: "8.5% 日环比",
+              dir: "up",
+              tag: "成本",
+              tagType: "warning",
+            },
+          ],
+          groups: [
+            { name: "基础", cls: "g-base", cols: BASE_COLS },
+            {
+              name: "游戏业务规模",
+              cls: "g-participate",
+              cols: ["充值金额", "有效投注", "充投比"],
+            },
+            {
+              name: "平台收益效率",
+              cls: "g-game",
+              cols: ["杀率", "平台游戏输赢"],
+            },
+            { name: "盈利成本", cls: "g-expense", cols: ["活动奖金"] },
+          ],
+          sampleData: [
+            [
+              "2025-07-17",
+              "投放",
+              "投放01",
+              "T1-A",
+              985600,
+              2895600,
+              3.31,
+              "58.2%",
+              573300,
+              85600,
+            ],
+            [
+              "2025-07-16",
+              "裂变",
+              "裂变01",
+              "T1-A",
+              912400,
+              2689200,
+              3.3,
+              "56.3%",
+              513900,
+              78900,
+            ],
+            [
+              "2025-07-15",
+              "官网",
+              "官网01",
+              "T1-B",
+              856200,
+              2453200,
+              3.22,
+              "57.3%",
+              490400,
+              68200,
+            ],
+          ],
+        },
+        "fund-scale": {
+          title: "资金规模监控",
+          breadcrumb: "资金安全 / 资金规模监控",
+          stickyCols: STICKY_COLS,
+          question: "看规模 · 平台的钱够不够",
+          insights: [
+            {
+              label: "账户总余额",
+              value: "¥12,568,000",
+              trend: "2.7% 日环比",
+              dir: "up",
+              tag: "资金池",
+              tagType: "info",
+            },
+            {
+              label: "可提现余额",
+              value: "¥8,965,000",
+              trend: "2.8% 日环比",
+              dir: "up",
+            },
+            {
+              label: "不可提现余额",
+              value: "¥3,603,000",
+              trend: "2.5% 日环比",
+              dir: "up",
+            },
+            {
+              label: "资金覆盖率",
+              value: "71.3%",
+              trend: "持平",
+              dir: "flat",
+              tag: "安全",
+              tagType: "success",
+            },
+          ],
+          groups: [
+            { name: "基础", cls: "g-base", cols: BASE_COLS },
+            {
+              name: "资金规模监控",
+              cls: "g-fund",
+              cols: ["账户总余额", "可提现余额", "不可提现余额", "资金覆盖率"],
+            },
+          ],
+          sampleData: [
+            [
+              "2025-07-17",
+              "投放",
+              "投放01",
+              "T1-A",
+              12568000,
+              8965000,
+              3603000,
+              "71.3%",
+            ],
+            [
+              "2025-07-16",
+              "裂变",
+              "裂变01",
+              "T1-A",
+              12235000,
+              8720000,
+              3515000,
+              "71.3%",
+            ],
+            [
+              "2025-07-15",
+              "官网",
+              "官网01",
+              "T1-B",
+              11896000,
+              8456000,
+              3440000,
+              "71.1%",
+            ],
+          ],
+        },
+        "fund-flow": {
+          title: "资金流动监控",
+          breadcrumb: "资金安全 / 资金流动监控",
+          stickyCols: STICKY_COLS,
+          question: "看流动 · 充值与提现的资金净流入",
+          insights: [
+            {
+              label: "充提差",
+              value: "¥573,300",
+              trend: "11.6% 日环比",
+              dir: "up",
+              tag: "净流入",
+              tagType: "success",
+            },
+            {
+              label: "充值金额",
+              value: "¥985,600",
+              trend: "8.0% 日环比",
+              dir: "up",
+            },
+            {
+              label: "提现金额",
+              value: "¥412,300",
+              trend: "2.1% 日环比",
+              dir: "up",
+            },
+          ],
+          groups: [
+            { name: "基础", cls: "g-base", cols: BASE_COLS },
+            {
+              name: "资金流动监控",
+              cls: "g-flow",
+              cols: ["充值金额", "提现金额", "充提差"],
+            },
+          ],
+          sampleData: [
+            ["2025-07-17", "投放", "投放01", "T1-A", 985600, 412300, 573300],
+            ["2025-07-16", "裂变", "裂变01", "T1-A", 912400, 398500, 513900],
+            ["2025-07-15", "官网", "官网01", "T1-B", 856200, 365800, 490400],
+          ],
+        },
+        "fund-risk": {
+          title: "提现风险监控",
+          breadcrumb: "资金安全 / 提现风险监控",
+          stickyCols: STICKY_COLS,
+          question: "看风险 · 提现是否异常、成本多少",
+          insights: [
+            {
+              label: "提现人数",
+              value: "1,850",
+              trend: "7.6% 日环比",
+              dir: "up",
+              tag: "关注",
+              tagType: "warning",
+            },
+            {
+              label: "提现金额",
+              value: "¥412,300",
+              trend: "2.1% 日环比",
+              dir: "up",
+            },
+            {
+              label: "提现手续费",
+              value: "¥12,360",
+              trend: "6.7% 日环比",
+              dir: "up",
+              tag: "成本",
+              tagType: "info",
+            },
+          ],
+          groups: [
+            { name: "基础", cls: "g-base", cols: BASE_COLS },
+            {
+              name: "提现风险监控",
+              cls: "g-risk",
+              cols: ["提现人数", "提现金额", "提现手续费"],
+            },
+          ],
+          sampleData: [
+            ["2025-07-17", "投放", "投放01", "T1-A", 1850, 412300, 12360],
+            ["2025-07-16", "裂变", "裂变01", "T1-A", 1720, 398500, 11580],
+            ["2025-07-15", "官网", "官网01", "T1-B", 1650, 365800, 10890],
+          ],
+        },
+        "app-page-path": {
+          title: "页面访问路径",
+          breadcrumb: "应用分析 / 页面访问路径",
+          appPageType: "page-path",
+        },
+        "app-feature-engagement": {
+          title: "功能参与度",
+          breadcrumb: "应用分析 / 功能参与度",
+          appPageType: "feature-engagement",
+        },
+        "app-page-experience": {
+          title: "应用页面体验",
+          breadcrumb: "应用分析 / 应用页面体验",
+          appPageType: "page-experience",
+        },
+        "app-usage-duration": {
+          title: "应用使用时长",
+          breadcrumb: "应用分析 / 应用使用时长",
+          appPageType: "usage-duration",
+        },
+        "app-usage-frequency": {
+          title: "应用使用频率",
+          breadcrumb: "应用分析 / 应用使用频率",
+          appPageType: "usage-frequency",
+        },
+        "app-churn-page": {
+          title: "流失页面分析",
+          breadcrumb: "应用分析 / 流失页面分析",
+          appPageType: "churn-page",
+        },
+        "app-user-path": {
+          title: "用户具体行为分析",
+          breadcrumb: "应用分析 / 用户具体行为分析",
+          appPageType: "user-path-explore",
+        },
+      };
+
+      function formatNumber(val) {
+        if (typeof val === "string" && val.includes("%")) return val;
+        if (typeof val === "number") {
+          if (Number.isInteger(val)) return val.toLocaleString("zh-CN");
+          return val.toLocaleString("zh-CN", {
+            minimumFractionDigits: 1,
+            maximumFractionDigits: 2,
+          });
+        }
+        return val;
+      }
+
+      function getStickyClass(index, stickyCount) {
+        if (index >= stickyCount) return "";
+        return `sticky-col-${index + 1}`;
+      }
+
+      function renderSourceChannelFilter() {
+        return (
+          `<option value="" selected>请选择</option>` +
+          SOURCE_CHANNEL_OPTIONS.map(
+            (name) => `<option value="${name}">${name}</option>`,
+          ).join("")
+        );
+      }
+
+      function renderGlobalFilterBar() {
+        return `
+        <div class="filter-bar filter-bar-global" id="globalFilterBar">
+          <div class="filter-item">
+            <label>时间</label>
+            <input type="date" id="globalStartDate" value="2025-07-11" />
+            <span>—</span>
+            <input type="date" id="globalEndDate" value="2025-07-17" />
+          </div>
+          <button class="btn btn-primary" type="button" id="globalFilterQuery">查询</button>
+          <button class="btn btn-reset" type="button" id="globalFilterReset">重置</button>
+        </div>`;
+      }
+
+      function renderLocalChannelFilter(id, { hideChannelName = false } = {}) {
+        return `
+        <div class="filter-bar filter-bar-local" data-local-filter="${id}">
+          <div class="filter-item">
+            <label>来源渠道</label>
+            <select class="local-source-channel" data-filter-id="${id}">
+              ${renderSourceChannelFilter()}
+            </select>
+          </div>
+          ${
+            hideChannelName
+              ? ""
+              : `
+          <div class="filter-item filter-item-channel-name local-channel-name-wrap" data-filter-id="${id}">
+            <label>渠道名</label>
+            <input type="text" class="local-channel-name" data-filter-id="${id}" list="channelNameList-${id}" placeholder="请先选择来源渠道" autocomplete="off" />
+            <datalist id="channelNameList-${id}"></datalist>
+          </div>`
+          }
+        </div>`;
+      }
+
+      function bindLocalChannelFilter(scope) {
+        const sourceSelect = scope.querySelector(".local-source-channel");
+        if (!sourceSelect) return;
+        const filterId = sourceSelect.dataset.filterId;
+        const nameWrap = scope.querySelector(
+          `.local-channel-name-wrap[data-filter-id="${filterId}"]`,
+        );
+        const nameInput = scope.querySelector(
+          `.local-channel-name[data-filter-id="${filterId}"]`,
+        );
+        const nameList = scope.querySelector(`#channelNameList-${filterId}`);
+
+        const updateChannelNameFilter = () => {
+          if (!nameWrap || !nameInput || !nameList) return;
+          const source = sourceSelect.value;
+          if (!source) {
+            nameWrap.classList.remove("is-visible");
+            nameInput.value = "";
+            nameList.innerHTML = "";
+            return;
+          }
+          nameWrap.classList.add("is-visible");
+          nameInput.placeholder = `搜索渠道名，如 ${source}01`;
+          const names = CHANNEL_NAME_MAP[source] || [];
+          nameList.innerHTML = names
+            .map((n) => `<option value="${n}"></option>`)
+            .join("");
+        };
+
+        sourceSelect.addEventListener("change", updateChannelNameFilter);
+      }
+
+      function initLocalChannelFilters() {
+        document
+          .querySelectorAll("[data-local-filter]")
+          .forEach((scope) => bindLocalChannelFilter(scope));
+      }
+
+      function mountChartChannelFilters(hideChannelName = false) {
+        const cards = document.querySelectorAll(
+          ".chart-card:not(.no-channel-filter)",
+        );
+        cards.forEach((card, index) => {
+          if (card.closest("#realtimePanel")) return;
+          if (card.querySelector("[data-local-filter]")) return;
+          const id = `chart-filter-${index + 1}`;
+          const anchor =
+            card.querySelector(".chart-subtitle") ||
+            card.querySelector(".chart-title");
+          if (!anchor) return;
+          anchor.insertAdjacentHTML(
+            "afterend",
+            renderLocalChannelFilter(id, { hideChannelName }),
+          );
+        });
+      }
+
+      function initGlobalFilterBar() {
+        const resetBtn = document.getElementById("globalFilterReset");
+        const platform = document.getElementById("globalPlatformFilter");
+        const startDate = document.getElementById("globalStartDate");
+        const endDate = document.getElementById("globalEndDate");
+        if (!resetBtn) return;
+        resetBtn.addEventListener("click", () => {
+          if (platform) platform.value = "T1-A";
+          if (startDate) startDate.value = "2025-07-11";
+          if (endDate) endDate.value = "2025-07-17";
+        });
+      }
+
+      function pageHasKpiCards(page, pageId) {
+        if (pageId === "overview") return true;
+        return !!(page.insights && page.insights.length);
+      }
+
+      function renderTable(page) {
+        const allCols = page.groups.flatMap((g) => g.cols);
+        const stickyCount = page.stickyCols || 1;
+        let colOffset = 0;
+
+        let groupRow = "";
+        page.groups.forEach((g) => {
+          const groupStart = colOffset;
+          const groupEnd = colOffset + g.cols.length;
+          const stickyColsInGroup = Math.max(
+            0,
+            Math.min(groupEnd, stickyCount) - groupStart,
+          );
+          const stickyCls =
+            stickyColsInGroup === g.cols.length && stickyColsInGroup > 0
+              ? " sticky-group-head"
+              : "";
+          groupRow += `<th class="${g.cls}${stickyCls}" colspan="${g.cols.length}">${g.name}</th>`;
+          colOffset = groupEnd;
+        });
+
+        let colRow = "";
+        allCols.forEach((col, i) => {
+          const stickyCls = getStickyClass(i, stickyCount);
+          colRow += `<th class="${stickyCls}">${col}<span class="sort-icon">▲<br>▼</span></th>`;
+        });
+
+        let bodyRows = "";
+        page.sampleData.forEach((row) => {
+          bodyRows += "<tr>";
+          row.forEach((cell, i) => {
+            const stickyCls = getStickyClass(i, stickyCount);
+            bodyRows += `<td class="${stickyCls}">${formatNumber(cell)}</td>`;
+          });
+          bodyRows += "</tr>";
+        });
+
+        return `
+        ${renderLocalChannelFilter("table-main", {
+          hideChannelName: !!page.hideChannelNameFilter,
+        })}
+        <div class="toolbar">
+          <span class="page-title">${page.title}</span>
+          <div class="toolbar-actions">
+            ${
+              page.chartView
+                ? `<div class="view-toggle" role="group" aria-label="视图切换">
+              <button type="button" class="vt-btn active" data-view="table">表格</button>
+              <button type="button" class="vt-btn" data-view="chart">图表</button>
+            </div>`
+                : ""
+            }
+            <button class="btn btn-primary">导出报表</button>
+          </div>
+        </div>
+        <div class="table-view" id="tableView">
+          <div class="table-wrap">
+            <table class="data-table">
+              <thead>
+                <tr class="group-row">${groupRow}</tr>
+                <tr class="col-row">${colRow}</tr>
+              </thead>
+              <tbody>${bodyRows}</tbody>
+            </table>
+          </div>
+          <div class="pagination">
+            <button disabled>‹</button>
+            <button class="active">1</button>
+            <button>2</button>
+            <button>3</button>
+            <button>›</button>
+            <span class="pagination-info">共 28 条</span>
+          </div>
+        </div>
+        ${page.chartView ? `<div class="chart-view" id="chartView" hidden>${renderAcquisitionTrendChart()}</div>` : ""}
+      `;
+      }
+
+      function renderComboChart() {
+        const labels = [
+          "07/11",
+          "07/12",
+          "07/13",
+          "07/14",
+          "07/15",
+          "07/16",
+          "07/17",
+        ];
+        const install = [8450, 9200, 9680, 10230, 11100, 11890, 12580];
+        const newUsers = [6320, 6800, 7250, 7680, 8300, 8650, 9120];
+        const convRate = [75.1, 74.2, 73.5, 72.8, 72.4, 71.7, 71.2];
+
+        const W = 760,
+          H = 300,
+          padL = 52,
+          padR = 52,
+          padT = 24,
+          padB = 40;
+        const plotW = W - padL - padR;
+        const plotH = H - padT - padB;
+        const n = labels.length;
+        const step = plotW / n;
+        const leftMax = 14000;
+        const rightMax = 100;
+        const barW = 15,
+          gap = 4;
+        const yCount = (v) => padT + plotH * (1 - v / leftMax);
+        const yPct = (v) => padT + plotH * (1 - v / rightMax);
+
+        let grid = "",
+          leftAxis = "",
+          rightAxis = "";
+        for (let i = 0; i <= 4; i++) {
+          const y = padT + (plotH / 4) * i;
+          grid += `<line class="grid-line" x1="${padL}" y1="${y}" x2="${W - padR}" y2="${y}"></line>`;
+          leftAxis += `<text class="axis-label" x="${padL - 8}" y="${y + 3}" text-anchor="end">${(leftMax - (leftMax / 4) * i).toLocaleString("zh-CN")}</text>`;
+          rightAxis += `<text class="axis-label" x="${W - padR + 8}" y="${y + 3}" text-anchor="start">${rightMax - (rightMax / 4) * i}%</text>`;
+        }
+
+        let bars = "",
+          xLabels = "",
+          linePts = [],
+          dots = "";
+        labels.forEach((lab, i) => {
+          const cx = padL + step * i + step / 2;
+          const x1 = cx - barW - gap / 2;
+          const x2 = cx + gap / 2;
+          bars += `<rect x="${x1}" y="${yCount(install[i])}" width="${barW}" height="${(plotH * install[i]) / leftMax}" rx="3" fill="#165DFF"></rect>`;
+          bars += `<rect x="${x2}" y="${yCount(newUsers[i])}" width="${barW}" height="${(plotH * newUsers[i]) / leftMax}" rx="3" fill="#14C9C9"></rect>`;
+          const ly = yPct(convRate[i]);
+          linePts.push(`${cx},${ly}`);
+          dots += `<circle cx="${cx}" cy="${ly}" r="3.5" fill="#fff" stroke="#F7BA1E" stroke-width="2"></circle>`;
+          xLabels += `<text class="axis-label" x="${cx}" y="${H - padB + 18}" text-anchor="middle">${lab}</text>`;
+        });
+
+        return `
+        <div class="combo-chart">
+          <svg viewBox="0 0 ${W} ${H}" preserveAspectRatio="xMidYMid meet">
+            ${grid}
+            ${bars}
+            <polyline fill="none" stroke="#F7BA1E" stroke-width="2.5" points="${linePts.join(" ")}"></polyline>
+            ${dots}
+            ${leftAxis}
+            ${rightAxis}
+            ${xLabels}
+          </svg>
+        </div>
+        <div class="line-legend">
+          <span><i style="background:#165DFF"></i>安装人数</span>
+          <span><i style="background:#14C9C9"></i>新增用户数</span>
+          <span><i style="background:#F7BA1E"></i>注册转化率</span>
+        </div>`;
+      }
+
+      function renderFunnelChart(steps) {
+        steps = steps || [
+          { name: "安装用户", value: 100000 },
+          { name: "新增设备", value: 80000 },
+          { name: "注册用户", value: 50000 },
+          { name: "绑定用户", value: 45000 },
+        ];
+        const W = 760,
+          H = 356;
+        const plotTop = 66,
+          plotBottom = 270;
+        const plotH = plotBottom - plotTop;
+        const axisLeft = 46,
+          plotRight = W - 14;
+        const plotLeft = axisLeft;
+        const plotW = plotRight - plotLeft;
+        const n = steps.length;
+        const colW = plotW / n;
+        const darkW = colW * 0.58;
+        const maxVal = Math.max(...steps.map((s) => s.value), 1);
+        const yVal = (v) => plotBottom - plotH * (v / maxVal);
+        const fmt = (v) => {
+          if (v === 0) return "0";
+          if (v >= 10000)
+            return (
+              (v % 10000 === 0 ? v / 10000 : (v / 10000).toFixed(1)) + "万"
+            );
+          return v.toLocaleString("zh-CN");
+        };
+        const nameFont = n > 5 ? 11 : 13;
+
+        let grid = "",
+          yLabels = "";
+        [0, 0.5, 1].forEach((t) => {
+          const y = plotBottom - plotH * t;
+          grid += `<line class="grid-line dashed" x1="${plotLeft}" y1="${y}" x2="${plotRight}" y2="${y}"></line>`;
+          yLabels += `<text class="funnel-axis" x="${plotLeft - 8}" y="${y + 4}" text-anchor="end">${fmt(maxVal * t)}</text>`;
+        });
+
+        let seps = "",
+          bars = "",
+          headers = "",
+          abandons = "";
+        seps += `<line class="grid-line" x1="${plotLeft}" y1="16" x2="${plotLeft}" y2="${plotBottom}"></line>`;
+        steps.forEach((s, i) => {
+          const colX = plotLeft + colW * i;
+          const sepX = colX + colW;
+          const topY = yVal(s.value);
+          bars += `<rect x="${colX}" y="${topY}" width="${darkW}" height="${plotBottom - topY}" fill="#4080FF"></rect>`;
+          if (i < n - 1) {
+            const nextTopY = yVal(steps[i + 1].value);
+            const lx = colX + darkW,
+              rx = colX + colW;
+            bars += `<polygon points="${lx},${topY} ${rx},${nextTopY} ${rx},${plotBottom} ${lx},${plotBottom}" fill="#C9DCFF"></polygon>`;
+          }
+          seps += `<line class="grid-line dashed" x1="${sepX}" y1="16" x2="${sepX}" y2="${plotBottom}"></line>`;
+
+          const comp = i === 0 ? 100 : (s.value / steps[i - 1].value) * 100;
+          headers += `<text class="funnel-step-idx" x="${colX + 4}" y="30">Step ${i + 1}</text>`;
+          headers += `<text class="funnel-step-name" x="${colX + 4}" y="52" style="font-size:${nameFont}px">${s.name}</text>`;
+          headers += `<text class="funnel-comp" x="${sepX - 6}" y="52" text-anchor="end" style="font-size:${nameFont}px">${comp.toFixed(1)}%</text>`;
+
+          if (i < n - 1) {
+            const lost = s.value - steps[i + 1].value;
+            const rate = (lost / s.value) * 100;
+            const ay = plotBottom + 30;
+            headers += `<text class="funnel-abandon-title" x="${colX + 4}" y="${ay - 16}">流失率</text>`;
+            abandons += `<rect x="${colX + 4}" y="${ay - 9}" width="9" height="9" rx="2" fill="#4080FF"></rect>`;
+            abandons += `<text class="funnel-abandon" x="${colX + 18}" y="${ay}">${fmt(Math.max(lost, 0))} · ${rate.toFixed(1)}%</text>`;
+          }
+        });
+
+        return `
+        <div class="ga-funnel">
+          <svg viewBox="0 0 ${W} ${H}" preserveAspectRatio="xMidYMid meet">
+            ${grid}
+            ${bars}
+            ${seps}
+            ${headers}
+            ${yLabels}
+            ${abandons}
+          </svg>
+        </div>`;
+      }
+
+      function renderChannelRank() {
+        // 与「来源渠道」筛选字段（SOURCE_CHANNEL_OPTIONS）对应
+        const data = {
+          投放: { install: 14000, reg: 72 },
+          官网: { install: 7600, reg: 75 },
+          裂变: { install: 9800, reg: 68 },
+          特殊流量: { install: 4200, reg: 55 },
+        };
+        const rows = SOURCE_CHANNEL_OPTIONS.map((name) => ({
+          name,
+          ...(data[name] || { install: 0, reg: 0 }),
+        })).sort((a, b) => b.install - a.install);
+        const max = Math.max(...rows.map((r) => r.install), 1);
+        const body = rows
+          .map(
+            (r) => `
+        <div class="rank-row">
+          <span class="rank-name">${r.name}</span>
+          <div class="rank-bar"><div class="rank-fill" style="width:${Math.max(12, Math.round((r.install / max) * 100))}%">${r.install.toLocaleString("zh-CN")}</div></div>
+          <span class="rank-rate">${r.reg}%</span>
+        </div>`,
+          )
+          .join("");
+        return `
+        <div class="rank-list">
+          <div class="rank-head"><span>渠道</span><span>安装</span><span>注册率</span></div>
+          ${body}
+        </div>`;
+      }
+
+      function renderAcquisitionFixedCharts() {
+        return `
+        <section class="chart-grid" aria-label="用户获取图表">
+          <article class="chart-card">
+            <div class="chart-title">用户获取漏斗 <span class="status-tag info">漏斗</span></div>
+            <div class="chart-subtitle">各阶段用户数、转化率与流失率</div>
+            ${renderFunnelChart()}
+          </article>
+          <article class="chart-card">
+            <div class="chart-title">渠道排行榜 <span class="status-tag info">柱状图</span></div>
+            <div class="chart-subtitle">各来源渠道安装量与注册率</div>
+            ${renderChannelRank()}
+          </article>
+        </section>`;
+      }
+
+      function renderSurplusRateTrend(dayCount = 7) {
+        const labels = buildTrendLabelsBeforeEnd(dayCount);
+        const data =
+          dayCount === 7
+            ? [56.3, 56.8, 57.1, 57.5, 57.8, 58.0, 58.2]
+            : genTrendSeries(dayCount, 54.5, 58.2, 0.45, 1);
+        const xLabelStep = dayCount <= 7 ? 1 : dayCount <= 30 ? 5 : 10;
+        const series = [
+          {
+            name: "盈余率",
+            data,
+            color: "#165DFF",
+          },
+        ];
+        return renderMultiLineTrendChart({
+          labels,
+          series,
+          maxVal: 100,
+          yStep: 25,
+          xLabelStep,
+          showDots: dayCount <= 7,
+        });
+      }
+
+      function renderOverviewFunnelChart() {
+        const steps = [
+          { name: "安装人数", value: 10230 },
+          { name: "绑定人数", value: 8960 },
+          { name: "DAU", value: 15680 },
+          { name: "充值人数", value: 3280 },
+          { name: "投注人数", value: 8950 },
+        ];
+        return `
+        <section class="chart-grid" aria-label="经营总览图表" style="grid-template-columns:1fr 1fr;margin-bottom:16px">
+          <article class="chart-card">
+            <div class="chart-title">经营转化漏斗 <span class="status-tag info">漏斗</span></div>
+            <div class="chart-subtitle">各阶段用户数、转化率与流失率</div>
+            ${renderFunnelChart(steps)}
+          </article>
+          <article class="chart-card" id="surplusRateChartCard">
+            <div class="chart-title">
+              <span class="chart-title-text">盈余率趋势 <span class="status-tag info">折线图</span></span>
+              <div class="chart-range-toggle" id="surplusRateRangeToggle" role="radiogroup" aria-label="盈余率趋势时间范围">
+                <button type="button" class="range-btn active" data-days="7">近7日</button>
+                <button type="button" class="range-btn" data-days="30">近30日</button>
+                <button type="button" class="range-btn" data-days="90">近90日</button>
+              </div>
+            </div>
+            <div class="chart-subtitle" id="surplusRateSubtitle">近七日盈余率走势</div>
+            <div id="surplusRateChartWrap">
+              ${renderSurplusRateTrend(7)}
+            </div>
+          </article>
+        </section>`;
+      }
+
+      function renderActivationDualLine() {
+        const labels = [
+          "07/11",
+          "07/12",
+          "07/13",
+          "07/14",
+          "07/15",
+          "07/16",
+          "07/17",
+        ];
+        const newUsers = [7200, 7450, 7680, 7900, 8300, 8650, 9120];
+        const newDau = [6100, 6350, 6580, 6820, 7100, 7350, 7820];
+        const W = 620,
+          H = 280,
+          padL = 48,
+          padR = 16,
+          padT = 24,
+          padB = 36;
+        const plotW = W - padL - padR;
+        const plotH = H - padT - padB;
+        const maxVal = 10000;
+        const n = labels.length;
+        const xPos = (i) =>
+          padL + (n === 1 ? plotW / 2 : (i / (n - 1)) * plotW);
+        const yPos = (v) => padT + plotH * (1 - v / maxVal);
+
+        let grid = "",
+          yLabels = "",
+          xLabels = "";
+        [0, 0.25, 0.5, 0.75, 1].forEach((t) => {
+          const y = padT + plotH * (1 - t);
+          grid += `<line class="grid-line" x1="${padL}" y1="${y}" x2="${W - padR}" y2="${y}"></line>`;
+          yLabels += `<text class="funnel-axis" x="${padL - 8}" y="${y + 4}" text-anchor="end">${Math.round(maxVal * t).toLocaleString("zh-CN")}</text>`;
+        });
+        labels.forEach((lab, i) => {
+          xLabels += `<text class="funnel-axis" x="${xPos(i)}" y="${H - 10}" text-anchor="middle">${lab}</text>`;
+        });
+
+        const ptsA = newUsers.map((v, i) => `${xPos(i)},${yPos(v)}`).join(" ");
+        const ptsB = newDau.map((v, i) => `${xPos(i)},${yPos(v)}`).join(" ");
+        let dots = "";
+        newUsers.forEach((v, i) => {
+          dots += `<circle cx="${xPos(i)}" cy="${yPos(v)}" r="3.5" fill="#fff" stroke="#165DFF" stroke-width="2"></circle>`;
+        });
+        newDau.forEach((v, i) => {
+          dots += `<circle cx="${xPos(i)}" cy="${yPos(v)}" r="3.5" fill="#fff" stroke="#14C9C9" stroke-width="2"></circle>`;
+        });
+
+        return `
+        <div class="combo-chart">
+          <svg viewBox="0 0 ${W} ${H}" preserveAspectRatio="xMidYMid meet">
+            ${grid}
+            <polyline fill="none" stroke="#165DFF" stroke-width="2.5" points="${ptsA}"></polyline>
+            <polyline fill="none" stroke="#14C9C9" stroke-width="2.5" points="${ptsB}"></polyline>
+            ${dots}
+            ${yLabels}
+            ${xLabels}
+          </svg>
+        </div>
+        <div class="line-legend">
+          <span><i style="background:#165DFF"></i>新增用户数</span>
+          <span><i style="background:#14C9C9"></i>新用户DAU</span>
+        </div>`;
+      }
+
+      function renderPayConversionFunnel() {
+        return `
+        <div class="pay-funnel">
+          <div class="pay-funnel-step">新增用户<small>10,000</small></div>
+          <div class="pay-funnel-rate">↓ 首充率 15%</div>
+          <div class="pay-funnel-step">首充人数<small>1,500</small></div>
+          <div class="pay-funnel-rate">↓ 复购率 60%</div>
+          <div class="pay-funnel-step">新增付费人数<small>900</small></div>
+        </div>`;
+      }
+
+      function renderPayRateCompare() {
+        const items = [
+          { name: "新用户付费率", value: 15.2, color: "#165DFF" },
+          { name: "老用户付费率", value: 11.8, color: "#14C9C9" },
+          { name: "总付费率", value: 18.3, color: "#F7BA1E" },
+        ];
+        const max = 20;
+        return `<div class="hbar-list">${items
+          .map(
+            (it) => `
+        <div class="hbar-row">
+          <span>${it.name}</span>
+          <div class="hbar-track"><div class="hbar-fill" style="width:${(it.value / max) * 100}%;background:linear-gradient(90deg,${it.color},${it.color}cc)"></div></div>
+          <strong>${it.value}%</strong>
+        </div>`,
+          )
+          .join("")}</div>`;
+      }
+
+      function renderPayCountTrend() {
+        const labels = [
+          "07/11",
+          "07/12",
+          "07/13",
+          "07/14",
+          "07/15",
+          "07/16",
+          "07/17",
+        ];
+        const recharge = [2780, 2890, 2950, 3050, 3120, 3180, 3280];
+        const newPay = [580, 595, 610, 635, 650, 665, 680];
+        const W = 620,
+          H = 280,
+          padL = 48,
+          padR = 16,
+          padT = 24,
+          padB = 36;
+        const plotW = W - padL - padR;
+        const plotH = H - padT - padB;
+        const maxVal = 3500;
+        const n = labels.length;
+        const xPos = (i) =>
+          padL + (n === 1 ? plotW / 2 : (i / (n - 1)) * plotW);
+        const yPos = (v) => padT + plotH * (1 - v / maxVal);
+
+        let grid = "",
+          yLabels = "",
+          xLabels = "";
+        [0, 0.25, 0.5, 0.75, 1].forEach((t) => {
+          const y = padT + plotH * (1 - t);
+          grid += `<line class="grid-line" x1="${padL}" y1="${y}" x2="${W - padR}" y2="${y}"></line>`;
+          yLabels += `<text class="funnel-axis" x="${padL - 8}" y="${y + 4}" text-anchor="end">${Math.round(maxVal * t).toLocaleString("zh-CN")}</text>`;
+        });
+        labels.forEach((lab, i) => {
+          xLabels += `<text class="funnel-axis" x="${xPos(i)}" y="${H - 10}" text-anchor="middle">${lab}</text>`;
+        });
+
+        const ptsA = recharge.map((v, i) => `${xPos(i)},${yPos(v)}`).join(" ");
+        const ptsB = newPay.map((v, i) => `${xPos(i)},${yPos(v)}`).join(" ");
+        let dots = "";
+        recharge.forEach((v, i) => {
+          dots += `<circle cx="${xPos(i)}" cy="${yPos(v)}" r="3.5" fill="#fff" stroke="#165DFF" stroke-width="2"></circle>`;
+        });
+        newPay.forEach((v, i) => {
+          dots += `<circle cx="${xPos(i)}" cy="${yPos(v)}" r="3.5" fill="#fff" stroke="#F7BA1E" stroke-width="2"></circle>`;
+        });
+
+        return `
+        <div class="combo-chart">
+          <svg viewBox="0 0 ${W} ${H}" preserveAspectRatio="xMidYMid meet">
+            ${grid}
+            <polyline fill="none" stroke="#165DFF" stroke-width="2.5" points="${ptsA}"></polyline>
+            <polyline fill="none" stroke="#F7BA1E" stroke-width="2.5" points="${ptsB}"></polyline>
+            ${dots}
+            ${yLabels}
+            ${xLabels}
+          </svg>
+        </div>
+        <div class="line-legend">
+          <span><i style="background:#165DFF"></i>充值人数</span>
+          <span><i style="background:#F7BA1E"></i>新增付费人数</span>
+        </div>`;
+      }
+
+      function renderPayConversionRateTrend() {
+        const labels = [
+          "07/11",
+          "07/12",
+          "07/13",
+          "07/14",
+          "07/15",
+          "07/16",
+          "07/17",
+        ];
+        const series = [
+          {
+            name: "首充率",
+            data: [8.8, 9.0, 9.1, 9.2, 9.2, 9.3, 9.4],
+            color: "#722ED1",
+          },
+          {
+            name: "新用户付费率",
+            data: [14.2, 14.5, 14.6, 14.8, 15.0, 15.1, 15.2],
+            color: "#165DFF",
+          },
+          {
+            name: "老用户付费率",
+            data: [11.2, 11.3, 11.4, 11.5, 11.6, 11.7, 11.8],
+            color: "#14C9C9",
+          },
+          {
+            name: "总付费率",
+            data: [17.2, 17.5, 17.6, 17.8, 18.0, 18.1, 18.3],
+            color: "#F7BA1E",
+          },
+        ];
+        const W = 620,
+          H = 280,
+          padL = 48,
+          padR = 16,
+          padT = 24,
+          padB = 36;
+        const plotW = W - padL - padR;
+        const plotH = H - padT - padB;
+        const maxVal = 20;
+        const n = labels.length;
+        const xPos = (i) =>
+          padL + (n === 1 ? plotW / 2 : (i / (n - 1)) * plotW);
+        const yPos = (v) => padT + plotH * (1 - v / maxVal);
+
+        let grid = "",
+          yLabels = "",
+          xLabels = "";
+        [0, 0.25, 0.5, 0.75, 1].forEach((t) => {
+          const y = padT + plotH * (1 - t);
+          grid += `<line class="grid-line" x1="${padL}" y1="${y}" x2="${W - padR}" y2="${y}"></line>`;
+          yLabels += `<text class="funnel-axis" x="${padL - 8}" y="${y + 4}" text-anchor="end">${Math.round(maxVal * t)}%</text>`;
+        });
+        labels.forEach((lab, i) => {
+          xLabels += `<text class="funnel-axis" x="${xPos(i)}" y="${H - 10}" text-anchor="middle">${lab}</text>`;
+        });
+
+        let polylines = "",
+          dots = "";
+        series.forEach((s) => {
+          const pts = s.data.map((v, i) => `${xPos(i)},${yPos(v)}`).join(" ");
+          polylines += `<polyline fill="none" stroke="${s.color}" stroke-width="2.5" points="${pts}"></polyline>`;
+          s.data.forEach((v, i) => {
+            dots += `<circle cx="${xPos(i)}" cy="${yPos(v)}" r="3.5" fill="#fff" stroke="${s.color}" stroke-width="2"></circle>`;
+          });
+        });
+
+        const legend = series
+          .map(
+            (s) =>
+              `<span><i style="background:${s.color}"></i>${s.name}</span>`,
+          )
+          .join("");
+
+        return `
+        <div class="combo-chart">
+          <svg viewBox="0 0 ${W} ${H}" preserveAspectRatio="xMidYMid meet">
+            ${grid}
+            ${polylines}
+            ${dots}
+            ${yLabels}
+            ${xLabels}
+          </svg>
+        </div>
+        <div class="line-legend">${legend}</div>`;
+      }
+
+      function renderFirstRechargeTrend() {
+        const labels = [
+          "07/11",
+          "07/12",
+          "07/13",
+          "07/14",
+          "07/15",
+          "07/16",
+          "07/17",
+        ];
+        const firstCount = [720, 745, 758, 780, 795, 810, 860];
+        const firstRate = [8.8, 9.0, 9.1, 9.2, 9.2, 9.3, 9.4];
+
+        const W = 620,
+          H = 280,
+          padL = 48,
+          padR = 48,
+          padT = 24,
+          padB = 36;
+        const plotW = W - padL - padR;
+        const plotH = H - padT - padB;
+        const n = labels.length;
+        const step = plotW / n;
+        const leftMax = 1000;
+        const rightMax = 12;
+        const barW = 22;
+        const yCount = (v) => padT + plotH * (1 - v / leftMax);
+        const yPct = (v) => padT + plotH * (1 - v / rightMax);
+
+        let grid = "",
+          leftAxis = "",
+          rightAxis = "";
+        for (let i = 0; i <= 4; i++) {
+          const y = padT + (plotH / 4) * i;
+          grid += `<line class="grid-line" x1="${padL}" y1="${y}" x2="${W - padR}" y2="${y}"></line>`;
+          leftAxis += `<text class="axis-label" x="${padL - 8}" y="${y + 3}" text-anchor="end">${Math.round(leftMax - (leftMax / 4) * i).toLocaleString("zh-CN")}</text>`;
+          rightAxis += `<text class="axis-label" x="${W - padR + 8}" y="${y + 3}" text-anchor="start">${(rightMax - (rightMax / 4) * i).toFixed(1)}%</text>`;
+        }
+
+        let bars = "",
+          xLabels = "",
+          linePts = [],
+          dots = "";
+        labels.forEach((lab, i) => {
+          const cx = padL + step * i + step / 2;
+          bars += `<rect x="${cx - barW / 2}" y="${yCount(firstCount[i])}" width="${barW}" height="${(plotH * firstCount[i]) / leftMax}" rx="3" fill="#165DFF"></rect>`;
+          const ly = yPct(firstRate[i]);
+          linePts.push(`${cx},${ly}`);
+          dots += `<circle cx="${cx}" cy="${ly}" r="3.5" fill="#fff" stroke="#722ED1" stroke-width="2"></circle>`;
+          xLabels += `<text class="axis-label" x="${cx}" y="${H - 10}" text-anchor="middle">${lab}</text>`;
+        });
+
+        return `
+        <div class="combo-chart">
+          <svg viewBox="0 0 ${W} ${H}" preserveAspectRatio="xMidYMid meet">
+            ${grid}
+            ${bars}
+            <polyline fill="none" stroke="#722ED1" stroke-width="2.5" points="${linePts.join(" ")}"></polyline>
+            ${dots}
+            ${leftAxis}
+            ${rightAxis}
+            ${xLabels}
+          </svg>
+        </div>
+        <div class="line-legend">
+          <span><i style="background:#165DFF"></i>首充人数</span>
+          <span><i style="background:#722ED1"></i>首充率</span>
+        </div>`;
+      }
+
+      function renderSingleAxisDualLine({ labels, seriesA, seriesB, maxVal }) {
+        const W = 620,
+          H = 280,
+          padL = 48,
+          padR = 16,
+          padT = 24,
+          padB = 36;
+        const plotW = W - padL - padR;
+        const plotH = H - padT - padB;
+        const n = labels.length;
+        const xPos = (i) =>
+          padL + (n === 1 ? plotW / 2 : (i / (n - 1)) * plotW);
+        const yPos = (v) => padT + plotH * (1 - v / maxVal);
+        const fmtAxis = (v) =>
+          Number.isInteger(v) ? v.toLocaleString("zh-CN") : v.toFixed(1);
+
+        let grid = "",
+          yLabels = "",
+          xLabels = "";
+        [0, 0.25, 0.5, 0.75, 1].forEach((t) => {
+          const y = padT + plotH * (1 - t);
+          grid += `<line class="grid-line" x1="${padL}" y1="${y}" x2="${W - padR}" y2="${y}"></line>`;
+          yLabels += `<text class="funnel-axis" x="${padL - 8}" y="${y + 4}" text-anchor="end">${fmtAxis(maxVal * t)}</text>`;
+        });
+        labels.forEach((lab, i) => {
+          xLabels += `<text class="funnel-axis" x="${xPos(i)}" y="${H - 10}" text-anchor="middle">${lab}</text>`;
+        });
+
+        const ptsA = seriesA.data
+          .map((v, i) => `${xPos(i)},${yPos(v)}`)
+          .join(" ");
+        const ptsB = seriesB.data
+          .map((v, i) => `${xPos(i)},${yPos(v)}`)
+          .join(" ");
+        let dots = "";
+        seriesA.data.forEach((v, i) => {
+          dots += `<circle cx="${xPos(i)}" cy="${yPos(v)}" r="3.5" fill="#fff" stroke="${seriesA.color}" stroke-width="2"></circle>`;
+        });
+        seriesB.data.forEach((v, i) => {
+          dots += `<circle cx="${xPos(i)}" cy="${yPos(v)}" r="3.5" fill="#fff" stroke="${seriesB.color}" stroke-width="2"></circle>`;
+        });
+
+        return `
+        <div class="combo-chart">
+          <svg viewBox="0 0 ${W} ${H}" preserveAspectRatio="xMidYMid meet">
+            ${grid}
+            <polyline fill="none" stroke="${seriesA.color}" stroke-width="2.5" points="${ptsA}"></polyline>
+            <polyline fill="none" stroke="${seriesB.color}" stroke-width="2.5" points="${ptsB}"></polyline>
+            ${dots}
+            ${yLabels}
+            ${xLabels}
+          </svg>
+        </div>
+        <div class="line-legend">
+          <span><i style="background:${seriesA.color}"></i>${seriesA.name}</span>
+          <span><i style="background:${seriesB.color}"></i>${seriesB.name}</span>
+        </div>`;
+      }
+
+      function renderOverallArpuTrend() {
+        const labels = [
+          "07/11",
+          "07/12",
+          "07/13",
+          "07/14",
+          "07/15",
+          "07/16",
+          "07/17",
+        ];
+        return renderSingleAxisDualLine({
+          labels,
+          seriesA: {
+            name: "总ARPU",
+            data: [58.5, 59.2, 60.1, 60.8, 61.2, 62.0, 62.8],
+            color: "#165DFF",
+          },
+          seriesB: {
+            name: "新增ARPU",
+            data: [45.2, 46.0, 46.5, 47.1, 47.5, 48.0, 48.2],
+            color: "#14C9C9",
+          },
+          maxVal: 70,
+        });
+      }
+
+      function renderOverallArppuTrend() {
+        const labels = [
+          "07/11",
+          "07/12",
+          "07/13",
+          "07/14",
+          "07/15",
+          "07/16",
+          "07/17",
+        ];
+        return renderSingleAxisDualLine({
+          labels,
+          seriesA: {
+            name: "总ARPPU",
+            data: [296.5, 297.8, 298.5, 299.2, 299.8, 300.1, 300.5],
+            color: "#165DFF",
+          },
+          seriesB: {
+            name: "新增ARPPU",
+            data: [295.0, 296.5, 297.2, 298.5, 299.5, 300.2, 301.5],
+            color: "#F7BA1E",
+          },
+          maxVal: 320,
+        });
+      }
+
+      function renderOverallValueTrendCharts() {
+        return `
+        <section class="chart-grid" aria-label="整体价值趋势图表" style="grid-template-columns:1fr 1fr;margin-bottom:16px">
+          <article class="chart-card">
+            <div class="chart-title">ARPU 趋势 <span class="status-tag info">双折线</span></div>
+            <div class="chart-subtitle">近七日总ARPU / 新增ARPU</div>
+            ${renderOverallArpuTrend()}
+          </article>
+          <article class="chart-card">
+            <div class="chart-title">ARPPU 趋势 <span class="status-tag info">双折线</span></div>
+            <div class="chart-subtitle">近七日总ARPPU / 新增ARPPU</div>
+            ${renderOverallArppuTrend()}
+          </article>
+        </section>`;
+      }
+
+      function buildRecentTrendLabels(dayCount = 30) {
+        const labels = [];
+        for (let i = 0; i < dayCount; i++) {
+          const d = new Date(2025, 5, 18 + i);
+          labels.push(`${pad2(d.getMonth() + 1)}/${pad2(d.getDate())}`);
+        }
+        return labels;
+      }
+
+      function buildTrendLabelsBeforeEnd(
+        dayCount,
+        endDate = new Date(2025, 6, 17),
+      ) {
+        const labels = [];
+        for (let i = dayCount - 1; i >= 0; i--) {
+          const d = new Date(endDate);
+          d.setDate(d.getDate() - i);
+          labels.push(`${pad2(d.getMonth() + 1)}/${pad2(d.getDate())}`);
+        }
+        return labels;
+      }
+
+      function genTrendSeries(dayCount, start, end, wave, decimals) {
+        const data = [];
+        for (let i = 0; i < dayCount; i++) {
+          const t = i / (dayCount - 1);
+          const v = start + t * (end - start) + Math.sin(i * 0.42) * wave;
+          data.push(decimals ? +v.toFixed(decimals) : Math.round(v));
+        }
+        return data;
+      }
+
+      const LTV_COHORT_COLORS = [
+        "#165DFF",
+        "#14C9C9",
+        "#F7BA1E",
+        "#722ED1",
+        "#00B42A",
+        "#F5319D",
+        "#FF7D00",
+        "#3491FA",
+      ];
+      const LTV_DX_LABELS = ["D1", "D2", "D3", "D4", "D5", "D6", "D7"];
+
+      function buildLtvCohortSeries(page) {
+        return page.sampleData.map((row, idx) => {
+          const dateLabel = String(row[0]).slice(5).replace("-", "/");
+          return {
+            name: `${dateLabel} ${row[1]}`,
+            data: row.slice(3, 10).map((v) => Number(v)),
+            color: LTV_COHORT_COLORS[idx % LTV_COHORT_COLORS.length],
+          };
+        });
+      }
+
+      function renderMultiLineTrendChart({
+        labels,
+        series,
+        maxVal,
+        yStep,
+        xLabelStep = 1,
+        showDots = true,
+      }) {
+        const W = 620,
+          H = 260,
+          padL = 52,
+          padR = 16,
+          padT = 20,
+          padB = 32;
+        const plotW = W - padL - padR;
+        const plotH = H - padT - padB;
+        const n = labels.length;
+        const step = yStep || maxVal / 4;
+        const xPos = (i) =>
+          padL + (n === 1 ? plotW / 2 : (i / (n - 1)) * plotW);
+        const yPos = (v) => padT + plotH * (1 - v / maxVal);
+        const fmtAxis = (v) =>
+          Number.isInteger(v) ? v.toLocaleString("zh-CN") : v.toFixed(1);
+
+        let grid = "",
+          yLabels = "",
+          xLabels = "";
+        for (let v = 0; v <= maxVal; v += step) {
+          const y = yPos(v);
+          grid += `<line class="grid-line" x1="${padL}" y1="${y}" x2="${W - padR}" y2="${y}"></line>`;
+          yLabels += `<text class="funnel-axis" x="${padL - 8}" y="${y + 4}" text-anchor="end">${fmtAxis(v)}</text>`;
+        }
+        labels.forEach((lab, i) => {
+          if (i % xLabelStep !== 0 && i !== n - 1) return;
+          xLabels += `<text class="funnel-axis" x="${xPos(i)}" y="${H - 8}" text-anchor="middle">${lab}</text>`;
+        });
+
+        let polylines = "",
+          dots = "";
+        series.forEach((s) => {
+          const pts = s.data.map((v, i) => `${xPos(i)},${yPos(v)}`).join(" ");
+          polylines += `<polyline fill="none" stroke="${s.color}" stroke-width="2.5" points="${pts}"></polyline>`;
+          if (showDots) {
+            s.data.forEach((v, i) => {
+              dots += `<circle cx="${xPos(i)}" cy="${yPos(v)}" r="3.5" fill="#fff" stroke="${s.color}" stroke-width="2"></circle>`;
+            });
+          }
+        });
+
+        const legend = series
+          .map(
+            (s) =>
+              `<span><i style="background:${s.color}"></i>${s.name}</span>`,
+          )
+          .join("");
+
+        return `
+        <div class="combo-chart">
+          <svg viewBox="0 0 ${W} ${H}" preserveAspectRatio="xMidYMid meet">
+            ${grid}
+            ${polylines}
+            ${dots}
+            ${yLabels}
+            ${xLabels}
+          </svg>
+        </div>
+        <div class="line-legend">${legend}</div>`;
+      }
+
+      function renderLtvCohortChart(page) {
+        const series = buildLtvCohortSeries(page);
+        const yStep = 20;
+        const dataMax = Math.max(...series.flatMap((s) => s.data));
+        const maxVal = Math.ceil(dataMax / yStep) * yStep;
+        return `
+        <article class="chart-card" style="margin-bottom:16px">
+          <div class="chart-title">${page.title}趋势 <span class="status-tag info">折线图</span></div>
+          <div class="chart-subtitle">查询日期 D1 ~ D7 LTV 对比（每条曲线代表一个查询日期）</div>
+          ${renderMultiLineTrendChart({ labels: LTV_DX_LABELS, series, maxVal, yStep })}
+        </article>`;
+      }
+
+      function renderDualAxisTrendChart({
+        labels,
+        leftSeries,
+        rightSeries,
+        leftMin = 0,
+        leftMax,
+        rightMax,
+        leftStep,
+        formatLeft,
+        formatRight,
+      }) {
+        const W = 620,
+          H = 240,
+          padL = 52,
+          padR = 56,
+          padT = 20,
+          padB = 32;
+        const plotW = W - padL - padR;
+        const plotH = H - padT - padB;
+        const leftRange = leftMax - leftMin;
+        const n = labels.length;
+        const dotR = 2;
+        const xPos = (i) =>
+          padL + (n === 1 ? plotW / 2 : (i / (n - 1)) * plotW);
+        const yLeft = (v) => padT + plotH * (1 - (v - leftMin) / leftRange);
+        const yRight = (v) => padT + plotH * (1 - v / rightMax);
+        const fmtLeft =
+          formatLeft ||
+          ((v) =>
+            Number.isInteger(v) ? v.toLocaleString("zh-CN") : v.toFixed(1));
+        const fmtRight = formatRight || fmtLeft;
+
+        let grid = "",
+          leftAxis = "",
+          rightAxis = "";
+        if (leftStep) {
+          for (let v = leftMin; v <= leftMax; v += leftStep) {
+            const y = yLeft(v);
+            grid += `<line class="grid-line" x1="${padL}" y1="${y}" x2="${W - padR}" y2="${y}"></line>`;
+            leftAxis += `<text class="axis-label" x="${padL - 8}" y="${y + 3}" text-anchor="end">${fmtLeft(v)}</text>`;
+            const rightVal = rightMax * ((v - leftMin) / leftRange);
+            rightAxis += `<text class="axis-label" x="${W - padR + 8}" y="${y + 3}" text-anchor="start">${fmtRight(rightVal)}</text>`;
+          }
+        } else {
+          for (let i = 0; i <= 4; i++) {
+            const y = padT + (plotH / 4) * i;
+            const leftVal = leftMax - (leftRange / 4) * i;
+            grid += `<line class="grid-line" x1="${padL}" y1="${y}" x2="${W - padR}" y2="${y}"></line>`;
+            leftAxis += `<text class="axis-label" x="${padL - 8}" y="${y + 3}" text-anchor="end">${fmtLeft(leftVal)}</text>`;
+            rightAxis += `<text class="axis-label" x="${W - padR + 8}" y="${y + 3}" text-anchor="start">${fmtRight(rightMax - (rightMax / 4) * i)}</text>`;
+          }
+        }
+
+        const drawLine = (series, yFn) => {
+          let polylines = "",
+            dots = "";
+          const pts = series.data
+            .map((v, i) => `${xPos(i)},${yFn(v)}`)
+            .join(" ");
+          polylines += `<polyline fill="none" stroke="${series.color}" stroke-width="2" points="${pts}"></polyline>`;
+          series.data.forEach((v, i) => {
+            dots += `<circle cx="${xPos(i)}" cy="${yFn(v)}" r="${dotR}" fill="#fff" stroke="${series.color}" stroke-width="1.5"></circle>`;
+          });
+          return polylines + dots;
+        };
+
+        let xLabels = "";
+        labels.forEach((lab, i) => {
+          if (i % 5 === 0 || i === n - 1) {
+            xLabels += `<text class="axis-label" x="${xPos(i)}" y="${H - 8}" text-anchor="middle">${lab}</text>`;
+          }
+        });
+
+        const legend = [leftSeries, rightSeries]
+          .map(
+            (s) =>
+              `<span><i style="background:${s.color}"></i>${s.name}</span>`,
+          )
+          .join("");
+
+        return `
+        <div class="combo-chart">
+          <svg viewBox="0 0 ${W} ${H}" preserveAspectRatio="xMidYMid meet">
+            ${grid}
+            ${drawLine(leftSeries, yLeft)}
+            ${drawLine(rightSeries, yRight)}
+            ${leftAxis}
+            ${rightAxis}
+            ${xLabels}
+          </svg>
+        </div>
+        <div class="line-legend">${legend}</div>`;
+      }
+
+      function renderOldUserIncomeTrend() {
+        const dayCount = 30;
+        const labels = buildRecentTrendLabels(dayCount);
+        const countData = [];
+        const amountData = genTrendSeries(dayCount, 710000, 828800, 12000);
+        for (let i = 0; i < dayCount; i++) {
+          const t = i / (dayCount - 1);
+          countData.push(
+            Math.round(
+              2050 + t * 220 + Math.sin(i * 0.9) * 200 + Math.sin(i * 1.7) * 95,
+            ),
+          );
+        }
+        countData[dayCount - 1] = 2420;
+        amountData[dayCount - 1] = 828800;
+
+        const W = 620,
+          H = 240,
+          padL = 52,
+          padR = 56,
+          padT = 20,
+          padB = 32;
+        const plotW = W - padL - padR;
+        const plotH = H - padT - padB;
+        const n = labels.length;
+        const step = plotW / n;
+        const barW = Math.min(10, step * 0.55);
+        const leftMax = 2800;
+        const rightMax = 900000;
+        const yCount = (v) => padT + plotH * (1 - v / leftMax);
+        const yAmount = (v) => padT + plotH * (1 - v / rightMax);
+        const fmtRight = (v) =>
+          v >= 10000
+            ? (v / 10000).toFixed(0) + "万"
+            : v.toLocaleString("zh-CN");
+
+        let grid = "",
+          leftAxis = "",
+          rightAxis = "";
+        for (let i = 0; i <= 4; i++) {
+          const y = padT + (plotH / 4) * i;
+          grid += `<line class="grid-line" x1="${padL}" y1="${y}" x2="${W - padR}" y2="${y}"></line>`;
+          leftAxis += `<text class="axis-label" x="${padL - 8}" y="${y + 3}" text-anchor="end">${Math.round(leftMax - (leftMax / 4) * i).toLocaleString("zh-CN")}</text>`;
+          rightAxis += `<text class="axis-label" x="${W - padR + 8}" y="${y + 3}" text-anchor="start">${fmtRight(rightMax - (rightMax / 4) * i)}</text>`;
+        }
+
+        let bars = "",
+          xLabels = "",
+          linePts = "",
+          dots = "";
+        labels.forEach((lab, i) => {
+          const cx = padL + step * i + step / 2;
+          const barTop = yCount(countData[i]);
+          bars += `<rect x="${cx - barW / 2}" y="${barTop}" width="${barW}" height="${padT + plotH - barTop}" rx="2" fill="#165DFF"></rect>`;
+          const ly = yAmount(amountData[i]);
+          linePts += `${i ? " " : ""}${cx},${ly}`;
+          dots += `<circle cx="${cx}" cy="${ly}" r="2.5" fill="#fff" stroke="#F7BA1E" stroke-width="1.5"></circle>`;
+          if (i % 5 === 0 || i === n - 1) {
+            xLabels += `<text class="axis-label" x="${cx}" y="${H - 8}" text-anchor="middle">${lab}</text>`;
+          }
+        });
+
+        return `
+        <div class="combo-chart">
+          <svg viewBox="0 0 ${W} ${H}" preserveAspectRatio="xMidYMid meet">
+            <text class="axis-title" x="${padL - 8}" y="${padT - 4}" text-anchor="end">充值人数</text>
+            <text class="axis-title" x="${W - padR + 8}" y="${padT - 4}" text-anchor="start">充值金额</text>
+            ${grid}
+            ${bars}
+            <polyline fill="none" stroke="#F7BA1E" stroke-width="2.5" points="${linePts}"></polyline>
+            ${dots}
+            ${leftAxis}
+            ${rightAxis}
+            ${xLabels}
+          </svg>
+        </div>
+        <div class="line-legend">
+          <span><i style="background:#165DFF"></i>老用户充值人数</span>
+          <span><i style="background:#F7BA1E"></i>老用户充值金额</span>
+        </div>`;
+      }
+
+      function renderOldUserValueArpuTrend() {
+        const dayCount = 30;
+        const labels = buildRecentTrendLabels(dayCount);
+        const arpuData = genTrendSeries(dayCount, 68, 74, 0.8, 1);
+        const arppuData = genTrendSeries(dayCount, 292, 300.3, 1.2, 1);
+        arpuData[dayCount - 1] = 74.0;
+        arppuData[dayCount - 1] = 300.3;
+        return renderDualAxisTrendChart({
+          labels,
+          leftSeries: { name: "老用户ARPU", data: arpuData, color: "#165DFF" },
+          rightSeries: {
+            name: "老用户ARPPU",
+            data: arppuData,
+            color: "#14C9C9",
+          },
+          leftMax: 85,
+          rightMax: 320,
+        });
+      }
+
+      function renderOldUserFundTrend() {
+        const dayCount = 30;
+        const labels = buildRecentTrendLabels(dayCount);
+        const diffData = [];
+        const marginData = [];
+        for (let i = 0; i < dayCount; i++) {
+          const t = i / (dayCount - 1);
+          diffData.push(
+            Math.round(
+              400000 +
+                Math.pow(t, 1.4) * 100000 +
+                Math.sin(i * 0.85) * 38000 +
+                Math.sin(i * 1.55) * 22000,
+            ),
+          );
+          marginData.push(
+            +(
+              47.5 -
+              t * 2.8 +
+              Math.sin(i * 0.55) * 1.5 +
+              Math.max(0, t - 0.65) * 5
+            ).toFixed(1),
+          );
+        }
+        diffData[dayCount - 1] = 512300;
+        marginData[dayCount - 1] = 48.1;
+
+        const W = 620,
+          H = 240,
+          padL = 52,
+          padR = 56,
+          padT = 20,
+          padB = 32;
+        const plotW = W - padL - padR;
+        const plotH = H - padT - padB;
+        const leftMin = 300000;
+        const leftMax = 530000;
+        const leftRange = leftMax - leftMin;
+        const leftStep = 20000;
+        const rightMax = 52;
+        const n = labels.length;
+        const step = plotW / n;
+        const barW = Math.min(10, step * 0.55);
+        const yDiff = (v) => padT + plotH * (1 - (v - leftMin) / leftRange);
+        const yMargin = (v) => padT + plotH * (1 - v / rightMax);
+        const fmtLeft = (v) =>
+          v >= 10000
+            ? (v / 10000).toFixed(0) + "万"
+            : v.toLocaleString("zh-CN");
+        const fmtRight = (v) => v.toFixed(1) + "%";
+
+        let grid = "",
+          leftAxis = "",
+          rightAxis = "";
+        for (let v = leftMin; v <= leftMax; v += leftStep) {
+          const y = yDiff(v);
+          grid += `<line class="grid-line" x1="${padL}" y1="${y}" x2="${W - padR}" y2="${y}"></line>`;
+          leftAxis += `<text class="axis-label" x="${padL - 8}" y="${y + 3}" text-anchor="end">${fmtLeft(v)}</text>`;
+          const rightVal = rightMax * ((v - leftMin) / leftRange);
+          rightAxis += `<text class="axis-label" x="${W - padR + 8}" y="${y + 3}" text-anchor="start">${fmtRight(rightVal)}</text>`;
+        }
+
+        let bars = "",
+          xLabels = "",
+          linePts = "",
+          dots = "";
+        labels.forEach((lab, i) => {
+          const cx = padL + step * i + step / 2;
+          const barTop = yDiff(diffData[i]);
+          bars += `<rect x="${cx - barW / 2}" y="${barTop}" width="${barW}" height="${padT + plotH - barTop}" rx="2" fill="#165DFF"></rect>`;
+          const ly = yMargin(marginData[i]);
+          linePts += `${i ? " " : ""}${cx},${ly}`;
+          dots += `<circle cx="${cx}" cy="${ly}" r="2.5" fill="#fff" stroke="#FF7D00" stroke-width="1.5"></circle>`;
+          if (i % 5 === 0 || i === n - 1) {
+            xLabels += `<text class="axis-label" x="${cx}" y="${H - 8}" text-anchor="middle">${lab}</text>`;
+          }
+        });
+
+        return `
+        <div class="combo-chart">
+          <svg viewBox="0 0 ${W} ${H}" preserveAspectRatio="xMidYMid meet">
+            <text class="axis-title" x="${padL - 8}" y="${padT - 4}" text-anchor="end">充提差</text>
+            <text class="axis-title" x="${W - padR + 8}" y="${padT - 4}" text-anchor="start">盈余率</text>
+            ${grid}
+            ${bars}
+            <polyline fill="none" stroke="#FF7D00" stroke-width="2.5" points="${linePts}"></polyline>
+            ${dots}
+            ${leftAxis}
+            ${rightAxis}
+            ${xLabels}
+          </svg>
+        </div>
+        <div class="line-legend">
+          <span><i style="background:#165DFF"></i>老用户充提差</span>
+          <span><i style="background:#FF7D00"></i>老用户盈余率</span>
+        </div>`;
+      }
+
+      function renderOldUserValueTrendCharts() {
+        return `
+        <section class="chart-grid" aria-label="老用户价值趋势图表" style="grid-template-columns:1fr 1fr;margin-bottom:16px">
+          <article class="chart-card">
+            <div class="chart-title">老用户收入趋势 <span class="status-tag info">柱线图</span></div>
+            <div class="chart-subtitle">近30日老用户充值人数（柱）/ 老用户充值金额（线）</div>
+            ${renderOldUserIncomeTrend()}
+          </article>
+          <article class="chart-card">
+            <div class="chart-title">老用户价值趋势 <span class="status-tag info">双折线</span></div>
+            <div class="chart-subtitle">近30日老用户ARPU / 老用户ARPPU</div>
+            ${renderOldUserValueArpuTrend()}
+          </article>
+        </section>
+        <article class="chart-card" style="margin-bottom:16px">
+          <div class="chart-title">老用户资金与利润趋势 <span class="status-tag info">柱线图</span></div>
+          <div class="chart-subtitle">近30日老用户充提差（柱）/ 老用户盈余率（线）</div>
+          ${renderOldUserFundTrend()}
+        </article>`;
+      }
+
+      function renderConversionRateTrendChart() {
+        return `
+        <section class="chart-grid" aria-label="用户转化趋势图表" style="margin-bottom:16px">
+          <article class="chart-card">
+            <div class="chart-title">付费转化率趋势图 <span class="status-tag info">折线图</span></div>
+            <div class="chart-subtitle">近七日首充率 / 新用户付费率 / 老用户付费率 / 总付费率</div>
+            ${renderPayConversionRateTrend()}
+          </article>
+          <article class="chart-card">
+            <div class="chart-title">首充转化趋势 <span class="status-tag info">双轴图</span></div>
+            <div class="chart-subtitle">近七日首充人数 / 首充率</div>
+            ${renderFirstRechargeTrend()}
+          </article>
+        </section>`;
+      }
+
+      function renderConversionFixedCharts() {
+        return `
+        <section class="chart-grid" aria-label="用户转化图表">
+          <article class="chart-card">
+            <div class="chart-title">用户付费转化漏斗 <span class="status-tag info">漏斗</span></div>
+            <div class="chart-subtitle">新增用户 → 首充 → 新增付费</div>
+            ${renderPayConversionFunnel()}
+          </article>
+          <article class="chart-card">
+            <div class="chart-title">新老用户付费率对比 <span class="status-tag info">对比</span></div>
+            <div class="chart-subtitle">新用户 / 老用户 / 总付费率</div>
+            ${renderPayRateCompare()}
+          </article>
+        </section>
+        <article class="chart-card" style="margin-bottom:16px">
+          <div class="chart-title">付费人数趋势图 <span class="status-tag info">双折线</span></div>
+          <div class="chart-subtitle">近七日充值人数 / 新增付费人数</div>
+          ${renderPayCountTrend()}
+        </article>`;
+      }
+
+      function renderActivationFixedCharts() {
+        // 漏斗阶段按激活路径递减排列（含用户指定的全部指标）
+        const steps = [
+          { name: "新增用户数", value: 9120 },
+          { name: "新用户登录人数", value: 8650 },
+          { name: "新用户活跃人数", value: 7820 },
+          { name: "首次游戏人数", value: 6980 },
+          { name: "首次投注人数", value: 5240 },
+          { name: "首充人数", value: 860 },
+        ];
+        return `
+        <section class="chart-grid" aria-label="用户激活图表">
+          <article class="chart-card">
+            <div class="chart-title">新用户激活漏斗 <span class="status-tag info">漏斗</span></div>
+            <div class="chart-subtitle">新增 → 登录 → 活跃 → 首次游戏 → 首次投注 → 首充</div>
+            ${renderFunnelChart(steps)}
+          </article>
+          <article class="chart-card">
+            <div class="chart-title">新用户激活趋势图 <span class="status-tag info">双折线</span></div>
+            <div class="chart-subtitle">近七日新增用户数 / 新用户DAU</div>
+            ${renderActivationDualLine()}
+          </article>
+        </section>`;
+      }
+
+      function buildStackedAreaPath(topVals, bottomVals, xPos, yPos) {
+        const n = topVals.length;
+        let d = `M ${xPos(0)},${yPos(topVals[0])}`;
+        for (let i = 1; i < n; i++) d += ` L ${xPos(i)},${yPos(topVals[i])}`;
+        for (let i = n - 1; i >= 0; i--)
+          d += ` L ${xPos(i)},${yPos(bottomVals[i])}`;
+        return `${d} Z`;
+      }
+
+      function renderDauStackedAreaChart() {
+        const labels = [
+          "07/11",
+          "07/12",
+          "07/13",
+          "07/14",
+          "07/15",
+          "07/16",
+          "07/17",
+        ];
+        const dau = [14200, 14500, 14800, 15050, 14900, 15200, 15680];
+        const oldDau = [10200, 10400, 10550, 10700, 10650, 10850, 11200];
+        const W = 620,
+          H = 260,
+          padL = 52,
+          padR = 16,
+          padT = 20,
+          padB = 32;
+        const plotW = W - padL - padR;
+        const plotH = H - padT - padB;
+        const maxVal = 18000;
+        const n = labels.length;
+        const xPos = (i) =>
+          padL + (n === 1 ? plotW / 2 : (i / (n - 1)) * plotW);
+        const yPos = (v) => padT + plotH * (1 - v / maxVal);
+        const zeroLine = new Array(n).fill(0);
+
+        let grid = "",
+          yLabels = "",
+          xLabels = "";
+        [0, 0.25, 0.5, 0.75, 1].forEach((t) => {
+          const y = padT + plotH * (1 - t);
+          grid += `<line class="grid-line" x1="${padL}" y1="${y}" x2="${W - padR}" y2="${y}"></line>`;
+          yLabels += `<text class="funnel-axis" x="${padL - 8}" y="${y + 4}" text-anchor="end">${Math.round(maxVal * t).toLocaleString("zh-CN")}</text>`;
+        });
+        labels.forEach((lab, i) => {
+          xLabels += `<text class="funnel-axis" x="${xPos(i)}" y="${H - 8}" text-anchor="middle">${lab}</text>`;
+        });
+
+        const oldArea = buildStackedAreaPath(oldDau, zeroLine, xPos, yPos);
+        const newArea = buildStackedAreaPath(dau, oldDau, xPos, yPos);
+        const dauLine = dau.map((v, i) => `${xPos(i)},${yPos(v)}`).join(" ");
+
+        return `
+        <div class="combo-chart">
+          <svg viewBox="0 0 ${W} ${H}" preserveAspectRatio="xMidYMid meet">
+            ${grid}
+            <path d="${oldArea}" fill="#165DFF" fill-opacity="0.55"></path>
+            <path d="${newArea}" fill="#14C9C9" fill-opacity="0.55"></path>
+            <polyline fill="none" stroke="#165DFF" stroke-width="2" points="${dauLine}"></polyline>
+            ${yLabels}
+            ${xLabels}
+          </svg>
+        </div>
+        <div class="line-legend">
+          <span><i style="background:#165DFF"></i>老用户日活</span>
+          <span><i style="background:#14C9C9"></i>新用户日活</span>
+          <span><i style="background:#165DFF;opacity:0.35"></i>DAU（合计）</span>
+        </div>`;
+      }
+
+      function renderOldUserActiveRateTrend() {
+        const labels = [
+          "07/11",
+          "07/12",
+          "07/13",
+          "07/14",
+          "07/15",
+          "07/16",
+          "07/17",
+        ];
+        const series = [
+          {
+            name: "老用户活跃率",
+            data: [67.2, 67.5, 67.8, 68.0, 68.2, 68.3, 68.5],
+            color: "#165DFF",
+          },
+        ];
+        return renderMultiLineTrendChart({
+          labels,
+          series,
+          maxVal: 100,
+          yStep: 25,
+        });
+      }
+
+      function renderRetentionActiveCharts() {
+        return `
+        <section class="chart-grid" aria-label="用户活跃图表" style="grid-template-columns:1fr 1fr;margin-bottom:16px">
+          <article class="chart-card">
+            <div class="chart-title">日活构成 <span class="status-tag info">堆叠面积图</span></div>
+            <div class="chart-subtitle">DAU = 老用户日活 + 新用户日活，差值代表新用户贡献</div>
+            ${renderDauStackedAreaChart()}
+          </article>
+          <article class="chart-card">
+            <div class="chart-title">老用户活跃趋势 <span class="status-tag info">折线图</span></div>
+            <div class="chart-subtitle">近七日老用户活跃率走势</div>
+            ${renderOldUserActiveRateTrend()}
+          </article>
+        </section>`;
+      }
+
+      function renderAcquisitionTrendChart() {
+        return `
+        <article class="chart-card">
+          <div class="chart-title">用户获取趋势总览 <span class="status-tag info">双轴图</span></div>
+          <div class="chart-subtitle">安装人数 / 新增用户数（柱状，左轴）· 注册转化率（折线，右轴）</div>
+          ${renderComboChart()}
+        </article>`;
+      }
+
+      const RT_METRICS = [
+        {
+          group: "实时数据",
+          items: [
+            "实时在线人数",
+            "实时新增用户",
+            "实时新增订单数",
+            "实时充值金额",
+            "实时提现金额",
+            "实时提现人数",
+            "实时首充提现人数",
+            "实时流水金额",
+            "实时充值人数",
+          ],
+        },
+        {
+          group: "活动奖金发放",
+          items: [
+            "今日平台发放总额",
+            "累充转盘发放",
+            "排行榜发放",
+            "SMS任务发放",
+            "兑换码发放",
+            "新人礼包发放",
+            "代理活动发放",
+            "每日邀请活动发放",
+            "宝箱活动发放",
+            "倒计时钱包活动发放",
+            "充值Bonus奖励发放",
+            "站内信活动发放",
+            "VIP奖金发放",
+            "提现补偿金发放",
+          ],
+        },
+      ];
+      const RT_COLORS = [
+        "#14C9C9",
+        "#165DFF",
+        "#F7BA1E",
+        "#00B42A",
+        "#722ED1",
+        "#F5319D",
+        "#0FC6C2",
+        "#FF7D00",
+        "#3491FA",
+        "#F53F3F",
+      ];
+
+      function pad2(n) {
+        return String(n).padStart(2, "0");
+      }
+
+      function formatDateYMD(d) {
+        return `${d.getFullYear()}-${pad2(d.getMonth() + 1)}-${pad2(d.getDate())}`;
+      }
+
+      function parseYMD(str) {
+        const [y, m, d] = str.split("-").map(Number);
+        return new Date(y, m - 1, d);
+      }
+
+      function eachDateInclusive(startStr, endStr) {
+        const dates = [];
+        const cur = parseYMD(startStr);
+        const end = parseYMD(endStr);
+        while (cur <= end) {
+          dates.push(formatDateYMD(cur));
+          cur.setDate(cur.getDate() + 1);
+        }
+        return dates;
+      }
+
+      function isToday(dateStr) {
+        return dateStr === formatDateYMD(new Date());
+      }
+
+      /** 5 分钟粒度的数据点（分钟数 0~1400，即 00:00~23:20） */
+      function generateRtSeries(metric, dateStr, dayIndex = 0) {
+        const points = [];
+        const isTd = isToday(dateStr);
+        const now = new Date();
+        const nowMin = now.getHours() * 60 + now.getMinutes();
+        const dayEnd = 23 * 60 + 20;
+        const endMin = isTd
+          ? Math.min(Math.floor(nowMin / 5) * 5, dayEnd)
+          : dayEnd;
+        const seed = [...(metric + dateStr)].reduce(
+          (a, c) => a + c.charCodeAt(0),
+          0,
+        );
+        const metricSeed = [...metric].reduce((a, c) => a + c.charCodeAt(0), 0);
+        const dateObj = parseYMD(dateStr);
+        const dayOfWeek = dateObj.getDay();
+        const baseLevel = 720 + (metricSeed % 620) + (seed % 380);
+        const dayLevelShift =
+          dayIndex * 95 + dayOfWeek * 48 + ((seed >> 3) % 220) - 110;
+        const ampScale = 0.68 + ((seed + metricSeed) % 55) / 100;
+        const phase = seed * 1.6 + dayIndex * 41 + metricSeed * 0.45;
+        const wavePeriod1 = 78 + (dayOfWeek % 4) * 11 + (metricSeed % 17);
+        const wavePeriod2 = 118 + (dayIndex % 5) * 9 + (seed % 23);
+        let val = baseLevel + dayLevelShift;
+        for (let m = 0; m <= endMin; m += 5) {
+          const hour = Math.floor(m / 60);
+          const nightFactor =
+            hour >= 2 && hour < 6 ? 0.35 : hour >= 6 && hour < 9 ? 0.7 : 1;
+          const lunchDip =
+            hour >= 12 && hour < 14 ? 0.82 + (dayIndex % 3) * 0.06 : 1;
+          const wave =
+            Math.sin((m + phase) / wavePeriod1) * (170 * ampScale) +
+            Math.cos((m + phase * 1.35) / wavePeriod2) * (95 * ampScale) +
+            Math.sin((m + dayIndex * 17) / 210) * (40 + dayIndex * 8);
+          val = Math.max(
+            40,
+            Math.min(
+              2480,
+              val * 0.84 +
+                (baseLevel + dayLevelShift + wave) *
+                  nightFactor *
+                  lunchDip *
+                  0.16,
+            ),
+          );
+          points.push({ minute: m, value: Math.round(val) });
+        }
+        return points;
+      }
+
+      /** 取最靠近当前分钟的 step 分钟刻度 */
+      function nearestStepMinute(nowMin, step) {
+        return Math.round(nowMin / step) * step;
+      }
+
+      function getXTicks(dates) {
+        const hasToday = dates.some(isToday);
+        if (hasToday && dates.length === 1) {
+          // 当天：默认 20 分钟一刻度；刻度过多（超过 X 轴可容纳数量）则改为 50 分钟
+          const now = new Date();
+          const nowMin = now.getHours() * 60 + now.getMinutes();
+          const MAX_TICKS = 24; // X 轴可容纳的大致刻度上限
+
+          let step = 20;
+          let endTick = nearestStepMinute(nowMin, step);
+          endTick = Math.max(0, Math.min(endTick, 23 * 60 + 40));
+          let tickCount = Math.floor(endTick / step) + 1;
+          if (tickCount > MAX_TICKS) {
+            step = 50;
+            endTick = nearestStepMinute(nowMin, step);
+            endTick = Math.max(0, Math.min(endTick, 23 * 60 + 20));
+          }
+
+          const ticks = [];
+          for (let m = 0; m <= endTick; m += step) ticks.push(m);
+          if (!ticks.length) ticks.push(0);
+          const maxMin = Math.max(endTick, step);
+          return { ticks, maxMin, stepLabel: step };
+        }
+        // 非当天或跨天：00:00 起，50 分钟一刻度，到 23:20
+        const ticks = [];
+        for (let m = 0; m <= 23 * 60 + 20; m += 50) ticks.push(m);
+        return { ticks, maxMin: 23 * 60 + 20, stepLabel: 50 };
+      }
+
+      function minuteToLabel(m) {
+        return `${pad2(Math.floor(m / 60))}:${pad2(m % 60)}`;
+      }
+
+      function renderRealtimePanel() {
+        const today = formatDateYMD(new Date());
+        const optionsHtml = RT_METRICS.map(
+          (g) => `
+        <div class="ms-group-title">${g.group}</div>
+        ${g.items
+          .map(
+            (item) => `
+          <label class="ms-option">
+            <input type="checkbox" value="${item}" ${item === "实时在线人数" ? "checked" : ""} />
+            <span>${item}</span>
+          </label>`,
+          )
+          .join("")}
+      `,
+        ).join("");
+
+        return `
+        <section class="realtime-panel" id="realtimePanel" aria-label="分时数据对比">
+          <div class="realtime-panel-head">
+            <div class="chart-title">分时数据对比</div>
+            <button type="button" class="realtime-refresh" id="rtRefreshBtn" title="清空">↻</button>
+          </div>
+          <div class="realtime-filters">
+            <div class="ms-wrap" id="rtMetricSelect">
+              <div class="ms-trigger" id="rtMetricTrigger" tabindex="0">
+                <span class="ms-placeholder">请选择数据源</span>
+              </div>
+              <div class="ms-dropdown" id="rtMetricDropdown">${optionsHtml}</div>
+            </div>
+            <div class="realtime-date-range">
+              <label>时间</label>
+              <input type="date" id="rtChartStartDate" value="${today}" />
+              <span>—</span>
+              <input type="date" id="rtChartEndDate" value="${today}" />
+            </div>
+            <button type="button" class="btn btn-primary" id="rtQueryBtn">查询</button>
+          </div>
+          <div class="rt-legend" id="rtLegend"></div>
+          <div class="realtime-chart-wrap" id="rtChartWrap">
+            <svg id="rtChartSvg" viewBox="0 0 960 300" preserveAspectRatio="none"></svg>
+            <div class="rt-tooltip" id="rtTooltip"></div>
+          </div>
+        </section>`;
+      }
+
+      function renderRealtimeTablePanel() {
+        const today = formatDateYMD(new Date());
+        return `
+        <div class="page-panel active realtime-table-panel" id="panel-realtime-table">
+          <div class="toolbar">
+            <span class="page-title">分时明细</span>
+            <div class="toolbar-actions">
+              <button class="btn btn-primary" type="button">导出报表</button>
+            </div>
+          </div>
+          <div class="filter-bar filter-bar-local" style="padding:12px 20px;margin:0;border-bottom:1px solid var(--border)">
+            <div class="filter-item">
+              <label for="rtTableDate">日期</label>
+              <input type="date" id="rtTableDate" value="${today}" />
+            </div>
+            <button type="button" class="btn btn-primary" id="rtTableQueryBtn">查询</button>
+          </div>
+          <div class="table-wrap" id="rtTableWrap">
+            <div class="rt-table-empty">请选择数据源与日期后查询</div>
+          </div>
+        </div>`;
+      }
+
+      function renderRealtimePage() {
+        return `
+          ${renderRealtimePanel()}
+          ${renderRealtimeTablePanel()}
+        `;
+      }
+
+      function renderOverviewKpiCard(k) {
+        const fmtArrow = (dir) =>
+          dir === "down" ? "↓" : dir === "flat" ? "→" : "↑";
+        const fmtPct = (dir, pct) => `${fmtArrow(dir)} ${pct}`;
+        return `
+        <article class="metric-card">
+          <div class="metric-module">${k.module}</div>
+          <div class="metric-label">${k.name}</div>
+          <div class="metric-value">${k.value}</div>
+          <div class="metric-compares">
+            <div class="metric-compare ${k.dayDir}">
+              <span class="cmp-label">日环比</span>
+              <span class="cmp-value">${fmtPct(k.dayDir, k.dayPct)}</span>
+            </div>
+            <div class="metric-compare ${k.weekDir}">
+              <span class="cmp-label">周环比</span>
+              <span class="cmp-value">${fmtPct(k.weekDir, k.weekPct)}</span>
+            </div>
+          </div>
+        </article>`;
+      }
+
+      function renderOverviewInsights() {
+        const kpis = [
+          {
+            module: "用户规模",
+            name: "安装人数",
+            value: "10,230",
+            dayDir: "up",
+            dayPct: "8.6%",
+            weekDir: "down",
+            weekPct: "3.2%",
+          },
+          {
+            module: "用户活跃",
+            name: "日活跃人数",
+            value: "15,680",
+            dayDir: "up",
+            dayPct: "5.1%",
+            weekDir: "up",
+            weekPct: "4.3%",
+          },
+          {
+            module: "用户变现",
+            name: "充值人数",
+            value: "3,280",
+            dayDir: "up",
+            dayPct: "7.5%",
+            weekDir: "up",
+            weekPct: "2.1%",
+          },
+          {
+            module: "用户变现",
+            name: "新用户充值金额",
+            value: "¥156,800",
+            dayDir: "up",
+            dayPct: "6.8%",
+            weekDir: "up",
+            weekPct: "4.2%",
+          },
+          {
+            module: "用户变现",
+            name: "老用户充值金额",
+            value: "¥828,800",
+            dayDir: "up",
+            dayPct: "4.8%",
+            weekDir: "up",
+            weekPct: "3.6%",
+          },
+          {
+            module: "用户变现",
+            name: "ARPPU",
+            value: "300.5",
+            dayDir: "up",
+            dayPct: "0.6%",
+            weekDir: "up",
+            weekPct: "0.4%",
+          },
+          {
+            module: "平台盈利",
+            name: "平台游戏输赢",
+            value: "¥573,300",
+            dayDir: "up",
+            dayPct: "11.6%",
+            weekDir: "up",
+            weekPct: "9.2%",
+          },
+          {
+            module: "平台盈利",
+            name: "盈余率",
+            value: "58.2%",
+            dayDir: "up",
+            dayPct: "1.9%",
+            weekDir: "down",
+            weekPct: "0.6%",
+          },
+          {
+            module: "资金流动",
+            name: "提现金额",
+            value: "¥412,300",
+            dayDir: "up",
+            dayPct: "3.5%",
+            weekDir: "down",
+            weekPct: "1.8%",
+          },
+        ];
+        return `
+        <section class="overview-insights" aria-label="核心经营指标">
+          ${kpis.map(renderOverviewKpiCard).join("")}
+        </section>`;
+      }
+
+      function getSelectedRtMetrics() {
+        const dropdown = document.getElementById("rtMetricDropdown");
+        if (!dropdown) return [];
+        return [...dropdown.querySelectorAll("input:checked")].map(
+          (el) => el.value,
+        );
+      }
+
+      function updateRtMetricTags() {
+        const trigger = document.getElementById("rtMetricTrigger");
+        if (!trigger) return;
+        const selected = getSelectedRtMetrics();
+        if (!selected.length) {
+          trigger.innerHTML =
+            '<span class="ms-placeholder">请选择数据源</span>';
+          return;
+        }
+        trigger.innerHTML = selected
+          .map(
+            (name) =>
+              `<span class="ms-tag" data-value="${name}">${name}<button type="button" aria-label="移除">×</button></span>`,
+          )
+          .join("");
+      }
+
+      function buildRtSeriesList(metrics, dates) {
+        const series = [];
+        let colorIdx = 0;
+        metrics.forEach((metric) => {
+          dates.forEach((date, dayIndex) => {
+            series.push({
+              metric,
+              date,
+              label: `${date} ${metric}`,
+              color: RT_COLORS[colorIdx % RT_COLORS.length],
+              points: generateRtSeries(metric, date, dayIndex),
+            });
+            colorIdx += 1;
+          });
+        });
+        return series;
+      }
+
+      function getRtChartDates() {
+        let start = document.getElementById("rtChartStartDate")?.value;
+        let end = document.getElementById("rtChartEndDate")?.value;
+        if (!start || !end) return [];
+        if (parseYMD(end) < parseYMD(start)) {
+          [start, end] = [end, start];
+        }
+        return eachDateInclusive(start, end);
+      }
+
+      function drawRealtimeTable(metrics, tableDate) {
+        const wrap = document.getElementById("rtTableWrap");
+        if (!wrap) return;
+
+        if (!tableDate || !metrics.length) {
+          wrap.innerHTML =
+            '<div class="rt-table-empty">请选择数据源与日期后查询</div>';
+          return;
+        }
+
+        const seriesList = buildRtSeriesList(metrics, [tableDate]);
+        const valueMaps = {};
+        seriesList.forEach((s) => {
+          const map = {};
+          s.points.forEach((p) => {
+            map[p.minute] = p.value;
+          });
+          valueMaps[s.metric] = map;
+        });
+
+        const endMin = 23 * 60 + 20;
+        const step = 50;
+        let headCols = `<th class="sticky-col-1">时间</th>`;
+        metrics.forEach((m) => {
+          headCols += `<th>${m}</th>`;
+        });
+
+        let bodyRows = "";
+        let rowIndex = 0;
+        for (let m = 0; m <= endMin; m += step) {
+          const delay = Math.min(rowIndex * 0.028, 0.75);
+          bodyRows += `<tr class="rt-row-anim" style="animation-delay:${delay}s">`;
+          bodyRows += `<td class="sticky-col-1">${minuteToLabel(m)}</td>`;
+          metrics.forEach((metric) => {
+            const val = valueMaps[metric]?.[m];
+            bodyRows += `<td>${val == null ? "-" : val.toLocaleString("zh-CN")}</td>`;
+          });
+          bodyRows += "</tr>";
+          rowIndex += 1;
+        }
+
+        wrap.innerHTML = `
+          <table class="data-table rt-data-table">
+            <thead>
+              <tr class="col-row">${headCols}</tr>
+            </thead>
+            <tbody>${bodyRows}</tbody>
+          </table>`;
+      }
+
+      function stopRealtimeFlowAnimations(svg) {
+        if (!svg) return;
+        if (svg._rtFlowRaf) {
+          cancelAnimationFrame(svg._rtFlowRaf);
+          svg._rtFlowRaf = null;
+        }
+        svg.querySelectorAll(".rt-flow-dot").forEach((el) => el.remove());
+        svg.querySelectorAll(".rt-series-line").forEach((line) => {
+          line.classList.remove("rt-line-flow");
+          line.style.strokeDasharray = "";
+          line.style.strokeDashoffset = "";
+          line.style.transition = "";
+        });
+      }
+
+      function playRealtimeFlowAnimation(svg, wrap, legend) {
+        if (!svg) return;
+        stopRealtimeFlowAnimations(svg);
+
+        wrap?.classList.remove("rt-animating");
+        legend?.classList.remove("rt-animating");
+        void wrap?.offsetWidth;
+        wrap?.classList.add("rt-animating");
+        legend?.classList.add("rt-animating");
+
+        const lines = [...svg.querySelectorAll("polyline.rt-series-line")];
+        if (!lines.length) return;
+
+        const drawDuration = 1100;
+        const stagger = 120;
+        let pending = lines.length;
+        let flowStarted = false;
+
+        const startFlowPhase = () => {
+          if (flowStarted) return;
+          flowStarted = true;
+          lines.forEach((line) => {
+            line.style.transition = "";
+            line.style.strokeDasharray = "7 11";
+            line.classList.add("rt-line-flow");
+          });
+
+          const dots = lines.map((line) => {
+            const dot = document.createElementNS(
+              "http://www.w3.org/2000/svg",
+              "circle",
+            );
+            dot.setAttribute("r", "3.5");
+            dot.setAttribute("fill", line.getAttribute("stroke") || "#165DFF");
+            dot.classList.add("rt-flow-dot", "is-running");
+            svg.appendChild(dot);
+            let length = 0;
+            try {
+              length = line.getTotalLength();
+            } catch (e) {
+              length = 0;
+            }
+            return { line, dot, length };
+          });
+
+          const start = performance.now();
+          const duration = 1600;
+          const tick = (now) => {
+            const t = Math.min(1, (now - start) / duration);
+            const ease = 1 - Math.pow(1 - t, 3);
+            dots.forEach(({ line, dot, length }) => {
+              if (!length) return;
+              const pt = line.getPointAtLength(length * ease);
+              dot.setAttribute("cx", pt.x);
+              dot.setAttribute("cy", pt.y);
+            });
+            if (t < 1) {
+              svg._rtFlowRaf = requestAnimationFrame(tick);
+            } else {
+              dots.forEach(({ dot }) => dot.remove());
+              setTimeout(() => {
+                lines.forEach((l) => {
+                  l.classList.remove("rt-line-flow");
+                  l.style.strokeDasharray = "";
+                  l.style.strokeDashoffset = "";
+                });
+                wrap?.classList.remove("rt-animating");
+                legend?.classList.remove("rt-animating");
+              }, 1600);
+            }
+          };
+          svg._rtFlowRaf = requestAnimationFrame(tick);
+        };
+
+        lines.forEach((line, idx) => {
+          let length = 0;
+          try {
+            length = line.getTotalLength();
+          } catch (e) {
+            length = 0;
+          }
+          if (!length) {
+            pending -= 1;
+            if (pending <= 0) startFlowPhase();
+            return;
+          }
+
+          line.style.strokeDasharray = `${length}`;
+          line.style.strokeDashoffset = `${length}`;
+          void line.getBoundingClientRect();
+          line.style.transition = `stroke-dashoffset ${drawDuration}ms cubic-bezier(0.22, 1, 0.36, 1) ${idx * stagger}ms`;
+          line.style.strokeDashoffset = "0";
+
+          const onDone = (e) => {
+            if (e.propertyName && e.propertyName !== "stroke-dashoffset")
+              return;
+            line.removeEventListener("transitionend", onDone);
+            pending -= 1;
+            if (pending <= 0) startFlowPhase();
+          };
+          line.addEventListener("transitionend", onDone);
+        });
+
+        // 兜底：避免个别浏览器不触发 transitionend
+        const totalWait = drawDuration + (lines.length - 1) * stagger + 80;
+        setTimeout(() => {
+          if (pending > 0) {
+            pending = 0;
+            startFlowPhase();
+          }
+        }, totalWait);
+      }
+
+      function drawRealtimeChart() {
+        const svg = document.getElementById("rtChartSvg");
+        const legend = document.getElementById("rtLegend");
+        const wrap = document.getElementById("rtChartWrap");
+        if (!svg || !legend || !wrap) return;
+
+        const dates = getRtChartDates();
+        const tableDate = document.getElementById("rtTableDate")?.value;
+        const metrics = getSelectedRtMetrics();
+        const signature = `${dates.join("~")}|${metrics.join(",")}`;
+        const shouldAnimate =
+          !!dates.length &&
+          !!metrics.length &&
+          signature !== (wrap._rtSignature || "");
+
+        if (!dates.length || !metrics.length) {
+          stopRealtimeFlowAnimations(svg);
+          svg.innerHTML = "";
+          legend.innerHTML =
+            '<span style="color:var(--arco-text-3)">请选择数据源与日期范围后查询</span>';
+          drawRealtimeTable(metrics, tableDate);
+          wrap._rtSignature = signature;
+          return;
+        }
+
+        const seriesList = buildRtSeriesList(metrics, dates);
+        const { ticks, maxMin } = getXTicks(dates);
+
+        const W = 960,
+          H = 300;
+        const padL = 52,
+          padR = 16,
+          padT = 16,
+          padB = 36;
+        const plotW = W - padL - padR;
+        const plotH = H - padT - padB;
+        const yMax = 2500;
+        const yTicks = [0, 500, 1000, 1500, 2000, 2500];
+        const xPos = (m) => padL + (m / maxMin) * plotW;
+        const yPos = (v) => padT + plotH * (1 - v / yMax);
+
+        stopRealtimeFlowAnimations(svg);
+
+        let html = "";
+        yTicks.forEach((v) => {
+          const y = yPos(v);
+          html += `<line class="rt-grid" x1="${padL}" y1="${y}" x2="${W - padR}" y2="${y}"></line>`;
+          html += `<text class="rt-axis" x="${padL - 8}" y="${y + 4}" text-anchor="end">${v.toLocaleString("zh-CN")}</text>`;
+        });
+        ticks.forEach((m) => {
+          html += `<text class="rt-axis" x="${xPos(m)}" y="${H - 10}" text-anchor="middle">${minuteToLabel(m)}</text>`;
+        });
+
+        seriesList.forEach((s) => {
+          const pts = s.points
+            .map((p) => `${xPos(Math.min(p.minute, maxMin))},${yPos(p.value)}`)
+            .join(" ");
+          html += `<polyline class="rt-series-line" fill="none" stroke="${s.color}" stroke-width="2.5" points="${pts}"></polyline>`;
+        });
+
+        html += `<line class="rt-crosshair" id="rtCrosshair" x1="0" y1="${padT}" x2="0" y2="${padT + plotH}" visibility="hidden"></line>`;
+        html += `<g id="rtHoverDots"></g>`;
+        svg.setAttribute("viewBox", `0 0 ${W} ${H}`);
+        svg.innerHTML = html;
+
+        legend.innerHTML = seriesList
+          .map((s) => {
+            const text = dates.length > 1 ? `${s.date} ${s.metric}` : s.metric;
+            return `<span title="${s.label}"><i style="background:${s.color}"></i>${text}</span>`;
+          })
+          .join("");
+
+        // 缓存供 hover 使用
+        wrap._rtState = {
+          seriesList,
+          maxMin,
+          padL,
+          padR,
+          padT,
+          plotW,
+          plotH,
+          yMax,
+          W,
+          H,
+          isMultiDay: dates.length > 1,
+        };
+
+        drawRealtimeTable(metrics, tableDate);
+        wrap._rtSignature = signature;
+
+        if (shouldAnimate) {
+          requestAnimationFrame(() =>
+            playRealtimeFlowAnimation(svg, wrap, legend),
+          );
+        }
+      }
+
+      function initRealtimeChart() {
+        const panel = document.getElementById("realtimePanel");
+        if (!panel) return;
+
+        if (window._rtAbort) window._rtAbort.abort();
+        window._rtAbort = new AbortController();
+        const { signal } = window._rtAbort;
+
+        const trigger = document.getElementById("rtMetricTrigger");
+        const dropdown = document.getElementById("rtMetricDropdown");
+        const wrap = document.getElementById("rtChartWrap");
+        const tooltip = document.getElementById("rtTooltip");
+        const svg = document.getElementById("rtChartSvg");
+
+        const msWrap = document.getElementById("rtMetricSelect");
+
+        const closeMetricDropdown = (shouldRefresh = true) => {
+          dropdown?.classList.remove("open");
+          trigger?.classList.remove("open");
+          if (shouldRefresh) drawRealtimeChart();
+        };
+
+        const clearRealtimeSelection = () => {
+          dropdown?.querySelectorAll('input[type="checkbox"]').forEach((el) => {
+            el.checked = false;
+          });
+          closeMetricDropdown();
+          updateRtMetricTags();
+          drawRealtimeChart();
+        };
+
+        updateRtMetricTags();
+        drawRealtimeChart();
+
+        trigger?.addEventListener(
+          "click",
+          (e) => {
+            if (e.target.closest(".ms-tag button")) return;
+            e.stopPropagation();
+            const open = dropdown.classList.toggle("open");
+            trigger.classList.toggle("open", open);
+            if (!open) drawRealtimeChart();
+          },
+          { signal },
+        );
+
+        trigger?.addEventListener(
+          "click",
+          (e) => {
+            const btn = e.target.closest(".ms-tag button");
+            if (!btn) return;
+            e.stopPropagation();
+            const tag = btn.closest(".ms-tag");
+            const val = tag?.dataset.value;
+            const input = dropdown.querySelector(`input[value="${val}"]`);
+            if (input) input.checked = false;
+            updateRtMetricTags();
+            drawRealtimeChart();
+          },
+          { signal },
+        );
+
+        dropdown?.addEventListener("click", (e) => e.stopPropagation(), {
+          signal,
+        });
+        dropdown?.addEventListener(
+          "change",
+          () => {
+            updateRtMetricTags();
+            drawRealtimeChart();
+          },
+          { signal },
+        );
+
+        // 点击多选框以外的空白区域收起下拉
+        document.addEventListener(
+          "click",
+          (e) => {
+            if (!msWrap?.contains(e.target)) closeMetricDropdown();
+          },
+          { signal },
+        );
+
+        document
+          .getElementById("rtQueryBtn")
+          ?.addEventListener("click", drawRealtimeChart, { signal });
+        document.getElementById("rtTableQueryBtn")?.addEventListener(
+          "click",
+          () => {
+            drawRealtimeTable(
+              getSelectedRtMetrics(),
+              document.getElementById("rtTableDate")?.value,
+            );
+          },
+          { signal },
+        );
+        document.getElementById("rtTableDate")?.addEventListener(
+          "change",
+          () => {
+            drawRealtimeTable(
+              getSelectedRtMetrics(),
+              document.getElementById("rtTableDate")?.value,
+            );
+          },
+          { signal },
+        );
+        document.getElementById("rtRefreshBtn")?.addEventListener(
+          "click",
+          (e) => {
+            e.stopPropagation();
+            clearRealtimeSelection();
+          },
+          { signal },
+        );
+
+        wrap?.addEventListener(
+          "mousemove",
+          (e) => {
+            const state = wrap._rtState;
+            if (!state || !state.seriesList.length) return;
+            const rect = svg.getBoundingClientRect();
+            const scaleX = state.W / rect.width;
+            const mx = (e.clientX - rect.left) * scaleX;
+            if (mx < state.padL || mx > state.W - state.padR) {
+              tooltip.style.display = "none";
+              document
+                .getElementById("rtCrosshair")
+                ?.setAttribute("visibility", "hidden");
+              document.getElementById("rtHoverDots").innerHTML = "";
+              return;
+            }
+            const minuteRaw = ((mx - state.padL) / state.plotW) * state.maxMin;
+            const minute = Math.round(minuteRaw / 5) * 5;
+            const clamped = Math.max(0, Math.min(state.maxMin, minute));
+            const x = state.padL + (clamped / state.maxMin) * state.plotW;
+
+            const cross = document.getElementById("rtCrosshair");
+            if (cross) {
+              cross.setAttribute("x1", x);
+              cross.setAttribute("x2", x);
+              cross.setAttribute("visibility", "visible");
+            }
+
+            const yPos = (v) => state.padT + state.plotH * (1 - v / state.yMax);
+            let dots = "";
+            const rows = state.seriesList
+              .map((s) => {
+                if (!s.points.length) return null;
+                const pt =
+                  s.points.find((p) => p.minute === clamped) ||
+                  s.points.reduce(
+                    (best, p) =>
+                      Math.abs(p.minute - clamped) <
+                      Math.abs(best.minute - clamped)
+                        ? p
+                        : best,
+                    s.points[0],
+                  );
+                if (!pt || Math.abs(pt.minute - clamped) > 5) return null;
+                dots += `<circle cx="${x}" cy="${yPos(pt.value)}" r="4" fill="#fff" stroke="${s.color}" stroke-width="2"></circle>`;
+                return `<div class="rt-tip-row"><span class="rt-tip-dot" style="background:${s.color}"></span>${state.isMultiDay ? `${s.date} ${s.metric}` : s.metric}: ${pt.value.toLocaleString("zh-CN")}</div>`;
+              })
+              .filter(Boolean);
+
+            document.getElementById("rtHoverDots").innerHTML = dots;
+            if (!rows.length) {
+              tooltip.style.display = "none";
+              return;
+            }
+            tooltip.innerHTML = `<div class="rt-tip-time">${minuteToLabel(clamped)}</div>${rows.join("")}`;
+            tooltip.style.display = "block";
+            const tipX = (x / state.W) * rect.width;
+            tooltip.style.left = `${tipX}px`;
+            tooltip.style.top = `${(state.padT / state.H) * rect.height + 20}px`;
+          },
+          { signal },
+        );
+
+        wrap?.addEventListener(
+          "mouseleave",
+          () => {
+            tooltip.style.display = "none";
+            document
+              .getElementById("rtCrosshair")
+              ?.setAttribute("visibility", "hidden");
+            const dots = document.getElementById("rtHoverDots");
+            if (dots) dots.innerHTML = "";
+          },
+          { signal },
+        );
+      }
+
+      function initSurplusRateChart() {
+        const toggle = document.getElementById("surplusRateRangeToggle");
+        const wrap = document.getElementById("surplusRateChartWrap");
+        const subtitle = document.getElementById("surplusRateSubtitle");
+        if (!toggle || !wrap) return;
+
+        if (window._surplusRateAbort) window._surplusRateAbort.abort();
+        window._surplusRateAbort = new AbortController();
+        const { signal } = window._surplusRateAbort;
+
+        const subtitleMap = {
+          7: "近七日盈余率走势",
+          30: "近30日盈余率走势",
+          90: "近90日盈余率走势",
+        };
+
+        const updateChart = (dayCount) => {
+          wrap.innerHTML = renderSurplusRateTrend(dayCount);
+          if (subtitle)
+            subtitle.textContent = subtitleMap[dayCount] || subtitleMap[7];
+        };
+
+        toggle.querySelectorAll(".range-btn").forEach((btn) => {
+          btn.addEventListener(
+            "click",
+            () => {
+              toggle
+                .querySelectorAll(".range-btn")
+                .forEach((b) => b.classList.remove("active"));
+              btn.classList.add("active");
+              updateChart(Number(btn.dataset.days));
+            },
+            { signal },
+          );
+        });
+      }
+
+      function renderKpiCard(k) {
+        const dir =
+          k.dir === "down" ? "down" : k.dir === "flat" ? "flat" : "up";
+        const arrow = dir === "down" ? "↓" : dir === "flat" ? "→" : "↑";
+        const tag = k.tag
+          ? ` <span class="status-tag ${k.tagType || "info"}">${k.tag}</span>`
+          : "";
+        const trend = k.trend
+          ? `<div class="metric-trend ${dir === "flat" ? "" : dir}">${arrow} ${k.trend}</div>`
+          : "";
+        return `<article class="metric-card"><div class="metric-label">${k.label}${tag}</div><div class="metric-value">${k.value}</div>${trend}</article>`;
+      }
+
+      function renderInsightsPanel(page) {
+        if (!page.insights || !page.insights.length) return "";
+        const cols = page.insights.length;
+        const heading = page.question
+          ? `<div class="section-heading">${page.title} <span class="hint">${page.question}</span></div>`
+          : "";
+        return `
+        <div class="analysis-block">
+          ${heading}
+          <section class="kpi-grid" style="grid-template-columns:repeat(${cols},minmax(0,1fr))" aria-label="${page.title}核心指标">
+            ${page.insights.map(renderKpiCard).join("")}
+          </section>
+        </div>`;
+      }
+
+      function renderLifecycleTrendInsights(page) {
+        return `
+        <div class="analysis-block">
+          <div class="section-heading">${page.title} <span class="hint">${page.question || ""}</span></div>
+          <section class="chart-grid">
+            <article class="chart-card">
+              <div class="chart-title">用户规模趋势 <span class="status-tag info">折线图</span></div>
+              <div class="chart-subtitle">新增用户数 / 活跃用户数</div>
+              <div class="line-chart"><svg viewBox="0 0 400 140" preserveAspectRatio="none">
+                <polyline fill="none" stroke="#165DFF" stroke-width="2.5" points="0,95 50,88 100,82 150,72 200,66 250,58 300,50 350,42 400,36"/>
+                <polyline fill="none" stroke="#14C9C9" stroke-width="2.5" points="0,110 50,104 100,98 150,90 200,84 250,78 300,70 350,64 400,58"/>
+              </svg></div>
+              <div class="line-legend"><span><i style="background:#165DFF"></i>新增用户数</span><span><i style="background:#14C9C9"></i>活跃用户数</span></div>
+            </article>
+            <article class="chart-card">
+              <div class="chart-title">付费趋势 <span class="status-tag info">折线图</span></div>
+              <div class="chart-subtitle">付费人数 / 充值金额</div>
+              <div class="line-chart"><svg viewBox="0 0 400 140" preserveAspectRatio="none">
+                <polyline fill="none" stroke="#F7BA1E" stroke-width="2.5" points="0,100 50,94 100,90 150,82 200,76 250,68 300,60 350,52 400,46"/>
+                <polyline fill="none" stroke="#165DFF" stroke-width="2.5" points="0,90 50,82 100,76 150,66 200,58 250,50 300,42 350,34 400,28"/>
+              </svg></div>
+              <div class="line-legend"><span><i style="background:#F7BA1E"></i>付费人数</span><span><i style="background:#165DFF"></i>充值金额</span></div>
+            </article>
+          </section>
+          <section class="chart-grid">
+            <article class="chart-card">
+              <div class="chart-title">用户价值趋势 <span class="status-tag info">折线图</span></div>
+              <div class="chart-subtitle">总ARPU / 总ARPPU</div>
+              <div class="line-chart"><svg viewBox="0 0 400 140" preserveAspectRatio="none">
+                <polyline fill="none" stroke="#00B42A" stroke-width="2.5" points="0,80 50,76 100,72 150,66 200,60 250,54 300,48 350,44 400,40"/>
+                <polyline fill="none" stroke="#722ED1" stroke-width="2.5" points="0,60 50,58 100,55 150,52 200,50 250,47 300,45 350,42 400,40"/>
+              </svg></div>
+              <div class="line-legend"><span><i style="background:#00B42A"></i>总ARPU</span><span><i style="background:#722ED1"></i>总ARPPU</span></div>
+            </article>
+            <article class="chart-card">
+              <div class="chart-title">留存趋势 <span class="status-tag info">折线图</span></div>
+              <div class="chart-subtitle">次日留存 / 7日留存</div>
+              <div class="line-chart"><svg viewBox="0 0 400 140" preserveAspectRatio="none">
+                <polyline fill="none" stroke="#165DFF" stroke-width="2.5" points="0,55 50,53 100,51 150,49 200,47 250,46 300,44 350,42 400,40"/>
+                <polyline fill="none" stroke="#F53F3F" stroke-width="2.5" points="0,95 50,94 100,92 150,90 200,89 250,88 300,86 350,85 400,84"/>
+              </svg></div>
+              <div class="line-legend"><span><i style="background:#165DFF"></i>次日留存</span><span><i style="background:#F53F3F"></i>7日留存</span></div>
+            </article>
+          </section>
+        </div>`;
+      }
+
+      function renderAnalysisPanel(page) {
+        if (!page) return "";
+        if (page.trendCharts) return "";
+        return renderInsightsPanel(page);
+      }
+
+      function renderPageCharts(page, pageId) {
+        return `
+          ${page.overviewFunnelChart ? renderOverviewFunnelChart() : ""}
+          ${page.trendCharts ? renderLifecycleTrendInsights(page) : ""}
+          ${page.chartView ? renderAcquisitionFixedCharts() : ""}
+          ${page.activationCharts ? renderActivationFixedCharts() : ""}
+          ${page.retentionActiveCharts ? renderRetentionActiveCharts() : ""}
+          ${page.conversionCharts ? renderConversionRateTrendChart() : ""}
+          ${page.valueOverallCharts ? renderOverallValueTrendCharts() : ""}
+          ${page.valueOldCharts ? renderOldUserValueTrendCharts() : ""}
+          ${page.ltvCharts ? renderLtvCohortChart(page) : ""}
+        `;
+      }
+
+      function renderPlaceholderPage(page) {
+        return `
+        <div class="page-panel active" id="panel-placeholder">
+          <div class="toolbar">
+            <span class="page-title">${page.title}</span>
+          </div>
+          <div class="placeholder-page">
+            <div class="placeholder-title">${page.title}</div>
+            <div class="placeholder-desc">页面内容待补充</div>
+          </div>
+        </div>`;
+      }
+
+      function renderAppSourceOptions(selected = "全部") {
+        const opts = ["全部", ...SOURCE_CHANNEL_OPTIONS];
+        return opts
+          .map(
+            (name) =>
+              `<option value="${name}" ${name === selected ? "selected" : ""}>${name}</option>`,
+          )
+          .join("");
+      }
+
+      function renderAppFilterBar(filterId, extraHtml = "") {
+        return `
+        <div class="filter-bar filter-bar-global" data-local-filter="${filterId}">
+          <div class="filter-item">
+            <label>来源渠道</label>
+            <select class="local-source-channel" data-filter-id="${filterId}">
+              ${renderAppSourceOptions()}
+            </select>
+          </div>
+          <div class="filter-item filter-item-channel-name local-channel-name-wrap is-visible" data-filter-id="${filterId}">
+            <label>渠道账号</label>
+            <input type="text" class="local-channel-name" data-filter-id="${filterId}" list="channelNameList-${filterId}" placeholder="请选择（可多选）" autocomplete="off" />
+            <datalist id="channelNameList-${filterId}"></datalist>
+          </div>
+          <div class="filter-item">
+            <label>时间</label>
+            <input type="date" value="2026-07-17" />
+            <span>—</span>
+            <input type="date" value="2026-07-17" />
+          </div>
+          ${extraHtml}
+          <button class="btn btn-primary" type="button">查询</button>
+          <button class="btn btn-primary" type="button">导出报表</button>
+        </div>`;
+      }
+
+      function renderAppDataTable(cols, rows) {
+        const head = cols
+          .map((c) => `<th>${c}<span class="sort-icon">▲<br>▼</span></th>`)
+          .join("");
+        const body = rows
+          .map(
+            (row) =>
+              `<tr>${row.map((cell) => `<td>${formatNumber(cell)}</td>`).join("")}</tr>`,
+          )
+          .join("");
+        return `
+          <div class="table-wrap" style="max-height:none">
+            <table class="data-table">
+              <thead><tr class="col-row">${head}</tr></thead>
+              <tbody>${body}</tbody>
+            </table>
+          </div>
+          <div class="pagination">
+            <button disabled>‹</button>
+            <button class="active">1</button>
+            <button>2</button>
+            <button>3</button>
+            <button>›</button>
+            <span class="pagination-info">共 ${rows.length} 条</span>
+          </div>`;
+      }
+
+      function renderAppHBar(items) {
+        const max = Math.max(...items.map((i) => i.value), 1);
+        return `<div class="app-hbar">${items
+          .map(
+            (it, i) => `
+          <div class="app-hbar-row">
+            <span>${it.name}</span>
+            <div class="app-hbar-track"><div class="app-hbar-fill" style="--bar-w:${Math.max(6, Math.round((it.value / max) * 100))}%;--bar-i:${i}"></div></div>
+            <strong>${it.value.toLocaleString("zh-CN")}</strong>
+          </div>`,
+          )
+          .join("")}</div>`;
+      }
+
+      function renderAppVBar(items) {
+        const max = Math.max(...items.map((i) => i.value), 1);
+        return `<div class="app-vbar">${items
+          .map(
+            (it) => `
+          <div class="app-vbar-item">
+            <div class="val">${typeof it.value === "number" ? (it.value >= 1000 ? (it.value / 1000).toFixed(1) + "k" : it.value) : it.value}</div>
+            <div class="bar" style="height:${Math.max(8, Math.round((it.value / max) * 140))}px"></div>
+            <div class="lab" title="${it.name}">${it.name}</div>
+          </div>`,
+          )
+          .join("")}</div>`;
+      }
+
+      function renderAppMetricTabs(tabs, active) {
+        return `<div class="app-metric-tabs" role="tablist">${tabs
+          .map(
+            (t) =>
+              `<button type="button" class="tab-btn ${t === active ? "active" : ""}" data-tab="${t}">${t}</button>`,
+          )
+          .join("")}</div>`;
+      }
+
+      function renderAppPagePathContent(page) {
+        const depth = [
+          { label: "第一页", value: 473987 },
+          { label: "第二页", value: 373987, rate: "78.88%" },
+          { label: "第三页", value: 198432, rate: "53.06%" },
+        ];
+        const cols = [
+          "页面",
+          "会话数",
+          "会话数占比",
+          "平均访问时长",
+          "访问时长占比",
+        ];
+        const rows = [
+          ["首页", 464343, "52.36%", "12小时23分45秒", "38.56%"],
+          ["宝箱代理页", 125680, "14.16%", "23分45秒", "10.42%"],
+          ["IM页", 89324, "10.07%", "8分12秒", "7.41%"],
+          ["VIP页", 67210, "7.58%", "18分30秒", "5.58%"],
+          ["品牌页", 45670, "5.15%", "6分15秒", "3.79%"],
+        ];
+        return `
+          ${renderAppFilterBar("app-path")}
+          <div class="app-analysis-block">
+            <div class="page-panel active">
+              <div class="toolbar"><span class="page-title">${page.title}</span></div>
+              <div style="padding:16px 20px 20px">
+                <div class="app-section-title">页面路径深度</div>
+                <div class="app-path-depth">
+                  ${depth
+                    .map(
+                      (d) => `
+                    <div class="app-depth-card">
+                      <div class="depth-label">${d.label}</div>
+                      <div class="depth-value">${d.value.toLocaleString("zh-CN")}</div>
+                      ${d.rate ? `<div class="depth-rate">转化率 ${d.rate}</div>` : ""}
+                    </div>`,
+                    )
+                    .join("")}
+                </div>
+                <div class="app-section-title">页面访问路径图 <span class="status-tag info">桑基图</span></div>
+                <div class="app-path-sankey-wrap">
+                  <div id="appPathSankey" class="app-path-sankey"></div>
+                </div>
+                <div class="app-section-title" style="margin-top:20px">页面访问详情</div>
+                ${renderAppDataTable(cols, rows)}
+              </div>
+            </div>
+          </div>`;
+      }
+
+      const PATH_PAGE_TREE = {
+        "": ["首页", "宝箱代理页", "IM页", "VIP页", "品牌页"],
+        首页: [
+          "登录页",
+          "注册",
+          "侧边栏",
+          "个人信息页",
+          "游戏大厅",
+          "第三方游戏大厅",
+          "所有活动页",
+          "我的活动页",
+          "充值",
+          "提现",
+          "绑定银行卡",
+          "站内信",
+        ],
+        登录页: ["手机号验证码登录", "手机号密码登录"],
+        游戏大厅: ["所有游戏列表", "历史游戏列表"],
+        所有活动页: [
+          "累充转盘",
+          "排行榜",
+          "短信任务SMS",
+          "兑换码",
+          "每日邀请",
+          "新人礼包",
+          "倒计时钱包",
+        ],
+        宝箱代理页: ["宝箱页", "代理页"],
+        IM页: ["普通成员群聊界面", "客服页"],
+        VIP页: [],
+        品牌页: [],
+      };
+
+      function hashPathFlow(parent, child) {
+        let hash = 0;
+        const key = `${parent}->${child}`;
+        for (let i = 0; i < key.length; i += 1) {
+          hash = (hash << 5) - hash + key.charCodeAt(i);
+          hash |= 0;
+        }
+        return 12000 + (Math.abs(hash) % 88000);
+      }
+
+      function getAppPathSankeyData() {
+        const nodeMap = new Map();
+        const displayMap = {};
+        const links = [];
+
+        const ensureNode = (level, display) => {
+          const name = `L${level}-${display}`;
+          if (!nodeMap.has(name)) {
+            nodeMap.set(name, { name, display });
+            displayMap[name] = display;
+          }
+          return name;
+        };
+
+        (PATH_PAGE_TREE[""] || []).forEach((l1) => {
+          const l1Id = ensureNode(1, l1);
+          (PATH_PAGE_TREE[l1] || []).forEach((l2) => {
+            const l2Id = ensureNode(2, l2);
+            links.push({
+              source: l1Id,
+              target: l2Id,
+              value: hashPathFlow(l1, l2),
+            });
+            (PATH_PAGE_TREE[l2] || []).forEach((l3) => {
+              const l3Id = ensureNode(3, l3);
+              links.push({
+                source: l2Id,
+                target: l3Id,
+                value: hashPathFlow(l2, l3),
+              });
+            });
+          });
+        });
+
+        const nodes = [...nodeMap.values()].map((n) => ({ name: n.name }));
+        return { nodes, links, displayMap };
+      }
+
+      let appPathSankeyChart = null;
+
+      function disposeAppPathSankey() {
+        if (appPathSankeyChart) {
+          appPathSankeyChart.dispose();
+          appPathSankeyChart = null;
+        }
+        window.removeEventListener("resize", onAppPathSankeyResize);
+      }
+
+      function onAppPathSankeyResize() {
+        if (appPathSankeyChart) appPathSankeyChart.resize();
+      }
+
+      function initAppPathSankey() {
+        const el = document.getElementById("appPathSankey");
+        if (!el || typeof echarts === "undefined") return;
+        disposeAppPathSankey();
+        const { nodes, links, displayMap } = getAppPathSankeyData();
+        appPathSankeyChart = echarts.init(el);
+        appPathSankeyChart.setOption({
+          tooltip: {
+            trigger: "item",
+            triggerOn: "mousemove",
+            formatter(params) {
+              if (params.dataType === "edge") {
+                const from =
+                  displayMap[params.data.source] || params.data.source;
+                const to = displayMap[params.data.target] || params.data.target;
+                return `${from} → ${to}<br/>会话数：${Number(
+                  params.data.value,
+                ).toLocaleString("zh-CN")}`;
+              }
+              const name = displayMap[params.name] || params.name;
+              return `${name}<br/>会话数：${Number(params.value).toLocaleString(
+                "zh-CN",
+              )}`;
+            },
+          },
+          series: [
+            {
+              type: "sankey",
+              emphasis: { focus: "adjacency" },
+              nodeAlign: "left",
+              nodeGap: 10,
+              nodeWidth: 16,
+              layoutIterations: 48,
+              data: nodes,
+              links,
+              lineStyle: {
+                color: "gradient",
+                curveness: 0.5,
+                opacity: 0.35,
+              },
+              itemStyle: {
+                borderWidth: 0,
+                color: "#165dff",
+              },
+              label: {
+                color: "#1d2129",
+                fontSize: 12,
+                formatter(params) {
+                  return displayMap[params.name] || params.name;
+                },
+              },
+              levels: [
+                {
+                  depth: 0,
+                  itemStyle: { color: "#165dff" },
+                  lineStyle: { color: "source", opacity: 0.28 },
+                },
+                {
+                  depth: 1,
+                  itemStyle: { color: "#4080ff" },
+                  lineStyle: { color: "source", opacity: 0.28 },
+                },
+                {
+                  depth: 2,
+                  itemStyle: { color: "#6aa1ff" },
+                  lineStyle: { color: "source", opacity: 0.28 },
+                },
+              ],
+            },
+          ],
+        });
+        window.addEventListener("resize", onAppPathSankeyResize);
+      }
+
+      function renderAppFeatureEngagementContent(page) {
+        const moduleOptions = [
+          "请选择",
+          "活动",
+          "品牌",
+          "三方游戏",
+          "IM",
+          "VIP",
+          "站内信",
+          "充值",
+          "提现",
+        ];
+        const extra = `
+          <div class="filter-item">
+            <label>功能模块</label>
+            <select>
+              ${moduleOptions
+                .map(
+                  (m) =>
+                    `<option ${m === "活动" ? "selected" : ""}>${m}</option>`,
+                )
+                .join("")}
+            </select>
+          </div>`;
+        const tabs = [
+          "访问次数",
+          "访问人数",
+          "访问率",
+          "跳出率",
+          "次日访问留存",
+          "3日访问留存",
+          "7日访问留存",
+          "使用次数",
+          "使用人数",
+          "使用频次",
+          "首次使用率",
+          "功能使用率",
+          "功能人均使用时长",
+          "次日使用留存率",
+          "3日使用留存率",
+          "7日使用留存率",
+        ];
+        const top10 = [
+          { name: "宝箱", value: 12800 },
+          { name: "每日邀请", value: 11200 },
+          { name: "新人礼包", value: 9800 },
+          { name: "每日兑换码", value: 8600 },
+          { name: "倒计时钱包", value: 7400 },
+          { name: "排行榜", value: 6900 },
+          { name: "提现超时补偿", value: 5200 },
+          { name: "累充转盘", value: 4800 },
+          { name: "SMS任务", value: 4100 },
+          { name: "代理", value: 3600 },
+        ];
+        const cols = [
+          "功能模块",
+          "访问次数",
+          "访问人数",
+          "访问率",
+          "跳出率",
+          "次日访问留存",
+          "3日访问留存",
+          "7日访问留存",
+          "使用次数",
+          "使用人数",
+          "使用频次",
+          "首次使用率",
+          "功能使用率",
+          "次日使用留存",
+          "3日使用留存",
+          "7日使用留存",
+        ];
+        const rows = [
+          [
+            "宝箱",
+            1000,
+            1000,
+            "23.56%",
+            "12.30%",
+            "45.20%",
+            "32.10%",
+            "21.80%",
+            2200,
+            980,
+            2.33,
+            "18.50%",
+            "35.60%",
+            "40.20%",
+            "28.60%",
+            "18.90%",
+          ],
+          [
+            "累充转盘",
+            1000,
+            1000,
+            "68.66%",
+            "8.90%",
+            "52.30%",
+            "38.40%",
+            "25.10%",
+            8800,
+            980,
+            8.97,
+            "22.10%",
+            "48.20%",
+            "46.80%",
+            "31.20%",
+            "20.50%",
+          ],
+          [
+            "SMS任务",
+            1000,
+            1000,
+            "98.28%",
+            "15.60%",
+            "38.90%",
+            "26.70%",
+            "16.40%",
+            1560,
+            1000,
+            1.56,
+            "28.40%",
+            "52.10%",
+            "35.60%",
+            "24.30%",
+            "15.80%",
+          ],
+          [
+            "代理",
+            1000,
+            1000,
+            "12.23%",
+            "22.40%",
+            "30.10%",
+            "18.90%",
+            "11.20%",
+            0,
+            0,
+            0,
+            "5.60%",
+            "8.90%",
+            "12.30%",
+            "8.10%",
+            "4.50%",
+          ],
+          [
+            "合计",
+            4000,
+            4000,
+            "22.35%",
+            "14.80%",
+            "41.60%",
+            "29.00%",
+            "18.60%",
+            12560,
+            2960,
+            5.64,
+            "18.70%",
+            "36.20%",
+            "33.70%",
+            "23.10%",
+            "14.90%",
+          ],
+        ];
+        return `
+          ${renderAppFilterBar("app-feature", extra)}
+          <div class="app-analysis-block">
+            <section class="chart-grid" style="grid-template-columns:1fr;margin-bottom:16px">
+              <article class="chart-card">
+                <div class="chart-title">功能TOP10 <span class="status-tag info">条形图</span></div>
+                <div class="chart-subtitle">默认：访问次数</div>
+                ${renderAppMetricTabs(tabs, "访问次数")}
+                <div id="appFeatureTopChart">${renderAppHBar(top10)}</div>
+              </article>
+            </section>
+            <div class="page-panel active">
+              <div class="toolbar"><span class="page-title">${page.title}</span></div>
+              ${renderAppDataTable(cols, rows)}
+            </div>
+          </div>`;
+      }
+
+      function renderAppPageExperienceContent(page) {
+        const segmentOptions = APP_EXP_SEGMENTS.map(
+          (s) =>
+            `<option value="${s.id}" ${s.id === appExperienceState.segment ? "selected" : ""}>${s.label}</option>`,
+        ).join("");
+        const extra = `
+          <div class="filter-item">
+            <label>页面</label>
+            <input type="text" id="appExpPageKeyword" placeholder="全部 / 支持模糊搜索" value="全部" />
+          </div>
+          <div class="filter-item">
+            <label>用户分群</label>
+            <select id="appExpSegment">${segmentOptions}</select>
+          </div>`;
+        return `
+          ${renderAppFilterBar("app-experience", extra)}
+          <div class="app-analysis-block" id="appExperiencePanel">
+            <section class="chart-grid" style="grid-template-columns:1fr;margin-bottom:16px">
+              <article class="chart-card">
+                <div class="chart-title">页面TOP10 <span class="status-tag info" id="appExpChartTag">条形图</span></div>
+                <div class="chart-subtitle" id="appExpChartSubtitle"></div>
+                <div id="appExpMetricTabs"></div>
+                <div id="appExpLegend"></div>
+                <div id="appExperienceTopChart"></div>
+              </article>
+            </section>
+            <div class="page-panel active" style="margin-bottom:16px">
+              <div class="toolbar">
+                <div class="app-exp-table-toolbar">
+                  <span class="page-title">${page.title}</span>
+                  <span id="appExpSegBadge" class="app-exp-seg-badge"></span>
+                  <span id="appExpTableHint" style="font-size:12px;color:var(--arco-text-3)"></span>
+                </div>
+              </div>
+              <div id="appExpTableWrap"></div>
+            </div>
+            <section class="app-exp-matrix-block">
+              <article class="chart-card">
+                <div class="chart-title">页面分群停留矩阵 <span class="status-tag info">热力图</span></div>
+                <div class="chart-subtitle">X=页面，Y=新/老 × 付费/非付费 四象限；色深=平均停留时长。点击单元格可下钻时长分布</div>
+                <div class="app-exp-heatmap-wrap">
+                  <div id="appExpHeatmap" class="app-exp-heatmap"></div>
+                </div>
+                <div class="app-exp-insights" id="appExpInsights"></div>
+                <div class="app-exp-drill" id="appExpDrill">
+                  <div class="app-exp-drill-head">
+                    <div>
+                      <div class="title" id="appExpDrillTitle">时长分布</div>
+                      <div class="hint">按单次页面停留时长区间统计用户会话数</div>
+                    </div>
+                    <button type="button" class="app-exp-drill-close" id="appExpDrillClose" title="关闭">×</button>
+                  </div>
+                  <div id="appExpDrillChart"></div>
+                </div>
+              </article>
+            </section>
+          </div>`;
+      }
+
+      const APP_EXP_SEGMENTS = [
+        { id: "all", label: "全部" },
+        { id: "compare", label: "全部对比" },
+        { id: "new", label: "新用户" },
+        { id: "old", label: "老用户" },
+        { id: "vip", label: "付费" },
+        { id: "nonvip", label: "非付费" },
+      ];
+
+      const APP_EXP_SEG_META = {
+        all: { label: "全部", color: "#165dff" },
+        new: { label: "新用户", color: "#14c9c9" },
+        old: { label: "老用户", color: "#722ed1" },
+        vip: { label: "付费", color: "#f7ba1e" },
+        nonvip: { label: "非付费", color: "#86909c" },
+      };
+
+      function hexToRgba(hex, alpha) {
+        const h = String(hex || "#165dff").replace("#", "");
+        const full =
+          h.length === 3
+            ? h
+                .split("")
+                .map((c) => c + c)
+                .join("")
+            : h;
+        const n = parseInt(full, 16);
+        const r = (n >> 16) & 255;
+        const g = (n >> 8) & 255;
+        const b = n & 255;
+        return `rgba(${r},${g},${b},${alpha})`;
+      }
+
+      /** 同色系按名次降低透明度，区分层次 */
+      function getAppExpRankOpacity(index, total) {
+        if (total <= 1) return 1;
+        const maxA = 1;
+        const minA = 0.36;
+        return maxA - (index / (total - 1)) * (maxA - minA);
+      }
+
+      const APP_EXP_METRICS = [
+        "页面访问次数",
+        "页面平均加载时长",
+        "页面停留时长",
+        "页面平均停留时长",
+        "页面平均访问深度",
+        "页面跳出率",
+      ];
+
+      let appExperienceState = {
+        segment: "all",
+        metric: "页面访问次数",
+      };
+
+      /** 秒数 mock：各页面 × 分群平均停留 */
+      const APP_EXP_PAGE_DATA = [
+        {
+          name: "首页",
+          visits: 18600,
+          avgLoadSec: 12,
+          stayTotalSec: 44625,
+          avgStaySec: { all: 180, new: 95, old: 240, vip: 210, nonvip: 160 },
+          depth: 23.56,
+          bounce: 23.56,
+        },
+        {
+          name: "游戏大厅",
+          visits: 15200,
+          avgLoadSec: 17,
+          stayTotalSec: 684000,
+          avgStaySec: { all: 45, new: 38, old: 52, vip: 61, nonvip: 40 },
+          depth: 68.66,
+          bounce: 18.2,
+        },
+        {
+          name: "品牌",
+          visits: 12800,
+          avgLoadSec: 8,
+          stayTotalSec: 2318400,
+          avgStaySec: { all: 181, new: 220, old: 160, vip: 145, nonvip: 195 },
+          depth: 98.28,
+          bounce: 12.4,
+        },
+        {
+          name: "宝箱",
+          visits: 9800,
+          avgLoadSec: 12,
+          stayTotalSec: 1425900,
+          avgStaySec: { all: 145.5, new: 168, old: 132, vip: 190, nonvip: 120 },
+          depth: 12.23,
+          bounce: 28.9,
+        },
+        {
+          name: "代理",
+          visits: 7600,
+          avgLoadSec: 10,
+          stayTotalSec: 836000,
+          avgStaySec: { all: 110, new: 72, old: 148, vip: 175, nonvip: 88 },
+          depth: 35.4,
+          bounce: 28.9,
+        },
+        {
+          name: "IM",
+          visits: 6900,
+          avgLoadSec: 9,
+          stayTotalSec: 258750,
+          avgStaySec: { all: 37.5, new: 28, old: 46, vip: 55, nonvip: 30 },
+          depth: 41.2,
+          bounce: 33.1,
+        },
+        {
+          name: "充值",
+          visits: 5800,
+          avgLoadSec: 11,
+          stayTotalSec: 522000,
+          avgStaySec: { all: 90, new: 78, old: 102, vip: 135, nonvip: 70 },
+          depth: 52.1,
+          bounce: 22.5,
+        },
+        {
+          name: "提现",
+          visits: 4200,
+          avgLoadSec: 14,
+          stayTotalSec: 504000,
+          avgStaySec: { all: 120, new: 65, old: 155, vip: 180, nonvip: 95 },
+          depth: 48.6,
+          bounce: 19.8,
+        },
+        {
+          name: "VIP",
+          visits: 3600,
+          avgLoadSec: 9,
+          stayTotalSec: 756000,
+          avgStaySec: { all: 210, new: 95, old: 265, vip: 320, nonvip: 88 },
+          depth: 61.3,
+          bounce: 15.2,
+        },
+        {
+          name: "站内信",
+          visits: 2900,
+          avgLoadSec: 7,
+          stayTotalSec: 87000,
+          avgStaySec: { all: 30, new: 42, old: 24, vip: 28, nonvip: 31 },
+          depth: 22.4,
+          bounce: 41.6,
+        },
+      ];
+
+      const APP_EXP_CROSS_SEGS = [
+        { id: "new_nonvip", label: "新·非付费" },
+        { id: "new_vip", label: "新·付费" },
+        { id: "old_nonvip", label: "老·非付费" },
+        { id: "old_vip", label: "老·付费" },
+      ];
+
+      const APP_EXP_STAY_BUCKETS = [
+        { name: "0s-3s", center: 1.5 },
+        { name: "3s-10s", center: 6.5 },
+        { name: "10s-30s", center: 20 },
+        { name: "30s-1min", center: 45 },
+        { name: "1min-3min", center: 120 },
+        { name: "3min-5min", center: 240 },
+        { name: "5min-10min", center: 450 },
+        { name: "10min-20min", center: 900 },
+        { name: "20min以上", center: 1500 },
+      ];
+
+      let appExpHeatmapChart = null;
+      let appExpDrillState = { page: "", crossId: "" };
+
+      function getAppExpCrossStay(row, crossId) {
+        const seed = hashCoreFlowSeed(`${row.name}::${crossId}`);
+        const jitter = 0.9 + (seed % 21) / 100;
+        let base = row.avgStaySec.all;
+        switch (crossId) {
+          case "new_nonvip":
+            base = row.avgStaySec.new * 0.82;
+            break;
+          case "new_vip":
+            base = row.avgStaySec.new * 1.42;
+            break;
+          case "old_nonvip":
+            base = row.avgStaySec.old * 0.76;
+            break;
+          case "old_vip":
+            base =
+              row.avgStaySec.old *
+              (row.name === "VIP" || row.name === "提现" || row.name === "代理"
+                ? 1.55
+                : 1.28);
+            break;
+          default:
+            break;
+        }
+        return Math.max(5, Math.round(base * jitter));
+      }
+
+      function buildAppExpHeatmapSeries() {
+        const pages = APP_EXP_PAGE_DATA.map((r) => r.name);
+        const segs = APP_EXP_CROSS_SEGS.map((s) => s.label);
+        const data = [];
+        let maxV = 0;
+        APP_EXP_PAGE_DATA.forEach((row, x) => {
+          APP_EXP_CROSS_SEGS.forEach((seg, y) => {
+            const v = getAppExpCrossStay(row, seg.id);
+            maxV = Math.max(maxV, v);
+            data.push({
+              value: [x, y, v],
+              page: row.name,
+              crossId: seg.id,
+              crossLabel: seg.label,
+              raw: v,
+            });
+          });
+        });
+        return { pages, segs, data, maxV };
+      }
+
+      function buildAppExpStayBuckets(pageName, crossId) {
+        const row = APP_EXP_PAGE_DATA.find((r) => r.name === pageName);
+        if (!row) return [];
+        const mean = getAppExpCrossStay(row, crossId);
+        const seed = hashCoreFlowSeed(`${pageName}-${crossId}-bucket`);
+        const totalSessions = 800 + (seed % 4200);
+        const weights = APP_EXP_STAY_BUCKETS.map((b, i) => {
+          const dist = Math.abs(Math.log((b.center + 1) / (mean + 1)));
+          const w =
+            Math.exp(-dist * dist * 1.15) * (1 + ((seed + i * 17) % 20) / 100);
+          return w;
+        });
+        const sum = weights.reduce((a, b) => a + b, 0) || 1;
+        return APP_EXP_STAY_BUCKETS.map((b, i) => ({
+          name: b.name,
+          value: Math.max(12, Math.round((totalSessions * weights[i]) / sum)),
+        }));
+      }
+
+      function renderAppExpInsights() {
+        const pages = APP_EXP_PAGE_DATA;
+        const scoreNew = (row) =>
+          (getAppExpCrossStay(row, "new_nonvip") +
+            getAppExpCrossStay(row, "new_vip")) /
+          2;
+        const scoreNewVip = (row) => getAppExpCrossStay(row, "new_vip");
+        const scoreOld = (row) =>
+          (getAppExpCrossStay(row, "old_nonvip") +
+            getAppExpCrossStay(row, "old_vip")) /
+          2;
+        const scoreOldVip = (row) => getAppExpCrossStay(row, "old_vip");
+
+        const pickTop = (scoreFn) =>
+          [...pages].sort((a, b) => scoreFn(b) - scoreFn(a))[0];
+
+        const topNew = pickTop(scoreNew);
+        const topNewVip = pickTop(scoreNewVip);
+        const topOld = pickTop(scoreOld);
+        const topOldVip = pickTop(scoreOldVip);
+
+        return `
+          <div class="app-exp-insight-card">
+            <div class="label">新用户停留最长</div>
+            <div class="title">${topNew.name} · ${formatDurationSec(scoreNew(topNew))}</div>
+            <div class="desc">新用户（含新·付费 / 新·非付费）平均停留最高的页面</div>
+          </div>
+          <div class="app-exp-insight-card">
+            <div class="label">新付费停留最长</div>
+            <div class="title">${topNewVip.name} · ${formatDurationSec(scoreNewVip(topNewVip))}</div>
+            <div class="desc">新·付费 在此页平均停留最高</div>
+          </div>
+          <div class="app-exp-insight-card">
+            <div class="label">老用户停留最长</div>
+            <div class="title">${topOld.name} · ${formatDurationSec(scoreOld(topOld))}</div>
+            <div class="desc">老用户（含老·付费 / 老·非付费）平均停留最高的页面</div>
+          </div>
+          <div class="app-exp-insight-card">
+            <div class="label">老付费停留最长</div>
+            <div class="title">${topOldVip.name} · ${formatDurationSec(scoreOldVip(topOldVip))}</div>
+            <div class="desc">老·付费 在此页平均停留最高</div>
+          </div>`;
+      }
+
+      function disposeAppExpHeatmap(resetDrill = true) {
+        if (appExpHeatmapChart) {
+          appExpHeatmapChart.dispose();
+          appExpHeatmapChart = null;
+        }
+        window.removeEventListener("resize", onAppExpHeatmapResize);
+        if (resetDrill) {
+          appExpDrillState = { page: "", crossId: "" };
+          document.getElementById("appExpDrill")?.classList.remove("is-open");
+        }
+      }
+
+      function onAppExpHeatmapResize() {
+        if (appExpHeatmapChart) appExpHeatmapChart.resize();
+      }
+
+      function openAppExpDrill(pageName, crossId, options = {}) {
+        const { scroll = true } = options;
+        const crossLabel =
+          APP_EXP_CROSS_SEGS.find((s) => s.id === crossId)?.label || crossId;
+        const drill = document.getElementById("appExpDrill");
+        const title = document.getElementById("appExpDrillTitle");
+        const chartEl = document.getElementById("appExpDrillChart");
+        if (!drill || !chartEl) return;
+        appExpDrillState = { page: pageName, crossId };
+        drill.classList.add("is-open");
+        if (title) {
+          title.textContent = `${pageName} × ${crossLabel} · 停留时长分布`;
+        }
+        const buckets = buildAppExpStayBuckets(pageName, crossId);
+        chartEl.innerHTML = renderAppVBar(buckets);
+        if (scroll) {
+          drill.scrollIntoView({ behavior: "smooth", block: "nearest" });
+        }
+      }
+
+      function closeAppExpDrill() {
+        const drill = document.getElementById("appExpDrill");
+        drill?.classList.remove("is-open");
+        appExpDrillState = { page: "", crossId: "" };
+      }
+
+      function initAppExpHeatmap() {
+        const el = document.getElementById("appExpHeatmap");
+        if (!el || typeof echarts === "undefined") return;
+        const keepDrill = { ...appExpDrillState };
+        disposeAppExpHeatmap(false);
+        appExpDrillState = keepDrill;
+        const { pages, segs, data, maxV } = buildAppExpHeatmapSeries();
+        appExpHeatmapChart = echarts.init(el);
+        appExpHeatmapChart.setOption({
+          tooltip: {
+            appendToBody: true,
+            extraCssText: "z-index: 10000; pointer-events: none;",
+            position(pos, _params, _dom, _rect, size) {
+              const [mouseX, mouseY] = pos;
+              const boxW = size.contentSize[0];
+              const boxH = size.contentSize[1];
+              const viewW = size.viewSize[0];
+              // 靠近顶部时向下展开，避免首行标签被遮挡
+              let x = mouseX + 12;
+              let y = mouseY < boxH + 24 ? mouseY + 16 : mouseY - boxH - 12;
+              if (x + boxW > viewW) x = Math.max(8, mouseX - boxW - 12);
+              if (x < 8) x = 8;
+              if (y < 8) y = 8;
+              return [x, y];
+            },
+            formatter(params) {
+              const d = params.data || {};
+              return [
+                `<strong>${d.page}</strong> · ${d.crossLabel}`,
+                `平均停留：${formatDurationSec(d.raw)}`,
+                "点击查看时长分布",
+              ].join("<br/>");
+            },
+          },
+          grid: {
+            left: 88,
+            right: 36,
+            top: 28,
+            bottom: 48,
+            containLabel: false,
+          },
+          xAxis: {
+            type: "category",
+            data: pages,
+            splitArea: { show: true },
+            axisLabel: { interval: 0, color: "#4e5969", fontSize: 11 },
+          },
+          yAxis: {
+            type: "category",
+            data: segs,
+            splitArea: { show: true },
+            axisLabel: { color: "#4e5969", fontSize: 12 },
+          },
+          visualMap: {
+            min: 0,
+            max: maxV,
+            calculable: true,
+            orient: "horizontal",
+            left: "center",
+            bottom: 4,
+            itemWidth: 12,
+            itemHeight: 100,
+            text: ["高", "低"],
+            textStyle: { color: "#86909c", fontSize: 11 },
+            inRange: {
+              color: ["#e8f3ff", "#bedaff", "#4080ff", "#165dff", "#0e42d2"],
+            },
+            formatter: (v) => formatDurationSec(v),
+          },
+          series: [
+            {
+              type: "heatmap",
+              data,
+              label: {
+                show: true,
+                formatter(p) {
+                  return formatDurationSec(p.data.raw);
+                },
+                color: "#1d2129",
+                fontSize: 10,
+              },
+              emphasis: {
+                itemStyle: {
+                  shadowBlur: 8,
+                  shadowColor: "rgba(22,93,255,0.35)",
+                },
+              },
+            },
+          ],
+        });
+        appExpHeatmapChart.on("click", (params) => {
+          if (!params.data?.page || !params.data?.crossId) return;
+          openAppExpDrill(params.data.page, params.data.crossId);
+        });
+        window.addEventListener("resize", onAppExpHeatmapResize);
+      }
+
+      function refreshAppExpMatrix() {
+        const insights = document.getElementById("appExpInsights");
+        if (insights) insights.innerHTML = renderAppExpInsights();
+        const keep = { ...appExpDrillState };
+        initAppExpHeatmap();
+        if (keep.page && keep.crossId) {
+          openAppExpDrill(keep.page, keep.crossId, { scroll: false });
+        }
+      }
+
+      function formatDurationSec(sec) {
+        const s = Math.max(0, Math.round(sec));
+        if (s < 60) return `${s}秒`;
+        const m = Math.floor(s / 60);
+        const rs = s % 60;
+        if (m < 60) return rs ? `${m}分${rs}秒` : `${m}分`;
+        const h = Math.floor(m / 60);
+        const rm = m % 60;
+        return rm ? `${h}时${rm}分` : `${h}时`;
+      }
+
+      function formatExpRatio(a, b) {
+        if (!b) return { text: "-", cls: "app-exp-ratio-flat" };
+        const r = a / b;
+        const text = `${r.toFixed(2)}x`;
+        if (r >= 1.15) return { text, cls: "app-exp-ratio-up" };
+        if (r <= 0.85) return { text, cls: "app-exp-ratio-down" };
+        return { text, cls: "app-exp-ratio-flat" };
+      }
+
+      function getAppExpMetricValue(row, metric, segmentId) {
+        const seg = segmentId === "compare" ? "all" : segmentId || "all";
+        const visitFactor =
+          seg === "all"
+            ? 1
+            : seg === "new"
+              ? 0.38
+              : seg === "old"
+                ? 0.62
+                : seg === "vip"
+                  ? 0.28
+                  : 0.72;
+        const stayFactor =
+          seg === "all"
+            ? 1
+            : seg === "new"
+              ? 0.32
+              : seg === "old"
+                ? 0.68
+                : seg === "vip"
+                  ? 0.35
+                  : 0.65;
+        const loadFactor =
+          seg === "all"
+            ? 1
+            : seg === "new"
+              ? 1.18
+              : seg === "old"
+                ? 0.92
+                : seg === "vip"
+                  ? 0.85
+                  : 1.08;
+        const depthFactor =
+          seg === "all"
+            ? 1
+            : seg === "new"
+              ? 0.78
+              : seg === "old"
+                ? 1.12
+                : seg === "vip"
+                  ? 1.22
+                  : 0.9;
+        const bounceFactor =
+          seg === "all"
+            ? 1
+            : seg === "new"
+              ? 1.25
+              : seg === "old"
+                ? 0.88
+                : seg === "vip"
+                  ? 0.72
+                  : 1.1;
+        switch (metric) {
+          case "页面访问次数":
+            return Math.round(row.visits * visitFactor);
+          case "页面平均加载时长":
+            return Math.max(1, Math.round(row.avgLoadSec * loadFactor));
+          case "页面停留时长":
+            return Math.round(row.stayTotalSec * stayFactor);
+          case "页面平均停留时长":
+            return row.avgStaySec[seg] ?? row.avgStaySec.all;
+          case "页面平均访问深度":
+            return Math.min(100, Number((row.depth * depthFactor).toFixed(2)));
+          case "页面跳出率":
+            return Math.min(100, Number((row.bounce * bounceFactor).toFixed(2)));
+          default:
+            return 0;
+        }
+      }
+
+      function formatAppExpMetricDisplay(value, metric) {
+        if (metric === "页面访问次数") return value.toLocaleString("zh-CN");
+        if (
+          metric === "页面平均加载时长" ||
+          metric === "页面停留时长" ||
+          metric === "页面平均停留时长"
+        ) {
+          return formatDurationSec(value);
+        }
+        return `${Number(value).toFixed(2)}%`;
+      }
+
+      function renderAppExpGroupHBar(rows, metric) {
+        const segs = ["new", "old", "vip", "nonvip"];
+        const valuesByRow = rows.map((row) =>
+          segs.map((s) => getAppExpMetricValue(row, metric, s)),
+        );
+        const max = Math.max(...valuesByRow.flat(), 1);
+        return `<div class="app-hbar">${rows
+          .map(
+            (row, ri) => `
+          <div class="app-hbar-row is-group">
+            <span>${row.name}</span>
+            <div class="app-hbar-group">
+              ${segs
+                .map((s, si) => {
+                  const v = valuesByRow[ri][si];
+                  const meta = APP_EXP_SEG_META[s];
+                  const w = Math.max(4, Math.round((v / max) * 100));
+                  return `<div class="app-hbar-seg">
+                    <span class="lab">${meta.label}</span>
+                    <div class="track"><div class="fill" style="--bar-w:${w}%;--bar-i:${ri * 4 + si};background:${meta.color}"></div></div>
+                    <span class="val">${formatAppExpMetricDisplay(v, metric)}</span>
+                  </div>`;
+                })
+                .join("")}
+            </div>
+          </div>`,
+          )
+          .join("")}</div>`;
+      }
+
+      function renderAppExpLegend(segmentId) {
+        const ids =
+          segmentId === "compare"
+            ? ["new", "old", "vip", "nonvip"]
+            : [segmentId === "all" ? "all" : segmentId];
+        return `<div class="app-exp-legend">${ids
+          .map((id) => {
+            const m = APP_EXP_SEG_META[id];
+            return `<span><i style="background:${m.color}"></i>${m.label}</span>`;
+          })
+          .join("")}</div>`;
+      }
+
+      function getAppExpTopItems(metric, segmentId) {
+        const ranked = [...APP_EXP_PAGE_DATA]
+          .map((row) => ({
+            name: row.name,
+            value: getAppExpMetricValue(row, metric, segmentId),
+          }))
+          .sort((a, b) => b.value - a.value)
+          .slice(0, 10);
+        return ranked;
+      }
+
+      function renderAppExpTable() {
+        const segment = appExperienceState.segment || "all";
+
+        // 仅「全部对比」展示分群对比字段
+        if (segment === "compare") {
+          const cols = [
+            "页面名称",
+            "访问次数",
+            "全量均停",
+            "新用户均停",
+            "老用户均停",
+            "付费均停",
+            "非付费均停",
+            "新/老比",
+            "付费/非付费比",
+            "跳出率",
+          ];
+          const head = cols
+            .map((c) => `<th>${c}<span class="sort-icon">▲<br>▼</span></th>`)
+            .join("");
+          const bodyRows = APP_EXP_PAGE_DATA.map((row) => {
+            const newOld = formatExpRatio(
+              row.avgStaySec.new,
+              row.avgStaySec.old,
+            );
+            const vipNon = formatExpRatio(
+              row.avgStaySec.vip,
+              row.avgStaySec.nonvip,
+            );
+            return `<tr>
+            <td>${row.name}</td>
+            <td>${row.visits.toLocaleString("zh-CN")}</td>
+            <td>${formatDurationSec(row.avgStaySec.all)}</td>
+            <td>${formatDurationSec(row.avgStaySec.new)}</td>
+            <td>${formatDurationSec(row.avgStaySec.old)}</td>
+            <td>${formatDurationSec(row.avgStaySec.vip)}</td>
+            <td>${formatDurationSec(row.avgStaySec.nonvip)}</td>
+            <td class="${newOld.cls}">${newOld.text}</td>
+            <td class="${vipNon.cls}">${vipNon.text}</td>
+            <td>${row.bounce.toFixed(2)}%</td>
+          </tr>`;
+          }).join("");
+
+          const sumVisits = APP_EXP_PAGE_DATA.reduce((s, r) => s + r.visits, 0);
+          const avg = (key) =>
+            APP_EXP_PAGE_DATA.reduce((s, r) => s + r.avgStaySec[key], 0) /
+            APP_EXP_PAGE_DATA.length;
+          const sumNewOld = formatExpRatio(avg("new"), avg("old"));
+          const sumVipNon = formatExpRatio(avg("vip"), avg("nonvip"));
+          const avgBounce =
+            APP_EXP_PAGE_DATA.reduce((s, r) => s + r.bounce, 0) /
+            APP_EXP_PAGE_DATA.length;
+
+          const totalRow = `<tr>
+          <td>合计/均值</td>
+          <td>${sumVisits.toLocaleString("zh-CN")}</td>
+          <td>${formatDurationSec(avg("all"))}</td>
+          <td>${formatDurationSec(avg("new"))}</td>
+          <td>${formatDurationSec(avg("old"))}</td>
+          <td>${formatDurationSec(avg("vip"))}</td>
+          <td>${formatDurationSec(avg("nonvip"))}</td>
+          <td class="${sumNewOld.cls}">${sumNewOld.text}</td>
+          <td class="${sumVipNon.cls}">${sumVipNon.text}</td>
+          <td>${avgBounce.toFixed(2)}%</td>
+        </tr>`;
+
+          return `
+          <div class="table-wrap" style="max-height:none">
+            <table class="data-table">
+              <thead><tr class="col-row">${head}</tr></thead>
+              <tbody>${bodyRows}${totalRow}</tbody>
+            </table>
+          </div>
+          <div class="pagination">
+            <button disabled>‹</button>
+            <button class="active">1</button>
+            <button>›</button>
+            <span class="pagination-info">共 ${APP_EXP_PAGE_DATA.length} 条</span>
+          </div>`;
+        }
+
+        // 全部 / 新用户 / 老用户 / 付费 / 非付费：展示该分群下 6 个指标字段
+        const segId = segment || "all";
+        const cols = ["页面名称", ...APP_EXP_METRICS];
+        const head = cols
+          .map((c) => `<th>${c}<span class="sort-icon">▲<br>▼</span></th>`)
+          .join("");
+        const cell = (row, metric) =>
+          formatAppExpMetricDisplay(
+            getAppExpMetricValue(row, metric, segId),
+            metric,
+          );
+        const bodyRows = APP_EXP_PAGE_DATA.map(
+          (row) => `<tr>
+            <td>${row.name}</td>
+            ${APP_EXP_METRICS.map((m) => `<td>${cell(row, m)}</td>`).join("")}
+          </tr>`,
+        ).join("");
+
+        const sumOrAvg = (metric) => {
+          const values = APP_EXP_PAGE_DATA.map((r) =>
+            getAppExpMetricValue(r, metric, segId),
+          );
+          if (metric === "页面访问次数" || metric === "页面停留时长") {
+            return values.reduce((s, v) => s + v, 0);
+          }
+          return values.reduce((s, v) => s + v, 0) / values.length;
+        };
+        const totalRow = `<tr>
+            <td>合计/均值</td>
+            ${APP_EXP_METRICS.map(
+              (m) => `<td>${formatAppExpMetricDisplay(sumOrAvg(m), m)}</td>`,
+            ).join("")}
+          </tr>`;
+
+        return `
+          <div class="table-wrap" style="max-height:none">
+            <table class="data-table">
+              <thead><tr class="col-row">${head}</tr></thead>
+              <tbody>${bodyRows}${totalRow}</tbody>
+            </table>
+          </div>
+          <div class="pagination">
+            <button disabled>‹</button>
+            <button class="active">1</button>
+            <button>›</button>
+            <span class="pagination-info">共 ${APP_EXP_PAGE_DATA.length} 条</span>
+          </div>`;
+      }
+
+      function refreshAppExperienceView(options = {}) {
+        const panel = document.getElementById("appExperiencePanel");
+        if (!panel) return;
+
+        const { refreshMatrix = true, preserveScroll = false } = options;
+        const scrollY = preserveScroll ? window.scrollY : null;
+        const { segment, metric } = appExperienceState;
+
+        const tabsEl = document.getElementById("appExpMetricTabs");
+        if (tabsEl) {
+          if (!tabsEl.dataset.bound) {
+            tabsEl.innerHTML = renderAppMetricTabs(APP_EXP_METRICS, metric);
+            tabsEl.querySelectorAll(".tab-btn").forEach((btn) => {
+              btn.addEventListener("click", (e) => {
+                e.preventDefault();
+                appExperienceState.metric = btn.dataset.tab;
+                refreshAppExperienceView({
+                  refreshMatrix: false,
+                  preserveScroll: true,
+                });
+              });
+            });
+            tabsEl.dataset.bound = "1";
+          } else {
+            tabsEl.querySelectorAll(".tab-btn").forEach((btn) => {
+              btn.classList.toggle("active", btn.dataset.tab === metric);
+            });
+          }
+        }
+
+        const subtitle = document.getElementById("appExpChartSubtitle");
+        const tag = document.getElementById("appExpChartTag");
+        const legend = document.getElementById("appExpLegend");
+        const chart = document.getElementById("appExperienceTopChart");
+        const tableWrap = document.getElementById("appExpTableWrap");
+
+        if (segment === "compare") {
+          if (subtitle) {
+            subtitle.textContent = `分群对比：同一页面展示新用户 / 老用户 / 付费 / 非付费 的「${metric}」`;
+          }
+          if (tag) tag.textContent = "分组条形图";
+          if (legend) legend.innerHTML = renderAppExpLegend("compare");
+          if (chart) {
+            const ranked = [...APP_EXP_PAGE_DATA]
+              .sort(
+                (a, b) =>
+                  getAppExpMetricValue(b, metric, "all") -
+                  getAppExpMetricValue(a, metric, "all"),
+              )
+              .slice(0, 10);
+            chart.innerHTML = renderAppExpGroupHBar(ranked, metric);
+          }
+        } else {
+          const segLabel =
+            APP_EXP_SEGMENTS.find((s) => s.id === segment)?.label || "全部";
+          if (subtitle) {
+            subtitle.textContent = `当前分群：${segLabel} · 指标：${metric}`;
+          }
+          if (tag) tag.textContent = "条形图";
+          if (legend) legend.innerHTML = renderAppExpLegend(segment);
+          if (chart) {
+            const items = getAppExpTopItems(metric, segment);
+            const displayItems = items.map((it) => ({
+              name: it.name,
+              value: it.value,
+              display: formatAppExpMetricDisplay(it.value, metric),
+            }));
+            const max = Math.max(...displayItems.map((i) => i.value), 1);
+            const baseColor = APP_EXP_SEG_META[segment]?.color || "#165dff";
+            chart.innerHTML = `<div class="app-hbar">${displayItems
+              .map(
+                (it, i) => `
+              <div class="app-hbar-row">
+                <span>${it.name}</span>
+                <div class="app-hbar-track"><div class="app-hbar-fill" style="--bar-w:${Math.max(6, Math.round((it.value / max) * 100))}%;--bar-i:${i};background:${hexToRgba(baseColor, getAppExpRankOpacity(i, displayItems.length))}"></div></div>
+                <strong>${it.display}</strong>
+              </div>`,
+              )
+              .join("")}</div>`;
+          }
+        }
+
+        if (tableWrap) tableWrap.innerHTML = renderAppExpTable();
+        const tableHint = document.getElementById("appExpTableHint");
+        const segBadge = document.getElementById("appExpSegBadge");
+        const segLabel =
+          APP_EXP_SEGMENTS.find((s) => s.id === segment)?.label || "全部";
+        const segColor =
+          segment === "compare"
+            ? "#165dff"
+            : APP_EXP_SEG_META[segment]?.color || "#165dff";
+        if (segBadge) {
+          const scopeText =
+            segment === "compare"
+              ? "分群对比统计"
+              : segment === "all"
+                ? "全量用户统计"
+                : `${segLabel}专项统计`;
+          segBadge.style.color = segColor;
+          segBadge.style.background = hexToRgba(segColor, 0.12);
+          segBadge.style.borderColor = hexToRgba(segColor, 0.35);
+          segBadge.innerHTML = `<i class="dot" aria-hidden="true"></i><span class="name">${segLabel}</span><span class="sub">${scopeText}</span>`;
+        }
+        if (tableHint) {
+          tableHint.textContent =
+            segment === "compare"
+              ? "字段含各分群均停与比值（新用户=注册≤7天）"
+              : segment === "all"
+                ? "下表为全量用户六项体验指标"
+                : `下表仅统计「${segLabel}」的六项体验指标`;
+        }
+        if (refreshMatrix) refreshAppExpMatrix();
+        if (preserveScroll && scrollY != null) {
+          requestAnimationFrame(() => window.scrollTo(0, scrollY));
+        }
+      }
+
+      function initAppPageExperience() {
+        if (!document.getElementById("appExperiencePanel")) return;
+        const segSel = document.getElementById("appExpSegment");
+        segSel?.addEventListener("change", () => {
+          appExperienceState.segment = segSel.value;
+          if (appExperienceState.segment === "compare") {
+            appExperienceState.metric = "页面平均停留时长";
+          }
+          refreshAppExperienceView();
+        });
+        document
+          .querySelector(
+            '[data-local-filter="app-experience"] .btn.btn-primary',
+          )
+          ?.addEventListener("click", (e) => {
+            e.preventDefault();
+            refreshAppExperienceView();
+          });
+        document
+          .getElementById("appExpDrillClose")
+          ?.addEventListener("click", closeAppExpDrill);
+        refreshAppExperienceView();
+      }
+
+      function renderAppUsageDurationContent(page) {
+        const onceBars = [
+          { name: "0s-3s", value: 464343 },
+          { name: "3s-10s", value: 4567 },
+          { name: "10s-30s", value: 7899 },
+          { name: "30s-1min", value: 12340 },
+          { name: "1min-3min", value: 23556 },
+          { name: "3min-5min", value: 18670 },
+          { name: "5min-10min", value: 15420 },
+          { name: "10min-20min", value: 9800 },
+          { name: "20min-30min", value: 6500 },
+          { name: "30min-60min", value: 4200 },
+          { name: "60min以上", value: 23556 },
+        ];
+        const dayBars = [
+          { name: "0s-1min", value: 464343 },
+          { name: "1min-5min", value: 4567 },
+          { name: "5min-15min", value: 7899 },
+          { name: "15min-30min", value: 12340 },
+          { name: "30min-60min", value: 18670 },
+          { name: "1h-2h", value: 9800 },
+          { name: "2h以上", value: 6500 },
+        ];
+        const onceCols = ["时长", "启动次数", "启动次数占比"];
+        const onceRows = [
+          ["0s-3s", 464343, "23.56%"],
+          ["3s-10s", 4567, "68.66%"],
+          ["10s-30s", 7899, "98.28%"],
+          ["30s-1min", 12340, "12.23%"],
+          ["1min-3min", 23556, "8.90%"],
+          ["3min-5min", 18670, "7.12%"],
+          ["5min-10min", 15420, "5.88%"],
+          ["10min-20min", 9800, "3.74%"],
+          ["20min-30min", 6500, "2.48%"],
+          ["30min-60min", 4200, "1.60%"],
+          ["60min以上", 23556, "8.98%"],
+        ];
+        const dayCols = [
+          "时长",
+          "启动次数",
+          "启动次数占比",
+          "用户数",
+          "用户数占比",
+          "次日留存",
+          "3日留存",
+          "7日留存",
+          "15日留存",
+        ];
+        const dayRows = [
+          [
+            "0s-1min",
+            464343,
+            "23.56%",
+            464343,
+            "23.56%",
+            "23.56%",
+            "23.56%",
+            "23.56%",
+            "23.56%",
+          ],
+          [
+            "1min-5min",
+            4567,
+            "68.66%",
+            4567,
+            "68.66%",
+            "45.20%",
+            "32.10%",
+            "21.80%",
+            "15.60%",
+          ],
+          [
+            "5min-15min",
+            7899,
+            "98.28%",
+            7899,
+            "12.23%",
+            "52.30%",
+            "38.40%",
+            "25.10%",
+            "18.90%",
+          ],
+          [
+            "15min-30min",
+            12340,
+            "8.90%",
+            12340,
+            "8.90%",
+            "48.60%",
+            "35.20%",
+            "22.40%",
+            "16.80%",
+          ],
+          [
+            "30min-60min",
+            18670,
+            "7.12%",
+            18670,
+            "7.12%",
+            "55.10%",
+            "41.30%",
+            "28.70%",
+            "20.50%",
+          ],
+          [
+            "1h-2h",
+            9800,
+            "3.74%",
+            9800,
+            "3.74%",
+            "60.20%",
+            "46.80%",
+            "32.10%",
+            "24.30%",
+          ],
+          [
+            "2h以上",
+            6500,
+            "2.48%",
+            6500,
+            "2.48%",
+            "66.80%",
+            "52.40%",
+            "38.90%",
+            "29.10%",
+          ],
+        ];
+        return `
+          ${renderAppFilterBar("app-duration")}
+          <div class="app-analysis-block">
+            <div class="app-dual-grid">
+              <article class="chart-card">
+                <div class="chart-title">单次使用时长分布 <span class="status-tag info">柱状图</span></div>
+                <div class="chart-subtitle">用户从打开 APP 到退出/切后台超时的连续使用时长</div>
+                ${renderAppVBar(onceBars)}
+              </article>
+              <article class="chart-card">
+                <div class="chart-title">日使用时长分布 <span class="status-tag info">柱状图</span></div>
+                <div class="chart-subtitle">按用户数看日累计使用时长分布</div>
+                ${renderAppVBar(dayBars)}
+              </article>
+            </div>
+            <div class="page-panel active" style="margin-bottom:16px">
+              <div class="toolbar"><span class="page-title">单次使用时长明细</span></div>
+              ${renderAppDataTable(onceCols, onceRows)}
+            </div>
+            <div class="page-panel active">
+              <div class="toolbar"><span class="page-title">日使用时长明细</span></div>
+              ${renderAppDataTable(dayCols, dayRows)}
+            </div>
+          </div>`;
+      }
+
+      function renderAppUsageFrequencyContent(page) {
+        const dayBars = [
+          { name: "1-3", value: 464343 },
+          { name: "3-5", value: 4567 },
+          { name: "5-10", value: 7899 },
+          { name: "10-15", value: 12340 },
+          { name: "15-20", value: 9800 },
+          { name: "20-30", value: 6500 },
+          { name: "30及以上", value: 4200 },
+        ];
+        const weekBars = [
+          { name: "1-3", value: 320100 },
+          { name: "3-5", value: 58670 },
+          { name: "5-10", value: 42300 },
+          { name: "10-20", value: 28600 },
+          { name: "20-50", value: 15400 },
+          { name: "50-100", value: 8200 },
+          { name: "100及以上", value: 3100 },
+        ];
+        const monthBars = [
+          { name: "1-10", value: 280500 },
+          { name: "10-50", value: 96500 },
+          { name: "50-100", value: 45200 },
+          { name: "100-200", value: 28600 },
+          { name: "200-300", value: 15400 },
+          { name: "300-400", value: 8200 },
+          { name: "400及以上", value: 4100 },
+        ];
+        const cols = ["启动次数", "用户人数", "用户人数占比"];
+        const dayRows = [
+          ["1-3", 464343, "23.56%"],
+          ["3-5", 4567, "68.66%"],
+          ["5-10", 7899, "98.28%"],
+          ["10-15", 12340, "12.23%"],
+          ["15-20", 9800, "8.90%"],
+          ["20-30", 6500, "5.12%"],
+          ["30及以上", 4200, "3.28%"],
+        ];
+        const weekRows = [
+          ["1-3", 320100, "55.20%"],
+          ["3-5", 58670, "10.12%"],
+          ["5-10", 42300, "7.30%"],
+          ["10-20", 28600, "4.93%"],
+          ["20-50", 15400, "2.66%"],
+          ["50-100", 8200, "1.41%"],
+          ["100及以上", 3100, "0.53%"],
+        ];
+        const monthRows = [
+          ["1-10", 280500, "48.60%"],
+          ["10-50", 96500, "16.72%"],
+          ["50-100", 45200, "7.83%"],
+          ["100-200", 28600, "4.96%"],
+          ["200-300", 15400, "2.67%"],
+          ["300-400", 8200, "1.42%"],
+          ["400及以上", 4100, "0.71%"],
+        ];
+        const section = (title, subtitle, bars, rows, filterHint) => `
+          <div class="app-analysis-block">
+            <section class="chart-grid" style="grid-template-columns:1fr;margin-bottom:12px">
+              <article class="chart-card">
+                <div class="chart-title">${title} <span class="status-tag info">柱状图</span></div>
+                <div class="chart-subtitle">${subtitle}${filterHint ? ` · ${filterHint}` : ""}</div>
+                ${renderAppVBar(bars)}
+              </article>
+            </section>
+            <div class="page-panel active">
+              <div class="toolbar"><span class="page-title">${title}明细</span></div>
+              ${renderAppDataTable(cols, rows)}
+            </div>
+          </div>`;
+        return `
+          ${renderAppFilterBar("app-frequency")}
+          ${section("日启动次数分布", "按用户人数看当日启动次数档位", dayBars, dayRows, "默认当日")}
+          ${section("周启动次数分布", "按用户人数看本周启动次数档位", weekBars, weekRows, "默认本周")}
+          ${section("月启动次数分布", "按用户人数看本月启动次数档位", monthBars, monthRows, "默认本月")}`;
+      }
+
+      const CHURN_METRICS = [
+        "流失率",
+        "平均停留时长",
+        "充值转化率",
+        "投注转化率",
+      ];
+
+      const CHURN_PAGE_TREE = {
+        "": ["首页", "宝箱代理页", "IM页", "VIP页", "品牌页"],
+        首页: [
+          "登录页",
+          "注册",
+          "侧边栏",
+          "个人信息页",
+          "游戏大厅",
+          "所有活动页",
+          "充值",
+          "提现",
+          "绑定银行卡",
+          "站内信",
+        ],
+        登录页: ["手机号验证码登录", "手机号密码登录"],
+        游戏大厅: ["所有游戏列表", "历史游戏列表"],
+        所有活动页: [
+          "累充转盘",
+          "排行榜",
+          "短信任务SMS",
+          "兑换码",
+          "新人礼包",
+          "倒计时钱包",
+        ],
+        宝箱代理页: ["宝箱页", "代理页"],
+        IM页: ["普通成员群聊界面", "客服页"],
+      };
+
+      const CHURN_MAX_DRILL_DEPTH = 2;
+
+      function hashPageSeed(name) {
+        let hash = 0;
+        for (let i = 0; i < name.length; i += 1) {
+          hash = (hash << 5) - hash + name.charCodeAt(i);
+          hash |= 0;
+        }
+        return Math.abs(hash);
+      }
+
+      function getChurnMetricRaw(pageName, metric) {
+        const seed = hashPageSeed(`${pageName}-${metric}`);
+        const r = (seed % 1000) / 1000;
+        switch (metric) {
+          case "流失率":
+            return `${(18 + r * 52).toFixed(1)}%`;
+          case "平均停留时长": {
+            const sec = Math.round(35 + r * 520);
+            if (sec >= 60) {
+              const m = Math.floor(sec / 60);
+              const s = sec % 60;
+              return `${m}分${s}秒`;
+            }
+            return `${sec}秒`;
+          }
+          case "充值转化率":
+            return `${(4 + r * 28).toFixed(1)}%`;
+          case "投注转化率":
+            return `${(6 + r * 34).toFixed(1)}%`;
+          default:
+            return "-";
+        }
+      }
+
+      function getChurnMetricScore(pageName, metric) {
+        const seed = hashPageSeed(`${pageName}-${metric}`);
+        const r = (seed % 1000) / 1000;
+        switch (metric) {
+          case "流失率":
+            return Math.round(18 + r * 52);
+          case "平均停留时长":
+            return Math.round(35 + r * 520);
+          case "充值转化率":
+            return Math.round(4 + r * 28);
+          case "投注转化率":
+            return Math.round(6 + r * 34);
+          default:
+            return 0;
+        }
+      }
+
+      function getChurnPagesAtPath(path) {
+        const key = path.length ? path[path.length - 1] : "";
+        return CHURN_PAGE_TREE[key] || [];
+      }
+
+      function hasChurnChildren(pageName) {
+        if (appChurnDrillPath.length >= CHURN_MAX_DRILL_DEPTH) return false;
+        return (CHURN_PAGE_TREE[pageName] || []).length > 0;
+      }
+
+      function renderAppChurnPageContent(page) {
+        return `
+          ${renderAppFilterBar("app-churn")}
+          <div class="app-analysis-block">
+            <div class="page-panel active">
+              <div class="toolbar"><span class="page-title">${page.title}</span></div>
+              <div style="padding:16px 20px 20px">
+                <div class="app-churn-toolbar">
+                  <div class="app-churn-breadcrumb" id="appChurnBreadcrumb"></div>
+                  <div class="app-churn-hint">点击热力图单元格可下钻至下级页面</div>
+                </div>
+                <div class="app-section-title">流失热力图 <span class="status-tag info">ECharts</span></div>
+                <div class="app-churn-heatmap-wrap">
+                  <div id="appChurnHeatmap" class="app-churn-heatmap"></div>
+                </div>
+                <div class="app-section-title" style="margin-top:20px" id="appChurnTableTitle">流失明细</div>
+                <div id="appChurnTable"></div>
+              </div>
+            </div>
+          </div>`;
+      }
+
+      function buildChurnTableRows(pages) {
+        return pages.map((page) => [
+          page,
+          ...CHURN_METRICS.map((metric) => getChurnMetricRaw(page, metric)),
+        ]);
+      }
+
+      function renderAppChurnTable(pages) {
+        const cols = ["页面名称", ...CHURN_METRICS];
+        const rows = buildChurnTableRows(pages);
+        return renderAppDataTable(cols, rows);
+      }
+
+      function updateAppChurnTable(pages) {
+        const tableEl = document.getElementById("appChurnTable");
+        const titleEl = document.getElementById("appChurnTableTitle");
+        if (!tableEl) return;
+        const levelLabels = ["一级页面", "二级页面", "三级页面"];
+        const levelLabel = levelLabels[appChurnDrillPath.length] || "三级页面";
+        if (titleEl) {
+          titleEl.textContent = `${levelLabel}流失明细`;
+        }
+        if (!pages.length) {
+          tableEl.innerHTML = "";
+          return;
+        }
+        tableEl.innerHTML = renderAppChurnTable(pages);
+      }
+
+      let appChurnHeatmapChart = null;
+      let appChurnDrillPath = [];
+
+      function disposeAppChurnHeatmap() {
+        if (appChurnHeatmapChart) {
+          appChurnHeatmapChart.dispose();
+          appChurnHeatmapChart = null;
+        }
+        window.removeEventListener("resize", onAppChurnHeatmapResize);
+        appChurnDrillPath = [];
+      }
+
+      function onAppChurnHeatmapResize() {
+        if (appChurnHeatmapChart) appChurnHeatmapChart.resize();
+      }
+
+      function renderAppChurnBreadcrumb() {
+        const el = document.getElementById("appChurnBreadcrumb");
+        if (!el) return;
+        const crumbs = [
+          { label: "一级页面", path: [] },
+          ...appChurnDrillPath.map((name, i) => ({
+            label: name,
+            path: appChurnDrillPath.slice(0, i + 1),
+          })),
+        ];
+        el.innerHTML = crumbs
+          .map((crumb, i) => {
+            const isLast = i === crumbs.length - 1;
+            const sep = i ? '<span class="sep">/</span>' : "";
+            if (isLast) {
+              return `${sep}<span class="crumb is-current">${crumb.label}</span>`;
+            }
+            return `${sep}<span class="crumb" data-path="${crumb.path.join(">")}">${crumb.label}</span>`;
+          })
+          .join("");
+        el.querySelectorAll(".crumb:not(.is-current)").forEach((node) => {
+          node.addEventListener("click", () => {
+            const pathStr = node.dataset.path || "";
+            appChurnDrillPath = pathStr ? pathStr.split(">") : [];
+            updateAppChurnHeatmap();
+          });
+        });
+      }
+
+      function buildChurnHeatmapData(pages) {
+        const data = [];
+        let maxScore = 1;
+        pages.forEach((page, x) => {
+          CHURN_METRICS.forEach((metric, y) => {
+            const score = getChurnMetricScore(page, metric);
+            maxScore = Math.max(maxScore, score);
+            data.push({
+              value: [x, y, score],
+              page,
+              metric,
+              raw: getChurnMetricRaw(page, metric),
+            });
+          });
+        });
+        return { data, maxScore };
+      }
+
+      function updateAppChurnHeatmap() {
+        const el = document.getElementById("appChurnHeatmap");
+        if (!el || typeof echarts === "undefined") return;
+        const pages = getChurnPagesAtPath(appChurnDrillPath);
+        renderAppChurnBreadcrumb();
+        updateAppChurnTable(pages);
+        if (!pages.length) {
+          if (appChurnHeatmapChart) {
+            appChurnHeatmapChart.clear();
+          }
+          return;
+        }
+        const { data, maxScore } = buildChurnHeatmapData(pages);
+        if (!appChurnHeatmapChart) {
+          appChurnHeatmapChart = echarts.init(el);
+          appChurnHeatmapChart.on("click", (params) => {
+            if (!params.data || !params.data.page) return;
+            if (appChurnDrillPath.length >= CHURN_MAX_DRILL_DEPTH) return;
+            const page = params.data.page;
+            if (!hasChurnChildren(page)) return;
+            appChurnDrillPath = [...appChurnDrillPath, page];
+            updateAppChurnHeatmap();
+          });
+          window.addEventListener("resize", onAppChurnHeatmapResize);
+        }
+        const levelLabels = ["一级页面", "二级页面", "三级页面"];
+        const levelLabel = levelLabels[appChurnDrillPath.length] || "三级页面";
+        appChurnHeatmapChart.setOption(
+          {
+            tooltip: {
+              position: "top",
+              formatter(params) {
+                const { page, metric, raw } = params.data;
+                const drillable = hasChurnChildren(page);
+                return [
+                  `<strong>${page}</strong>`,
+                  `${metric}：${raw}`,
+                  drillable ? "点击下钻查看下级页面" : "已到最细页面层级",
+                ].join("<br/>");
+              },
+            },
+            grid: {
+              left: 108,
+              right: 48,
+              top: 24,
+              bottom: 72,
+              containLabel: false,
+            },
+            xAxis: {
+              type: "category",
+              data: pages,
+              splitArea: { show: true },
+              axisLabel: {
+                color: "#4e5969",
+                fontSize: 12,
+                interval: 0,
+                rotate: pages.length > 5 ? 24 : 0,
+              },
+              axisLine: { lineStyle: { color: "#e5e6eb" } },
+            },
+            yAxis: {
+              type: "category",
+              data: CHURN_METRICS,
+              splitArea: { show: true },
+              axisLabel: { color: "#4e5969", fontSize: 12 },
+              axisLine: { lineStyle: { color: "#e5e6eb" } },
+            },
+            visualMap: {
+              min: 0,
+              max: maxScore,
+              calculable: true,
+              orient: "horizontal",
+              left: "center",
+              bottom: 8,
+              itemWidth: 14,
+              itemHeight: 120,
+              inRange: {
+                color: ["#e8f3ff", "#94bfff", "#4080ff", "#165dff", "#0e42d2"],
+              },
+              text: ["高", "低"],
+              textStyle: { color: "#86909c", fontSize: 12 },
+            },
+            series: [
+              {
+                name: levelLabel,
+                type: "heatmap",
+                data: data.map((item) => ({
+                  value: item.value,
+                  page: item.page,
+                  metric: item.metric,
+                  raw: item.raw,
+                })),
+                label: {
+                  show: true,
+                  color: "#1d2129",
+                  fontSize: 11,
+                  formatter(params) {
+                    return params.data.raw;
+                  },
+                },
+                emphasis: {
+                  itemStyle: {
+                    shadowBlur: 8,
+                    shadowColor: "rgba(22, 93, 255, 0.35)",
+                  },
+                },
+              },
+            ],
+          },
+          true,
+        );
+        appChurnHeatmapChart.resize();
+      }
+
+      function initAppChurnHeatmap() {
+        const el = document.getElementById("appChurnHeatmap");
+        if (!el) return;
+        if (appChurnHeatmapChart) {
+          disposeAppChurnHeatmap();
+        }
+        appChurnDrillPath = [];
+        updateAppChurnHeatmap();
+      }
+
+      function hashCoreFlowSeed(key) {
+        let hash = 0;
+        for (let i = 0; i < key.length; i += 1) {
+          hash = (hash << 5) - hash + key.charCodeAt(i);
+          hash |= 0;
+        }
+        return Math.abs(hash);
+      }
+
+      const PATH_KEY_EVENTS = [
+        { id: "register_success", label: "注册成功", category: "用户获取" },
+        { id: "bind_success", label: "绑定成功", category: "用户获取" },
+        { id: "first_enter_game", label: "首次进入游戏", category: "游戏参与" },
+        { id: "first_bet", label: "首次投注", category: "游戏参与" },
+        {
+          id: "first_recharge_success",
+          label: "首次充值成功",
+          category: "用户变现",
+        },
+        { id: "recharge_success", label: "充值成功", category: "用户变现" },
+        { id: "withdraw_success", label: "提现成功", category: "用户变现" },
+        { id: "next_day_return", label: "次日回访", category: "用户留存" },
+        { id: "old_user_return", label: "老用户回归", category: "用户留存" },
+      ];
+
+      const PATH_EXPAND_CHILDREN = {
+        游戏大厅: ["捕鱼", "棋牌", "真人", "体育", "Other"],
+        所有活动页: [
+          "累充转盘",
+          "排行榜",
+          "SMS任务",
+          "每日邀请",
+          "兑换码",
+          "新人礼包",
+          "倒计时钱包",
+        ],
+        第三方游戏大厅: ["PG电子", "PP电子", "EVO真人", "Other"],
+        首页: ["登录页", "游戏大厅", "所有活动页", "充值页", "Other"],
+      };
+
+      const PATH_EVENT_MOCK = {
+        first_recharge_success: {
+          backward: {
+            steps: [
+              [
+                { name: "首页", share: 62 },
+                { name: "宝箱代理页", share: 18 },
+                { name: "IM页", share: 12 },
+                { name: "品牌页", share: 8 },
+              ],
+              [
+                { name: "游戏大厅", share: 38 },
+                { name: "新人礼包", share: 25 },
+                { name: "排行榜", share: 17 },
+                { name: "所有活动页", share: 12 },
+                { name: "充值页", share: 8 },
+              ],
+              [
+                { name: "充值页", share: 72 },
+                { name: "游戏大厅", share: 12 },
+                { name: "我的活动页", share: 8 },
+                { name: "第三方游戏大厅", share: 8 },
+              ],
+            ],
+            topPaths: [
+              ["首页", "游戏大厅", "充值页", 28],
+              ["首页", "新人礼包", "充值页", 18],
+              ["首页", "排行榜", "充值页", 12],
+              ["首页", "所有活动页", "充值页", 9],
+              ["宝箱代理页", "代理页", "充值页", 7],
+            ],
+          },
+          forward: {
+            steps: [
+              [
+                { name: "游戏大厅", share: 42 },
+                { name: "首页", share: 28 },
+                { name: "所有活动页", share: 18 },
+                { name: "IM页", share: 12 },
+              ],
+              [
+                { name: "捕鱼", share: 35 },
+                { name: "棋牌", share: 22 },
+                { name: "真人", share: 18 },
+                { name: "体育", share: 15 },
+                { name: "Other", share: 10 },
+              ],
+              [
+                { name: "再次充值", share: 38 },
+                { name: "提现页", share: 25 },
+                { name: "游戏大厅", share: 22 },
+                { name: "所有活动页", share: 15 },
+              ],
+            ],
+            topPaths: [
+              ["游戏大厅", "捕鱼", "再次充值", 22],
+              ["游戏大厅", "棋牌", "再次充值", 16],
+              ["首页", "所有活动页", "累充转盘", 12],
+              ["游戏大厅", "真人", "提现页", 9],
+              ["所有活动页", "排行榜", "再次充值", 8],
+            ],
+          },
+        },
+        register_success: {
+          backward: {
+            steps: [
+              [
+                { name: "首页", share: 78 },
+                { name: "品牌页", share: 14 },
+                { name: "Other", share: 8 },
+              ],
+              [
+                { name: "登录页", share: 52 },
+                { name: "注册页", share: 38 },
+                { name: "侧边栏", share: 10 },
+              ],
+              [
+                { name: "注册页", share: 68 },
+                { name: "登录页", share: 22 },
+                { name: "首页", share: 10 },
+              ],
+            ],
+            topPaths: [
+              ["首页", "注册页", "注册页", 42],
+              ["首页", "登录页", "注册页", 28],
+              ["品牌页", "注册页", "注册页", 12],
+            ],
+          },
+          forward: {
+            steps: [
+              [
+                { name: "首页", share: 55 },
+                { name: "游戏大厅", share: 28 },
+                { name: "新人礼包", share: 17 },
+              ],
+              [
+                { name: "游戏大厅", share: 48 },
+                { name: "充值页", share: 32 },
+                { name: "所有活动页", share: 20 },
+              ],
+              [
+                { name: "首次进入游戏", share: 45 },
+                { name: "绑定银行卡页", share: 30 },
+                { name: "充值页", share: 25 },
+              ],
+            ],
+            topPaths: [
+              ["游戏大厅", "捕鱼", "首次进入游戏", 24],
+              ["充值页", "充值页", "首次充值成功", 18],
+              ["新人礼包", "新人礼包", "所有活动页", 14],
+            ],
+          },
+        },
+        first_enter_game: {
+          backward: {
+            steps: [
+              [
+                { name: "首页", share: 65 },
+                { name: "宝箱代理页", share: 20 },
+                { name: "Other", share: 15 },
+              ],
+              [
+                { name: "游戏大厅", share: 58 },
+                { name: "第三方游戏大厅", share: 28 },
+                { name: "所有活动页", share: 14 },
+              ],
+              [
+                { name: "游戏大厅", share: 72 },
+                { name: "第三方游戏大厅", share: 18 },
+                { name: "历史游戏列表", share: 10 },
+              ],
+            ],
+            topPaths: [
+              ["首页", "游戏大厅", "游戏大厅", 35],
+              ["首页", "第三方游戏大厅", "PG电子", 18],
+              ["首页", "所有活动页", "游戏大厅", 12],
+            ],
+          },
+          forward: {
+            steps: [
+              [
+                { name: "游戏大厅", share: 62 },
+                { name: "首页", share: 25 },
+                { name: "所有活动页", share: 13 },
+              ],
+              [
+                { name: "捕鱼", share: 32 },
+                { name: "棋牌", share: 28 },
+                { name: "真人", share: 22 },
+                { name: "体育", share: 18 },
+              ],
+              [
+                { name: "首次投注", share: 48 },
+                { name: "充值页", share: 32 },
+                { name: "游戏大厅", share: 20 },
+              ],
+            ],
+            topPaths: [
+              ["捕鱼", "捕鱼", "首次投注", 26],
+              ["棋牌", "棋牌", "首次投注", 19],
+              ["真人", "真人", "充值页", 11],
+            ],
+          },
+        },
+      };
+
+      let pathExploreState = {
+        direction: "backward",
+        depth: 3,
+        eventId: "first_recharge_success",
+        startDate: "2026-07-11",
+        endDate: "2026-07-17",
+        channel: "全部",
+        userType: "全部用户",
+        expanded: {},
+      };
+
+      function getPathEventMeta(eventId) {
+        return (
+          PATH_KEY_EVENTS.find((e) => e.id === eventId) || PATH_KEY_EVENTS[0]
+        );
+      }
+
+      function getPathExploreVariantKey(eventId, direction) {
+        const sd = pathExploreState.startDate || "";
+        const ed = pathExploreState.endDate || "";
+        const channel = pathExploreState.channel || "全部";
+        const userType = pathExploreState.userType || "全部用户";
+        return `${eventId}|${direction}|${channel}|${userType}|${sd}|${ed}`;
+      }
+
+      function getPathTargetUsers(eventId, direction) {
+        const variantKey = getPathExploreVariantKey(eventId, direction);
+        const seed = hashCoreFlowSeed(variantKey);
+        return 48000 + (seed % 52000);
+      }
+
+      function scalePathSteps(steps, depth) {
+        if (steps.length === depth) return steps;
+        if (steps.length > depth) return steps.slice(-depth);
+        const padStep = [
+          { name: "首页", share: 58 },
+          { name: "侧边栏", share: 22 },
+          { name: "Other", share: 20 },
+        ];
+        const padded = [...steps];
+        while (padded.length < depth) padded.unshift(padStep);
+        return padded;
+      }
+
+      function normalizePathNodes(rawNodes, columnUsers, variantKey) {
+        const weighted = rawNodes.map((n) => {
+          const nodeSeed = hashCoreFlowSeed(`${variantKey}::${n.name}`);
+          // 让不同国家/平台下节点权重有明显差异
+          const factor = 0.78 + ((nodeSeed % 1000) / 1000) * 0.44; // 0.78 ~ 1.22
+          return { ...n, weight: n.share * factor };
+        });
+
+        const sum = weighted.reduce((s, n) => s + n.weight, 0) || 1;
+        return weighted.map((n) => ({
+          name: n.name,
+          users: Math.round((columnUsers * n.weight) / sum),
+          pct: `${((n.weight / sum) * 100).toFixed(1)}%`,
+          expandable: !!PATH_EXPAND_CHILDREN[n.name],
+        }));
+      }
+
+      function getChildPathNodes(parentName, parentUsers, variantKey) {
+        const children = PATH_EXPAND_CHILDREN[parentName] || [];
+        if (!children.length) return [];
+
+        const baseWeights = children.map((name, i) => {
+          const nodeSeed = hashCoreFlowSeed(
+            `${variantKey}::child::${parentName}::${name}`,
+          );
+          const factor = 0.78 + ((nodeSeed % 1000) / 1000) * 0.44; // 0.78 ~ 1.22
+          return (children.length - i) * factor;
+        });
+        const sum = baseWeights.reduce((a, b) => a + b, 0) || 1;
+
+        return children.map((name, i) => ({
+          name,
+          users: Math.round((parentUsers * baseWeights[i]) / sum),
+          pct: `${((baseWeights[i] / sum) * 100).toFixed(1)}%`,
+          expandable: false,
+        }));
+      }
+
+      function buildPathExploreColumns(eventId, direction, depth) {
+        const meta = getPathEventMeta(eventId);
+        const mock =
+          PATH_EVENT_MOCK[eventId]?.[direction] ||
+          PATH_EVENT_MOCK.first_recharge_success[direction];
+        const steps = scalePathSteps(mock.steps, depth);
+        const variantKey = getPathExploreVariantKey(eventId, direction);
+        const targetUsers = getPathTargetUsers(eventId, direction);
+        const labels =
+          direction === "backward"
+            ? [
+                ...Array.from({ length: depth }, (_, i) => ({
+                  label: `STEP -${depth - i}`,
+                  isTarget: false,
+                })),
+                { label: "ENDING POINT", isTarget: true },
+              ]
+            : [
+                { label: "STARTING POINT", isTarget: true },
+                ...Array.from({ length: depth }, (_, i) => ({
+                  label: `STEP +${i + 1}`,
+                  isTarget: false,
+                })),
+              ];
+
+        const columns = [];
+        if (direction === "backward") {
+          const columnUsers = [];
+          let users = targetUsers;
+          for (let i = steps.length - 1; i >= 0; i -= 1) {
+            users = Math.round(users * (1.22 + (steps.length - 1 - i) * 0.05));
+            columnUsers[i] = users;
+          }
+          steps.forEach((raw, i) => {
+            columns.push({
+              ...labels[i],
+              nodes: normalizePathNodes(raw, columnUsers[i], variantKey),
+            });
+          });
+          columns.push({
+            ...labels[labels.length - 1],
+            nodes: [
+              {
+                name: meta.label,
+                users: targetUsers,
+                pct: "100.0%",
+                expandable: false,
+                isTarget: true,
+              },
+            ],
+          });
+        } else {
+          columns.push({
+            ...labels[0],
+            nodes: [
+              {
+                name: meta.label,
+                users: targetUsers,
+                pct: "100.0%",
+                expandable: false,
+                isTarget: true,
+              },
+            ],
+          });
+          let users = targetUsers;
+          steps.forEach((raw, i) => {
+            users = Math.round(users * (0.72 - i * 0.04));
+            columns.push({
+              ...labels[i + 1],
+              nodes: normalizePathNodes(raw, users, variantKey),
+            });
+          });
+        }
+        return columns;
+      }
+
+      function buildPathTopRank(eventId, direction, depth) {
+        const meta = getPathEventMeta(eventId);
+        const mock =
+          PATH_EVENT_MOCK[eventId]?.[direction] ||
+          PATH_EVENT_MOCK.first_recharge_success[direction];
+        const rows = mock.topPaths || [];
+        const variantKey = getPathExploreVariantKey(eventId, direction);
+        const enriched = rows.map((parts) => {
+          const path =
+            direction === "backward"
+              ? [...parts.slice(0, depth), meta.label]
+              : [meta.label, ...parts.slice(0, depth)];
+          const rawPct = Number(parts[parts.length - 1]) || 0;
+          const seed = hashCoreFlowSeed(
+            `${variantKey}::top::${path.join("->")}`,
+          );
+          const factor = 0.86 + ((seed % 1000) / 1000) * 0.28; // 0.86 ~ 1.14
+          const pctNum = Math.max(1, rawPct * factor);
+          return { path, pctNum };
+        });
+
+        enriched.sort((a, b) => b.pctNum - a.pctNum);
+        return enriched.map((row, i) => ({
+          rank: i + 1,
+          path: row.path,
+          pct: row.pctNum.toFixed(0),
+        }));
+      }
+
+      function renderPathExploreNode(node, maxUsers, nodeKey) {
+        const width = Math.max(14, Math.round((node.users / maxUsers) * 100));
+        const expanded = pathExploreState.expanded[nodeKey];
+        const children =
+          expanded && node.expandable
+            ? getChildPathNodes(
+                node.name,
+                node.users,
+                getPathExploreVariantKey(
+                  pathExploreState.eventId,
+                  pathExploreState.direction,
+                ),
+              )
+            : [];
+        const childMax = Math.max(...children.map((c) => c.users), 1);
+        return `
+          <div class="path-explore-node ${expanded ? "is-expanded" : ""} ${node.isTarget ? "is-target" : ""}" data-node-key="${nodeKey}">
+            <div class="path-explore-node-card">
+              <div class="path-explore-node-bar" style="width:${width}%"></div>
+              <div class="path-explore-node-body">
+                <div class="path-explore-node-name">
+                  <span>${node.name}</span>
+                  ${node.expandable ? `<span class="expand-icon">${expanded ? "▼" : "▶"}</span>` : ""}
+                </div>
+                <div class="path-explore-node-stats">
+                  <span><strong>${node.users.toLocaleString("zh-CN")}</strong> 用户</span>
+                  <span>${node.pct}</span>
+                </div>
+              </div>
+            </div>
+            ${
+              children.length
+                ? `<div class="path-explore-children">${children
+                    .map((child) => {
+                      const cw = Math.max(
+                        14,
+                        Math.round((child.users / childMax) * 100),
+                      );
+                      return `
+                      <div class="path-explore-node">
+                        <div class="path-explore-node-card">
+                          <div class="path-explore-node-bar" style="width:${cw}%"></div>
+                          <div class="path-explore-node-body">
+                            <div class="path-explore-node-name"><span>${child.name}</span></div>
+                            <div class="path-explore-node-stats">
+                              <span><strong>${child.users.toLocaleString("zh-CN")}</strong> 用户</span>
+                              <span>${child.pct}</span>
+                            </div>
+                          </div>
+                        </div>
+                      </div>`;
+                    })
+                    .join("")}</div>`
+                : ""
+            }
+          </div>`;
+      }
+
+      function renderPathExploreBoard() {
+        const columns = buildPathExploreColumns(
+          pathExploreState.eventId,
+          pathExploreState.direction,
+          pathExploreState.depth,
+        );
+        const colsHtml = columns
+          .map((col, colIdx) => {
+            const maxUsers = Math.max(...col.nodes.map((n) => n.users), 1);
+            const nodesHtml = col.nodes
+              .map((node, nodeIdx) =>
+                renderPathExploreNode(
+                  node,
+                  maxUsers,
+                  `${colIdx}-${nodeIdx}-${node.name}`,
+                ),
+              )
+              .join("");
+            return `
+            <div class="path-explore-col ${col.isTarget ? "is-target" : ""}">
+              <div class="path-explore-col-head">${col.label}</div>
+              <div class="path-explore-nodes">${nodesHtml}</div>
+            </div>`;
+          })
+          .join("");
+        return `<div class="path-explore-canvas" id="pathExploreCanvas">${colsHtml}</div>`;
+      }
+
+      function renderPathExploreTopPaths() {
+        const rows = buildPathTopRank(
+          pathExploreState.eventId,
+          pathExploreState.direction,
+          pathExploreState.depth,
+        );
+        return `<div class="path-explore-top-rank">${rows
+          .map(
+            (row) => `
+          <div class="path-explore-top-item">
+            <span class="rank">${row.rank}</span>
+            <div class="path-explore-top-path">${row.path
+              .map(
+                (p, i) =>
+                  `${i ? '<span class="arrow">→</span>' : ""}<span>${p}</span>`,
+              )
+              .join("")}</div>
+            <span class="path-explore-top-pct">${row.pct}%</span>
+          </div>`,
+          )
+          .join("")}</div>`;
+      }
+
+      function drawPathExploreLinks() {
+        const board = document.getElementById("pathExploreBoard");
+        const svg = document.getElementById("pathExploreLinks");
+        const canvas = document.getElementById("pathExploreCanvas");
+        if (!board || !svg || !canvas) return;
+        const boardRect = board.getBoundingClientRect();
+        svg.setAttribute("width", boardRect.width);
+        svg.setAttribute("height", boardRect.height);
+        const cols = [...canvas.querySelectorAll(".path-explore-col")];
+        let paths = "";
+        for (let i = 0; i < cols.length - 1; i += 1) {
+          const leftNodes = [
+            ...cols[i].querySelectorAll(
+              ":scope > .path-explore-nodes > .path-explore-node",
+            ),
+          ];
+          const rightNodes = [
+            ...cols[i + 1].querySelectorAll(
+              ":scope > .path-explore-nodes > .path-explore-node",
+            ),
+          ];
+          const pairs = Math.min(leftNodes.length, rightNodes.length);
+          for (let p = 0; p < pairs; p += 1) {
+            const l = leftNodes[p].getBoundingClientRect();
+            const r = rightNodes[p].getBoundingClientRect();
+            const x1 = l.right - boardRect.left;
+            const y1 = l.top + l.height / 2 - boardRect.top;
+            const x2 = r.left - boardRect.left;
+            const y2 = r.top + r.height / 2 - boardRect.top;
+            const mx = (x1 + x2) / 2;
+            const flow = Math.max(1.5, 4 - p * 0.5);
+            paths += `<path d="M${x1} ${y1} C ${mx} ${y1}, ${mx} ${y2}, ${x2} ${y2}" stroke-width="${flow}"></path>`;
+          }
+        }
+        svg.innerHTML = paths;
+      }
+
+      function refreshPathExploration() {
+        const canvasWrap = document.getElementById("pathExploreCanvasWrap");
+        const topEl = document.getElementById("pathExploreTopPaths");
+        const meta = getPathEventMeta(pathExploreState.eventId);
+        const modeHint = document.getElementById("pathExploreModeHint");
+        if (canvasWrap) {
+          canvasWrap.innerHTML = `<svg class="path-explore-links" id="pathExploreLinks"></svg>${renderPathExploreBoard()}`;
+        }
+        if (topEl) topEl.innerHTML = renderPathExploreTopPaths();
+        if (modeHint) {
+          modeHint.textContent =
+            pathExploreState.direction === "backward"
+              ? `分析用户在「${meta.label}」之前从哪里来（基于 session 行为流水回溯）`
+              : `分析用户完成「${meta.label}」之后去了哪里（基于 session 行为流水追踪）`;
+        }
+        requestAnimationFrame(drawPathExploreLinks);
+      }
+
+      function readPathExploreFilters() {
+        const eventSelect = document.getElementById("pathExploreEvent");
+        if (eventSelect) pathExploreState.eventId = eventSelect.value;
+
+        const sd = document.getElementById("pathExploreStartDate")?.value;
+        const ed = document.getElementById("pathExploreEndDate")?.value;
+        if (sd) pathExploreState.startDate = sd;
+        if (ed) pathExploreState.endDate = ed;
+
+        const channel = document.getElementById("pathExploreChannel")?.value;
+        if (channel) pathExploreState.channel = channel;
+
+        const userType = document.getElementById("pathExploreUserType")?.value;
+        if (userType) pathExploreState.userType = userType;
+      }
+
+      function renderPathExploreEventOptions(selectedId) {
+        const categories = [...new Set(PATH_KEY_EVENTS.map((e) => e.category))];
+        return categories
+          .map((category) => {
+            const options = PATH_KEY_EVENTS.filter(
+              (e) => e.category === category,
+            )
+              .map(
+                (e) =>
+                  `<option value="${e.id}" ${e.id === selectedId ? "selected" : ""}>${e.label}</option>`,
+              )
+              .join("");
+            return `<optgroup label="${category}">${options}</optgroup>`;
+          })
+          .join("");
+      }
+
+      function renderAppUserPathExploreContent(page) {
+        const eventOptions = renderPathExploreEventOptions(
+          pathExploreState.eventId,
+        );
+        return `
+          <div class="app-analysis-block">
+            <div class="page-panel active">
+              <div class="toolbar"><span class="page-title">${page.title}</span></div>
+              <div class="path-explore-panel">
+                <div class="path-explore-toolbar" id="pathExploreFilters">
+                  <div class="filter-item">
+                    <label>时间</label>
+                    <input type="date" id="pathExploreStartDate" value="${pathExploreState.startDate}" />
+                    <span>—</span>
+                    <input type="date" id="pathExploreEndDate" value="${pathExploreState.endDate}" />
+                  </div>
+                  <div class="filter-item">
+                    <label>渠道</label>
+                    <select id="pathExploreChannel">${renderAppSourceOptions(pathExploreState.channel || "全部")}</select>
+                  </div>
+                  <div class="filter-item">
+                    <label>用户类型</label>
+                    <select id="pathExploreUserType">
+                      <option value="全部用户" ${pathExploreState.userType === "全部用户" ? "selected" : ""}>全部用户</option>
+                      <option value="新用户" ${pathExploreState.userType === "新用户" ? "selected" : ""}>新用户</option>
+                      <option value="老用户" ${pathExploreState.userType === "老用户" ? "selected" : ""}>老用户</option>
+                      <option value="付费用户" ${pathExploreState.userType === "付费用户" ? "selected" : ""}>付费用户</option>
+                    </select>
+                  </div>
+                  <div class="filter-item">
+                    <label>关键行为节点</label>
+                    <select id="pathExploreEvent">${eventOptions}</select>
+                  </div>
+                  <button class="btn btn-primary" type="button" id="pathExploreQuery">分析路径</button>
+                </div>
+                <div class="path-explore-mode" id="pathExploreMode">
+                  <button type="button" class="${pathExploreState.direction === "backward" ? "active" : ""}" data-direction="backward">反向路径（默认）</button>
+                  <button type="button" class="${pathExploreState.direction === "forward" ? "active" : ""}" data-direction="forward">前向路径</button>
+                  <div class="path-explore-depth">
+                    <span>路径深度</span>
+                    ${[1, 3, 5, 10]
+                      .map(
+                        (d) =>
+                          `<button type="button" class="depth-btn ${pathExploreState.depth === d ? "active" : ""}" data-depth="${d}">${d}步</button>`,
+                      )
+                      .join("")}
+                  </div>
+                </div>
+                <p class="path-explore-hint" id="pathExploreModeHint"></p>
+                <div class="path-explore-board" id="pathExploreBoard">
+                  <div class="path-explore-canvas-wrap" id="pathExploreCanvasWrap">
+                    <svg class="path-explore-links" id="pathExploreLinks"></svg>
+                    ${renderPathExploreBoard()}
+                  </div>
+                </div>
+                <p class="path-explore-hint">点击带 ▶ 的节点可动态展开下级路径（如游戏大厅 → 捕鱼 / 棋牌 / 真人 / 体育 / Other）</p>
+                <div class="path-explore-top">
+                  <div class="app-section-title">Top 路径排行</div>
+                  <div id="pathExploreTopPaths">${renderPathExploreTopPaths()}</div>
+                </div>
+              </div>
+            </div>
+          </div>`;
+      }
+
+      function initPathExploration() {
+        const board = document.getElementById("pathExploreBoard");
+        if (!board) return;
+
+        pathExploreState.expanded = {};
+        refreshPathExploration();
+
+        document
+          .getElementById("pathExploreQuery")
+          ?.addEventListener("click", () => {
+            readPathExploreFilters();
+            pathExploreState.expanded = {};
+            refreshPathExploration();
+          });
+
+        document
+          .querySelectorAll("#pathExploreMode [data-direction]")
+          .forEach((btn) => {
+            btn.addEventListener("click", () => {
+              pathExploreState.direction = btn.dataset.direction;
+              pathExploreState.expanded = {};
+              document
+                .querySelectorAll("#pathExploreMode [data-direction]")
+                .forEach((b) => b.classList.remove("active"));
+              btn.classList.add("active");
+              refreshPathExploration();
+            });
+          });
+
+        document
+          .querySelectorAll("#pathExploreMode .depth-btn")
+          .forEach((btn) => {
+            btn.addEventListener("click", () => {
+              pathExploreState.depth = Number(btn.dataset.depth);
+              pathExploreState.expanded = {};
+              document
+                .querySelectorAll("#pathExploreMode .depth-btn")
+                .forEach((b) => b.classList.remove("active"));
+              btn.classList.add("active");
+              refreshPathExploration();
+            });
+          });
+
+        board.addEventListener("click", (e) => {
+          const node = e.target.closest(".path-explore-node[data-node-key]");
+          if (!node || e.target.closest(".path-explore-children")) return;
+          const key = node.dataset.nodeKey;
+          const inner = node.querySelector(
+            ":scope > .path-explore-node-card .path-explore-node-name .expand-icon",
+          );
+          if (!inner) return;
+          if (pathExploreState.expanded[key])
+            delete pathExploreState.expanded[key];
+          else pathExploreState.expanded[key] = true;
+          refreshPathExploration();
+        });
+
+        window.addEventListener("resize", drawPathExploreLinks);
+      }
+
+      function disposePathExploration() {
+        window.removeEventListener("resize", drawPathExploreLinks);
+        pathExploreState.expanded = {};
+      }
+
+      function renderAppAnalysisPage(page) {
+        switch (page.appPageType) {
+          case "page-path":
+            return renderAppPagePathContent(page);
+          case "feature-engagement":
+            return renderAppFeatureEngagementContent(page);
+          case "page-experience":
+            return renderAppPageExperienceContent(page);
+          case "usage-duration":
+            return renderAppUsageDurationContent(page);
+          case "usage-frequency":
+            return renderAppUsageFrequencyContent(page);
+          case "churn-page":
+            return renderAppChurnPageContent(page);
+          case "user-path-explore":
+            return renderAppUserPathExploreContent(page);
+          default:
+            return renderPlaceholderPage(page);
+        }
+      }
+
+      function initAppAnalysisPage() {
+        initLocalChannelFilters();
+        initAppPathSankey();
+        initAppChurnHeatmap();
+        initPathExploration();
+        initAppPageExperience();
+        document.querySelectorAll(".app-metric-tabs").forEach((tabs) => {
+          // 应用页面体验的指标切换由 refreshAppExperienceView 自行绑定
+          if (
+            tabs.closest("#appExperiencePanel") ||
+            tabs.id === "appExpMetricTabs" ||
+            tabs.parentElement?.id === "appExpMetricTabs"
+          ) {
+            return;
+          }
+          tabs.querySelectorAll(".tab-btn").forEach((btn) => {
+            btn.addEventListener("click", () => {
+              tabs
+                .querySelectorAll(".tab-btn")
+                .forEach((b) => b.classList.remove("active"));
+              btn.classList.add("active");
+            });
+          });
+        });
+      }
+
+      function renderPage(pageId) {
+        const page = PAGES[pageId];
+        if (!page) return;
+
+        disposeAppPathSankey();
+        disposeAppChurnHeatmap();
+        disposeAppExpHeatmap();
+        disposePathExploration();
+
+        const container = document.getElementById("pageContainer");
+        document.getElementById("breadcrumbTitle").textContent =
+          page.breadcrumb;
+
+        if (page.realtimePage) {
+          container.innerHTML = renderRealtimePage();
+          initRealtimeChart();
+          return;
+        }
+
+        if (page.appPageType) {
+          container.innerHTML = renderAppAnalysisPage(page);
+          initAppAnalysisPage();
+          return;
+        }
+
+        if (page.placeholder) {
+          container.innerHTML = `
+            ${renderGlobalFilterBar()}
+            ${renderPlaceholderPage(page)}
+          `;
+          initGlobalFilterBar();
+          return;
+        }
+
+        const hasKpi = pageHasKpiCards(page, pageId);
+        const hideChannelName = !!page.hideChannelNameFilter;
+        container.innerHTML = `
+          ${hasKpi ? (pageId === "overview" ? renderOverviewInsights() : renderAnalysisPanel(page)) : ""}
+          ${renderGlobalFilterBar()}
+          ${renderPageCharts(page, pageId)}
+          <div class="page-panel active" id="panel-${pageId}">
+            ${renderTable(page)}
+          </div>
+        `;
+
+        initGlobalFilterBar();
+        mountChartChannelFilters(hideChannelName);
+        initLocalChannelFilters();
+        initViewToggle();
+        if (pageId === "overview") initSurplusRateChart();
+      }
+
+      function initViewToggle() {
+        const toggle = document.querySelector(".view-toggle");
+        if (!toggle) return;
+        const tableView = document.getElementById("tableView");
+        const chartView = document.getElementById("chartView");
+        toggle.querySelectorAll(".vt-btn").forEach((btn) => {
+          btn.addEventListener("click", () => {
+            toggle
+              .querySelectorAll(".vt-btn")
+              .forEach((b) => b.classList.remove("active"));
+            btn.classList.add("active");
+            const isChart = btn.dataset.view === "chart";
+            if (chartView) chartView.hidden = !isChart;
+            if (tableView) tableView.hidden = isChart;
+          });
+        });
+      }
+
+      function clearMenuActive() {
+        document
+          .querySelectorAll(".menu-top, .menu-child, .menu-grandchild")
+          .forEach((el) => el.classList.remove("active"));
+      }
+
+      function setActivePage(pageId, options = {}) {
+        const { topEl, childEl, grandchildEl, group, subGroup } = options;
+        clearMenuActive();
+        if (grandchildEl) {
+          grandchildEl.classList.add("active");
+          subGroup
+            ?.querySelector(".menu-child.has-child")
+            ?.classList.add("active");
+          group?.querySelector(".menu-top")?.classList.add("active");
+        } else if (childEl) {
+          childEl.classList.add("active");
+          group?.querySelector(".menu-top")?.classList.add("active");
+        } else if (topEl) {
+          topEl.classList.add("active");
+        }
+        renderPage(pageId);
+      }
+
+      function initMenu() {
+        // 一级菜单（无子项）：经营总览、盈利分析
+        document.querySelectorAll(".menu-top[data-page]").forEach((top) => {
+          top.addEventListener("click", () => {
+            setActivePage(top.dataset.page, { topEl: top });
+          });
+        });
+
+        // 一级菜单（有子项）：点击展开/收起
+        document.querySelectorAll(".menu-group").forEach((group) => {
+          const top = group.querySelector(".menu-top.has-child");
+          if (!top) return;
+
+          top.addEventListener("click", () => {
+            const isExpanded = group.classList.contains("expanded");
+            if (isExpanded) {
+              group.classList.remove("expanded");
+              return;
+            }
+            group.classList.add("expanded");
+            // 优先打开第一个可展开二级菜单的首个子页
+            const firstSub = group.querySelector(".menu-sub-group");
+            if (firstSub) {
+              firstSub.classList.add("expanded");
+              const firstGrandchild =
+                firstSub.querySelector(".menu-grandchild");
+              if (firstGrandchild) {
+                setActivePage(firstGrandchild.dataset.page, {
+                  grandchildEl: firstGrandchild,
+                  subGroup: firstSub,
+                  group,
+                });
+                return;
+              }
+            }
+            const firstChild = group.querySelector(".menu-child[data-page]");
+            if (firstChild) {
+              setActivePage(firstChild.dataset.page, {
+                childEl: firstChild,
+                group,
+              });
+            }
+          });
+        });
+
+        // 二级菜单（可展开：用户生命周期）
+        document.querySelectorAll(".menu-sub-group").forEach((subGroup) => {
+          const child = subGroup.querySelector(".menu-child.has-child");
+          if (!child) return;
+
+          child.addEventListener("click", (e) => {
+            e.stopPropagation();
+            const group = subGroup.closest(".menu-group");
+            group.classList.add("expanded");
+
+            const isExpanded = subGroup.classList.contains("expanded");
+            if (isExpanded) {
+              subGroup.classList.remove("expanded");
+              return;
+            }
+            subGroup.classList.add("expanded");
+            const firstGrandchild = subGroup.querySelector(".menu-grandchild");
+            if (firstGrandchild) {
+              setActivePage(firstGrandchild.dataset.page, {
+                grandchildEl: firstGrandchild,
+                subGroup,
+                group,
+              });
+            }
+          });
+        });
+
+        // 三级菜单
+        document.querySelectorAll(".menu-grandchild").forEach((grandchild) => {
+          grandchild.addEventListener("click", (e) => {
+            e.stopPropagation();
+            const subGroup = grandchild.closest(".menu-sub-group");
+            const group = grandchild.closest(".menu-group");
+            group.classList.add("expanded");
+            subGroup.classList.add("expanded");
+            setActivePage(grandchild.dataset.page, {
+              grandchildEl: grandchild,
+              subGroup,
+              group,
+            });
+          });
+        });
+
+        // 二级菜单（直接跳转）
+        document.querySelectorAll(".menu-child[data-page]").forEach((child) => {
+          child.addEventListener("click", (e) => {
+            e.stopPropagation();
+            const group = child.closest(".menu-group");
+            group.classList.add("expanded");
+            setActivePage(child.dataset.page, { childEl: child, group });
+          });
+        });
+      }
+
+      // 初始化
+      initMenu();
+      renderPage("overview");
+    
