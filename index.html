@@ -1213,8 +1213,17 @@
         box-shadow: 0 0 0 2px rgba(22, 93, 255, 0.1);
       }
 
+      .filter-item select:disabled,
+      .filter-item input:disabled {
+        background: var(--arco-bg-3);
+        color: var(--arco-text-3);
+        cursor: not-allowed;
+        border-color: var(--border);
+        box-shadow: none;
+      }
+
       .filter-item-channel-name {
-        display: none;
+        display: flex;
       }
 
       .filter-item-channel-name.is-visible {
@@ -1236,6 +1245,58 @@
         display: flex;
         flex-direction: column;
         gap: 4px;
+      }
+      .game-name-select {
+        position: relative;
+        min-width: 160px;
+      }
+      .game-name-select .game-name-filter {
+        width: 100%;
+        padding-right: 28px;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%2386909c' d='M2.5 4.5L6 8l3.5-3.5'/%3E%3C/svg%3E");
+        background-repeat: no-repeat;
+        background-position: right 10px center;
+      }
+      .game-name-dropdown {
+        display: none;
+        position: absolute;
+        top: calc(100% + 4px);
+        left: 0;
+        right: 0;
+        z-index: 40;
+        max-height: 260px;
+        overflow: auto;
+        background: var(--arco-bg-1);
+        border: 1px solid var(--border);
+        border-radius: var(--arco-radius);
+        box-shadow: 0 4px 16px rgba(29, 33, 41, 0.12);
+        padding: 4px 0;
+      }
+      .game-name-dropdown.open {
+        display: block;
+      }
+      .game-name-option {
+        padding: 8px 12px;
+        font-size: 13px;
+        color: var(--arco-text-1);
+        cursor: pointer;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+      .game-name-option:hover,
+      .game-name-option.is-active {
+        background: var(--arco-primary-light, #e8f3ff);
+        color: var(--arco-primary);
+      }
+      .game-name-option.is-empty {
+        color: var(--arco-text-3);
+        cursor: default;
+      }
+      .game-name-option mark {
+        background: transparent;
+        color: var(--arco-primary);
+        font-weight: 600;
       }
 
       /* Arco Button */
@@ -1341,6 +1402,10 @@
         top: var(--group-row-height);
         font-weight: 500;
         font-size: 12px;
+      }
+
+      .data-table:not(.has-group-header) thead tr.col-row th {
+        top: 0;
       }
 
       .data-table thead tr.col-row th .sort-icon {
@@ -1464,6 +1529,16 @@
         background: var(--group-header-alt) !important;
       }
 
+      /* 投注玩家活跃分析：分类表头用同色实底与白色交替 */
+      .data-table.has-group-header thead tr.group-row th.g-base,
+      .data-table.has-group-header thead tr.group-row th.g-ga-structure {
+        background: #e3ecff !important;
+      }
+      .data-table.has-group-header thead tr.group-row th.g-ga-scale,
+      .data-table.has-group-header thead tr.group-row th.g-ga-value {
+        background: #ffffff !important;
+      }
+
       /* 分页 - Arco Pagination */
       .pagination {
         padding: 12px 20px;
@@ -1510,12 +1585,81 @@
         font-size: 14px;
       }
 
+      /* 经营总览 - 日期筛选（KPI 下方，吸顶） */
+      .overview-date-bar {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 12px 20px;
+        padding: 14px 20px;
+        margin: 0 -20px 16px;
+        background: var(--arco-bg-1);
+        border: 1px solid var(--border);
+        border-left: none;
+        border-right: none;
+        border-radius: 0;
+        box-shadow: var(--arco-shadow-light);
+        position: sticky;
+        top: 0;
+        z-index: 40;
+      }
+      .overview-date-bar .filter-item {
+        margin: 0;
+      }
+      .overview-range-tabs {
+        display: inline-flex;
+        border: 1px solid var(--border);
+        border-radius: 6px;
+        overflow: hidden;
+      }
+      .overview-range-tabs .range-tab {
+        padding: 6px 14px;
+        border: none;
+        background: var(--arco-bg-1);
+        color: var(--arco-text-2);
+        font-size: 13px;
+        cursor: pointer;
+        transition:
+          background 0.15s,
+          color 0.15s;
+      }
+      .overview-range-tabs .range-tab + .range-tab {
+        border-left: 1px solid var(--border);
+      }
+      .overview-range-tabs .range-tab:hover {
+        background: var(--arco-bg-3);
+      }
+      .overview-range-tabs .range-tab.active {
+        background: var(--arco-primary);
+        color: #fff;
+      }
+
       /* 经营总览 - Arco Statistic / Card */
+      .overview-kpi-block {
+        margin-bottom: 16px;
+      }
+      .overview-kpi-head {
+        display: flex;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 8px 16px;
+        margin-bottom: 10px;
+        color: var(--arco-text-3);
+        font-size: 12px;
+        line-height: 20px;
+      }
+      .overview-kpi-note {
+        color: var(--arco-text-3);
+      }
+      .overview-kpi-updated {
+        color: var(--arco-text-3);
+        font-variant-numeric: tabular-nums;
+      }
       .overview-insights {
         display: grid;
         grid-template-columns: repeat(4, minmax(0, 1fr));
         gap: 16px;
-        margin-bottom: 16px;
+        margin-bottom: 0;
       }
 
       .overview-insights .metric-card {
@@ -2078,6 +2222,24 @@
         gap: 8px;
       }
 
+      .chart-metrics {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        margin: 8px 0 4px;
+        padding: 0;
+        background: transparent;
+        font-size: 13px;
+        line-height: 20px;
+      }
+      .chart-metrics span {
+        padding: 0 6px;
+        border-radius: 4px;
+        background: rgba(21, 115, 255, 0.1);
+        color: #1573ff;
+        white-space: nowrap;
+      }
+
       .ga-chart-head {
         margin-bottom: 4px;
       }
@@ -2104,11 +2266,25 @@
       .ga-chart-expand-hint .ga-collapse-tip {
         display: none;
       }
-      .ga-chart-card.is-focused .ga-chart-expand-hint .ga-expand-tip {
+      .ga-chart-card.is-focused .ga-chart-expand-hint .ga-expand-tip,
+      .chart-card.is-focused .chart-expand-hint .ga-expand-tip {
         display: none;
       }
-      .ga-chart-card.is-focused .ga-chart-expand-hint .ga-collapse-tip {
+      .ga-chart-card.is-focused .ga-chart-expand-hint .ga-collapse-tip,
+      .chart-card.is-focused .chart-expand-hint .ga-collapse-tip {
         display: inline;
+      }
+      .chart-expand-hint {
+        flex-shrink: 0;
+        margin-left: auto;
+        color: var(--arco-text-3);
+        font-size: 12px;
+        font-weight: 400;
+        line-height: 20px;
+        white-space: nowrap;
+      }
+      .chart-expand-hint .ga-collapse-tip {
+        display: none;
       }
       .ga-chart-meta {
         display: flex;
@@ -2218,26 +2394,31 @@
         line-height: 20px;
       }
 
-      #gameStayCharts.ga-stay-rank-charts {
+      #gameStayCharts.ga-stay-rank-charts,
+      #gameActivityCharts.ga-stay-rank-charts {
         margin-bottom: 16px;
       }
-      #gameStayCharts.ga-stay-rank-charts .ga-chart-card {
+      #gameStayCharts.ga-stay-rank-charts .ga-chart-card,
+      #gameActivityCharts.ga-stay-rank-charts .ga-chart-card {
         max-height: calc(100vh - 200px);
         display: flex;
         flex-direction: column;
         overflow: hidden;
       }
-      #gameStayCharts.ga-stay-rank-charts .ga-chart-head {
+      #gameStayCharts.ga-stay-rank-charts .ga-chart-head,
+      #gameActivityCharts.ga-stay-rank-charts .ga-chart-head {
         flex-shrink: 0;
       }
-      #gameStayCharts.ga-stay-rank-charts .combo-chart {
+      #gameStayCharts.ga-stay-rank-charts .combo-chart,
+      #gameActivityCharts.ga-stay-rank-charts .combo-chart {
         flex: 1;
         min-height: 0;
         margin-top: 8px;
         display: flex;
         align-items: stretch;
       }
-      #gameStayCharts.ga-stay-rank-charts .combo-chart svg {
+      #gameStayCharts.ga-stay-rank-charts .combo-chart svg,
+      #gameActivityCharts.ga-stay-rank-charts .combo-chart svg {
         width: 100%;
         height: 100%;
         max-height: calc(100vh - 280px);
@@ -2255,7 +2436,9 @@
       }
       .game-metric-charts .ga-chart-expandable {
         cursor: pointer;
-        transition: border-color 0.15s ease, box-shadow 0.15s ease;
+        transition:
+          border-color 0.15s ease,
+          box-shadow 0.15s ease;
       }
       .game-metric-charts:not(.is-focus-mode) .ga-chart-expandable:hover {
         border-color: var(--arco-primary);
@@ -2276,60 +2459,90 @@
       .game-metric-charts.is-focus-mode .ga-chart-card.is-focused .combo-chart {
         margin-top: 12px;
       }
-      .game-metric-charts.is-focus-mode .ga-chart-card.is-focused .combo-chart svg {
+      .game-metric-charts.is-focus-mode
+        .ga-chart-card.is-focused
+        .combo-chart
+        svg {
         min-height: 420px;
       }
-      .game-metric-charts.is-focus-mode .ga-chart-card.is-focused .retain-matrix-wrap {
+      .game-metric-charts.is-focus-mode
+        .ga-chart-card.is-focused
+        .retain-matrix-wrap {
         max-height: none;
       }
       .game-metric-charts.is-focus-mode .ga-chart-card:not(.is-focused) {
         grid-column: 2;
         padding: 12px;
         min-height: 0;
-        transition: border-color 0.15s ease, box-shadow 0.15s ease;
+        transition:
+          border-color 0.15s ease,
+          box-shadow 0.15s ease;
       }
       .game-metric-charts.is-focus-mode .ga-chart-expandable:not(.is-focused) {
         cursor: pointer;
       }
-      .game-metric-charts.is-focus-mode .ga-chart-expandable:not(.is-focused):hover {
+      .game-metric-charts.is-focus-mode
+        .ga-chart-expandable:not(.is-focused):hover {
         border-color: var(--arco-primary);
         box-shadow: 0 0 0 1px var(--arco-primary-light);
       }
-      .game-metric-charts.is-focus-mode .ga-chart-static {
-        cursor: default;
+      .game-metric-charts.is-focus-mode .ga-chart-static:not(.is-focused) {
+        cursor: pointer;
       }
-      .game-metric-charts.is-focus-mode .ga-chart-card:not(.is-focused) .ga-chart-name {
+      .game-metric-charts.is-focus-mode
+        .ga-chart-card:not(.is-focused)
+        .ga-chart-name {
         font-size: 12px;
         font-weight: 600;
         line-height: 18px;
       }
-      .game-metric-charts.is-focus-mode .ga-chart-card:not(.is-focused) .ga-chart-meta,
-      .game-metric-charts.is-focus-mode .ga-chart-card:not(.is-focused) .ga-chart-expand-hint,
-      .game-metric-charts.is-focus-mode .ga-chart-card:not(.is-focused) .line-legend,
-      .game-metric-charts.is-focus-mode .ga-chart-card:not(.is-focused) .retain-matrix-wrap {
+      .game-metric-charts.is-focus-mode
+        .ga-chart-card:not(.is-focused)
+        .ga-chart-meta,
+      .game-metric-charts.is-focus-mode
+        .ga-chart-card:not(.is-focused)
+        .ga-chart-expand-hint,
+      .game-metric-charts.is-focus-mode
+        .ga-chart-card:not(.is-focused)
+        .line-legend,
+      .game-metric-charts.is-focus-mode
+        .ga-chart-card:not(.is-focused)
+        .retain-matrix-wrap {
         display: none;
       }
-      .game-metric-charts.is-focus-mode .ga-chart-card:not(.is-focused) .combo-chart {
+      .game-metric-charts.is-focus-mode
+        .ga-chart-card:not(.is-focused)
+        .combo-chart {
         margin-top: 6px;
       }
-      .game-metric-charts.is-focus-mode .ga-chart-card:not(.is-focused) .pie-wrap {
+      .game-metric-charts.is-focus-mode
+        .ga-chart-card:not(.is-focused)
+        .pie-wrap {
         flex-direction: column;
         align-items: flex-start;
         gap: 8px;
         margin-top: 8px;
         min-height: 0;
       }
-      .game-metric-charts.is-focus-mode .ga-chart-card:not(.is-focused) .pie-chart {
+      .game-metric-charts.is-focus-mode
+        .ga-chart-card:not(.is-focused)
+        .pie-chart {
         width: 64px;
         height: 64px;
       }
-      .game-metric-charts.is-focus-mode .ga-chart-card:not(.is-focused) .pie-legend {
+      .game-metric-charts.is-focus-mode
+        .ga-chart-card:not(.is-focused)
+        .pie-legend {
         gap: 4px;
       }
-      .game-metric-charts.is-focus-mode .ga-chart-card:not(.is-focused) .pie-legend-item {
+      .game-metric-charts.is-focus-mode
+        .ga-chart-card:not(.is-focused)
+        .pie-legend-item {
         font-size: 11px;
       }
-      .game-metric-charts.is-focus-mode .ga-chart-card:not(.is-focused) .pie-legend-item:last-child {
+      .game-metric-charts.is-focus-mode
+        .ga-chart-card:not(.is-focused)
+        .pie-legend-item:last-child {
         display: none;
       }
 
@@ -2343,6 +2556,173 @@
           min-height: 360px;
         }
         .game-metric-charts.is-focus-mode .ga-chart-card:not(.is-focused) {
+          grid-column: 1;
+        }
+      }
+
+      /* 经营总览：多图统一聚焦组（主图放大 + 右侧缩略切换） */
+      .overview-charts {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 16px;
+        margin-bottom: 16px;
+        align-items: start;
+      }
+      .overview-charts > .chart-card[data-chart-key="user-growth-trend"] {
+        grid-column: 1 / -1;
+      }
+      .overview-charts.is-focus-mode {
+        grid-template-columns: minmax(0, 1fr) 220px !important;
+      }
+      .overview-charts.is-focus-mode > .chart-card.is-focused {
+        grid-column: 1;
+        grid-row: 1 / span 8;
+      }
+      .overview-charts.is-focus-mode > .chart-card:not(.is-focused) {
+        grid-column: 2;
+      }
+      .overview-charts.is-focus-mode
+        > .chart-card:not(.is-focused)
+        .chart-metrics,
+      .chart-focus-group.is-focus-mode
+        .chart-card:not(.is-focused)
+        .chart-metrics {
+        display: none;
+      }
+      .overview-charts.is-focus-mode > .chart-card.is-focused .combo-chart svg,
+      .overview-charts.is-focus-mode > .chart-card.is-focused .ga-funnel svg {
+        min-height: 420px;
+      }
+
+      /* 全站图表聚焦放大（对齐投注参与度：主图放大 + 侧栏缩略） */
+      .chart-focus-group:not(.chart-grid) {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 16px;
+        margin-bottom: 16px;
+      }
+      .chart-focus-group.chart-focus-solo:not(.chart-grid) {
+        grid-template-columns: 1fr;
+      }
+      .chart-focus-group .chart-expandable {
+        cursor: pointer;
+        transition:
+          border-color 0.15s ease,
+          box-shadow 0.15s ease;
+      }
+      .game-metric-charts .ga-chart-static {
+        cursor: pointer;
+        transition:
+          border-color 0.15s ease,
+          box-shadow 0.15s ease;
+      }
+      .game-metric-charts:not(.is-focus-mode) .ga-chart-static:hover {
+        border-color: var(--arco-primary);
+        box-shadow: 0 0 0 1px var(--arco-primary-light);
+      }
+      .chart-focus-group:not(.is-focus-mode) .chart-expandable:hover {
+        border-color: var(--arco-primary);
+        box-shadow: 0 0 0 1px var(--arco-primary-light);
+      }
+      .chart-focus-group.is-focus-mode {
+        grid-template-columns: minmax(0, 1fr) 220px !important;
+        align-items: start;
+      }
+      .chart-focus-group.is-focus-mode.chart-focus-solo {
+        grid-template-columns: 1fr !important;
+      }
+      .chart-focus-group.is-focus-mode .chart-card.is-focused,
+      .chart-focus-group.is-focus-mode .realtime-panel.is-focused,
+      .chart-focus-group.is-focus-mode.chart-focus-solo
+        .chart-expandable.is-focused {
+        grid-column: 1;
+        grid-row: 1 / span 8;
+        min-height: 520px;
+        box-shadow: var(--arco-shadow-light);
+        border-color: var(--arco-primary);
+        cursor: zoom-out;
+      }
+      .chart-focus-group.is-focus-mode .chart-card.is-focused .combo-chart,
+      .chart-focus-group.is-focus-mode .chart-card.is-focused .pay-funnel {
+        margin-top: 12px;
+      }
+      .chart-focus-group.is-focus-mode .chart-card.is-focused .combo-chart svg {
+        min-height: 420px;
+      }
+      .chart-focus-group.is-focus-mode .chart-card.is-focused .app-path-sankey,
+      .chart-focus-group.is-focus-mode
+        .chart-card.is-focused
+        .app-churn-heatmap,
+      .chart-focus-group.is-focus-mode .chart-card.is-focused .app-exp-heatmap {
+        min-height: 420px;
+        height: 420px;
+      }
+      .chart-focus-group.is-focus-mode .chart-card:not(.is-focused) {
+        grid-column: 2;
+        padding: 12px;
+        min-height: 0;
+        transition:
+          border-color 0.15s ease,
+          box-shadow 0.15s ease;
+      }
+      .chart-focus-group.is-focus-mode .chart-expandable:not(.is-focused) {
+        cursor: pointer;
+      }
+      .chart-focus-group.is-focus-mode
+        .chart-expandable:not(.is-focused):hover {
+        border-color: var(--arco-primary);
+        box-shadow: 0 0 0 1px var(--arco-primary-light);
+      }
+      .chart-focus-group.is-focus-mode
+        .chart-card:not(.is-focused)
+        .chart-title {
+        font-size: 12px;
+        font-weight: 600;
+        line-height: 18px;
+      }
+      .chart-focus-group.is-focus-mode
+        .chart-card:not(.is-focused)
+        .chart-subtitle,
+      .chart-focus-group.is-focus-mode
+        .chart-card:not(.is-focused)
+        .chart-expand-hint,
+      .chart-focus-group.is-focus-mode
+        .chart-card:not(.is-focused)
+        .line-legend,
+      .chart-focus-group.is-focus-mode
+        .chart-card:not(.is-focused)
+        .filter-bar-local,
+      .chart-focus-group.is-focus-mode
+        .chart-card:not(.is-focused)
+        .chart-range-toggle,
+      .chart-focus-group.is-focus-mode
+        .chart-card:not(.is-focused)
+        .status-tag {
+        display: none;
+      }
+      .chart-focus-group.is-focus-mode
+        .chart-card:not(.is-focused)
+        .combo-chart {
+        margin-top: 6px;
+      }
+      .chart-focus-group.is-focus-mode.chart-focus-solo .realtime-chart-wrap {
+        min-height: 420px;
+      }
+      .chart-focus-group.is-focus-mode.chart-focus-solo
+        .realtime-chart-wrap
+        svg {
+        height: 420px;
+      }
+      @media (max-width: 960px) {
+        .chart-focus-group.is-focus-mode {
+          grid-template-columns: 1fr !important;
+        }
+        .chart-focus-group.is-focus-mode .chart-card.is-focused {
+          grid-column: 1;
+          grid-row: auto;
+          min-height: 360px;
+        }
+        .chart-focus-group.is-focus-mode .chart-card:not(.is-focused) {
           grid-column: 1;
         }
       }
@@ -2895,59 +3275,22 @@
 
       /* 渠道排行榜 */
       .rank-list {
-        margin-top: 16px;
-        display: grid;
-        gap: 12px;
+        margin-top: 12px;
       }
-      .rank-head,
-      .rank-row {
-        display: grid;
-        grid-template-columns: 88px 1fr 56px;
+      .rank-list .line-legend {
+        margin-top: 10px;
+      }
+      .filter-bar-channel-tabs {
+        flex-wrap: nowrap;
         align-items: center;
-        gap: 12px;
-        font-size: 13px;
       }
-      .rank-head {
-        color: var(--arco-text-3);
-        font-size: 12px;
-        padding-bottom: 4px;
-        border-bottom: 1px solid var(--border);
+      .filter-bar-channel-tabs .filter-item {
+        flex: 1;
+        min-width: 0;
+        flex-wrap: wrap;
       }
-      .rank-head span:nth-child(2) {
-        text-align: left;
-      }
-      .rank-head span:last-child {
-        text-align: right;
-      }
-      .rank-name {
-        color: var(--arco-text-1);
-        font-weight: 500;
-      }
-      .rank-bar {
-        height: 20px;
-        background: var(--arco-bg-3);
-        border-radius: 2px;
-        overflow: hidden;
-        position: relative;
-      }
-      .rank-fill {
-        height: 100%;
-        border-radius: 2px;
-        background: linear-gradient(90deg, #4080ff, #165dff);
-        display: flex;
-        align-items: center;
-        justify-content: flex-end;
-        padding-right: 8px;
-        color: #fff;
-        font-size: 11px;
-        font-variant-numeric: tabular-nums;
-        min-width: 40px;
-      }
-      .rank-rate {
-        text-align: right;
-        color: var(--arco-text-1);
-        font-weight: 500;
-        font-variant-numeric: tabular-nums;
+      .filter-bar-channel-tabs .channel-source-tabs {
+        flex-wrap: wrap;
       }
 
       @media (max-width: 1180px) {
@@ -2968,6 +3311,10 @@
           width: 200px;
         }
         .content {
+          padding: 12px;
+        }
+        .overview-date-bar {
+          margin: 0 -12px 12px;
           padding: 12px;
         }
         .overview-insights {
@@ -3041,7 +3388,6 @@
               <div class="menu-child" data-page="life-acquisition">
                 用户获取
               </div>
-              <div class="menu-child" data-page="life-activation">用户激活</div>
               <div class="menu-child" data-page="life-conversion">用户转化</div>
               <div class="menu-sub-group">
                 <div class="menu-child has-child">
@@ -3095,6 +3441,34 @@
             </div>
           </div>
 
+          <div class="menu-group">
+            <div class="menu-top" data-page="game-operation">游戏运营</div>
+          </div>
+
+          <div class="menu-group" data-group="profit">
+            <div class="menu-top has-child">
+              <span>盈利分析</span>
+              <span class="menu-arrow">▶</span>
+            </div>
+            <div class="submenu">
+              <div class="menu-child" data-page="profit-platform">平台收益</div>
+              <div class="menu-child" data-page="profit-user">用户盈利贡献</div>
+              <div class="menu-child" data-page="profit-game">游戏盈利效率</div>
+            </div>
+          </div>
+
+          <div class="menu-group" data-group="fund">
+            <div class="menu-top has-child">
+              <span>资金安全</span>
+              <span class="menu-arrow">▶</span>
+            </div>
+            <div class="submenu">
+              <div class="menu-child" data-page="fund-scale">资金规模监控</div>
+              <div class="menu-child" data-page="fund-flow">资金流动监控</div>
+              <div class="menu-child" data-page="fund-risk">提现风险监控</div>
+            </div>
+          </div>
+
           <div class="menu-group" data-group="app-analysis">
             <div class="menu-top has-child">
               <span>应用分析</span>
@@ -3125,45 +3499,23 @@
             </div>
           </div>
 
-          <div class="menu-group">
-            <div class="menu-top" data-page="game-operation">游戏运营</div>
-          </div>
-
           <div class="menu-group" data-group="game-analysis">
             <div class="menu-top has-child">
               <span>游戏分析</span>
               <span class="menu-arrow">▶</span>
             </div>
             <div class="submenu">
-              <div class="menu-child" data-page="game-activity">投注玩家活跃分析</div>
-              <div class="menu-child" data-page="game-participation">投注参与度</div>
-              <div class="menu-child" data-page="game-stay">投注用户停留分析</div>
+              <div class="menu-child" data-page="game-activity">
+                投注玩家活跃分析
+              </div>
+              <div class="menu-child" data-page="game-participation">
+                投注参与度
+              </div>
+              <div class="menu-child" data-page="game-stay">
+                投注用户停留分析
+              </div>
               <div class="menu-child" data-page="bet-report">投注报表</div>
               <div class="menu-child" data-page="game-value">游戏价值</div>
-            </div>
-          </div>
-
-          <div class="menu-group" data-group="profit">
-            <div class="menu-top has-child">
-              <span>盈利分析</span>
-              <span class="menu-arrow">▶</span>
-            </div>
-            <div class="submenu">
-              <div class="menu-child" data-page="profit-platform">平台收益</div>
-              <div class="menu-child" data-page="profit-user">用户盈利贡献</div>
-              <div class="menu-child" data-page="profit-game">游戏盈利效率</div>
-            </div>
-          </div>
-
-          <div class="menu-group" data-group="fund">
-            <div class="menu-top has-child">
-              <span>资金安全</span>
-              <span class="menu-arrow">▶</span>
-            </div>
-            <div class="submenu">
-              <div class="menu-child" data-page="fund-scale">资金规模监控</div>
-              <div class="menu-child" data-page="fund-flow">资金流动监控</div>
-              <div class="menu-child" data-page="fund-risk">提现风险监控</div>
             </div>
           </div>
         </nav>
@@ -3187,9 +3539,8 @@
             <div class="header-platform-filter">
               <label for="globalPlatformFilter">所属平台</label>
               <select id="globalPlatformFilter">
-                <option selected>T1-A</option>
-                <option>T1-B</option>
-                <option>R1</option>
+                <option selected>T1</option>
+                <option>CEO</option>
               </select>
             </div>
             <span class="header-badge">数据正常</span>
@@ -3233,16 +3584,18 @@
           breadcrumb: "经营总览",
           stickyCols: STICKY_COLS,
           overviewFunnelChart: true,
-          groups: [
-            { name: "基础", cls: "g-base", cols: BASE_COLS },
-            {
-              name: "用户",
-              cls: "g-user",
-              cols: ["安装人数(非去重)", "安装人数", "绑定人数", "日活跃人数"],
-            },
-            { name: "收入", cls: "g-income", cols: ["充值人数", "充值金额"] },
-            { name: "支出", cls: "g-expense", cols: ["提现金额", "活动奖金"] },
-            { name: "盈利", cls: "g-profit", cols: ["平台游戏输赢", "盈余率"] },
+          cols: [
+            ...BASE_COLS,
+            "安装人数(非去重)",
+            "安装人数",
+            "绑定人数",
+            "日活跃人数",
+            "充值人数",
+            "充值金额",
+            "提现金额",
+            "活动奖金",
+            "平台游戏输赢",
+            "盈余率",
           ],
           sampleData: [
             [
@@ -3304,8 +3657,8 @@
           title: "用户获取",
           breadcrumb: "用户生命周期 / 用户获取",
           stickyCols: STICKY_COLS,
-          chartView: true,
-          question: "看量 · 用户从哪来、来了多少",
+          acquisitionCharts: true,
+          question: "",
           insights: [
             {
               label: "安装人数",
@@ -3316,7 +3669,7 @@
               tagType: "success",
             },
             {
-              label: "新增用户数",
+              label: "新增注册人数",
               value: "9,120",
               trend: "5.4% 日环比",
               dir: "up",
@@ -3336,152 +3689,17 @@
               tagType: "warning",
             },
           ],
-          groups: [
-            { name: "基础", cls: "g-base", cols: BASE_COLS },
-            {
-              name: "安装用户",
-              cls: "g-user",
-              cols: ["安装人数(非去重)", "安装人数", "新增设备数"],
-            },
-            {
-              name: "注册用户",
-              cls: "g-income",
-              cols: ["新增用户数", "绑定人数", "注册转化率"],
-            },
+          cols: [
+            ...BASE_COLS,
+            "安装人数",
+            "新增注册人数",
+            "绑定人数",
+            "注册转化率",
           ],
           sampleData: [
-            [
-              "2025-07-17",
-              "投放",
-              "投放01",
-              "T1-A",
-              12580,
-              10230,
-              9850,
-              9120,
-              8960,
-              "71.2%",
-            ],
-            [
-              "2025-07-16",
-              "裂变",
-              "裂变01",
-              "T1-A",
-              11890,
-              9680,
-              9320,
-              8650,
-              8520,
-              "71.7%",
-            ],
-            [
-              "2025-07-15",
-              "官网",
-              "官网01",
-              "T1-B",
-              10230,
-              8450,
-              8120,
-              7820,
-              7680,
-              "75.1%",
-            ],
-          ],
-        },
-        "life-activation": {
-          title: "用户激活",
-          breadcrumb: "用户生命周期 / 用户激活",
-          stickyCols: STICKY_COLS,
-          activationCharts: true,
-          question: "看激活 · 新用户来了有没有动起来",
-          insights: [
-            {
-              label: "新用户DAU",
-              value: "7,820",
-              trend: "4.2% 日环比",
-              dir: "up",
-            },
-            {
-              label: "新用户活跃率",
-              value: "85.7%",
-              trend: "0.5% 日环比",
-              dir: "up",
-              tag: "活跃",
-              tagType: "success",
-            },
-            {
-              label: "新用户游戏人数",
-              value: "6,980",
-              trend: "3.8% 日环比",
-              dir: "up",
-            },
-            {
-              label: "首充人数",
-              value: "860",
-              trend: "6.2% 日环比",
-              dir: "up",
-              tag: "转化",
-              tagType: "info",
-            },
-          ],
-          groups: [
-            { name: "基础", cls: "g-base", cols: BASE_COLS },
-            {
-              name: "激活用户",
-              cls: "g-user",
-              cols: [
-                "新用户登录人数",
-                "新用户DAU",
-                "新用户活跃率",
-                "新用户游戏人数",
-              ],
-            },
-            {
-              name: "新用户行为",
-              cls: "g-income",
-              cols: ["首次游戏人数", "首次投注人数", "首充人数"],
-            },
-          ],
-          sampleData: [
-            [
-              "2025-07-17",
-              "投放",
-              "投放01",
-              "T1-A",
-              8650,
-              7820,
-              "85.7%",
-              6980,
-              6980,
-              5240,
-              860,
-            ],
-            [
-              "2025-07-16",
-              "裂变",
-              "裂变01",
-              "T1-A",
-              8120,
-              7350,
-              "85.0%",
-              6540,
-              6540,
-              4920,
-              810,
-            ],
-            [
-              "2025-07-15",
-              "官网",
-              "官网01",
-              "T1-B",
-              7280,
-              6650,
-              "85.1%",
-              5980,
-              5980,
-              4480,
-              720,
-            ],
+            ["2025-07-17", "投放", "投放01", "T1-A", 10230, 9120, 8960, "71.2%"],
+            ["2025-07-16", "裂变", "裂变01", "T1-A", 9680, 8650, 8520, "71.7%"],
+            ["2025-07-15", "官网", "官网01", "T1-B", 8450, 7820, 7680, "75.1%"],
           ],
         },
         "life-conversion": {
@@ -4739,25 +4957,168 @@
 
       function renderSourceChannelFilter() {
         return (
-          `<option value="" selected>请选择</option>` +
+          `<option value="全部" selected>全部</option>` +
           SOURCE_CHANNEL_OPTIONS.map(
             (name) => `<option value="${name}">${name}</option>`,
           ).join("")
         );
       }
 
-      function renderGlobalFilterBar() {
+      function renderGlobalFilterBar(activeRange = "7d") {
+        // 与经营总览统一的时间筛选条（近7/14/30天 + 日期区间）
+        return renderOverviewDateBar(activeRange);
+      }
+
+      function getOverviewRangeDates(range) {
+        const end = new Date();
+        end.setHours(0, 0, 0, 0);
+        const start = new Date(end);
+        if (range === "14d") start.setDate(end.getDate() - 13);
+        else if (range === "30d") start.setDate(end.getDate() - 29);
+        else start.setDate(end.getDate() - 6); // 7d 默认
+        return {
+          start: formatDateYMD(start),
+          end: formatDateYMD(end),
+        };
+      }
+
+      function renderOverviewDateBar(activeRange = "7d") {
+        const { start, end } = getOverviewRangeDates(activeRange);
         return `
-        <div class="filter-bar filter-bar-global" id="globalFilterBar">
+        <div class="overview-date-bar" id="overviewDateBar">
+          <div class="overview-range-tabs" role="tablist" aria-label="时间范围快捷切换">
+            <button type="button" class="range-tab${activeRange === "7d" ? " active" : ""}" data-range="7d" role="tab" aria-selected="${activeRange === "7d"}">近7天</button>
+            <button type="button" class="range-tab${activeRange === "14d" ? " active" : ""}" data-range="14d" role="tab" aria-selected="${activeRange === "14d"}">近14天</button>
+            <button type="button" class="range-tab${activeRange === "30d" ? " active" : ""}" data-range="30d" role="tab" aria-selected="${activeRange === "30d"}">近30天</button>
+          </div>
           <div class="filter-item">
             <label>时间</label>
-            <input type="date" id="globalStartDate" value="2025-07-11" />
+            <input type="date" id="globalStartDate" value="${start}" />
             <span>—</span>
-            <input type="date" id="globalEndDate" value="2025-07-17" />
+            <input type="date" id="globalEndDate" value="${end}" />
           </div>
           <button class="btn btn-primary" type="button" id="globalFilterQuery">查询</button>
-          <button class="btn btn-reset" type="button" id="globalFilterReset">重置</button>
         </div>`;
+      }
+
+      function initOverviewDateBar() {
+        const bar = document.getElementById("overviewDateBar");
+        if (!bar) return;
+        const startDate = document.getElementById("globalStartDate");
+        const endDate = document.getElementById("globalEndDate");
+        const tabs = bar.querySelectorAll(".range-tab");
+        const queryBtn = document.getElementById("globalFilterQuery");
+
+        const setActiveRange = (range) => {
+          tabs.forEach((tab) => {
+            const active = tab.dataset.range === range;
+            tab.classList.toggle("active", active);
+            tab.setAttribute("aria-selected", active ? "true" : "false");
+          });
+        };
+
+        const applyRange = (range) => {
+          const { start, end } = getOverviewRangeDates(range);
+          if (startDate) startDate.value = start;
+          if (endDate) endDate.value = end;
+          setActiveRange(range);
+          refreshOverviewByGlobalFilter();
+        };
+
+        tabs.forEach((tab) => {
+          tab.addEventListener("click", () => applyRange(tab.dataset.range));
+        });
+
+        const clearTabActive = () => setActiveRange("");
+        startDate?.addEventListener("change", clearTabActive);
+        endDate?.addEventListener("change", clearTabActive);
+
+        queryBtn?.addEventListener("click", () => {
+          refreshOverviewByGlobalFilter();
+        });
+
+        refreshOverviewByGlobalFilter();
+      }
+
+      function getOverviewFilterRange() {
+        let start = document.getElementById("globalStartDate")?.value;
+        let end = document.getElementById("globalEndDate")?.value;
+        if (!start || !end) {
+          return getOverviewRangeDates("7d");
+        }
+        if (parseYMD(end) < parseYMD(start)) {
+          [start, end] = [end, start];
+        }
+        return { start, end };
+      }
+
+      function getOverviewSurplusSubtitle(start, end) {
+        const activeTab = document.querySelector(
+          "#overviewDateBar .range-tab.active",
+        );
+        const range = activeTab?.dataset.range;
+        if (range === "7d") return "近7日盈余率走势";
+        if (range === "14d") return "近14日盈余率走势";
+        if (range === "30d") return "近30日盈余率走势";
+        if (start === end) return `${start} 盈余率走势`;
+        return `${start} 至 ${end} 盈余率走势`;
+      }
+
+      function refreshOverviewByGlobalFilter() {
+        const { start, end } = getOverviewFilterRange();
+        const dayCount = eachDateInclusive(start, end).length;
+        const endDate = parseYMD(end);
+        const rangeSuffix = (() => {
+          const activeTab = document.querySelector(
+            "#overviewDateBar .range-tab.active",
+          );
+          const range = activeTab?.dataset.range;
+          if (range === "7d") return "近7日";
+          if (range === "14d") return "近14日";
+          if (range === "30d") return "近30日";
+          if (start === end) return start;
+          return `${start} 至 ${end}`;
+        })();
+
+        const profitWrap = document.getElementById("profitAbilityChartWrap");
+        if (profitWrap) {
+          profitWrap.innerHTML = renderPlatformProfitAbilityChart(
+            dayCount,
+            endDate,
+          );
+          const sub = document.getElementById("profitAbilitySubtitle");
+          if (sub)
+            sub.textContent = `${rangeSuffix}平台整体盈利能力与经营健康状态`;
+        }
+
+        const fundWrap = document.getElementById("fundFlowTrendChartWrap");
+        if (fundWrap) {
+          fundWrap.innerHTML = renderPlatformFundFlowTrendChart(
+            dayCount,
+            endDate,
+          );
+          const sub = document.getElementById("fundFlowSubtitle");
+          if (sub)
+            sub.textContent = `${rangeSuffix}平台资金流动及运营成本变化情况`;
+        }
+
+        const growthWrap = document.getElementById("userGrowthTrendChartWrap");
+        if (growthWrap) {
+          growthWrap.innerHTML = renderUserGrowthTrendChart(dayCount, endDate);
+          const sub = document.getElementById("userGrowthSubtitle");
+          if (sub) sub.textContent = `${rangeSuffix}平台用户增长效果`;
+        }
+
+        const surplusWrap = document.getElementById("surplusRateChartWrap");
+        if (surplusWrap) {
+          surplusWrap.innerHTML = renderSurplusRateTrend(dayCount, endDate);
+          const subtitle = document.getElementById("surplusRateSubtitle");
+          if (subtitle) {
+            subtitle.textContent = getOverviewSurplusSubtitle(start, end);
+          }
+        }
+
+        bindSvgChartTooltips(document.getElementById("pageContainer"));
       }
 
       function renderLocalChannelFilter(id, { hideChannelName = false } = {}) {
@@ -4775,49 +5136,373 @@
               : `
           <div class="filter-item filter-item-channel-name local-channel-name-wrap" data-filter-id="${id}">
             <label>渠道名</label>
-            <input type="text" class="local-channel-name" data-filter-id="${id}" list="channelNameList-${id}" placeholder="请先选择来源渠道" autocomplete="off" />
-            <datalist id="channelNameList-${id}"></datalist>
+            <select class="local-channel-name" data-filter-id="${id}" disabled>
+              <option value="">全部</option>
+            </select>
           </div>`
           }
         </div>`;
       }
 
+      /** 渠道排行榜：来源渠道横向 Tab 筛选 */
+      function renderHorizontalChannelFilter(id) {
+        const opts = ["全部", ...SOURCE_CHANNEL_OPTIONS];
+        return `
+        <div class="filter-bar filter-bar-local filter-bar-channel-tabs" data-local-filter="${id}">
+          <div class="filter-item">
+            <label>来源渠道</label>
+            <div class="overview-range-tabs channel-source-tabs" role="tablist" aria-label="来源渠道">
+              ${opts
+                .map(
+                  (name, i) =>
+                    `<button type="button" class="range-tab${i === 0 ? " active" : ""}" data-source="${name}" role="tab" aria-selected="${i === 0 ? "true" : "false"}">${name}</button>`,
+                )
+                .join("")}
+            </div>
+            <select class="local-source-channel" data-filter-id="${id}" hidden aria-hidden="true">
+              ${opts.map((name) => `<option value="${name}">${name}</option>`).join("")}
+            </select>
+          </div>
+        </div>`;
+      }
+
+      function isAllSourceChannel(source) {
+        return !source || source === "全部";
+      }
+
+      function getLocalChannelFilterState(scope) {
+        const sourceSelect = scope.querySelector(".local-source-channel");
+        const nameEl = scope.querySelector(".local-channel-name");
+        const source = sourceSelect?.value || "全部";
+        const name = isAllSourceChannel(source) ? "" : nameEl?.value || "";
+        return { source, name };
+      }
+
+      function filterRowsByChannel(
+        rows,
+        source,
+        name,
+        colSource = 1,
+        colName = 2,
+      ) {
+        return (rows || []).filter((row) => {
+          if (!isAllSourceChannel(source) && row[colSource] !== source) {
+            return false;
+          }
+          if (name && row[colName] !== name) return false;
+          return true;
+        });
+      }
+
+      function channelFilterScale({ source, name }) {
+        let factor = 1;
+        if (!isAllSourceChannel(source)) {
+          factor *= 0.52 + ((source.length * 17) % 40) / 100;
+        }
+        if (name) {
+          factor *= 0.38 + ((name.length * 13) % 35) / 100;
+        }
+        return factor;
+      }
+
+      function syncLocalChannelNameOptions(sourceSelect, nameEl, nameList) {
+        if (!nameEl) return { cleared: false };
+        const source = sourceSelect.value;
+        const isAll = isAllSourceChannel(source);
+        const prev = nameEl.value || "";
+        let cleared = false;
+
+        if (nameEl.tagName === "SELECT") {
+          const names = isAll ? [] : CHANNEL_NAME_MAP[source] || [];
+          nameEl.innerHTML =
+            `<option value="">全部</option>` +
+            names.map((n) => `<option value="${n}">${n}</option>`).join("");
+          if (isAll) {
+            if (prev) cleared = true;
+            nameEl.value = "";
+            nameEl.disabled = true;
+          } else {
+            nameEl.disabled = false;
+            if (prev && names.includes(prev)) {
+              nameEl.value = prev;
+            } else {
+              if (prev) cleared = true;
+              nameEl.value = "";
+            }
+          }
+          return { cleared };
+        }
+
+        // input + datalist（游戏分析 / 应用分析等）
+        if (isAll) {
+          if (prev) cleared = true;
+          nameEl.value = "";
+          nameEl.disabled = true;
+          nameEl.placeholder = "请先选择来源渠道";
+          if (nameList) nameList.innerHTML = "";
+        } else {
+          nameEl.disabled = false;
+          nameEl.placeholder = `搜索渠道名，如 ${source}01`;
+          const names = CHANNEL_NAME_MAP[source] || [];
+          if (nameList) {
+            nameList.innerHTML = names
+              .map((n) => `<option value="${n}"></option>`)
+              .join("");
+          }
+          if (prev && !names.includes(prev)) {
+            nameEl.value = "";
+            cleared = true;
+          }
+        }
+        return { cleared };
+      }
+
+      function refreshTableByChannelFilter(scope) {
+        const panel = scope.closest(".page-panel");
+        if (!panel) return;
+        const pageId = (panel.id || "").replace(/^panel-/, "");
+        const page = PAGES[pageId];
+        if (!page?.sampleData) return;
+        const tbody = panel.querySelector(".data-table tbody");
+        if (!tbody) return;
+
+        const { source, name } = getLocalChannelFilterState(scope);
+        const stickyCount = page.stickyCols || 1;
+        const rows = filterRowsByChannel(page.sampleData, source, name);
+        tbody.innerHTML = rows
+          .map((row) => {
+            let html = "<tr>";
+            row.forEach((cell, i) => {
+              html += `<td class="${getStickyClass(i, stickyCount)}">${formatNumber(cell)}</td>`;
+            });
+            html += "</tr>";
+            return html;
+          })
+          .join("");
+      }
+
+      function refreshChartCardByChannelFilter(card) {
+        if (!card) return;
+        const scope = card.querySelector("[data-local-filter]") || card;
+        const values = getLocalChannelFilterState(scope);
+        const factor = channelFilterScale(values);
+
+        const surplusWrap = card.querySelector("#surplusRateChartWrap");
+        if (surplusWrap) {
+          const { start, end } = getOverviewFilterRange();
+          const dayCount = eachDateInclusive(start, end).length;
+          surplusWrap.innerHTML = renderSurplusRateTrend(
+            dayCount,
+            parseYMD(end),
+          );
+          const subtitle = card.querySelector("#surplusRateSubtitle");
+          if (subtitle) {
+            const baseText = getOverviewSurplusSubtitle(start, end);
+            const suffix = !isAllSourceChannel(values.source)
+              ? values.name
+                ? ` · ${values.source}/${values.name}`
+                : ` · ${values.source}`
+              : "";
+            subtitle.textContent = baseText + suffix;
+          }
+          if (factor !== 1) {
+            surplusWrap.querySelectorAll("polyline").forEach((p) => {
+              p.setAttribute("stroke-opacity", String(0.75 + factor * 0.25));
+            });
+          }
+          return;
+        }
+
+        const titleText = card.querySelector(".chart-title")?.textContent || "";
+        if (titleText.includes("漏斗")) {
+          const steps = [
+            { name: "安装人数", value: Math.round(10230 * factor) },
+            { name: "绑定人数", value: Math.round(8960 * factor) },
+            { name: "DAU", value: Math.round(15680 * factor) },
+            { name: "充值人数", value: Math.round(3280 * factor) },
+            { name: "投注人数", value: Math.round(8950 * factor) },
+          ];
+          const html = renderFunnelChart(steps);
+          const oldFunnel = card.querySelector(".ga-funnel");
+          if (oldFunnel) {
+            oldFunnel.outerHTML = html;
+          } else {
+            const filterBar = card.querySelector(".filter-bar-local");
+            if (filterBar) filterBar.insertAdjacentHTML("afterend", html);
+          }
+          return;
+        }
+
+        if (titleText.includes("盈利能力分析")) {
+          const wrap = card.querySelector("#profitAbilityChartWrap");
+          const subtitle = card.querySelector("#profitAbilitySubtitle");
+          if (wrap) {
+            const { start, end } = getOverviewFilterRange();
+            const dayCount = eachDateInclusive(start, end).length;
+            wrap.innerHTML = renderPlatformProfitAbilityChart(
+              dayCount,
+              parseYMD(end),
+            );
+          }
+          if (subtitle) {
+            const suffix = !isAllSourceChannel(values.source)
+              ? values.name
+                ? ` · ${values.source}/${values.name}`
+                : ` · ${values.source}`
+              : "";
+            subtitle.textContent = `平台游戏输赢与盈余率` + suffix;
+          }
+          if (factor !== 1) {
+            wrap?.querySelectorAll("rect, polyline, circle").forEach((el) => {
+              el.setAttribute("opacity", String(0.75 + factor * 0.25));
+            });
+          }
+          return;
+        }
+
+        if (titleText.includes("资金流转趋势")) {
+          const wrap = card.querySelector("#fundFlowTrendChartWrap");
+          const subtitle = card.querySelector("#fundFlowSubtitle");
+          if (wrap) {
+            const { start, end } = getOverviewFilterRange();
+            const dayCount = eachDateInclusive(start, end).length;
+            wrap.innerHTML = renderPlatformFundFlowTrendChart(
+              dayCount,
+              parseYMD(end),
+            );
+          }
+          if (subtitle) {
+            const suffix = !isAllSourceChannel(values.source)
+              ? values.name
+                ? ` · ${values.source}/${values.name}`
+                : ` · ${values.source}`
+              : "";
+            subtitle.textContent = `充值、提现与活动奖金趋势` + suffix;
+          }
+          if (factor !== 1) {
+            wrap?.querySelectorAll("polyline, circle").forEach((el) => {
+              el.setAttribute("stroke-opacity", String(0.75 + factor * 0.25));
+            });
+          }
+          return;
+        }
+
+        if (titleText.includes("用户增长趋势")) {
+          const wrap = card.querySelector("#userGrowthTrendChartWrap");
+          const subtitle = card.querySelector("#userGrowthSubtitle");
+          if (wrap) {
+            const { start, end } = getOverviewFilterRange();
+            const dayCount = eachDateInclusive(start, end).length;
+            wrap.innerHTML = renderUserGrowthTrendChart(
+              dayCount,
+              parseYMD(end),
+            );
+          }
+          if (subtitle) {
+            const suffix = !isAllSourceChannel(values.source)
+              ? values.name
+                ? ` · ${values.source}/${values.name}`
+                : ` · ${values.source}`
+              : "";
+            subtitle.textContent = `安装、绑定与日活跃人数趋势` + suffix;
+          }
+          if (factor !== 1) {
+            wrap?.querySelectorAll("polyline, circle").forEach((el) => {
+              el.setAttribute("stroke-opacity", String(0.75 + factor * 0.25));
+            });
+          }
+          return;
+        }
+
+        if (titleText.includes("渠道排行")) {
+          const rankHost = card.querySelector(".rank-list");
+          if (rankHost) {
+            rankHost.outerHTML = renderChannelRank({
+              source: values.source,
+              channelName: values.name,
+            });
+          }
+          return;
+        }
+      }
+
+      function refreshModuleByChannelFilter(scope) {
+        if (!scope) return;
+        const card = scope.closest(".chart-card");
+        if (card) {
+          refreshChartCardByChannelFilter(card);
+          bindSvgChartTooltips(card);
+          return;
+        }
+        refreshTableByChannelFilter(scope);
+      }
+
       function bindLocalChannelFilter(scope) {
         const sourceSelect = scope.querySelector(".local-source-channel");
         if (!sourceSelect) return;
+        if (sourceSelect.dataset.channelFilterBound === "1") return;
+        sourceSelect.dataset.channelFilterBound = "1";
+
         const filterId = sourceSelect.dataset.filterId;
         const nameWrap = scope.querySelector(
           `.local-channel-name-wrap[data-filter-id="${filterId}"]`,
         );
-        const nameInput = scope.querySelector(
+        const nameEl = scope.querySelector(
           `.local-channel-name[data-filter-id="${filterId}"]`,
         );
         const nameList = scope.querySelector(`#channelNameList-${filterId}`);
 
-        const updateChannelNameFilter = () => {
-          if (!nameWrap || !nameInput || !nameList) return;
-          const source = sourceSelect.value;
-          if (!source) {
-            nameWrap.classList.remove("is-visible");
-            nameInput.value = "";
-            nameList.innerHTML = "";
-            return;
-          }
-          nameWrap.classList.add("is-visible");
-          nameInput.placeholder = `搜索渠道名，如 ${source}01`;
-          const names = CHANNEL_NAME_MAP[source] || [];
-          nameList.innerHTML = names
-            .map((n) => `<option value="${n}"></option>`)
-            .join("");
+        if (nameWrap) nameWrap.classList.add("is-visible");
+
+        const applySourceChange = () => {
+          syncLocalChannelNameOptions(sourceSelect, nameEl, nameList);
+          refreshModuleByChannelFilter(scope);
         };
 
-        sourceSelect.addEventListener("change", updateChannelNameFilter);
+        const applyNameChange = () => {
+          // ⑤ 清空账号 / ④ 选择具体账号：都刷新
+          refreshModuleByChannelFilter(scope);
+        };
+
+        // 初始化：全部时置灰渠道名
+        syncLocalChannelNameOptions(sourceSelect, nameEl, nameList);
+
+        sourceSelect.addEventListener("change", applySourceChange);
+        nameEl?.addEventListener("change", applyNameChange);
+        // 文本输入场景：失焦或回车也刷新
+        if (nameEl && nameEl.tagName === "INPUT") {
+          nameEl.addEventListener("keydown", (e) => {
+            if (e.key === "Enter") {
+              e.preventDefault();
+              applyNameChange();
+            }
+          });
+          nameEl.addEventListener("blur", applyNameChange);
+        }
+
+        // 横向 Tab 筛选（渠道排行榜）
+        const tabs = scope.querySelectorAll(".channel-source-tabs .range-tab");
+        if (tabs.length) {
+          tabs.forEach((tab) => {
+            tab.addEventListener("click", () => {
+              const source = tab.dataset.source || "全部";
+              tabs.forEach((t) => {
+                const active = t === tab;
+                t.classList.toggle("active", active);
+                t.setAttribute("aria-selected", active ? "true" : "false");
+              });
+              sourceSelect.value = source;
+              applySourceChange();
+            });
+          });
+        }
       }
 
       function initLocalChannelFilters() {
         document
           .querySelectorAll("[data-local-filter]")
           .forEach((scope) => bindLocalChannelFilter(scope));
+        initGameNameSearchFilters(document);
       }
 
       function mountChartChannelFilters(hideChannelName = false) {
@@ -4840,16 +5525,8 @@
       }
 
       function initGlobalFilterBar() {
-        const resetBtn = document.getElementById("globalFilterReset");
-        const platform = document.getElementById("globalPlatformFilter");
-        const startDate = document.getElementById("globalStartDate");
-        const endDate = document.getElementById("globalEndDate");
-        if (!resetBtn) return;
-        resetBtn.addEventListener("click", () => {
-          if (platform) platform.value = "T1-A";
-          if (startDate) startDate.value = "2025-07-11";
-          if (endDate) endDate.value = "2025-07-17";
-        });
+        // 与经营总览共用日期栏交互；非总览页无对应图表时 refresh 会安全跳过
+        initOverviewDateBar();
       }
 
       function pageHasKpiCards(page, pageId) {
@@ -4858,25 +5535,30 @@
       }
 
       function renderTable(page) {
-        const allCols = page.groups.flatMap((g) => g.cols);
+        const groups = page.groups || null;
+        const allCols = groups
+          ? groups.flatMap((g) => g.cols)
+          : page.cols || [];
         const stickyCount = page.stickyCols || 1;
         let colOffset = 0;
 
         let groupRow = "";
-        page.groups.forEach((g) => {
-          const groupStart = colOffset;
-          const groupEnd = colOffset + g.cols.length;
-          const stickyColsInGroup = Math.max(
-            0,
-            Math.min(groupEnd, stickyCount) - groupStart,
-          );
-          const stickyCls =
-            stickyColsInGroup === g.cols.length && stickyColsInGroup > 0
-              ? " sticky-group-head"
-              : "";
-          groupRow += `<th class="${g.cls}${stickyCls}" colspan="${g.cols.length}">${g.name}</th>`;
-          colOffset = groupEnd;
-        });
+        if (groups) {
+          groups.forEach((g) => {
+            const groupStart = colOffset;
+            const groupEnd = colOffset + g.cols.length;
+            const stickyColsInGroup = Math.max(
+              0,
+              Math.min(groupEnd, stickyCount) - groupStart,
+            );
+            const stickyCls =
+              stickyColsInGroup === g.cols.length && stickyColsInGroup > 0
+                ? " sticky-group-head"
+                : "";
+            groupRow += `<th class="${g.cls}${stickyCls}" colspan="${g.cols.length}">${g.name}</th>`;
+            colOffset = groupEnd;
+          });
+        }
 
         let colRow = "";
         allCols.forEach((col, i) => {
@@ -4914,9 +5596,9 @@
         </div>
         <div class="table-view" id="tableView">
           <div class="table-wrap">
-            <table class="data-table">
+            <table class="data-table${groups ? " has-group-header" : ""}">
               <thead>
-                <tr class="group-row">${groupRow}</tr>
+                ${groups ? `<tr class="group-row">${groupRow}</tr>` : ""}
                 <tr class="col-row">${colRow}</tr>
               </thead>
               <tbody>${bodyRows}</tbody>
@@ -4931,29 +5613,29 @@
             <span class="pagination-info">共 28 条</span>
           </div>
         </div>
-        ${page.chartView ? `<div class="chart-view" id="chartView" hidden>${renderAcquisitionTrendChart()}</div>` : ""}
+        ${page.chartView ? `<div class="chart-view" id="chartView" hidden>${renderAcquisitionTrendChart({ hideChannelName: !!page.hideChannelNameFilter })}</div>` : ""}
       `;
       }
 
       function renderComboChart() {
         const labels = [
-          "07/11",
-          "07/12",
-          "07/13",
-          "07/14",
-          "07/15",
-          "07/16",
-          "07/17",
+          "07-11",
+          "07-12",
+          "07-13",
+          "07-14",
+          "07-15",
+          "07-16",
+          "07-17",
         ];
         const install = [8450, 9200, 9680, 10230, 11100, 11890, 12580];
         const newUsers = [6320, 6800, 7250, 7680, 8300, 8650, 9120];
         const convRate = [75.1, 74.2, 73.5, 72.8, 72.4, 71.7, 71.2];
 
         const W = 760,
-          H = 300,
+          H = 200,
           padL = 52,
           padR = 52,
-          padT = 24,
+          padT = 36,
           padB = 40;
         const plotW = W - padL - padR;
         const plotH = H - padT - padB;
@@ -4976,10 +5658,15 @@
           rightAxis += `<text class="axis-label" x="${W - padR + 8}" y="${y + 3}" text-anchor="start">${rightMax - (rightMax / 4) * i}%</text>`;
         }
 
+        const axisTitles = `
+          <text class="axis-title" x="${padL}" y="${padT - 10}" text-anchor="start">安装人数/新增注册人数</text>
+          <text class="axis-title" x="${W - padR}" y="${padT - 10}" text-anchor="end">注册转化率</text>`;
+
         let bars = "",
           xLabels = "",
           linePts = [],
           dots = "";
+        const tipPoints = [];
         labels.forEach((lab, i) => {
           const cx = padL + step * i + step / 2;
           const x1 = cx - barW - gap / 2;
@@ -4990,6 +5677,94 @@
           linePts.push(`${cx},${ly}`);
           dots += `<circle cx="${cx}" cy="${ly}" r="3.5" fill="#fff" stroke="#F7BA1E" stroke-width="2"></circle>`;
           xLabels += `<text class="axis-label" x="${cx}" y="${H - padB + 18}" text-anchor="middle">${lab}</text>`;
+          tipPoints.push([
+            {
+              name: "安装人数",
+              color: "#165DFF",
+              x: x1 + barW / 2,
+              y: yCount(install[i]),
+              text: install[i].toLocaleString("zh-CN"),
+            },
+            {
+              name: "新增注册人数",
+              color: "#14C9C9",
+              x: x2 + barW / 2,
+              y: yCount(newUsers[i]),
+              text: newUsers[i].toLocaleString("zh-CN"),
+            },
+            {
+              name: "注册转化率",
+              color: "#F7BA1E",
+              x: cx,
+              y: ly,
+              text: `${convRate[i]}%`,
+            },
+          ]);
+        });
+
+        return `
+        ${renderComboChartWithTip(
+          `${axisTitles}${grid}${bars}<polyline fill="none" stroke="#F7BA1E" stroke-width="2.5" points="${linePts.join(" ")}"></polyline>${dots}${leftAxis}${rightAxis}${xLabels}`,
+          {
+            labels,
+            points: tipPoints,
+            layout: { W, H, padL, padR, padT, padB, xMode: "band" },
+          },
+        )}
+        <div class="line-legend">
+          <span><i style="background:#165DFF"></i>安装人数</span>
+          <span><i style="background:#14C9C9"></i>新增注册人数</span>
+          <span><i style="background:#F7BA1E"></i>注册转化率</span>
+        </div>`;
+      }
+
+      function renderPlatformProfitAbilityChart(dayCount, endDate) {
+        const labels = buildTrendLabelsBeforeEnd(dayCount, endDate);
+        const winAmounts = genTrendSeries(dayCount, 520000, 740000, 21000);
+        const surplusRates = genTrendSeries(dayCount, 53.8, 58.4, 0.28, 1);
+
+        const W = 760,
+          H = 300,
+          padL = 58,
+          padR = 50,
+          padT = 24,
+          padB = 42;
+        const plotW = W - padL - padR;
+        const plotH = H - padT - padB;
+        const n = labels.length;
+        const step = n > 1 ? plotW / (n - 1) : plotW / 2;
+        const leftMax = Math.max(...winAmounts) * 1.08;
+        const rightMax = 100;
+        const barW = 20;
+
+        const yMoney = (v) => padT + plotH * (1 - v / leftMax);
+        const yPct = (v) => padT + plotH * (1 - v / rightMax);
+        const fmtMoney = (v) =>
+          v >= 10000 ? `${Math.round(v / 10000)}万` : v.toLocaleString("zh-CN");
+
+        let grid = "",
+          yLeft = "",
+          yRight = "",
+          xLabels = "",
+          bars = "",
+          linePts = "",
+          dots = "";
+
+        for (let i = 0; i <= 4; i++) {
+          const y = padT + (plotH / 4) * i;
+          grid += `<line class="grid-line" x1="${padL}" y1="${y}" x2="${W - padR}" y2="${y}"></line>`;
+          const leftVal = Math.round(leftMax - (leftMax / 4) * i);
+          yLeft += `<text class="axis-label" x="${padL - 8}" y="${y + 4}" text-anchor="end">${fmtMoney(leftVal)}</text>`;
+          yRight += `<text class="axis-label" x="${W - padR + 8}" y="${y + 4}" text-anchor="start">${Math.round(rightMax - (rightMax / 4) * i)}%</text>`;
+        }
+
+        labels.forEach((lab, i) => {
+          const cx = padL + step * i;
+          bars += `<rect x="${cx - barW / 2}" y="${yMoney(winAmounts[i])}" width="${barW}" height="${plotH - (yMoney(winAmounts[i]) - padT)}" rx="4" fill="#165DFF"></rect>`;
+          const ly = yPct(surplusRates[i]);
+          linePts += `${i === 0 ? "" : " "}${cx},${ly}`;
+          dots += `<circle cx="${cx}" cy="${ly}" r="3.5" fill="#fff" stroke="#2F54EB" stroke-width="2"></circle>`;
+          xLabels += `<text class="axis-label" x="${cx}" y="${H - 14}" text-anchor="middle">${lab}</text>`;
         });
 
         return `
@@ -4997,17 +5772,115 @@
           <svg viewBox="0 0 ${W} ${H}" preserveAspectRatio="xMidYMid meet">
             ${grid}
             ${bars}
-            <polyline fill="none" stroke="#F7BA1E" stroke-width="2.5" points="${linePts.join(" ")}"></polyline>
+            <polyline fill="none" stroke="#2F54EB" stroke-width="2.5" points="${linePts}"></polyline>
             ${dots}
-            ${leftAxis}
-            ${rightAxis}
+            ${yLeft}
+            ${yRight}
             ${xLabels}
           </svg>
         </div>
         <div class="line-legend">
-          <span><i style="background:#165DFF"></i>安装人数</span>
-          <span><i style="background:#14C9C9"></i>新增用户数</span>
-          <span><i style="background:#F7BA1E"></i>注册转化率</span>
+          <span><i style="background:#165DFF"></i>平台游戏输赢</span>
+          <span><i style="background:#2F54EB"></i>盈余率</span>
+        </div>`;
+      }
+
+      function renderPlatformFundFlowTrendChart(dayCount, endDate) {
+        const labels = buildTrendLabelsBeforeEnd(dayCount, endDate);
+        const recharge = genTrendSeries(dayCount, 640000, 780000, 18000);
+        const withdrawal = genTrendSeries(dayCount, 420000, 520000, 15000);
+        const bonus = genTrendSeries(dayCount, 68000, 93000, 6200);
+
+        const W = 780,
+          H = 320,
+          padL = 108,
+          padR = 64,
+          padT = 36,
+          padB = 42;
+        const plotW = W - padL - padR;
+        const plotH = H - padT - padB;
+        const n = labels.length;
+        const xPos = (i) =>
+          padL + (n === 1 ? plotW / 2 : (i / (n - 1)) * plotW);
+
+        const leftMax = Math.max(...recharge, ...withdrawal) * 1.08;
+        const rightMax = Math.max(...bonus) * 1.15;
+        const yLeft = (v) => padT + plotH * (1 - v / leftMax);
+        const yRight = (v) => padT + plotH * (1 - v / rightMax);
+        const fmtMoney = (v) =>
+          v >= 10000
+            ? `${(v / 10000).toFixed(v >= 100000 ? 0 : 1)}万`
+            : Math.round(v).toLocaleString("zh-CN");
+        const xLabelStep = dayCount <= 7 ? 1 : dayCount <= 30 ? 5 : 10;
+        const showDots = dayCount <= 14;
+
+        const axisTitles = `
+          <text class="axis-title" x="${padL}" y="${padT - 10}" text-anchor="start">充值金额/提现金额</text>
+          <text class="axis-title" x="${W - padR}" y="${padT - 10}" text-anchor="end">活动奖金</text>`;
+
+        let grid = "",
+          leftAxis = "",
+          rightAxis = "",
+          xLabels = "";
+        for (let i = 0; i <= 4; i++) {
+          const y = padT + (plotH / 4) * i;
+          grid += `<line class="grid-line" x1="${padL}" y1="${y}" x2="${W - padR}" y2="${y}"></line>`;
+          leftAxis += `<text class="axis-label" x="${padL - 8}" y="${y + 4}" text-anchor="end">${fmtMoney(leftMax - (leftMax / 4) * i)}</text>`;
+          rightAxis += `<text class="axis-label" x="${W - padR + 8}" y="${y + 4}" text-anchor="start">${fmtMoney(rightMax - (rightMax / 4) * i)}</text>`;
+        }
+        labels.forEach((lab, i) => {
+          if (i % xLabelStep !== 0 && i !== n - 1) return;
+          xLabels += `<text class="axis-label" x="${xPos(i)}" y="${H - 14}" text-anchor="middle">${lab}</text>`;
+        });
+
+        const drawLine = (data, color, yFn) => {
+          const pts = data.map((v, i) => `${xPos(i)},${yFn(v)}`).join(" ");
+          let html = `<polyline fill="none" stroke="${color}" stroke-width="2.5" points="${pts}"></polyline>`;
+          if (showDots) {
+            data.forEach((v, i) => {
+              html += `<circle cx="${xPos(i)}" cy="${yFn(v)}" r="3.5" fill="#fff" stroke="${color}" stroke-width="2"></circle>`;
+            });
+          }
+          return html;
+        };
+
+        const tipPoints = labels.map((_, i) => [
+          {
+            name: "充值金额",
+            color: "#165DFF",
+            x: xPos(i),
+            y: yLeft(recharge[i]),
+            text: fmtMoney(recharge[i]),
+          },
+          {
+            name: "提现金额",
+            color: "#14C9C9",
+            x: xPos(i),
+            y: yLeft(withdrawal[i]),
+            text: fmtMoney(withdrawal[i]),
+          },
+          {
+            name: "活动奖金",
+            color: "#722ED1",
+            x: xPos(i),
+            y: yRight(bonus[i]),
+            text: fmtMoney(bonus[i]),
+          },
+        ]);
+
+        return `
+        ${renderComboChartWithTip(
+          `${axisTitles}${grid}${drawLine(recharge, "#165DFF", yLeft)}${drawLine(withdrawal, "#14C9C9", yLeft)}${drawLine(bonus, "#722ED1", yRight)}${leftAxis}${rightAxis}${xLabels}`,
+          {
+            labels,
+            points: tipPoints,
+            layout: { W, H, padL, padR, padT, padB, xMode: "spread" },
+          },
+        )}
+        <div class="line-legend">
+          <span><i style="background:#165DFF"></i>充值金额（左轴）</span>
+          <span><i style="background:#14C9C9"></i>提现金额（左轴）</span>
+          <span><i style="background:#722ED1"></i>活动奖金（右轴）</span>
         </div>`;
       }
 
@@ -5096,7 +5969,8 @@
         </div>`;
       }
 
-      function renderChannelRank() {
+      function renderChannelRank(opts = {}) {
+        const { source = "全部", channelName = "" } = opts;
         // 与「来源渠道」筛选字段（SOURCE_CHANNEL_OPTIONS）对应
         const data = {
           投放: { install: 14000, reg: 72 },
@@ -5104,51 +5978,179 @@
           裂变: { install: 9800, reg: 68 },
           特殊流量: { install: 4200, reg: 55 },
         };
-        const rows = SOURCE_CHANNEL_OPTIONS.map((name) => ({
+        let rows = SOURCE_CHANNEL_OPTIONS.map((name) => ({
           name,
           ...(data[name] || { install: 0, reg: 0 }),
-        })).sort((a, b) => b.install - a.install);
-        const max = Math.max(...rows.map((r) => r.install), 1);
-        const body = rows
-          .map(
-            (r) => `
-        <div class="rank-row">
-          <span class="rank-name">${r.name}</span>
-          <div class="rank-bar"><div class="rank-fill" style="width:${Math.max(12, Math.round((r.install / max) * 100))}%">${r.install.toLocaleString("zh-CN")}</div></div>
-          <span class="rank-rate">${r.reg}%</span>
-        </div>`,
-          )
-          .join("");
+        }));
+        if (!isAllSourceChannel(source)) {
+          rows = rows.filter((r) => r.name === source);
+          // 选了具体渠道名时，用样例微调展示该账号规模
+          if (channelName) {
+            rows = rows.map((r) => ({
+              ...r,
+              install: Math.round(r.install * 0.28),
+              reg: Math.max(40, Math.round(r.reg - 2)),
+            }));
+          }
+        }
+        rows = rows.sort((a, b) => b.install - a.install);
+
+        const W = 620;
+        const H = 200;
+        const padL = 72;
+        const padR = 48;
+        const padT = 28;
+        const padB = 36;
+        const plotW = W - padL - padR;
+        const plotH = H - padT - padB;
+        const installMax = Math.max(...rows.map((r) => r.install), 1) * 1.05;
+        const rateMax = 100;
+        const groupH = plotH / Math.max(rows.length, 1);
+        const barH = Math.min(10, groupH * 0.28);
+        const barGap = 3;
+
+        let grid = "";
+        let xTicks = "";
+        for (let i = 0; i <= 4; i++) {
+          const x = padL + (plotW / 4) * i;
+          const tickVal = Math.round((installMax / 4) * i);
+          grid += `<line class="grid-line" x1="${x}" y1="${padT}" x2="${x}" y2="${H - padB}"></line>`;
+          xTicks += `<text class="axis-label" x="${x}" y="${H - padB + 16}" text-anchor="middle">${tickVal.toLocaleString("zh-CN")}</text>`;
+        }
+
+        const axisTitles = `
+          <text class="axis-title" x="${padL}" y="${padT - 10}" text-anchor="start">安装人数</text>
+          <text class="axis-title" x="${W - padR}" y="${padT - 10}" text-anchor="end">注册转化率</text>`;
+
+        let bars = "";
+        const tipPoints = [];
+        const labels = [];
+        rows.forEach((r, i) => {
+          const cy = padT + groupH * i + groupH / 2;
+          const y1 = cy - barH - barGap / 2;
+          const y2 = cy + barGap / 2;
+          const installW = Math.max(2, (r.install / installMax) * plotW);
+          const rateW = Math.max(2, (r.reg / rateMax) * plotW);
+          bars += `<text class="axis-label" x="${padL - 8}" y="${cy + 3}" text-anchor="end">${r.name}</text>`;
+          bars += `<rect x="${padL}" y="${y1}" width="${installW}" height="${barH}" rx="2" fill="#165DFF"></rect>`;
+          bars += `<rect x="${padL}" y="${y2}" width="${rateW}" height="${barH}" rx="2" fill="#14C9C9"></rect>`;
+          labels.push(r.name);
+          tipPoints.push([
+            {
+              name: "安装人数",
+              color: "#165DFF",
+              x: padL + installW,
+              y: y1 + barH / 2,
+              text: r.install.toLocaleString("zh-CN"),
+            },
+            {
+              name: "注册转化率",
+              color: "#14C9C9",
+              x: padL + rateW,
+              y: y2 + barH / 2,
+              text: `${r.reg}%`,
+            },
+          ]);
+        });
+
         return `
         <div class="rank-list">
-          <div class="rank-head"><span>渠道</span><span>安装</span><span>注册率</span></div>
-          ${body}
+          ${renderComboChartWithTip(
+            `${axisTitles}${grid}${bars}${xTicks}`,
+            {
+              labels,
+              points: tipPoints,
+              layout: {
+                W,
+                H,
+                padL,
+                padR,
+                padT,
+                padB,
+                orient: "horizontal",
+                yMode: "band",
+              },
+            },
+          )}
+          <div class="line-legend">
+            <span><i style="background:#165DFF"></i>安装人数</span>
+            <span><i style="background:#14C9C9"></i>注册转化率</span>
+          </div>
         </div>`;
       }
 
-      function renderAcquisitionFixedCharts() {
+      const STANDARD_CHART_HEIGHT = 200;
+
+      /** 与经营总览一致的标准图表卡片：名称、类型、指标、说明、渠道筛选、图表 */
+      function renderStandardChartCard({
+        key,
+        title,
+        type,
+        metrics = [],
+        subtitle = "",
+        subtitleId = "",
+        filterId = "",
+        hideChannelName = false,
+        filterHtml = "",
+        body = "",
+        style = "",
+      }) {
+        const metricsHtml = metrics.length
+          ? `<div class="chart-metrics">${metrics.map((m) => `<span>${m}</span>`).join("")}</div>`
+          : "";
+        const subtitleHtml = subtitle
+          ? `<div class="chart-subtitle"${subtitleId ? ` id="${subtitleId}"` : ""}>${subtitle}</div>`
+          : "";
+        const channelFilterHtml =
+          filterHtml ||
+          (filterId
+            ? renderLocalChannelFilter(filterId, { hideChannelName })
+            : "");
+        const keyAttr = key ? ` data-chart-key="${key}"` : "";
+        const styleAttr = style ? ` style="${style}"` : "";
+        return `
+        <article class="chart-card chart-expandable"${keyAttr}${styleAttr}>
+          <div class="chart-title">${title} <span class="status-tag info">${type}</span></div>
+          ${metricsHtml}
+          ${subtitleHtml}
+          ${channelFilterHtml}
+          ${body}
+        </article>`;
+      }
+
+      function renderAcquisitionFixedCharts(opts = {}) {
+        const { hideChannelName = false } = opts;
         return `
         <section class="chart-grid" aria-label="用户获取图表">
-          <article class="chart-card">
-            <div class="chart-title">用户获取漏斗 <span class="status-tag info">漏斗</span></div>
-            <div class="chart-subtitle">各阶段用户数、转化率与流失率</div>
-            ${renderFunnelChart()}
-          </article>
-          <article class="chart-card">
-            <div class="chart-title">渠道排行榜 <span class="status-tag info">柱状图</span></div>
-            <div class="chart-subtitle">各来源渠道安装量与注册率</div>
-            ${renderChannelRank()}
-          </article>
+          ${renderAcquisitionTrendChart({ hideChannelName })}
+          ${renderStandardChartCard({
+            key: "acq-channel-rank",
+            title: "渠道排行榜",
+            type: "横向柱状图",
+            metrics: ["安装人数", "注册转化率"],
+            subtitle: "各来源渠道安装人数与注册转化率",
+            filterId: "acqChannelRankFilter",
+            hideChannelName,
+            body: renderChannelRank(),
+          })}
         </section>`;
       }
 
-      function renderSurplusRateTrend(dayCount = 7) {
-        const labels = buildTrendLabelsBeforeEnd(dayCount);
+      function renderSurplusRateTrend(dayCount = 7, endDate = new Date()) {
+        const safeCount = Math.max(1, Number(dayCount) || 1);
+        const labels = buildTrendLabelsBeforeEnd(safeCount, endDate);
         const data =
-          dayCount === 7
+          safeCount === 7
             ? [56.3, 56.8, 57.1, 57.5, 57.8, 58.0, 58.2]
-            : genTrendSeries(dayCount, 54.5, 58.2, 0.45, 1);
-        const xLabelStep = dayCount <= 7 ? 1 : dayCount <= 30 ? 5 : 10;
+            : genTrendSeries(
+                safeCount,
+                54.5,
+                58.2,
+                Math.min(0.45, 0.08 * safeCount),
+                1,
+              );
+        const xLabelStep =
+          safeCount <= 7 ? 1 : safeCount <= 30 ? 5 : safeCount <= 90 ? 10 : 15;
         const series = [
           {
             name: "盈余率",
@@ -5162,56 +6164,92 @@
           maxVal: 100,
           yStep: 25,
           xLabelStep,
-          showDots: dayCount <= 7,
+          showDots: safeCount <= 7,
+          height: STANDARD_CHART_HEIGHT,
         });
       }
 
       function renderOverviewFunnelChart() {
-        const steps = [
-          { name: "安装人数", value: 10230 },
-          { name: "绑定人数", value: 8960 },
-          { name: "DAU", value: 15680 },
-          { name: "充值人数", value: 3280 },
-          { name: "投注人数", value: 8950 },
-        ];
+        const { start, end } = getOverviewFilterRange();
+        const dayCount = eachDateInclusive(start, end).length;
         return `
-        <section class="chart-grid" aria-label="经营总览图表" style="grid-template-columns:1fr 1fr;margin-bottom:16px">
-          <article class="chart-card">
-            <div class="chart-title">经营转化漏斗 <span class="status-tag info">漏斗</span></div>
-            <div class="chart-subtitle">各阶段用户数、转化率与流失率</div>
-            ${renderFunnelChart(steps)}
-          </article>
-          <article class="chart-card" id="surplusRateChartCard">
-            <div class="chart-title">
-              <span class="chart-title-text">盈余率趋势 <span class="status-tag info">折线图</span></span>
-              <div class="chart-range-toggle" id="surplusRateRangeToggle" role="radiogroup" aria-label="盈余率趋势时间范围">
-                <button type="button" class="range-btn active" data-days="7">近7日</button>
-                <button type="button" class="range-btn" data-days="30">近30日</button>
-                <button type="button" class="range-btn" data-days="90">近90日</button>
-              </div>
+        <div class="overview-charts chart-focus-group" aria-label="经营总览图表">
+          <article class="chart-card chart-expandable" data-chart-key="profit-ability">
+            <div class="chart-title">平台盈利能力分析 <span class="status-tag info">柱线图</span></div>
+            <div class="chart-metrics">
+              <span>平台游戏输赢</span>
+              <span>盈余率</span>
             </div>
-            <div class="chart-subtitle" id="surplusRateSubtitle">近七日盈余率走势</div>
-            <div id="surplusRateChartWrap">
-              ${renderSurplusRateTrend(7)}
+            <div class="chart-subtitle" id="profitAbilitySubtitle">平台游戏输赢与盈余率</div>
+            ${renderLocalChannelFilter("profitAbilityFilter")}
+            <div id="profitAbilityChartWrap">
+              ${renderPlatformProfitAbilityChart(dayCount, parseYMD(end))}
             </div>
           </article>
-        </section>`;
+          <article class="chart-card chart-expandable" data-chart-key="fund-flow-trend">
+            <div class="chart-title">平台资金流转趋势 <span class="status-tag info">双轴折线图</span></div>
+            <div class="chart-metrics">
+              <span>充值金额</span>
+              <span>提现金额</span>
+              <span>活动奖金</span>
+            </div>
+            <div class="chart-subtitle" id="fundFlowSubtitle">充值、提现与活动奖金趋势</div>
+            ${renderLocalChannelFilter("fundFlowFilter")}
+            <div id="fundFlowTrendChartWrap">
+              ${renderPlatformFundFlowTrendChart(dayCount, parseYMD(end))}
+            </div>
+          </article>
+          <article class="chart-card chart-expandable" data-chart-key="user-growth-trend">
+            <div class="chart-title">用户增长趋势 <span class="status-tag info">折线图</span></div>
+            <div class="chart-metrics">
+              <span>安装人数</span>
+              <span>绑定人数</span>
+              <span>日活跃人数</span>
+            </div>
+            <div class="chart-subtitle" id="userGrowthSubtitle">用户增长效果</div>
+            ${renderLocalChannelFilter("userGrowthFilter")}
+            <div id="userGrowthTrendChartWrap">
+              ${renderUserGrowthTrendChart(dayCount, parseYMD(end))}
+            </div>
+          </article>
+        </div>`;
+      }
+
+      function renderUserGrowthTrendChart(dayCount, endDate) {
+        const labels = buildTrendLabelsBeforeEnd(dayCount, endDate);
+        const installs = genTrendSeries(dayCount, 9200, 10800, 280);
+        const binds = genTrendSeries(dayCount, 7800, 9400, 240);
+        const dau = genTrendSeries(dayCount, 14200, 16800, 360);
+        const maxVal = Math.max(...installs, ...binds, ...dau) * 1.08;
+        return renderMultiLineTrendChart({
+          labels,
+          series: [
+            { name: "安装人数", data: installs, color: "#165DFF" },
+            { name: "绑定人数", data: binds, color: "#14C9C9" },
+            { name: "日活跃人数", data: dau, color: "#F7BA1E" },
+          ],
+          maxVal,
+          yStep: Math.max(1, Math.round(maxVal / 4)),
+          xLabelStep: dayCount <= 7 ? 1 : dayCount <= 30 ? 5 : 10,
+          showDots: dayCount <= 14,
+          height: 200,
+        });
       }
 
       function renderActivationDualLine() {
         const labels = [
-          "07/11",
-          "07/12",
-          "07/13",
-          "07/14",
-          "07/15",
-          "07/16",
-          "07/17",
+          "07-11",
+          "07-12",
+          "07-13",
+          "07-14",
+          "07-15",
+          "07-16",
+          "07-17",
         ];
         const newUsers = [7200, 7450, 7680, 7900, 8300, 8650, 9120];
         const newDau = [6100, 6350, 6580, 6820, 7100, 7350, 7820];
         const W = 620,
-          H = 280,
+          H = 200,
           padL = 48,
           padR = 16,
           padT = 24,
@@ -5295,18 +6333,18 @@
 
       function renderPayCountTrend() {
         const labels = [
-          "07/11",
-          "07/12",
-          "07/13",
-          "07/14",
-          "07/15",
-          "07/16",
-          "07/17",
+          "07-11",
+          "07-12",
+          "07-13",
+          "07-14",
+          "07-15",
+          "07-16",
+          "07-17",
         ];
         const recharge = [2780, 2890, 2950, 3050, 3120, 3180, 3280];
         const newPay = [580, 595, 610, 635, 650, 665, 680];
         const W = 620,
-          H = 280,
+          H = 200,
           padL = 48,
           padR = 16,
           padT = 24,
@@ -5360,13 +6398,13 @@
 
       function renderPayConversionRateTrend() {
         const labels = [
-          "07/11",
-          "07/12",
-          "07/13",
-          "07/14",
-          "07/15",
-          "07/16",
-          "07/17",
+          "07-11",
+          "07-12",
+          "07-13",
+          "07-14",
+          "07-15",
+          "07-16",
+          "07-17",
         ];
         const series = [
           {
@@ -5391,7 +6429,7 @@
           },
         ];
         const W = 620,
-          H = 280,
+          H = 200,
           padL = 48,
           padR = 16,
           padT = 24,
@@ -5448,19 +6486,19 @@
 
       function renderFirstRechargeTrend() {
         const labels = [
-          "07/11",
-          "07/12",
-          "07/13",
-          "07/14",
-          "07/15",
-          "07/16",
-          "07/17",
+          "07-11",
+          "07-12",
+          "07-13",
+          "07-14",
+          "07-15",
+          "07-16",
+          "07-17",
         ];
         const firstCount = [720, 745, 758, 780, 795, 810, 860];
         const firstRate = [8.8, 9.0, 9.1, 9.2, 9.2, 9.3, 9.4];
 
         const W = 620,
-          H = 280,
+          H = 200,
           padL = 48,
           padR = 48,
           padT = 24,
@@ -5518,7 +6556,7 @@
 
       function renderSingleAxisDualLine({ labels, seriesA, seriesB, maxVal }) {
         const W = 620,
-          H = 280,
+          H = 200,
           padL = 48,
           padR = 16,
           padT = 24,
@@ -5577,13 +6615,13 @@
 
       function renderOverallArpuTrend() {
         const labels = [
-          "07/11",
-          "07/12",
-          "07/13",
-          "07/14",
-          "07/15",
-          "07/16",
-          "07/17",
+          "07-11",
+          "07-12",
+          "07-13",
+          "07-14",
+          "07-15",
+          "07-16",
+          "07-17",
         ];
         return renderSingleAxisDualLine({
           labels,
@@ -5603,13 +6641,13 @@
 
       function renderOverallArppuTrend() {
         const labels = [
-          "07/11",
-          "07/12",
-          "07/13",
-          "07/14",
-          "07/15",
-          "07/16",
-          "07/17",
+          "07-11",
+          "07-12",
+          "07-13",
+          "07-14",
+          "07-15",
+          "07-16",
+          "07-17",
         ];
         return renderSingleAxisDualLine({
           labels,
@@ -5627,48 +6665,70 @@
         });
       }
 
-      function renderOverallValueTrendCharts() {
+      function renderOverallValueTrendCharts(opts = {}) {
+        const { hideChannelName = false } = opts;
         return `
         <section class="chart-grid" aria-label="整体价值趋势图表" style="grid-template-columns:1fr 1fr;margin-bottom:16px">
-          <article class="chart-card">
-            <div class="chart-title">ARPU 趋势 <span class="status-tag info">双折线</span></div>
-            <div class="chart-subtitle">近七日总ARPU / 新增ARPU</div>
-            ${renderOverallArpuTrend()}
-          </article>
-          <article class="chart-card">
-            <div class="chart-title">ARPPU 趋势 <span class="status-tag info">双折线</span></div>
-            <div class="chart-subtitle">近七日总ARPPU / 新增ARPPU</div>
-            ${renderOverallArppuTrend()}
-          </article>
+          ${renderStandardChartCard({
+            key: "overall-arpu",
+            title: "ARPU 趋势",
+            type: "双折线",
+            metrics: ["总ARPU", "新增ARPU"],
+            subtitle: "近七日总ARPU / 新增ARPU",
+            filterId: "overallArpuFilter",
+            hideChannelName,
+            body: renderOverallArpuTrend(),
+          })}
+          ${renderStandardChartCard({
+            key: "overall-arppu",
+            title: "ARPPU 趋势",
+            type: "双折线",
+            metrics: ["总ARPPU", "新增ARPPU"],
+            subtitle: "近七日总ARPPU / 新增ARPPU",
+            filterId: "overallArppuFilter",
+            hideChannelName,
+            body: renderOverallArppuTrend(),
+          })}
         </section>`;
       }
 
+      /** 图表 x 轴日期：同年内 mm-dd，跨年 yyyy-mm-dd */
+      function formatChartAxisDateLabels(dates) {
+        if (!dates.length) return [];
+        const years = new Set(dates.map((d) => d.getFullYear()));
+        const crossYear = years.size > 1;
+        return dates.map((d) => {
+          const md = `${pad2(d.getMonth() + 1)}-${pad2(d.getDate())}`;
+          return crossYear ? `${d.getFullYear()}-${md}` : md;
+        });
+      }
+
       function buildRecentTrendLabels(dayCount = 30) {
-        const labels = [];
+        const dates = [];
         for (let i = 0; i < dayCount; i++) {
-          const d = new Date(2025, 5, 18 + i);
-          labels.push(`${pad2(d.getMonth() + 1)}/${pad2(d.getDate())}`);
+          dates.push(new Date(2025, 5, 18 + i));
         }
-        return labels;
+        return formatChartAxisDateLabels(dates);
       }
 
       function buildTrendLabelsBeforeEnd(
         dayCount,
         endDate = new Date(2025, 6, 17),
       ) {
-        const labels = [];
+        const dates = [];
         for (let i = dayCount - 1; i >= 0; i--) {
           const d = new Date(endDate);
           d.setDate(d.getDate() - i);
-          labels.push(`${pad2(d.getMonth() + 1)}/${pad2(d.getDate())}`);
+          dates.push(d);
         }
-        return labels;
+        return formatChartAxisDateLabels(dates);
       }
 
       function genTrendSeries(dayCount, start, end, wave, decimals) {
         const data = [];
-        for (let i = 0; i < dayCount; i++) {
-          const t = i / (dayCount - 1);
+        const n = Math.max(1, dayCount);
+        for (let i = 0; i < n; i++) {
+          const t = n === 1 ? 1 : i / (n - 1);
           const v = start + t * (end - start) + Math.sin(i * 0.42) * wave;
           data.push(decimals ? +v.toFixed(decimals) : Math.round(v));
         }
@@ -5688,8 +6748,13 @@
       const LTV_DX_LABELS = ["D1", "D2", "D3", "D4", "D5", "D6", "D7"];
 
       function buildLtvCohortSeries(page) {
+        const years = new Set(
+          page.sampleData.map((row) => String(row[0]).slice(0, 4)),
+        );
+        const crossYear = years.size > 1;
         return page.sampleData.map((row, idx) => {
-          const dateLabel = String(row[0]).slice(5).replace("-", "/");
+          const ymd = String(row[0]);
+          const dateLabel = crossYear ? ymd : ymd.slice(5);
           return {
             name: `${dateLabel} ${row[1]}`,
             data: row.slice(3, 10).map((v) => Number(v)),
@@ -5706,12 +6771,17 @@
       }
 
       function renderComboChartWithTip(svgBody, tipPayload) {
-        const { W, H, padT, padB } = tipPayload.layout;
+        const { W, H, padL, padR, padT, padB, orient = "vertical" } =
+          tipPayload.layout;
+        const crosshair =
+          orient === "horizontal"
+            ? `<line class="chart-tip-crosshair" x1="${padL}" y1="0" x2="${W - padR}" y2="0" visibility="hidden"></line>`
+            : `<line class="chart-tip-crosshair" x1="0" y1="${padT}" x2="0" y2="${H - padB}" visibility="hidden"></line>`;
         return `
         <div class="combo-chart has-chart-tip" data-chart-tip="${encodeURIComponent(JSON.stringify(tipPayload))}">
           <svg viewBox="0 0 ${W} ${H}" preserveAspectRatio="xMidYMid meet">
             ${svgBody}
-            <line class="chart-tip-crosshair" x1="0" y1="${padT}" x2="0" y2="${H - padB}" visibility="hidden"></line>
+            ${crosshair}
             <g class="chart-tip-marks"></g>
           </svg>
           <div class="rt-tooltip chart-svg-tooltip"></div>
@@ -5730,15 +6800,29 @@
 
           let payload;
           try {
-            payload = JSON.parse(decodeURIComponent(wrap.dataset.chartTip || ""));
+            payload = JSON.parse(
+              decodeURIComponent(wrap.dataset.chartTip || ""),
+            );
           } catch {
             return;
           }
           const { labels = [], points = [], layout } = payload;
           if (!layout || !labels.length) return;
-          const { W, H, padL, padR, padT, padB, xMode = "spread" } = layout;
+          const {
+            W,
+            H,
+            padL,
+            padR,
+            padT,
+            padB,
+            xMode = "spread",
+            yMode = "band",
+            orient = "vertical",
+          } = layout;
           const plotW = W - padL - padR;
+          const plotH = H - padT - padB;
           const n = labels.length;
+          const isHorizontal = orient === "horizontal";
 
           const xPos = (i) => {
             if (n === 1) return padL + plotW / 2;
@@ -5747,6 +6831,15 @@
               return padL + step * i + step / 2;
             }
             return padL + (i / (n - 1)) * plotW;
+          };
+
+          const yPos = (i) => {
+            if (n === 1) return padT + plotH / 2;
+            if (yMode === "band") {
+              const step = plotH / n;
+              return padT + step * i + step / 2;
+            }
+            return padT + (i / (n - 1)) * plotH;
           };
 
           const idxFromX = (svgX) => {
@@ -5759,6 +6852,19 @@
               );
             }
             const t = (svgX - padL) / plotW;
+            return Math.max(0, Math.min(n - 1, Math.round(t * (n - 1))));
+          };
+
+          const idxFromY = (svgY) => {
+            if (n <= 1) return 0;
+            if (yMode === "band") {
+              const step = plotH / n;
+              return Math.max(
+                0,
+                Math.min(n - 1, Math.floor((svgY - padT) / step)),
+              );
+            }
+            const t = (svgY - padT) / plotH;
             return Math.max(0, Math.min(n - 1, Math.round(t * (n - 1))));
           };
 
@@ -5780,20 +6886,21 @@
           wrap.addEventListener("mousemove", (e) => {
             const p = toSvgPoint(e.clientX, e.clientY);
             if (!p) return;
-            if (
-              p.x < padL ||
-              p.x > W - padR ||
-              p.y < padT ||
-              p.y > H - padB
-            ) {
+            if (p.x < padL || p.x > W - padR || p.y < padT || p.y > H - padB) {
               hideTip();
               return;
             }
-            const i = idxFromX(p.x);
-            const cx = xPos(i);
+            const i = isHorizontal ? idxFromY(p.y) : idxFromX(p.x);
+            const cx = isHorizontal ? padL + plotW / 2 : xPos(i);
+            const cy = isHorizontal ? yPos(i) : padT + plotH / 2;
             const dayPoints = points[i] || [];
-            crosshair.setAttribute("x1", cx);
-            crosshair.setAttribute("x2", cx);
+            if (isHorizontal) {
+              crosshair.setAttribute("y1", cy);
+              crosshair.setAttribute("y2", cy);
+            } else {
+              crosshair.setAttribute("x1", cx);
+              crosshair.setAttribute("x2", cx);
+            }
             crosshair.setAttribute("visibility", "visible");
             marks.innerHTML = dayPoints
               .map(
@@ -5810,8 +6917,16 @@
             tipEl.style.display = "block";
             const wrapRect = wrap.getBoundingClientRect();
             const svgRect = svg.getBoundingClientRect();
-            tipEl.style.left = `${svgRect.left - wrapRect.left + (cx / W) * svgRect.width}px`;
-            tipEl.style.top = `${svgRect.top - wrapRect.top + (padT / H) * svgRect.height + 8}px`;
+            const tipX = isHorizontal
+              ? svgRect.left -
+                wrapRect.left +
+                ((dayPoints[0]?.x || cx) / W) * svgRect.width
+              : svgRect.left - wrapRect.left + (cx / W) * svgRect.width;
+            const tipY = isHorizontal
+              ? svgRect.top - wrapRect.top + (cy / H) * svgRect.height
+              : svgRect.top - wrapRect.top + (padT / H) * svgRect.height + 8;
+            tipEl.style.left = `${tipX}px`;
+            tipEl.style.top = `${tipY}px`;
           });
 
           wrap.addEventListener("mouseleave", hideTip);
@@ -5825,9 +6940,10 @@
         yStep,
         xLabelStep = 1,
         showDots = true,
+        height = 260,
       }) {
         const W = 620,
-          H = 260,
+          H = height,
           padL = 52,
           padR = 16,
           padT = 20,
@@ -5900,17 +7016,29 @@
         <div class="line-legend">${legend}</div>`;
       }
 
-      function renderLtvCohortChart(page) {
+      function renderLtvCohortChart(page, opts = {}) {
+        const { hideChannelName = false } = opts;
         const series = buildLtvCohortSeries(page);
         const yStep = 20;
         const dataMax = Math.max(...series.flatMap((s) => s.data));
         const maxVal = Math.ceil(dataMax / yStep) * yStep;
-        return `
-        <article class="chart-card" style="margin-bottom:16px">
-          <div class="chart-title">${page.title}趋势 <span class="status-tag info">折线图</span></div>
-          <div class="chart-subtitle">查询日期 D1 ~ D7 LTV 对比（每条曲线代表一个查询日期）</div>
-          ${renderMultiLineTrendChart({ labels: LTV_DX_LABELS, series, maxVal, yStep })}
-        </article>`;
+        return renderStandardChartCard({
+          key: "ltv-cohort",
+          title: `${page.title}趋势`,
+          type: "折线图",
+          metrics: ["D1", "D2", "D3", "D4", "D5", "D6", "D7"],
+          subtitle: "查询日期 D1 ~ D7 LTV 对比（每条曲线代表一个查询日期）",
+          filterId: "ltvCohortFilter",
+          hideChannelName,
+          body: renderMultiLineTrendChart({
+            labels: LTV_DX_LABELS,
+            series,
+            maxVal,
+            yStep,
+            height: STANDARD_CHART_HEIGHT,
+          }),
+          style: "margin-bottom:16px",
+        });
       }
 
       function renderDualAxisTrendChart({
@@ -5925,7 +7053,7 @@
         formatRight,
       }) {
         const W = 620,
-          H = 240,
+          H = 200,
           padL = 52,
           padR = 56,
           padT = 20,
@@ -6039,7 +7167,7 @@
         amountData[dayCount - 1] = 828800;
 
         const W = 620,
-          H = 240,
+          H = 200,
           padL = 52,
           padR = 56,
           padT = 20,
@@ -6152,7 +7280,7 @@
         marginData[dayCount - 1] = 48.1;
 
         const W = 620,
-          H = 240,
+          H = 200,
           padL = 52,
           padR = 56,
           padT = 20,
@@ -6222,65 +7350,110 @@
         </div>`;
       }
 
-      function renderOldUserValueTrendCharts() {
+      function renderOldUserValueTrendCharts(opts = {}) {
+        const { hideChannelName = false } = opts;
         return `
         <section class="chart-grid" aria-label="老用户价值趋势图表" style="grid-template-columns:1fr 1fr;margin-bottom:16px">
-          <article class="chart-card">
-            <div class="chart-title">老用户收入趋势 <span class="status-tag info">柱线图</span></div>
-            <div class="chart-subtitle">近30日老用户充值人数（柱）/ 老用户充值金额（线）</div>
-            ${renderOldUserIncomeTrend()}
-          </article>
-          <article class="chart-card">
-            <div class="chart-title">老用户价值趋势 <span class="status-tag info">双折线</span></div>
-            <div class="chart-subtitle">近30日老用户ARPU / 老用户ARPPU</div>
-            ${renderOldUserValueArpuTrend()}
-          </article>
+          ${renderStandardChartCard({
+            key: "old-income",
+            title: "老用户收入趋势",
+            type: "柱线图",
+            metrics: ["老用户充值人数", "老用户充值金额"],
+            subtitle: "近30日老用户充值人数（柱）/ 老用户充值金额（线）",
+            filterId: "oldIncomeFilter",
+            hideChannelName,
+            body: renderOldUserIncomeTrend(),
+          })}
+          ${renderStandardChartCard({
+            key: "old-arpu",
+            title: "老用户价值趋势",
+            type: "双折线",
+            metrics: ["老用户ARPU", "老用户ARPPU"],
+            subtitle: "近30日老用户ARPU / 老用户ARPPU",
+            filterId: "oldArpuFilter",
+            hideChannelName,
+            body: renderOldUserValueArpuTrend(),
+          })}
         </section>
-        <article class="chart-card" style="margin-bottom:16px">
-          <div class="chart-title">老用户资金与利润趋势 <span class="status-tag info">柱线图</span></div>
-          <div class="chart-subtitle">近30日老用户充提差（柱）/ 老用户盈余率（线）</div>
-          ${renderOldUserFundTrend()}
-        </article>`;
+        ${renderStandardChartCard({
+          key: "old-fund",
+          title: "老用户资金与利润趋势",
+          type: "柱线图",
+          metrics: ["老用户充提差", "老用户盈余率"],
+          subtitle: "近30日老用户充提差（柱）/ 老用户盈余率（线）",
+          filterId: "oldFundFilter",
+          hideChannelName,
+          body: renderOldUserFundTrend(),
+          style: "margin-bottom:16px",
+        })}`;
       }
 
-      function renderConversionRateTrendChart() {
+      function renderConversionRateTrendChart(opts = {}) {
+        const { hideChannelName = false } = opts;
         return `
         <section class="chart-grid" aria-label="用户转化趋势图表" style="margin-bottom:16px">
-          <article class="chart-card">
-            <div class="chart-title">付费转化率趋势图 <span class="status-tag info">折线图</span></div>
-            <div class="chart-subtitle">近七日首充率 / 新用户付费率 / 老用户付费率 / 总付费率</div>
-            ${renderPayConversionRateTrend()}
-          </article>
-          <article class="chart-card">
-            <div class="chart-title">首充转化趋势 <span class="status-tag info">双轴图</span></div>
-            <div class="chart-subtitle">近七日首充人数 / 首充率</div>
-            ${renderFirstRechargeTrend()}
-          </article>
+          ${renderStandardChartCard({
+            key: "pay-conv-rate",
+            title: "付费转化率趋势图",
+            type: "折线图",
+            metrics: ["首充率", "新用户付费率", "老用户付费率", "总付费率"],
+            subtitle: "近七日首充率 / 新用户付费率 / 老用户付费率 / 总付费率",
+            filterId: "payConvRateFilter",
+            hideChannelName,
+            body: renderPayConversionRateTrend(),
+          })}
+          ${renderStandardChartCard({
+            key: "first-recharge",
+            title: "首充转化趋势",
+            type: "双轴图",
+            metrics: ["首充人数", "首充率"],
+            subtitle: "近七日首充人数 / 首充率",
+            filterId: "firstRechargeFilter",
+            hideChannelName,
+            body: renderFirstRechargeTrend(),
+          })}
         </section>`;
       }
 
-      function renderConversionFixedCharts() {
+      function renderConversionFixedCharts(opts = {}) {
+        const { hideChannelName = false } = opts;
         return `
         <section class="chart-grid" aria-label="用户转化图表">
-          <article class="chart-card">
-            <div class="chart-title">用户付费转化漏斗 <span class="status-tag info">漏斗</span></div>
-            <div class="chart-subtitle">新增用户 → 首充 → 新增付费</div>
-            ${renderPayConversionFunnel()}
-          </article>
-          <article class="chart-card">
-            <div class="chart-title">新老用户付费率对比 <span class="status-tag info">对比</span></div>
-            <div class="chart-subtitle">新用户 / 老用户 / 总付费率</div>
-            ${renderPayRateCompare()}
-          </article>
+          ${renderStandardChartCard({
+            key: "pay-funnel",
+            title: "用户付费转化漏斗",
+            type: "漏斗",
+            metrics: ["新增用户", "首充", "新增付费"],
+            subtitle: "新增用户 → 首充 → 新增付费",
+            filterId: "payFunnelFilter",
+            hideChannelName,
+            body: renderPayConversionFunnel(),
+          })}
+          ${renderStandardChartCard({
+            key: "pay-rate-compare",
+            title: "新老用户付费率对比",
+            type: "对比",
+            metrics: ["新用户付费率", "老用户付费率", "总付费率"],
+            subtitle: "新用户 / 老用户 / 总付费率",
+            filterId: "payRateCompareFilter",
+            hideChannelName,
+            body: renderPayRateCompare(),
+          })}
         </section>
-        <article class="chart-card" style="margin-bottom:16px">
-          <div class="chart-title">付费人数趋势图 <span class="status-tag info">双折线</span></div>
-          <div class="chart-subtitle">近七日充值人数 / 新增付费人数</div>
-          ${renderPayCountTrend()}
-        </article>`;
+        ${renderStandardChartCard({
+          key: "pay-count-trend",
+          title: "付费人数趋势图",
+          type: "双折线",
+          metrics: ["充值人数", "新增付费人数"],
+          subtitle: "近七日充值人数 / 新增付费人数",
+          filterId: "payCountTrendFilter",
+          hideChannelName,
+          body: renderPayCountTrend(),
+          style: "margin-bottom:16px",
+        })}`;
       }
 
-      function renderActivationFixedCharts() {
+      function renderActivationFixedCharts(opts = {}) {
         // 漏斗阶段按激活路径递减排列（含用户指定的全部指标）
         const steps = [
           { name: "新增用户数", value: 9120 },
@@ -6290,18 +7463,36 @@
           { name: "首次投注人数", value: 5240 },
           { name: "首充人数", value: 860 },
         ];
+        const { hideChannelName = false } = opts;
         return `
         <section class="chart-grid" aria-label="用户激活图表">
-          <article class="chart-card">
-            <div class="chart-title">新用户激活漏斗 <span class="status-tag info">漏斗</span></div>
-            <div class="chart-subtitle">新增 → 登录 → 活跃 → 首次游戏 → 首次投注 → 首充</div>
-            ${renderFunnelChart(steps)}
-          </article>
-          <article class="chart-card">
-            <div class="chart-title">新用户激活趋势图 <span class="status-tag info">双折线</span></div>
-            <div class="chart-subtitle">近七日新增用户数 / 新用户DAU</div>
-            ${renderActivationDualLine()}
-          </article>
+          ${renderStandardChartCard({
+            key: "activation-funnel",
+            title: "新用户激活漏斗",
+            type: "漏斗",
+            metrics: [
+              "新增用户数",
+              "新用户登录人数",
+              "新用户活跃人数",
+              "首次游戏人数",
+              "首次投注人数",
+              "首充人数",
+            ],
+            subtitle: "新增 → 登录 → 活跃 → 首次游戏 → 首次投注 → 首充",
+            filterId: "activationFunnelFilter",
+            hideChannelName,
+            body: renderFunnelChart(steps),
+          })}
+          ${renderStandardChartCard({
+            key: "activation-trend",
+            title: "新用户激活趋势图",
+            type: "双折线",
+            metrics: ["新增用户数", "新用户DAU"],
+            subtitle: "近七日新增用户数 / 新用户DAU",
+            filterId: "activationTrendFilter",
+            hideChannelName,
+            body: renderActivationDualLine(),
+          })}
         </section>`;
       }
 
@@ -6316,18 +7507,18 @@
 
       function renderDauStackedAreaChart() {
         const labels = [
-          "07/11",
-          "07/12",
-          "07/13",
-          "07/14",
-          "07/15",
-          "07/16",
-          "07/17",
+          "07-11",
+          "07-12",
+          "07-13",
+          "07-14",
+          "07-15",
+          "07-16",
+          "07-17",
         ];
         const dau = [14200, 14500, 14800, 15050, 14900, 15200, 15680];
         const oldDau = [10200, 10400, 10550, 10700, 10650, 10850, 11200];
         const W = 620,
-          H = 260,
+          H = 200,
           padL = 52,
           padR = 16,
           padT = 20,
@@ -6377,13 +7568,13 @@
 
       function renderOldUserActiveRateTrend() {
         const labels = [
-          "07/11",
-          "07/12",
-          "07/13",
-          "07/14",
-          "07/15",
-          "07/16",
-          "07/17",
+          "07-11",
+          "07-12",
+          "07-13",
+          "07-14",
+          "07-15",
+          "07-16",
+          "07-17",
         ];
         const series = [
           {
@@ -6397,32 +7588,49 @@
           series,
           maxVal: 100,
           yStep: 25,
+          height: STANDARD_CHART_HEIGHT,
         });
       }
 
-      function renderRetentionActiveCharts() {
+      function renderRetentionActiveCharts(opts = {}) {
+        const { hideChannelName = false } = opts;
         return `
         <section class="chart-grid" aria-label="用户活跃图表" style="grid-template-columns:1fr 1fr;margin-bottom:16px">
-          <article class="chart-card">
-            <div class="chart-title">日活构成 <span class="status-tag info">堆叠面积图</span></div>
-            <div class="chart-subtitle">DAU = 老用户日活 + 新用户日活，差值代表新用户贡献</div>
-            ${renderDauStackedAreaChart()}
-          </article>
-          <article class="chart-card">
-            <div class="chart-title">老用户活跃趋势 <span class="status-tag info">折线图</span></div>
-            <div class="chart-subtitle">近七日老用户活跃率走势</div>
-            ${renderOldUserActiveRateTrend()}
-          </article>
+          ${renderStandardChartCard({
+            key: "dau-stack",
+            title: "日活构成",
+            type: "堆叠面积图",
+            metrics: ["老用户日活", "新用户日活", "DAU"],
+            subtitle: "DAU = 老用户日活 + 新用户日活，差值代表新用户贡献",
+            filterId: "dauStackFilter",
+            hideChannelName,
+            body: renderDauStackedAreaChart(),
+          })}
+          ${renderStandardChartCard({
+            key: "old-active-rate",
+            title: "老用户活跃趋势",
+            type: "折线图",
+            metrics: ["老用户活跃率"],
+            subtitle: "近七日老用户活跃率走势",
+            filterId: "oldActiveRateFilter",
+            hideChannelName,
+            body: renderOldUserActiveRateTrend(),
+          })}
         </section>`;
       }
 
-      function renderAcquisitionTrendChart() {
-        return `
-        <article class="chart-card">
-          <div class="chart-title">用户获取趋势总览 <span class="status-tag info">双轴图</span></div>
-          <div class="chart-subtitle">安装人数 / 新增用户数（柱状，左轴）· 注册转化率（折线，右轴）</div>
-          ${renderComboChart()}
-        </article>`;
+      function renderAcquisitionTrendChart(opts = {}) {
+        const { hideChannelName = false } = opts;
+        return renderStandardChartCard({
+          key: "acq-trend",
+          title: "新增用户转化趋势图",
+          type: "双轴图",
+          metrics: ["安装人数", "新增注册人数", "注册转化率"],
+          subtitle: "评估用户获取规模及安装用户向注册用户的转化效率",
+          filterId: "acqTrendFilter",
+          hideChannelName,
+          body: renderComboChart(),
+        });
       }
 
       const RT_METRICS = [
@@ -6475,6 +7683,14 @@
 
       function pad2(n) {
         return String(n).padStart(2, "0");
+      }
+
+      function formatTimeHMS(d = new Date()) {
+        return `${pad2(d.getHours())}:${pad2(d.getMinutes())}:${pad2(d.getSeconds())}`;
+      }
+
+      function formatDateTimeHM(d = new Date()) {
+        return `${formatDateYMD(d)} ${pad2(d.getHours())}:${pad2(d.getMinutes())}`;
       }
 
       function formatDateYMD(d) {
@@ -6652,7 +7868,6 @@
               <label for="rtTableDate">日期</label>
               <input type="date" id="rtTableDate" value="${today}" />
             </div>
-            <button type="button" class="btn btn-primary" id="rtTableQueryBtn">查询</button>
           </div>
           <div class="table-wrap" id="rtTableWrap">
             <div class="rt-table-empty">请选择数据源与日期后查询</div>
@@ -6774,9 +7989,12 @@
           },
         ];
         return `
-        <section class="overview-insights" aria-label="核心经营指标">
-          ${kpis.map(renderOverviewKpiCard).join("")}
-        </section>`;
+        <div class="overview-kpi-block">
+          ${renderKpiTodayHead()}
+          <section class="overview-insights" aria-label="核心经营指标（今日实时）">
+            ${kpis.map(renderOverviewKpiCard).join("")}
+          </section>
+        </div>`;
       }
 
       function getSelectedRtMetrics() {
@@ -7193,16 +8411,6 @@
         document
           .getElementById("rtQueryBtn")
           ?.addEventListener("click", drawRealtimeChart, { signal });
-        document.getElementById("rtTableQueryBtn")?.addEventListener(
-          "click",
-          () => {
-            drawRealtimeTable(
-              getSelectedRtMetrics(),
-              document.getElementById("rtTableDate")?.value,
-            );
-          },
-          { signal },
-        );
         document.getElementById("rtTableDate")?.addEventListener(
           "change",
           () => {
@@ -7300,40 +8508,8 @@
       }
 
       function initSurplusRateChart() {
-        const toggle = document.getElementById("surplusRateRangeToggle");
-        const wrap = document.getElementById("surplusRateChartWrap");
-        const subtitle = document.getElementById("surplusRateSubtitle");
-        if (!toggle || !wrap) return;
-
-        if (window._surplusRateAbort) window._surplusRateAbort.abort();
-        window._surplusRateAbort = new AbortController();
-        const { signal } = window._surplusRateAbort;
-
-        const subtitleMap = {
-          7: "近七日盈余率走势",
-          30: "近30日盈余率走势",
-          90: "近90日盈余率走势",
-        };
-
-        const updateChart = (dayCount) => {
-          wrap.innerHTML = renderSurplusRateTrend(dayCount);
-          if (subtitle)
-            subtitle.textContent = subtitleMap[dayCount] || subtitleMap[7];
-        };
-
-        toggle.querySelectorAll(".range-btn").forEach((btn) => {
-          btn.addEventListener(
-            "click",
-            () => {
-              toggle
-                .querySelectorAll(".range-btn")
-                .forEach((b) => b.classList.remove("active"));
-              btn.classList.add("active");
-              updateChart(Number(btn.dataset.days));
-            },
-            { signal },
-          );
-        });
+        // 盈余率趋势改由顶部全局时间筛选控制
+        refreshOverviewByGlobalFilter();
       }
 
       function renderKpiCard(k) {
@@ -7355,64 +8531,153 @@
         return `<article class="metric-card"><div class="metric-label">${k.label}${tag}</div><div class="metric-value">${k.value}</div>${trend}${best}${note}</article>`;
       }
 
+      function renderKpiTodayHead() {
+        return `
+          <div class="overview-kpi-head">
+            <span class="overview-kpi-note">今日数据</span>
+            <span class="overview-kpi-updated">更新时间：${formatDateTimeHM(new Date())}</span>
+          </div>`;
+      }
+
+      /** 非经营总览 / 非游戏·应用分析：KPI 仅展示名称与数值 */
+      function renderSimpleKpiCard(k) {
+        return `<article class="metric-card"><div class="metric-label">${k.label}</div><div class="metric-value">${k.value}</div></article>`;
+      }
+
       function renderInsightsPanel(page) {
         if (!page.insights || !page.insights.length) return "";
         const cols = page.insights.length;
-        const heading = page.question
-          ? `<div class="section-heading">${page.title} <span class="hint">${page.question}</span></div>`
-          : "";
         return `
         <div class="analysis-block">
-          ${heading}
-          <section class="kpi-grid" style="grid-template-columns:repeat(${cols},minmax(0,1fr))" aria-label="${page.title}核心指标">
-            ${page.insights.map(renderKpiCard).join("")}
-          </section>
+          <div class="overview-kpi-block" style="margin-bottom:0">
+            ${renderKpiTodayHead()}
+            <section class="kpi-grid" style="grid-template-columns:repeat(${cols},minmax(0,1fr))" aria-label="${page.title}核心指标">
+              ${page.insights.map(renderSimpleKpiCard).join("")}
+            </section>
+          </div>
         </div>`;
       }
 
-      function renderLifecycleTrendInsights(page) {
+      function renderLifecycleTrendInsights(page, opts = {}) {
+        const { hideChannelName = false } = opts;
+        const labels = buildRecentTrendLabels(7);
+        const scaleChart = renderMultiLineTrendChart({
+          labels,
+          series: [
+            {
+              name: "新增用户数",
+              data: genTrendSeries(7, 7200, 9120, 180),
+              color: "#165DFF",
+            },
+            {
+              name: "活跃用户数",
+              data: genTrendSeries(7, 13200, 15680, 280),
+              color: "#14C9C9",
+            },
+          ],
+          maxVal: 18000,
+          yStep: 4500,
+          height: STANDARD_CHART_HEIGHT,
+        });
+        const payChart = renderMultiLineTrendChart({
+          labels,
+          series: [
+            {
+              name: "付费人数",
+              data: genTrendSeries(7, 2780, 3280, 80),
+              color: "#F7BA1E",
+            },
+            {
+              name: "充值金额",
+              data: genTrendSeries(7, 480000, 620000, 18000),
+              color: "#165DFF",
+            },
+          ],
+          maxVal: 700000,
+          yStep: 175000,
+          height: STANDARD_CHART_HEIGHT,
+        });
+        const valueChart = renderMultiLineTrendChart({
+          labels,
+          series: [
+            {
+              name: "总ARPU",
+              data: genTrendSeries(7, 52, 62.8, 1.2, 1),
+              color: "#00B42A",
+            },
+            {
+              name: "总ARPPU",
+              data: genTrendSeries(7, 168, 188, 3.5, 1),
+              color: "#722ED1",
+            },
+          ],
+          maxVal: 220,
+          yStep: 55,
+          height: STANDARD_CHART_HEIGHT,
+        });
+        const retainChart = renderMultiLineTrendChart({
+          labels,
+          series: [
+            {
+              name: "次日留存",
+              data: genTrendSeries(7, 38.5, 42.1, 0.4, 1),
+              color: "#165DFF",
+            },
+            {
+              name: "7日留存",
+              data: genTrendSeries(7, 18.2, 20.5, 0.25, 1),
+              color: "#F53F3F",
+            },
+          ],
+          maxVal: 100,
+          yStep: 25,
+          height: STANDARD_CHART_HEIGHT,
+        });
         return `
         <div class="analysis-block">
-          <div class="section-heading">${page.title} <span class="hint">${page.question || ""}</span></div>
           <section class="chart-grid">
-            <article class="chart-card">
-              <div class="chart-title">用户规模趋势 <span class="status-tag info">折线图</span></div>
-              <div class="chart-subtitle">新增用户数 / 活跃用户数</div>
-              <div class="line-chart"><svg viewBox="0 0 400 140" preserveAspectRatio="none">
-                <polyline fill="none" stroke="#165DFF" stroke-width="2.5" points="0,95 50,88 100,82 150,72 200,66 250,58 300,50 350,42 400,36"/>
-                <polyline fill="none" stroke="#14C9C9" stroke-width="2.5" points="0,110 50,104 100,98 150,90 200,84 250,78 300,70 350,64 400,58"/>
-              </svg></div>
-              <div class="line-legend"><span><i style="background:#165DFF"></i>新增用户数</span><span><i style="background:#14C9C9"></i>活跃用户数</span></div>
-            </article>
-            <article class="chart-card">
-              <div class="chart-title">付费趋势 <span class="status-tag info">折线图</span></div>
-              <div class="chart-subtitle">付费人数 / 充值金额</div>
-              <div class="line-chart"><svg viewBox="0 0 400 140" preserveAspectRatio="none">
-                <polyline fill="none" stroke="#F7BA1E" stroke-width="2.5" points="0,100 50,94 100,90 150,82 200,76 250,68 300,60 350,52 400,46"/>
-                <polyline fill="none" stroke="#165DFF" stroke-width="2.5" points="0,90 50,82 100,76 150,66 200,58 250,50 300,42 350,34 400,28"/>
-              </svg></div>
-              <div class="line-legend"><span><i style="background:#F7BA1E"></i>付费人数</span><span><i style="background:#165DFF"></i>充值金额</span></div>
-            </article>
+            ${renderStandardChartCard({
+              key: "life-scale",
+              title: "用户规模趋势",
+              type: "折线图",
+              metrics: ["新增用户数", "活跃用户数"],
+              subtitle: "新增用户数 / 活跃用户数",
+              filterId: "lifeScaleFilter",
+              hideChannelName,
+              body: scaleChart,
+            })}
+            ${renderStandardChartCard({
+              key: "life-pay",
+              title: "付费趋势",
+              type: "折线图",
+              metrics: ["付费人数", "充值金额"],
+              subtitle: "付费人数 / 充值金额",
+              filterId: "lifePayFilter",
+              hideChannelName,
+              body: payChart,
+            })}
           </section>
           <section class="chart-grid">
-            <article class="chart-card">
-              <div class="chart-title">用户价值趋势 <span class="status-tag info">折线图</span></div>
-              <div class="chart-subtitle">总ARPU / 总ARPPU</div>
-              <div class="line-chart"><svg viewBox="0 0 400 140" preserveAspectRatio="none">
-                <polyline fill="none" stroke="#00B42A" stroke-width="2.5" points="0,80 50,76 100,72 150,66 200,60 250,54 300,48 350,44 400,40"/>
-                <polyline fill="none" stroke="#722ED1" stroke-width="2.5" points="0,60 50,58 100,55 150,52 200,50 250,47 300,45 350,42 400,40"/>
-              </svg></div>
-              <div class="line-legend"><span><i style="background:#00B42A"></i>总ARPU</span><span><i style="background:#722ED1"></i>总ARPPU</span></div>
-            </article>
-            <article class="chart-card">
-              <div class="chart-title">留存趋势 <span class="status-tag info">折线图</span></div>
-              <div class="chart-subtitle">次日留存 / 7日留存</div>
-              <div class="line-chart"><svg viewBox="0 0 400 140" preserveAspectRatio="none">
-                <polyline fill="none" stroke="#165DFF" stroke-width="2.5" points="0,55 50,53 100,51 150,49 200,47 250,46 300,44 350,42 400,40"/>
-                <polyline fill="none" stroke="#F53F3F" stroke-width="2.5" points="0,95 50,94 100,92 150,90 200,89 250,88 300,86 350,85 400,84"/>
-              </svg></div>
-              <div class="line-legend"><span><i style="background:#165DFF"></i>次日留存</span><span><i style="background:#F53F3F"></i>7日留存</span></div>
-            </article>
+            ${renderStandardChartCard({
+              key: "life-value",
+              title: "用户价值趋势",
+              type: "折线图",
+              metrics: ["总ARPU", "总ARPPU"],
+              subtitle: "总ARPU / 总ARPPU",
+              filterId: "lifeValueFilter",
+              hideChannelName,
+              body: valueChart,
+            })}
+            ${renderStandardChartCard({
+              key: "life-retain",
+              title: "留存趋势",
+              type: "折线图",
+              metrics: ["次日留存", "7日留存"],
+              subtitle: "次日留存 / 7日留存",
+              filterId: "lifeRetainFilter",
+              hideChannelName,
+              body: retainChart,
+            })}
           </section>
         </div>`;
       }
@@ -7424,16 +8689,16 @@
       }
 
       function renderPageCharts(page, pageId) {
+        const chartOpts = { hideChannelName: !!page.hideChannelNameFilter };
         return `
           ${page.overviewFunnelChart ? renderOverviewFunnelChart() : ""}
-          ${page.trendCharts ? renderLifecycleTrendInsights(page) : ""}
-          ${page.chartView ? renderAcquisitionFixedCharts() : ""}
-          ${page.activationCharts ? renderActivationFixedCharts() : ""}
-          ${page.retentionActiveCharts ? renderRetentionActiveCharts() : ""}
-          ${page.conversionCharts ? renderConversionRateTrendChart() : ""}
-          ${page.valueOverallCharts ? renderOverallValueTrendCharts() : ""}
-          ${page.valueOldCharts ? renderOldUserValueTrendCharts() : ""}
-          ${page.ltvCharts ? renderLtvCohortChart(page) : ""}
+          ${page.trendCharts ? renderLifecycleTrendInsights(page, chartOpts) : ""}
+          ${page.acquisitionCharts || page.chartView ? renderAcquisitionFixedCharts(chartOpts) : ""}
+          ${page.retentionActiveCharts ? renderRetentionActiveCharts(chartOpts) : ""}
+          ${page.conversionCharts ? renderConversionRateTrendChart(chartOpts) : ""}
+          ${page.valueOverallCharts ? renderOverallValueTrendCharts(chartOpts) : ""}
+          ${page.valueOldCharts ? renderOldUserValueTrendCharts(chartOpts) : ""}
+          ${page.ltvCharts ? renderLtvCohortChart(page, chartOpts) : ""}
         `;
       }
 
@@ -7458,6 +8723,194 @@
               `<option value="${name}" ${name === selected ? "selected" : ""}>${name}</option>`,
           )
           .join("");
+      }
+
+      const GAME_NAME_OPTIONS = [
+        "Aviator",
+        "7up7down",
+        "Money Coming",
+        "Fortune Ox",
+        "Dragon Tiger",
+        "Sugar Rush",
+        "Gates of Olympus",
+        "Lucky Neko",
+        "Fishing Master",
+        "Crash",
+      ];
+
+      function fuzzyMatchGameName(query, name) {
+        const q = String(query || "")
+          .trim()
+          .toLowerCase();
+        const n = String(name || "").toLowerCase();
+        if (!q) return true;
+        if (n.includes(q)) return true;
+        let qi = 0;
+        for (let i = 0; i < n.length && qi < q.length; i++) {
+          if (n[i] === q[qi]) qi++;
+        }
+        return qi === q.length;
+      }
+
+      function highlightGameNameMatch(name, query) {
+        const q = String(query || "").trim();
+        if (!q) return name;
+        const lowerName = name.toLowerCase();
+        const lowerQ = q.toLowerCase();
+        const idx = lowerName.indexOf(lowerQ);
+        if (idx >= 0) {
+          return (
+            name.slice(0, idx) +
+            "<mark>" +
+            name.slice(idx, idx + q.length) +
+            "</mark>" +
+            name.slice(idx + q.length)
+          );
+        }
+        return name;
+      }
+
+      function renderGameNameDropdownOptions(query, selected) {
+        const q = String(query || "").trim();
+        const items = [];
+        if (!q || fuzzyMatchGameName(q, "全部")) {
+          items.push({
+            value: "",
+            label: "全部",
+            html: "全部",
+          });
+        }
+        GAME_NAME_OPTIONS.filter((name) => fuzzyMatchGameName(q, name)).forEach(
+          (name) => {
+            items.push({
+              value: name,
+              label: name,
+              html: highlightGameNameMatch(name, q),
+            });
+          },
+        );
+        if (!items.length) {
+          return `<div class="game-name-option is-empty">无匹配游戏</div>`;
+        }
+        return items
+          .map((item) => {
+            const active = (selected || "") === item.value ? " is-active" : "";
+            return `<div class="game-name-option${active}" data-value="${item.value}" role="option">${item.html}</div>`;
+          })
+          .join("");
+      }
+
+      function bindGameNameSearchSelect(wrap) {
+        if (!wrap || wrap.dataset.bound === "1") return;
+        wrap.dataset.bound = "1";
+        const input = wrap.querySelector(".game-name-filter");
+        const dropdown = wrap.querySelector(".game-name-dropdown");
+        if (!input || !dropdown) return;
+
+        const syncSelected = (value) => {
+          wrap.dataset.selected = value || "";
+          input.value = value || "";
+        };
+
+        const openDropdown = () => {
+          dropdown.innerHTML = renderGameNameDropdownOptions(
+            input.value,
+            wrap.dataset.selected || "",
+          );
+          dropdown.classList.add("open");
+        };
+
+        const closeDropdown = () => {
+          dropdown.classList.remove("open");
+        };
+
+        const commitExactOrFuzzy = () => {
+          const raw = input.value.trim();
+          if (!raw || raw === "全部") {
+            syncSelected("");
+            return;
+          }
+          const exact = GAME_NAME_OPTIONS.find(
+            (name) => name.toLowerCase() === raw.toLowerCase(),
+          );
+          if (exact) {
+            syncSelected(exact);
+            return;
+          }
+          const fuzzyHits = GAME_NAME_OPTIONS.filter((name) =>
+            fuzzyMatchGameName(raw, name),
+          );
+          if (fuzzyHits.length === 1) {
+            syncSelected(fuzzyHits[0]);
+            return;
+          }
+          // 保留当前输入，允许用户继续搜索后点查询
+        };
+
+        input.addEventListener("focus", () => {
+          const isExact =
+            !input.value.trim() ||
+            GAME_NAME_OPTIONS.some(
+              (name) => name.toLowerCase() === input.value.trim().toLowerCase(),
+            );
+          dropdown.innerHTML = renderGameNameDropdownOptions(
+            isExact ? "" : input.value,
+            wrap.dataset.selected || "",
+          );
+          dropdown.classList.add("open");
+          input.select();
+        });
+        input.addEventListener("click", () => {
+          if (!dropdown.classList.contains("open")) {
+            dropdown.innerHTML = renderGameNameDropdownOptions(
+              "",
+              wrap.dataset.selected || "",
+            );
+            dropdown.classList.add("open");
+          }
+        });
+        input.addEventListener("input", () => {
+          wrap.dataset.selected = input.value.trim();
+          openDropdown();
+        });
+        input.addEventListener("keydown", (e) => {
+          if (e.key === "Escape") {
+            closeDropdown();
+            input.blur();
+            return;
+          }
+          if (e.key === "Enter") {
+            e.preventDefault();
+            const first = dropdown.querySelector(
+              ".game-name-option:not(.is-empty)",
+            );
+            if (first) {
+              syncSelected(first.getAttribute("data-value") || "");
+            } else {
+              commitExactOrFuzzy();
+            }
+            closeDropdown();
+          }
+        });
+        input.addEventListener("blur", () => {
+          setTimeout(() => {
+            commitExactOrFuzzy();
+            closeDropdown();
+          }, 120);
+        });
+        dropdown.addEventListener("mousedown", (e) => {
+          const option = e.target.closest(".game-name-option");
+          if (!option || option.classList.contains("is-empty")) return;
+          e.preventDefault();
+          syncSelected(option.getAttribute("data-value") || "");
+          closeDropdown();
+        });
+      }
+
+      function initGameNameSearchFilters(root = document) {
+        root
+          .querySelectorAll(".game-name-select")
+          .forEach((wrap) => bindGameNameSearchSelect(wrap));
       }
 
       function renderGameAnalysisFilterBar(
@@ -7516,8 +8969,17 @@
           <div class="filter-item filter-item-game-name">
             <label>游戏名称</label>
             <div class="filter-field-control">
-              <input type="text" class="game-name-filter" placeholder="请输入游戏名称" />
-              ${showGameHint ? `<span class="filter-field-hint">输入游戏名称查询后显示单个游戏分析数据</span>` : ""}
+              <div class="game-name-select">
+                <input
+                  type="text"
+                  class="game-name-filter"
+                  placeholder="全部 / 搜索游戏名称"
+                  autocomplete="off"
+                  spellcheck="false"
+                />
+                <div class="game-name-dropdown" role="listbox"></div>
+              </div>
+              ${showGameHint ? `<span class="filter-field-hint">选择或搜索游戏名称查询后显示单个游戏分析数据</span>` : ""}
             </div>
           </div>
           ${extraHtml}
@@ -7549,11 +9011,76 @@
       ];
 
       const BET_REPORT_ROWS = [
-        ["One", "MG", "Aviator", 10000, 10000, 10000, 10000, 10000, "10000", "10000", "10000", "6分32秒"],
-        ["Inout", "JDB", "7up7down", 10000, 10000, 10000, 10000, 10000, "10000", "10000", "10000", "5分48秒"],
-        ["壹号 平台", "PG", "Money Coming", 10000, 10000, 10000, 10000, 10000, "10000", "10000", "10000", "7分15秒"],
-        ["One", "INOUT", "Fortune Ox", 10000, 10000, 10000, 10000, 10000, "10000", "10000", "10000", "4分56秒"],
-        ["合计", "-", "-", 50000, 50000, 50000, 50000, 50000, "50000", "50000", "50000", "6分08秒"],
+        [
+          "One",
+          "MG",
+          "Aviator",
+          10000,
+          10000,
+          10000,
+          10000,
+          10000,
+          "10000",
+          "10000",
+          "10000",
+          "6分32秒",
+        ],
+        [
+          "Inout",
+          "JDB",
+          "7up7down",
+          10000,
+          10000,
+          10000,
+          10000,
+          10000,
+          "10000",
+          "10000",
+          "10000",
+          "5分48秒",
+        ],
+        [
+          "壹号 平台",
+          "PG",
+          "Money Coming",
+          10000,
+          10000,
+          10000,
+          10000,
+          10000,
+          "10000",
+          "10000",
+          "10000",
+          "7分15秒",
+        ],
+        [
+          "One",
+          "INOUT",
+          "Fortune Ox",
+          10000,
+          10000,
+          10000,
+          10000,
+          10000,
+          "10000",
+          "10000",
+          "10000",
+          "4分56秒",
+        ],
+        [
+          "合计",
+          "-",
+          "-",
+          50000,
+          50000,
+          50000,
+          50000,
+          50000,
+          "50000",
+          "50000",
+          "50000",
+          "6分08秒",
+        ],
       ];
 
       function renderBetReportTable() {
@@ -7612,35 +9139,142 @@
         activity: {
           filterId: "game-activity",
           kpis: [
-            { label: "投注玩家DAU", value: "12,580", trend: "5.2% 日环比", dir: "up" },
-            { label: "新增投注玩家数", value: "3,260", trend: "8.6% 日环比", dir: "up" },
-            { label: "老投注玩家DAU", value: "9,320", trend: "3.4% 日环比", dir: "up" },
-            { label: "投注活跃玩家数", value: "9,840", trend: "4.1% 日环比", dir: "up" },
-            { label: "投注转化率", value: "78.2%", trend: "1.2% 日环比", dir: "up" },
+            {
+              label: "投注玩家DAU",
+              value: "12,580",
+              trend: "5.2% 日环比",
+              dir: "up",
+            },
+            {
+              label: "新增投注玩家数",
+              value: "3,260",
+              trend: "8.6% 日环比",
+              dir: "up",
+            },
+            {
+              label: "老投注玩家DAU",
+              value: "9,320",
+              trend: "3.4% 日环比",
+              dir: "up",
+            },
+            {
+              label: "投注活跃玩家数",
+              value: "9,840",
+              trend: "4.1% 日环比",
+              dir: "up",
+            },
           ],
           metricCols: [
             "投注玩家DAU",
+            "投注活跃玩家数",
             "新增投注玩家数",
             "老投注玩家DAU",
-            "投注活跃玩家数",
-            "投注转化率",
+            "人均投注金额",
+            "总投注金额",
+          ],
+          groups: [
+            {
+              name: "基础",
+              cls: "g-base",
+              cols: ["游戏平台", "游戏厂商", "游戏名称"],
+            },
+            {
+              name: "用户规模",
+              cls: "g-ga-scale",
+              cols: ["投注玩家DAU", "投注活跃玩家数"],
+            },
+            {
+              name: "用户结构",
+              cls: "g-ga-structure",
+              cols: ["新增投注玩家数", "老投注玩家DAU"],
+            },
+            {
+              name: "投注价值",
+              cls: "g-ga-value",
+              cols: ["人均投注金额", "总投注金额"],
+            },
           ],
           rows: [
-            ["One", "MG", "Aviator", 4280, 1120, 3160, 3560, "83.2%"],
-            ["Inout", "JDB", "7up7down", 3120, 860, 2260, 2540, "81.4%"],
-            ["壹号 平台", "PG", "Money Coming", 2860, 720, 2140, 2180, "76.2%"],
-            ["One", "INOUT", "Fortune Ox", 2320, 560, 1760, 1860, "80.2%"],
-            ["合计", "-", "-", 12580, 3260, 9320, 9840, "78.2%"],
+            [
+              "One",
+              "MG",
+              "Aviator",
+              4280,
+              3560,
+              1120,
+              3160,
+              "¥543.5",
+              "¥1,934,960",
+            ],
+            [
+              "Inout",
+              "JDB",
+              "7up7down",
+              3120,
+              2540,
+              860,
+              2260,
+              "¥236.6",
+              "¥600,936",
+            ],
+            [
+              "壹号 平台",
+              "PG",
+              "Money Coming",
+              2860,
+              2180,
+              720,
+              2140,
+              "¥192.3",
+              "¥419,184",
+            ],
+            [
+              "One",
+              "INOUT",
+              "Fortune Ox",
+              2320,
+              1860,
+              560,
+              1760,
+              "¥214.9",
+              "¥399,776",
+            ],
+            ["合计", "-", "-", 12580, 9840, 3260, 9320, "¥242.2", "¥2,383,060"],
           ],
         },
         participation: {
           filterId: "game-participation",
           kpis: [
-            { label: "投注用户数", value: "6,520", trend: "3.8% 日环比", dir: "up" },
-            { label: "投注用户占比", value: "66.3%", trend: "0.6% 日环比", dir: "down" },
-            { label: "人均投注次数", value: "8.6", trend: "2.1% 日环比", dir: "up" },
-            { label: "单次投注金额", value: "¥42.5", trend: "1.3% 日环比", dir: "up" },
-            { label: "人均投注金额", value: "¥365.5", trend: "3.4% 日环比", dir: "up" },
+            {
+              label: "投注用户数",
+              value: "6,520",
+              trend: "3.8% 日环比",
+              dir: "up",
+            },
+            {
+              label: "投注用户占比",
+              value: "66.3%",
+              trend: "0.6% 日环比",
+              dir: "down",
+            },
+            {
+              label: "人均投注次数",
+              value: "8.6",
+              trend: "2.1% 日环比",
+              dir: "up",
+            },
+            {
+              label: "单次投注金额",
+              value: "¥42.5",
+              trend: "1.3% 日环比",
+              dir: "up",
+            },
+            {
+              label: "人均投注金额",
+              value: "¥365.5",
+              trend: "3.4% 日环比",
+              dir: "up",
+            },
           ],
           metricCols: [
             "投注用户数",
@@ -7651,40 +9285,115 @@
             "总投注金额",
           ],
           rows: [
-            ["One", "MG", "Aviator", 2680, "75.3%", 12.4, "¥58.2", "¥722.0", "¥1,934,960"],
-            ["Inout", "JDB", "7up7down", 1680, "66.1%", 9.8, "¥36.5", "¥357.7", "¥600,936"],
-            ["壹号 平台", "PG", "Money Coming", 1420, "65.1%", 7.2, "¥41.0", "¥295.2", "¥419,184"],
-            ["One", "INOUT", "Fortune Ox", 1240, "66.7%", 8.1, "¥39.8", "¥322.4", "¥399,776"],
-            ["合计", "-", "-", 6520, "66.3%", 8.6, "¥42.5", "¥365.5", "¥2,383,060"],
+            [
+              "One",
+              "MG",
+              "Aviator",
+              2680,
+              "75.3%",
+              12.4,
+              "¥58.2",
+              "¥722.0",
+              "¥1,934,960",
+            ],
+            [
+              "Inout",
+              "JDB",
+              "7up7down",
+              1680,
+              "66.1%",
+              9.8,
+              "¥36.5",
+              "¥357.7",
+              "¥600,936",
+            ],
+            [
+              "壹号 平台",
+              "PG",
+              "Money Coming",
+              1420,
+              "65.1%",
+              7.2,
+              "¥41.0",
+              "¥295.2",
+              "¥419,184",
+            ],
+            [
+              "One",
+              "INOUT",
+              "Fortune Ox",
+              1240,
+              "66.7%",
+              8.1,
+              "¥39.8",
+              "¥322.4",
+              "¥399,776",
+            ],
+            [
+              "合计",
+              "-",
+              "-",
+              6520,
+              "66.3%",
+              8.6,
+              "¥42.5",
+              "¥365.5",
+              "¥2,383,060",
+            ],
           ],
         },
         stay: {
           filterId: "game-stay",
-          metricCols: [
-            "平均游戏停留时长",
-            "单次访问停留时长",
-            "退出率",
-          ],
+          metricCols: ["平均游戏停留时长", "单次访问停留时长", "退出率"],
         },
         value: {
           filterId: "game-value",
           kpis: [
-            { label: "平台游戏输赢", value: "¥573,300", trend: "11.6% 日环比", dir: "up" },
-            { label: "GGR", value: "¥628,500", trend: "9.8% 日环比", dir: "up" },
+            {
+              label: "平台游戏输赢",
+              value: "¥573,300",
+              trend: "11.6% 日环比",
+              dir: "up",
+            },
+            {
+              label: "GGR",
+              value: "¥628,500",
+              trend: "9.8% 日环比",
+              dir: "up",
+            },
             { label: "RTP", value: "96.2%", trend: "0.3% 日环比", dir: "down" },
             { label: "杀率", value: "3.8%", trend: "0.3% 日环比", dir: "up" },
           ],
-          metricCols: [
-            "平台游戏输赢",
-            "GGR",
-            "RTP",
-            "杀率",
-          ],
+          metricCols: ["平台游戏输赢", "GGR", "RTP", "杀率"],
           rows: [
             ["One", "MG", "Aviator", "¥186,200", "¥198,500", "95.8%", "4.2%"],
-            ["Inout", "JDB", "7up7down", "¥142,800", "¥156,200", "96.5%", "3.5%"],
-            ["壹号 平台", "PG", "Money Coming", "¥138,600", "¥152,800", "96.1%", "3.9%"],
-            ["One", "INOUT", "Fortune Ox", "¥105,700", "¥121,000", "96.8%", "3.2%"],
+            [
+              "Inout",
+              "JDB",
+              "7up7down",
+              "¥142,800",
+              "¥156,200",
+              "96.5%",
+              "3.5%",
+            ],
+            [
+              "壹号 平台",
+              "PG",
+              "Money Coming",
+              "¥138,600",
+              "¥152,800",
+              "96.1%",
+              "3.9%",
+            ],
+            [
+              "One",
+              "INOUT",
+              "Fortune Ox",
+              "¥105,700",
+              "¥121,000",
+              "96.8%",
+              "3.2%",
+            ],
             ["合计", "-", "-", "¥573,300", "¥628,500", "96.2%", "3.8%"],
           ],
         },
@@ -7699,16 +9408,14 @@
       };
 
       const GAME_STAY_DAILY_LABELS = (() => {
-        const labels = [];
+        const dates = [];
         const end = new Date(2025, 6, 17); // 2025-07-17
         for (let i = 29; i >= 0; i--) {
           const d = new Date(end);
           d.setDate(end.getDate() - i);
-          const m = String(d.getMonth() + 1).padStart(2, "0");
-          const day = String(d.getDate()).padStart(2, "0");
-          labels.push(`${m}-${day}`);
+          dates.push(d);
         }
-        return labels;
+        return formatChartAxisDateLabels(dates);
       })();
 
       function buildGameStayDailySeries(seedBase, last7) {
@@ -7730,9 +9437,24 @@
       const GAME_STAY_BY_SEGMENT = {
         全部: {
           kpis: [
-            { label: "平均游戏停留时长", value: "18分32秒", trend: "2.4% 日环比", dir: "up" },
-            { label: "单次访问停留时长", value: "6分18秒", trend: "1.6% 日环比", dir: "up" },
-            { label: "退出率", value: "12.4%", trend: "0.5% 日环比", dir: "down" },
+            {
+              label: "平均游戏停留时长",
+              value: "18分32秒",
+              trend: "2.4% 日环比",
+              dir: "up",
+            },
+            {
+              label: "单次访问停留时长",
+              value: "6分18秒",
+              trend: "1.6% 日环比",
+              dir: "up",
+            },
+            {
+              label: "退出率",
+              value: "12.4%",
+              trend: "0.5% 日环比",
+              dir: "down",
+            },
           ],
           rows: [
             ["One", "MG", "Aviator", "22分15秒", "7分05秒", "11.8%"],
@@ -7742,17 +9464,52 @@
             ["合计", "-", "-", "18分32秒", "6分18秒", "12.4%"],
           ],
           compare: [
-            { name: "新玩家", value: 612, display: "10分12秒", color: "#14c9c9" },
-            { name: "老玩家", value: 1385, display: "23分05秒", color: "#722ed1" },
-            { name: "投注玩家", value: 1335, display: "22分15秒", color: "#f7ba1e" },
-            { name: "未投注玩家", value: 428, display: "7分08秒", color: "#86909c" },
+            {
+              name: "新玩家",
+              value: 612,
+              display: "10分12秒",
+              color: "#14c9c9",
+            },
+            {
+              name: "老玩家",
+              value: 1385,
+              display: "23分05秒",
+              color: "#722ed1",
+            },
+            {
+              name: "投注玩家",
+              value: 1335,
+              display: "22分15秒",
+              color: "#f7ba1e",
+            },
+            {
+              name: "未投注玩家",
+              value: 428,
+              display: "7分08秒",
+              color: "#86909c",
+            },
           ],
         },
         新玩家: {
           kpis: [
-            { label: "平均游戏停留时长", value: "10分12秒", trend: "3.1% 日环比", dir: "up" },
-            { label: "单次访问停留时长", value: "4分05秒", trend: "2.0% 日环比", dir: "up" },
-            { label: "退出率", value: "18.6%", trend: "0.8% 日环比", dir: "down" },
+            {
+              label: "平均游戏停留时长",
+              value: "10分12秒",
+              trend: "3.1% 日环比",
+              dir: "up",
+            },
+            {
+              label: "单次访问停留时长",
+              value: "4分05秒",
+              trend: "2.0% 日环比",
+              dir: "up",
+            },
+            {
+              label: "退出率",
+              value: "18.6%",
+              trend: "0.8% 日环比",
+              dir: "down",
+            },
           ],
           rows: [
             ["One", "MG", "Aviator", "12分40秒", "4分50秒", "16.2%"],
@@ -7761,13 +9518,31 @@
             ["One", "INOUT", "Fortune Ox", "8分45秒", "3分28秒", "21.4%"],
             ["合计", "-", "-", "10分12秒", "4分05秒", "18.6%"],
           ],
-          daily: buildGameStayDailySeries(1, [540, 580, 560, 620, 600, 650, 612]),
+          daily: buildGameStayDailySeries(
+            1,
+            [540, 580, 560, 620, 600, 650, 612],
+          ),
         },
         老玩家: {
           kpis: [
-            { label: "平均游戏停留时长", value: "23分05秒", trend: "2.8% 日环比", dir: "up" },
-            { label: "单次访问停留时长", value: "7分42秒", trend: "1.9% 日环比", dir: "up" },
-            { label: "退出率", value: "9.2%", trend: "0.4% 日环比", dir: "down" },
+            {
+              label: "平均游戏停留时长",
+              value: "23分05秒",
+              trend: "2.8% 日环比",
+              dir: "up",
+            },
+            {
+              label: "单次访问停留时长",
+              value: "7分42秒",
+              trend: "1.9% 日环比",
+              dir: "up",
+            },
+            {
+              label: "退出率",
+              value: "9.2%",
+              trend: "0.4% 日环比",
+              dir: "down",
+            },
           ],
           rows: [
             ["One", "MG", "Aviator", "26分30秒", "8分20秒", "8.1%"],
@@ -7776,13 +9551,31 @@
             ["One", "INOUT", "Fortune Ox", "19分50秒", "6分40秒", "11.0%"],
             ["合计", "-", "-", "23分05秒", "7分42秒", "9.2%"],
           ],
-          daily: buildGameStayDailySeries(3, [1180, 1250, 1220, 1320, 1280, 1400, 1385]),
+          daily: buildGameStayDailySeries(
+            3,
+            [1180, 1250, 1220, 1320, 1280, 1400, 1385],
+          ),
         },
         投注玩家: {
           kpis: [
-            { label: "平均游戏停留时长", value: "22分15秒", trend: "3.3% 日环比", dir: "up" },
-            { label: "单次访问停留时长", value: "7分20秒", trend: "2.1% 日环比", dir: "up" },
-            { label: "退出率", value: "8.6%", trend: "0.3% 日环比", dir: "down" },
+            {
+              label: "平均游戏停留时长",
+              value: "22分15秒",
+              trend: "3.3% 日环比",
+              dir: "up",
+            },
+            {
+              label: "单次访问停留时长",
+              value: "7分20秒",
+              trend: "2.1% 日环比",
+              dir: "up",
+            },
+            {
+              label: "退出率",
+              value: "8.6%",
+              trend: "0.3% 日环比",
+              dir: "down",
+            },
           ],
           rows: [
             ["One", "MG", "Aviator", "25分10秒", "8分05秒", "7.4%"],
@@ -7791,13 +9584,31 @@
             ["One", "INOUT", "Fortune Ox", "19分20秒", "6分25秒", "10.1%"],
             ["合计", "-", "-", "22分15秒", "7分20秒", "8.6%"],
           ],
-          daily: buildGameStayDailySeries(5, [1120, 1200, 1180, 1280, 1240, 1350, 1335]),
+          daily: buildGameStayDailySeries(
+            5,
+            [1120, 1200, 1180, 1280, 1240, 1350, 1335],
+          ),
         },
         未投注玩家: {
           kpis: [
-            { label: "平均游戏停留时长", value: "7分08秒", trend: "1.2% 日环比", dir: "down" },
-            { label: "单次访问停留时长", value: "3分15秒", trend: "0.8% 日环比", dir: "down" },
-            { label: "退出率", value: "24.5%", trend: "1.1% 日环比", dir: "up" },
+            {
+              label: "平均游戏停留时长",
+              value: "7分08秒",
+              trend: "1.2% 日环比",
+              dir: "down",
+            },
+            {
+              label: "单次访问停留时长",
+              value: "3分15秒",
+              trend: "0.8% 日环比",
+              dir: "down",
+            },
+            {
+              label: "退出率",
+              value: "24.5%",
+              trend: "1.1% 日环比",
+              dir: "up",
+            },
           ],
           rows: [
             ["One", "MG", "Aviator", "8分30秒", "3分40秒", "21.8%"],
@@ -7806,7 +9617,10 @@
             ["One", "INOUT", "Fortune Ox", "5分50秒", "2分48秒", "27.2%"],
             ["合计", "-", "-", "7分08秒", "3分15秒", "24.5%"],
           ],
-          daily: buildGameStayDailySeries(7, [380, 420, 400, 450, 430, 460, 428]),
+          daily: buildGameStayDailySeries(
+            7,
+            [380, 420, 400, 450, 430, 460, 428],
+          ),
         },
       };
 
@@ -7877,7 +9691,8 @@
       function getGameStayViewConfig() {
         const base = GAME_METRIC_PAGES.stay;
         const seg =
-          GAME_STAY_BY_SEGMENT[GAME_STAY_SEGMENT] || GAME_STAY_BY_SEGMENT["全部"];
+          GAME_STAY_BY_SEGMENT[GAME_STAY_SEGMENT] ||
+          GAME_STAY_BY_SEGMENT["全部"];
         return {
           ...base,
           kpis: seg.kpis,
@@ -7935,8 +9750,12 @@
       }
 
       function initGameStayFilter(scope) {
-        const input = scope.querySelector('.filter-bar[data-local-filter="game-stay"] .game-name-filter');
-        const queryBtn = scope.querySelector('.filter-bar[data-local-filter="game-stay"] .btn-primary');
+        const input = scope.querySelector(
+          '.filter-bar[data-local-filter="game-stay"] .game-name-filter',
+        );
+        const queryBtn = scope.querySelector(
+          '.filter-bar[data-local-filter="game-stay"] .btn-primary',
+        );
         if (!input || !queryBtn) return;
         queryBtn.addEventListener("click", () => {
           const showAllGames = !input.value.trim();
@@ -7944,11 +9763,13 @@
           const charts = scope.querySelector("#gameStayCharts");
           if (kpiWrap) kpiWrap.style.display = showAllGames ? "none" : "";
           if (!charts) return;
+          collapseChartZoom();
           charts.outerHTML = renderGameStayCharts(showAllGames);
           if (!showAllGames) {
             bindGameStayRangeToggle();
             bindSvgChartTooltips(scope.querySelector("#gameStayCharts"));
           }
+          decorateChartZoomHints(scope);
         });
       }
 
@@ -7960,11 +9781,36 @@
       }
 
       function renderGameMetricTable(config) {
-        const cols = ["游戏平台", "游戏厂商", "游戏名称", ...config.metricCols];
+        const stickyCount = 3;
+        const baseCols = ["游戏平台", "游戏厂商", "游戏名称"];
+        const cols = config.groups
+          ? config.groups.flatMap((g) => g.cols)
+          : [...baseCols, ...config.metricCols];
+        const groups = config.groups || null;
+
+        let groupRow = "";
+        if (groups) {
+          let colOffset = 0;
+          groups.forEach((g) => {
+            const groupStart = colOffset;
+            const groupEnd = colOffset + g.cols.length;
+            const stickyColsInGroup = Math.max(
+              0,
+              Math.min(groupEnd, stickyCount) - groupStart,
+            );
+            const stickyCls =
+              stickyColsInGroup === g.cols.length && stickyColsInGroup > 0
+                ? " sticky-group-head"
+                : "";
+            groupRow += `<th class="${g.cls || ""}${stickyCls}" colspan="${g.cols.length}">${g.name}</th>`;
+            colOffset = groupEnd;
+          });
+        }
+
         const head = cols
           .map((c, i) => {
-            const stickyCls = i < 3 ? `sticky-col-${i + 1}` : "";
-            const help = i < 3 ? "" : renderGameMetricHelpBtn(c);
+            const stickyCls = i < stickyCount ? `sticky-col-${i + 1}` : "";
+            const help = i < stickyCount ? "" : renderGameMetricHelpBtn(c);
             return `<th class="${stickyCls}">${c}${help}<span class="sort-icon">▲<br>▼</span></th>`;
           })
           .join("");
@@ -7973,9 +9819,11 @@
             const isTotal = ri === config.rows.length - 1;
             const cells = row
               .map((cell, i) => {
-                const stickyCls = i < 3 ? `sticky-col-${i + 1}` : "";
+                const stickyCls = i < stickyCount ? `sticky-col-${i + 1}` : "";
                 const val =
-                  typeof cell === "number" ? cell.toLocaleString("zh-CN") : cell;
+                  typeof cell === "number"
+                    ? cell.toLocaleString("zh-CN")
+                    : cell;
                 return `<td class="${stickyCls}${isTotal ? " is-total" : ""}">${val}</td>`;
               })
               .join("");
@@ -7984,8 +9832,11 @@
           .join("");
         return `
           <div class="table-wrap">
-            <table class="data-table">
-              <thead><tr class="col-row">${head}</tr></thead>
+            <table class="data-table${groups ? " has-group-header" : ""}">
+              <thead>
+                ${groups ? `<tr class="group-row">${groupRow}</tr>` : ""}
+                <tr class="col-row">${head}</tr>
+              </thead>
               <tbody>${body}</tbody>
             </table>
           </div>
@@ -8117,7 +9968,12 @@
         </div>`;
       }
 
-      function renderGameActivityTop10Chart(data, valueLabel, suffix = "", options = {}) {
+      function renderGameActivityTop10Chart(
+        data,
+        valueLabel,
+        suffix = "",
+        options = {},
+      ) {
         const W = 620;
         const H = options.height || 300;
         const padL = 150;
@@ -8127,38 +9983,50 @@
         const plotW = W - padL - padR;
         const rowH = (H - padT - padB) / data.length;
         const maxVal = Math.max(...data.map((item) => item.value));
-        const rows = data.map((item, index) => {
-          const y = padT + index * rowH;
-          const width = (item.value / maxVal) * plotW;
-          let display;
-          if (suffix === "%") {
-            display = `${item.value.toFixed(1)}%`;
-          } else if (suffix === "¥") {
-            const num = Number(item.value);
-            display =
-              "¥" +
-              (Number.isInteger(num)
-                ? num.toLocaleString("zh-CN")
-                : num.toLocaleString("zh-CN", {
-                    minimumFractionDigits: 1,
-                    maximumFractionDigits: 1,
-                  }));
-          } else if (suffix === "sec") {
-            display = formatStaySec(item.value);
-          } else {
-            display = item.value.toLocaleString("zh-CN");
-          }
-          const barH = Math.max(10, rowH - 8);
-          const barY = y + (rowH - barH) / 2;
-          return `<text class="axis-label" x="${padL - 10}" y="${y + rowH / 2 + 4}" text-anchor="end">${index + 1}. ${item.name}</text><rect x="${padL}" y="${barY}" width="${plotW}" height="${barH}" rx="3" fill="#f2f3f5"></rect><rect x="${padL}" y="${barY}" width="${width}" height="${barH}" rx="3" fill="${index < 3 ? "#165DFF" : "#14C9C9"}"></rect><text class="axis-label" x="${padL + width + 8}" y="${y + rowH / 2 + 4}">${display}</text>`;
-        }).join("");
+        const rows = data
+          .map((item, index) => {
+            const y = padT + index * rowH;
+            const width = (item.value / maxVal) * plotW;
+            let display;
+            if (suffix === "%") {
+              display = `${item.value.toFixed(1)}%`;
+            } else if (suffix === "¥") {
+              const num = Number(item.value);
+              display =
+                "¥" +
+                (Number.isInteger(num)
+                  ? num.toLocaleString("zh-CN")
+                  : num.toLocaleString("zh-CN", {
+                      minimumFractionDigits: 1,
+                      maximumFractionDigits: 1,
+                    }));
+            } else if (suffix === "sec") {
+              display = formatStaySec(item.value);
+            } else {
+              display = item.value.toLocaleString("zh-CN");
+            }
+            const barH = Math.max(10, rowH - 8);
+            const barY = y + (rowH - barH) / 2;
+            return `<text class="axis-label" x="${padL - 10}" y="${y + rowH / 2 + 4}" text-anchor="end">${index + 1}. ${item.name}</text><rect x="${padL}" y="${barY}" width="${plotW}" height="${barH}" rx="3" fill="#f2f3f5"></rect><rect x="${padL}" y="${barY}" width="${width}" height="${barH}" rx="3" fill="${index < 3 ? "#165DFF" : "#14C9C9"}"></rect><text class="axis-label" x="${padL + width + 8}" y="${y + rowH / 2 + 4}">${display}</text>`;
+          })
+          .join("");
         return `<div class="combo-chart"><svg viewBox="0 0 ${W} ${H}" preserveAspectRatio="xMidYMid meet" role="img" aria-label="${valueLabel} Top10 横向柱状排行榜">${rows}</svg></div>`;
       }
 
       function renderGameActivityRankingCharts() {
-        const dauRank = [["Aviator", 4280], ["7up7down", 3120], ["Money Coming", 2860], ["Fortune Ox", 2320], ["Dragon Tiger", 2180], ["Sugar Rush", 1960], ["Gates of Olympus", 1840], ["Lucky Neko", 1710], ["Fishing Master", 1580], ["Crash", 1460]].map(([name, value]) => ({ name, value }));
-        const conversionRank = [["Aviator", 83.2], ["Dragon Tiger", 82.6], ["7up7down", 81.4], ["Fortune Ox", 80.2], ["Sugar Rush", 79.8], ["Lucky Neko", 78.9], ["Money Coming", 76.2], ["Gates of Olympus", 75.6], ["Fishing Master", 74.8], ["Crash", 73.5]].map(([name, value]) => ({ name, value }));
-        return `<div class="game-metric-charts" id="gameActivityCharts">${renderGameMetricChartCard("dau-top10", "投注玩家DAU Top10游戏", "投注玩家DAU", "游戏名称未筛选时，展示平台全部游戏的投注玩家 DAU 排行", renderGameActivityTop10Chart(dauRank, "投注玩家DAU"))}${renderGameMetricChartCard("conversion-top10", "投注转化率 TOP10游戏", "投注转化率", "展示投注转化率最高的 10 款游戏", renderGameActivityTop10Chart(conversionRank, "投注转化率", "%"))}</div>`;
+        const dauRank = [
+          ["Aviator", 4280],
+          ["7up7down", 3120],
+          ["Money Coming", 2860],
+          ["Fortune Ox", 2320],
+          ["Dragon Tiger", 2180],
+          ["Sugar Rush", 1960],
+          ["Gates of Olympus", 1840],
+          ["Lucky Neko", 1710],
+          ["Fishing Master", 1580],
+          ["Crash", 1460],
+        ].map(([name, value]) => ({ name, value }));
+        return `<div class="game-metric-charts ga-stay-rank-charts" id="gameActivityCharts">${renderGameMetricChartCard("dau-top10", "投注玩家DAU Top10游戏", "投注玩家DAU", "游戏名称未筛选时，展示平台全部游戏的投注玩家 DAU 排行", renderGameActivityTop10Chart(dauRank, "投注玩家DAU", "", { height: 220 }), { expandable: false, spanFull: true })}</div>`;
       }
 
       const GAME_METRIC_DEFS = {
@@ -8167,6 +10035,7 @@
         游戏名称: "具体游戏产品名称，表格明细按游戏维度展示。",
         游戏DAU: "统计周期内进入过游戏的去重活跃用户数（按用户ID去重）。",
         投注玩家DAU: "当日产生投注行为的去重用户数。",
+        投注用户DAU: "当日产生投注行为的去重用户数。",
         新投注玩家DAU: "当日首次产生投注行为的去重用户数。",
         新增投注玩家数: "首次产生投注行为的新用户数量。",
         老投注玩家DAU: "非首次投注用户中，当日产生投注行为的人数。",
@@ -8193,12 +10062,10 @@
         未投注玩家: "筛选周期内未产生充值的用户。",
         游戏活跃率:
           "游戏DAU / 平台DAU × 100%，反映平台活跃用户中参与该游戏的比例。",
-        投注用户数:
-          "统计周期内在该游戏产生过有效投注行为的去重用户数。",
+        投注用户数: "统计周期内在该游戏产生过有效投注行为的去重用户数。",
         投注用户占比:
           "投注用户数 / 游戏DAU × 100%，反映进入游戏的用户中实际产生投注的比例。",
-        投注参与度:
-          "投注用户数。",
+        投注参与度: "投注用户数。",
         投注参与率:
           "投注用户数 / 游戏DAU × 100%，反映进入游戏的用户中实际产生投注的比例。",
         人均投注次数:
@@ -8207,20 +10074,16 @@
           "统计周期内投注总金额 ÷ 总投注次数，反映单笔投注的平均金额。",
         人均投注金额:
           "统计周期内投注总金额 ÷ 投注用户数，反映投注用户的平均投注金额。",
-        总投注金额:
-          "统计周期内该游戏产生的投注金额合计。",
+        总投注金额: "统计周期内该游戏产生的投注金额合计。",
         游戏留存率:
           "选定观察窗口内，回访该游戏的用户占对应注册/首次进入队列的比例（默认取7日留存）。",
-        注册日期: "用户注册或首次进入该游戏的日期，作为留存队列的起始日（D0）。",
+        注册日期:
+          "用户注册或首次进入该游戏的日期，作为留存队列的起始日（D0）。",
         注册人数: "该注册日期对应队列的用户数，作为留存率计算分母。",
-        次日留存:
-          "注册日为 D0 的用户中，在 D1（次日）仍进入该游戏的用户占比。",
-        "3日留存":
-          "注册日为 D0 的用户中，在 D3 仍进入该游戏的用户占比。",
-        "7日留存":
-          "注册日为 D0 的用户中，在 D7 仍进入该游戏的用户占比。",
-        "14日留存":
-          "注册日为 D0 的用户中，在 D14 仍进入该游戏的用户占比。",
+        次日留存: "注册日为 D0 的用户中，在 D1（次日）仍进入该游戏的用户占比。",
+        "3日留存": "注册日为 D0 的用户中，在 D3 仍进入该游戏的用户占比。",
+        "7日留存": "注册日为 D0 的用户中，在 D7 仍进入该游戏的用户占比。",
+        "14日留存": "注册日为 D0 的用户中，在 D14 仍进入该游戏的用户占比。",
         平台游戏输赢:
           "统计周期内平台侧游戏输赢金额（玩家输赢净结果，正值表示平台盈利）。",
         GGR: "Gross Gaming Revenue，毛游戏收入；通常为投注额扣除玩家返奖后的毛收入。",
@@ -8235,10 +10098,7 @@
       };
 
       function getGameMetricDef(name) {
-        return (
-          GAME_METRIC_DEFS[name] ||
-          `「${name}」的统计口径说明待补充。`
-        );
+        return GAME_METRIC_DEFS[name] || `「${name}」的统计口径说明待补充。`;
       }
 
       function renderGameMetricHelpBtn(name) {
@@ -8261,7 +10121,9 @@
           ? "ga-chart-expandable"
           : "ga-chart-static";
         const spanClass = spanFull ? " ga-span-full" : "";
-        const metrics = (Array.isArray(tag) ? tag : String(tag || "").split(/[，,]/))
+        const metrics = (
+          Array.isArray(tag) ? tag : String(tag || "").split(/[，,]/)
+        )
           .map((item) => item.trim())
           .filter(Boolean);
         const metricsHtml = metrics
@@ -8270,9 +10132,7 @@
               `<span class="ga-chart-metric">${item}${renderGameMetricHelpBtn(item)}</span>`,
           )
           .join("");
-        const expandHint = expandable
-          ? `<span class="ga-chart-expand-hint"><span class="ga-expand-tip">点击图表可放大展示</span><span class="ga-collapse-tip">再次点击可缩小</span></span>`
-          : "";
+        const expandHint = `<span class="ga-chart-expand-hint"><span class="ga-expand-tip">点击图表可放大展示</span><span class="ga-collapse-tip">再次点击可缩小</span></span>`;
         return `
         <article class="chart-card ga-chart-card ${modeClass}${spanClass}" data-chart-key="${key}">
           <div class="ga-chart-head">
@@ -8287,6 +10147,117 @@
           </div>
           ${body}
         </article>`;
+      }
+
+      function renderGameActivityScaleTrend() {
+        const dayCount = 30;
+        const labels = buildRecentTrendLabels(dayCount);
+        const dau = genTrendSeries(dayCount, 3800, 4280, 120);
+        const totalBet = genTrendSeries(dayCount, 1600000, 1934960, 80000);
+        dau[dayCount - 1] = 4280;
+        totalBet[dayCount - 1] = 1934960;
+
+        const W = 620,
+          H = 240,
+          padL = 58,
+          padR = 58,
+          padT = 20,
+          padB = 32;
+        const plotW = W - padL - padR;
+        const plotH = H - padT - padB;
+        const n = labels.length;
+        const step = plotW / n;
+        const barW = Math.min(10, step * 0.55);
+        const leftMax = 2400000;
+        const rightMax = 5000;
+        const yTotal = (v) => padT + plotH * (1 - v / leftMax);
+        const yDau = (v) => padT + plotH * (1 - v / rightMax);
+        const fmtMoneyAxis = (v) =>
+          v >= 10000 ? (v / 10000).toFixed(0) + "万" : String(v);
+
+        let grid = "",
+          leftAxis = "",
+          rightAxis = "";
+        for (let i = 0; i <= 4; i++) {
+          const y = padT + (plotH / 4) * i;
+          grid += `<line class="grid-line" x1="${padL}" y1="${y}" x2="${W - padR}" y2="${y}"></line>`;
+          leftAxis += `<text class="axis-label" x="${padL - 8}" y="${y + 3}" text-anchor="end">${fmtMoneyAxis(leftMax - (leftMax / 4) * i)}</text>`;
+          rightAxis += `<text class="axis-label" x="${W - padR + 8}" y="${y + 3}" text-anchor="start">${Math.round(rightMax - (rightMax / 4) * i).toLocaleString("zh-CN")}</text>`;
+        }
+
+        let bars = "",
+          xLabels = "",
+          dauPts = "",
+          dauDots = "";
+        const tipPoints = [];
+        labels.forEach((lab, i) => {
+          const cx = padL + step * i + step / 2;
+          const barTop = yTotal(totalBet[i]);
+          bars += `<rect x="${cx - barW / 2}" y="${barTop}" width="${barW}" height="${padT + plotH - barTop}" rx="2" fill="#165DFF"></rect>`;
+          const dy = yDau(dau[i]);
+          dauPts += `${i ? " " : ""}${cx},${dy}`;
+          dauDots += `<circle cx="${cx}" cy="${dy}" r="2.5" fill="#fff" stroke="#14C9C9" stroke-width="1.5"></circle>`;
+          tipPoints.push([
+            {
+              name: "总投注金额",
+              color: "#165DFF",
+              x: cx,
+              y: barTop,
+              text: formatGameMoney(totalBet[i]),
+            },
+            {
+              name: "投注用户DAU",
+              color: "#14C9C9",
+              x: cx,
+              y: dy,
+              text: dau[i].toLocaleString("zh-CN"),
+            },
+          ]);
+          if (i % 5 === 0 || i === n - 1) {
+            xLabels += `<text class="axis-label" x="${cx}" y="${H - 8}" text-anchor="middle">${lab}</text>`;
+          }
+        });
+
+        return `
+        ${renderComboChartWithTip(
+          `<text class="axis-title" x="${padL - 8}" y="${padT - 4}" text-anchor="end">总投注金额</text>
+            <text class="axis-title" x="${W - padR + 8}" y="${padT - 4}" text-anchor="start">投注用户DAU</text>
+            ${grid}${bars}
+            <polyline fill="none" stroke="#14C9C9" stroke-width="2.5" points="${dauPts}"></polyline>
+            ${dauDots}${leftAxis}${rightAxis}${xLabels}`,
+          {
+            labels,
+            points: tipPoints,
+            layout: { W, H, padL, padR, padT, padB, xMode: "band" },
+          },
+        )}
+        <div class="line-legend">
+          <span><i style="background:#165DFF"></i>总投注金额</span>
+          <span><i style="background:#14C9C9"></i>投注用户DAU</span>
+        </div>`;
+      }
+
+      function renderGameActivityAvgBetTrend() {
+        const dayCount = 30;
+        const labels = buildRecentTrendLabels(dayCount);
+        const avgBet = genTrendSeries(dayCount, 480, 543.5, 25, 1);
+        avgBet[dayCount - 1] = 543.5;
+        return renderMultiLineTrendChart({
+          labels,
+          series: [
+            {
+              name: "人均投注金额",
+              data: avgBet,
+              color: "#FF7D00",
+              formatTip: (v) =>
+                "¥" +
+                Number(v).toLocaleString("zh-CN", { maximumFractionDigits: 1 }),
+            },
+          ],
+          maxVal: 700,
+          yStep: 140,
+          xLabelStep: 5,
+        });
       }
 
       function renderGameActivityCharts(showAllGames = false) {
@@ -8307,6 +10278,20 @@
             "堆叠面积图：新增投注玩家与老投注玩家构成",
             renderGameActivityStructureArea(),
           )}
+          ${renderGameMetricChartCard(
+            "bet-scale-trend",
+            "投注规模趋势分析",
+            "投注用户DAU，总投注金额",
+            "柱状：总投注金额 · 折线：投注用户DAU",
+            renderGameActivityScaleTrend(),
+          )}
+          ${renderGameMetricChartCard(
+            "avg-bet-trend",
+            "人均投注金额趋势",
+            "人均投注金额",
+            "近30日人均投注金额变化",
+            renderGameActivityAvgBetTrend(),
+          )}
         </div>`;
       }
 
@@ -8318,13 +10303,16 @@
           { label: "新增投注玩家数", value: "Aviator", note: "1,120" },
           { label: "老投注玩家DAU", value: "Aviator", note: "3,160" },
           { label: "投注活跃玩家数", value: "Aviator", note: "3,560" },
-          { label: "投注转化率", value: "Aviator", note: "83.2%" },
         ];
       }
 
       function initGameActivityFilter(scope) {
-        const input = scope.querySelector('.filter-bar[data-local-filter="game-activity"] .game-name-filter');
-        const queryBtn = scope.querySelector('.filter-bar[data-local-filter="game-activity"] .btn-primary');
+        const input = scope.querySelector(
+          '.filter-bar[data-local-filter="game-activity"] .game-name-filter',
+        );
+        const queryBtn = scope.querySelector(
+          '.filter-bar[data-local-filter="game-activity"] .btn-primary',
+        );
         if (!input || !queryBtn) return;
         queryBtn.addEventListener("click", () => {
           const showAllGames = !input.value.trim();
@@ -8338,9 +10326,11 @@
               .join("");
           }
           if (!charts) return;
+          collapseChartZoom();
           charts.outerHTML = renderGameActivityCharts(showAllGames);
           bindSvgChartTooltips(scope);
           bindGameMetricChartFocus(scope, "#gameActivityCharts");
+          decorateChartZoomHints(scope);
         });
       }
 
@@ -8371,7 +10361,12 @@
         return renderMultiLineTrendChart({
           labels,
           series: [
-            { name: "投注用户占比", data: rateData, color: "#FF7D00", suffix: "%" },
+            {
+              name: "投注用户占比",
+              data: rateData,
+              color: "#FF7D00",
+              suffix: "%",
+            },
           ],
           maxVal: 100,
           yStep: 25,
@@ -8386,11 +10381,53 @@
         countData[dayCount - 1] = 12.4;
         return renderMultiLineTrendChart({
           labels,
-          series: [
-            { name: "人均投注次数", data: countData, color: "#722ED1" },
-          ],
+          series: [{ name: "人均投注次数", data: countData, color: "#722ED1" }],
           maxVal: 15,
           yStep: 3,
+          xLabelStep: 5,
+        });
+      }
+
+      function renderGameParticipationAvgBetAmountTrend() {
+        const dayCount = 30;
+        const labels = buildRecentTrendLabels(dayCount);
+        const avgBet = genTrendSeries(dayCount, 620, 722.0, 28, 1);
+        avgBet[dayCount - 1] = 722.0;
+        return renderMultiLineTrendChart({
+          labels,
+          series: [
+            {
+              name: "人均投注金额",
+              data: avgBet,
+              color: "#FF7D00",
+              formatTip: (v) =>
+                "¥" +
+                Number(v).toLocaleString("zh-CN", { maximumFractionDigits: 1 }),
+            },
+          ],
+          maxVal: 900,
+          yStep: 180,
+          xLabelStep: 5,
+        });
+      }
+
+      function renderGameParticipationTotalBetAmountTrend() {
+        const dayCount = 30;
+        const labels = buildRecentTrendLabels(dayCount);
+        const totalBet = genTrendSeries(dayCount, 1600000, 1934960, 80000);
+        totalBet[dayCount - 1] = 1934960;
+        return renderMultiLineTrendChart({
+          labels,
+          series: [
+            {
+              name: "总投注金额",
+              data: totalBet,
+              color: "#165DFF",
+              formatTip: formatGameMoney,
+            },
+          ],
+          maxVal: 2400000,
+          yStep: 480000,
           xLabelStep: 5,
         });
       }
@@ -8483,6 +10520,20 @@
             "人均投注次数",
             "筛选日期范围内人均投注次数变化（X轴日期 / Y轴人均投注次数）",
             renderGameParticipationAvgBetCountChart(),
+          )}
+          ${renderGameMetricChartCard(
+            "avg-bet-amount-trend",
+            "人均投注金额趋势",
+            "人均投注金额",
+            "近30日人均投注金额变化",
+            renderGameParticipationAvgBetAmountTrend(),
+          )}
+          ${renderGameMetricChartCard(
+            "total-bet-amount-trend",
+            "总投注金额趋势",
+            "总投注金额",
+            "近30日总投注金额变化",
+            renderGameParticipationTotalBetAmountTrend(),
             { spanFull: true },
           )}
         </div>`;
@@ -8501,8 +10552,12 @@
       }
 
       function initGameParticipationFilter(scope) {
-        const input = scope.querySelector('.filter-bar[data-local-filter="game-participation"] .game-name-filter');
-        const queryBtn = scope.querySelector('.filter-bar[data-local-filter="game-participation"] .btn-primary');
+        const input = scope.querySelector(
+          '.filter-bar[data-local-filter="game-participation"] .game-name-filter',
+        );
+        const queryBtn = scope.querySelector(
+          '.filter-bar[data-local-filter="game-participation"] .btn-primary',
+        );
         if (!input || !queryBtn) return;
         queryBtn.addEventListener("click", () => {
           const showAllGames = !input.value.trim();
@@ -8516,9 +10571,11 @@
               .join("");
           }
           if (!charts) return;
+          collapseChartZoom();
           charts.outerHTML = renderGameParticipationCharts(showAllGames);
           bindSvgChartTooltips(scope);
           bindGameMetricChartFocus(scope, "#gameParticipationCharts");
+          decorateChartZoomHints(scope);
         });
       }
 
@@ -8746,8 +10803,12 @@
       }
 
       function initGameValueFilter(scope) {
-        const input = scope.querySelector('.filter-bar[data-local-filter="game-value"] .game-name-filter');
-        const queryBtn = scope.querySelector('.filter-bar[data-local-filter="game-value"] .btn-primary');
+        const input = scope.querySelector(
+          '.filter-bar[data-local-filter="game-value"] .game-name-filter',
+        );
+        const queryBtn = scope.querySelector(
+          '.filter-bar[data-local-filter="game-value"] .btn-primary',
+        );
         if (!input || !queryBtn) return;
         queryBtn.addEventListener("click", () => {
           const showAllGames = !input.value.trim();
@@ -8761,9 +10822,11 @@
               .join("");
           }
           if (!charts) return;
+          collapseChartZoom();
           charts.outerHTML = renderGameValueCharts(showAllGames);
           bindSvgChartTooltips(scope);
           bindGameMetricChartFocus(scope, "#gameValueCharts");
+          decorateChartZoomHints(scope);
         });
       }
 
@@ -8778,12 +10841,14 @@
             wrap
               .querySelectorAll(".ga-chart-card")
               .forEach((card) => card.classList.remove("is-focused"));
+            requestAnimationFrame(() => resizeChartHosts(wrap));
             return;
           }
           wrap.classList.add("is-focus-mode");
           wrap.querySelectorAll(".ga-chart-card").forEach((card) => {
             card.classList.toggle("is-focused", card.dataset.chartKey === key);
           });
+          requestAnimationFrame(() => resizeChartHosts(wrap));
         };
 
         wrap.addEventListener("click", (e) => {
@@ -8792,7 +10857,10 @@
             e.stopPropagation();
             return;
           }
-          const card = e.target.closest(".ga-chart-expandable");
+          if (e.target.closest(CHART_FOCUS_IGNORE_SEL)) return;
+          const card = e.target.closest(
+            ".ga-chart-expandable, .ga-chart-static",
+          );
           if (!card?.dataset.chartKey) return;
           const key = card.dataset.chartKey;
           if (
@@ -8803,6 +10871,176 @@
           } else {
             setFocus(key);
           }
+        });
+      }
+
+      const CHART_EXPAND_HINT_HTML =
+        '<span class="chart-expand-hint" aria-hidden="true"><span class="ga-expand-tip">点击图表可放大展示</span><span class="ga-collapse-tip">再次点击可缩小</span></span>';
+      const CHART_FOCUS_IGNORE_SEL =
+        "button, a, input, select, textarea, label, option, .ms-wrap, .ms-dropdown, .ms-trigger, .ms-option, .ms-tag, .filter-bar, .filter-item, .filter-bar-local, .chart-range-toggle, .range-tab, .range-btn, .ga-metric-help, .vt-btn, .view-toggle, .realtime-filters, .realtime-refresh, .realtime-date-range, .overview-date-bar, .overview-range-tabs, .toolbar-actions, .btn";
+
+      function resizeChartHosts(root) {
+        if (!root || !window.echarts) return;
+        root.querySelectorAll("div").forEach((el) => {
+          const inst = window.echarts.getInstanceByDom(el);
+          if (inst) inst.resize();
+        });
+      }
+
+      function clearAllChartFocus(root = document) {
+        root
+          .querySelectorAll(".chart-focus-group.is-focus-mode")
+          .forEach((wrap) => {
+            wrap.classList.remove("is-focus-mode");
+            wrap
+              .querySelectorAll(".is-focused")
+              .forEach((card) => card.classList.remove("is-focused"));
+          });
+        root
+          .querySelectorAll(".game-metric-charts.is-focus-mode")
+          .forEach((wrap) => {
+            wrap.classList.remove("is-focus-mode");
+            wrap
+              .querySelectorAll(".is-focused")
+              .forEach((card) => card.classList.remove("is-focused"));
+          });
+      }
+
+      function ensureChartExpandHint(card) {
+        if (card.classList.contains("ga-chart-card")) return;
+        // 分时数据对比：不展示放大提示文案
+        if (card.classList.contains("realtime-panel") || card.id === "realtimePanel") {
+          return;
+        }
+        if (card.querySelector(".chart-expand-hint, .ga-chart-expand-hint")) {
+          return;
+        }
+        const title =
+          card.querySelector(":scope > .chart-title") ||
+          card.querySelector(":scope > .realtime-panel-head .chart-title") ||
+          card.querySelector(":scope > .realtime-panel-head");
+        if (title) {
+          title.insertAdjacentHTML("beforeend", CHART_EXPAND_HINT_HTML);
+        } else {
+          card.insertAdjacentHTML("afterbegin", CHART_EXPAND_HINT_HTML);
+        }
+      }
+
+      function bindChartFocusGroup(wrap) {
+        if (!wrap || wrap.dataset.focusBound === "1") return;
+        wrap.dataset.focusBound = "1";
+
+        const cards = () =>
+          [...wrap.children].filter(
+            (el) =>
+              el.classList?.contains("chart-expandable") && el.dataset.chartKey,
+          );
+
+        const setFocus = (key) => {
+          if (!key) {
+            wrap.classList.remove("is-focus-mode");
+            cards().forEach((card) => card.classList.remove("is-focused"));
+            requestAnimationFrame(() => resizeChartHosts(wrap));
+            return;
+          }
+          wrap.classList.add("is-focus-mode");
+          cards().forEach((card) => {
+            card.classList.toggle("is-focused", card.dataset.chartKey === key);
+          });
+          requestAnimationFrame(() => resizeChartHosts(wrap));
+        };
+
+        wrap.addEventListener("click", (e) => {
+          if (e.target.closest(CHART_FOCUS_IGNORE_SEL)) return;
+          const card = e.target.closest(".chart-expandable");
+          if (!card || !cards().includes(card)) return;
+          const key = card.dataset.chartKey;
+          if (
+            wrap.classList.contains("is-focus-mode") &&
+            card.classList.contains("is-focused")
+          ) {
+            setFocus(null);
+          } else {
+            setFocus(key);
+          }
+        });
+      }
+
+      function setupChartFocusGroup(wrap) {
+        if (!wrap) return;
+        wrap.classList.add("chart-focus-group");
+
+        const cards = [...wrap.children].filter(
+          (el) =>
+            el.classList?.contains("chart-card") ||
+            el.classList?.contains("realtime-panel"),
+        );
+
+        cards.forEach((card, index) => {
+          if (card.classList.contains("ga-chart-card")) return;
+          card.classList.add("chart-expandable");
+          if (!card.dataset.chartKey) {
+            card.dataset.chartKey = `focus-${index + 1}`;
+          }
+          ensureChartExpandHint(card);
+        });
+
+        const expandableCount = cards.filter((c) =>
+          c.classList.contains("chart-expandable"),
+        ).length;
+        wrap.classList.toggle("chart-focus-solo", expandableCount <= 1);
+        bindChartFocusGroup(wrap);
+      }
+
+      function initChartFocusGroups(root = document) {
+        // 经营总览：三图共用一个聚焦组，放大时其余图进入右侧缩略列表
+        root.querySelectorAll(".overview-charts").forEach((wrap) => {
+          setupChartFocusGroup(wrap);
+        });
+
+        root.querySelectorAll(".chart-grid").forEach((grid) => {
+          if (grid.closest(".game-metric-charts, .overview-charts")) return;
+          setupChartFocusGroup(grid);
+        });
+
+        [...root.querySelectorAll(".chart-card")].forEach((card) => {
+          if (card.classList.contains("ga-chart-card")) return;
+          if (
+            card.closest(
+              ".chart-grid, .game-metric-charts, .chart-focus-group, .overview-charts",
+            )
+          ) {
+            return;
+          }
+          const wrap = document.createElement("div");
+          wrap.className = "chart-focus-group chart-focus-solo";
+          card.parentNode.insertBefore(wrap, card);
+          wrap.appendChild(card);
+          setupChartFocusGroup(wrap);
+        });
+
+        root.querySelectorAll(".realtime-panel").forEach((panel) => {
+          if (panel.closest(".chart-focus-group")) return;
+          const wrap = document.createElement("div");
+          wrap.className = "chart-focus-group chart-focus-solo";
+          panel.parentNode.insertBefore(wrap, panel);
+          wrap.appendChild(panel);
+          setupChartFocusGroup(wrap);
+        });
+      }
+
+      // 兼容旧调用名
+      function decorateChartZoomHints(root = document) {
+        initChartFocusGroups(root);
+      }
+      function collapseChartZoom() {
+        clearAllChartFocus(document);
+      }
+      function initChartZoom() {
+        if (document.documentElement.dataset.chartZoomBound === "1") return;
+        document.documentElement.dataset.chartZoomBound = "1";
+        document.addEventListener("keydown", (e) => {
+          if (e.key === "Escape") clearAllChartFocus();
         });
       }
 
@@ -9936,7 +12174,10 @@
           case "页面平均访问深度":
             return Math.min(100, Number((row.depth * depthFactor).toFixed(2)));
           case "页面跳出率":
-            return Math.min(100, Number((row.bounce * bounceFactor).toFixed(2)));
+            return Math.min(
+              100,
+              Number((row.bounce * bounceFactor).toFixed(2)),
+            );
           default:
             return 0;
         }
@@ -11615,6 +13856,7 @@
         const page = PAGES[pageId];
         if (!page) return;
 
+        collapseChartZoom();
         disposeAppPathSankey();
         disposeAppChurnHeatmap();
         disposeAppExpHeatmap();
@@ -11627,18 +13869,21 @@
         if (page.realtimePage) {
           container.innerHTML = renderRealtimePage();
           initRealtimeChart();
+          decorateChartZoomHints(container);
           return;
         }
 
         if (page.appPageType) {
           container.innerHTML = renderAppAnalysisPage(page);
           initAppAnalysisPage();
+          decorateChartZoomHints(container);
           return;
         }
 
         if (page.betReportPage) {
           container.innerHTML = renderBetReportContent(page);
           initLocalChannelFilters();
+          decorateChartZoomHints(container);
           return;
         }
 
@@ -11661,6 +13906,7 @@
             bindGameMetricChartFocus(container, "#gameValueCharts");
             initGameValueFilter(container);
           }
+          decorateChartZoomHints(container);
           return;
         }
 
@@ -11670,25 +13916,32 @@
             ${renderPlaceholderPage(page)}
           `;
           initGlobalFilterBar();
+          decorateChartZoomHints(container);
           return;
         }
 
         const hasKpi = pageHasKpiCards(page, pageId);
         const hideChannelName = !!page.hideChannelNameFilter;
+        const isOverview = pageId === "overview";
         container.innerHTML = `
-          ${hasKpi ? (pageId === "overview" ? renderOverviewInsights() : renderAnalysisPanel(page)) : ""}
-          ${renderGlobalFilterBar()}
+          ${hasKpi ? (isOverview ? renderOverviewInsights() : renderAnalysisPanel(page)) : ""}
+          ${isOverview ? renderOverviewDateBar() : renderGlobalFilterBar()}
           ${renderPageCharts(page, pageId)}
           <div class="page-panel active" id="panel-${pageId}">
             ${renderTable(page)}
           </div>
         `;
 
-        initGlobalFilterBar();
+        if (isOverview) initOverviewDateBar();
+        else initGlobalFilterBar();
         mountChartChannelFilters(hideChannelName);
         initLocalChannelFilters();
         initViewToggle();
-        if (pageId === "overview") initSurplusRateChart();
+        if (isOverview) {
+          initSurplusRateChart();
+        }
+        bindSvgChartTooltips(container);
+        decorateChartZoomHints(container);
       }
 
       function initViewToggle() {
@@ -11834,6 +14087,7 @@
 
       // 初始化
       initMenu();
+      initChartZoom();
       renderPage("overview");
     </script>
   </body>
