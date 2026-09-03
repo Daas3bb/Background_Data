@@ -7,6 +7,10 @@
     <link rel="icon" type="image/svg+xml" href="favicon.svg" />
     <link rel="alternate icon" type="image/png" href="favicon.png" />
     <link rel="apple-touch-icon" href="favicon.png" />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/@arco-design/web-vue@2.56.2/dist/arco.css"
+    />
     <style>
       :root {
         /* Arco Design Tokens */
@@ -1696,6 +1700,37 @@
         color: #fff;
       }
 
+      .btn:disabled,
+      .btn[disabled] {
+        opacity: 1;
+        cursor: not-allowed;
+        color: var(--arco-text-4);
+        border-color: var(--border);
+        background: var(--arco-bg-2);
+        pointer-events: none;
+      }
+
+      .btn:disabled:hover,
+      .btn[disabled]:hover {
+        color: var(--arco-text-4);
+        border-color: var(--border);
+        background: var(--arco-bg-2);
+      }
+
+      .btn-primary:disabled,
+      .btn-primary[disabled] {
+        background: #94bfff;
+        border-color: #94bfff;
+        color: #fff;
+      }
+
+      .btn-primary:disabled:hover,
+      .btn-primary[disabled]:hover {
+        background: #94bfff;
+        border-color: #94bfff;
+        color: #fff;
+      }
+
       .toolbar {
         padding: 12px 20px;
         display: flex;
@@ -2445,6 +2480,88 @@
         z-index: 16;
       }
 
+      /* 日运营报表：均值/合计固定于表格底部，不参与数据区滚动，且无红绿底色 */
+      .table-view-pinned-footer {
+        display: flex;
+        flex-direction: column;
+        min-height: 0;
+      }
+
+      .table-view-pinned-footer > .table-wrap {
+        flex: 1 1 auto;
+        min-height: 0;
+        max-height: calc(100vh - 400px);
+      }
+
+      .table-view-pinned-footer > .table-footer-panel {
+        flex: 0 0 auto;
+        border-top: 1px solid var(--border);
+        background: var(--arco-bg-1);
+        overflow: hidden;
+      }
+
+      .table-view-pinned-footer .table-footer-scroll {
+        overflow-x: auto;
+        overflow-y: hidden;
+        width: 100%;
+      }
+
+      .table-view-pinned-footer .table-footer-scroll::-webkit-scrollbar {
+        height: 0;
+      }
+
+      .table-view-pinned-footer .table-footer-table tfoot {
+        position: static;
+      }
+
+      .table-view-pinned-footer .table-footer-table tfoot tr.total-row td,
+      .table-view-pinned-footer .table-footer-table tfoot tr.total-row-avg td,
+      .table-view-pinned-footer
+        .table-footer-table
+        tfoot
+        tr.total-row
+        [class*="sticky-col-"],
+      .table-view-pinned-footer
+        .table-footer-table
+        tfoot
+        tr.total-row-avg
+        [class*="sticky-col-"] {
+        font-weight: 600;
+        position: sticky;
+        bottom: auto;
+        box-shadow: none;
+      }
+
+      .table-view-pinned-footer
+        .table-footer-table
+        tfoot
+        tr.total-row-avg
+        td,
+      .table-view-pinned-footer
+        .table-footer-table
+        tfoot
+        tr.total-row-avg
+        [class*="sticky-col-"] {
+        color: var(--arco-text-1) !important;
+        background: var(--arco-bg-1) !important;
+        border-top: 1px solid var(--border);
+      }
+
+      .table-view-pinned-footer
+        .table-footer-table
+        tfoot
+        tr.total-row:not(.total-row-avg)
+        td,
+      .table-view-pinned-footer
+        .table-footer-table
+        tfoot
+        tr.total-row:not(.total-row-avg)
+        [class*="sticky-col-"] {
+        color: #d9001b !important;
+        background: #fff1f0 !important;
+        border-top: 1px solid #ffccc7;
+      }
+
       .data-table tbody tr.total-row td {
         position: sticky;
         bottom: 0;
@@ -2488,6 +2605,43 @@
         align-items: center;
         gap: 12px;
         margin: 0 0 12px;
+        flex-wrap: wrap;
+      }
+
+      .agent-report-breadcrumb {
+        display: flex;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 4px;
+        font-size: 13px;
+        color: var(--arco-text-2);
+      }
+
+      .agent-report-breadcrumb .crumb {
+        border: none;
+        background: transparent;
+        padding: 0;
+        color: var(--arco-primary);
+        font-size: 13px;
+        line-height: 1.5;
+        cursor: pointer;
+      }
+
+      .agent-report-breadcrumb .crumb:hover {
+        color: var(--arco-primary-hover);
+        text-decoration: underline;
+      }
+
+      .agent-report-breadcrumb .crumb.is-current {
+        color: var(--arco-text-1);
+        cursor: default;
+        font-weight: 500;
+        text-decoration: none;
+      }
+
+      .agent-report-breadcrumb .sep {
+        color: var(--arco-text-4);
+        user-select: none;
       }
 
       .fission-report-back {
@@ -2734,6 +2888,15 @@
         font-weight: 500;
       }
 
+      .channel-op-cost-active-tag {
+        margin-right: 8px;
+        vertical-align: middle;
+      }
+
+      .data-table tr.is-active-op-cost-config td {
+        background: #f7fbff;
+      }
+
       .channel-board-page-note {
         margin: 0 20px 16px;
         padding: 12px 16px;
@@ -2842,14 +3005,128 @@
         background: #e8f3ff;
       }
 
+      .channel-op-cost-active-summary {
+        margin: 0 20px 16px;
+        padding: 16px 20px;
+        border: 1px solid #bedaff;
+        border-radius: var(--arco-radius);
+        background: #f7fbff;
+      }
+
+      .channel-op-cost-active-summary.is-empty {
+        border-color: #ffccc7;
+        background: #fff1f0;
+      }
+
+      .channel-op-cost-active-summary-empty {
+        margin: 0;
+        color: #cb2634;
+        font-size: 13px;
+        line-height: 1.7;
+      }
+
+      .channel-op-cost-active-summary-grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 10px 24px;
+      }
+
+      .channel-op-cost-active-summary-item {
+        color: var(--arco-text-2);
+        font-size: 13px;
+        line-height: 1.7;
+      }
+
+      .channel-op-cost-active-summary-item .value {
+        color: var(--arco-text-1);
+        font-weight: 600;
+        font-variant-numeric: tabular-nums;
+      }
+
+      .channel-op-cost-preset-title {
+        margin: 0 20px 12px;
+        color: var(--arco-text-1);
+        font-size: 15px;
+        font-weight: 600;
+        line-height: 24px;
+      }
+
+      @media (max-width: 720px) {
+        .channel-op-cost-active-summary-grid {
+          grid-template-columns: 1fr;
+        }
+      }
+
       .channel-board-entry-grid {
         display: grid;
         grid-template-columns: repeat(2, minmax(0, 1fr));
-        gap: 12px 16px;
+        gap: 12px 24px;
+        align-items: center;
+      }
+
+      .channel-board-entry-grid .filter-item {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        gap: 8px;
+        min-width: 0;
+      }
+
+      .channel-board-entry-grid .filter-item > label {
+        flex: 0 0 auto;
+        margin-top: 0;
+      }
+
+      .channel-board-entry-grid .filter-item input[type="date"] {
+        width: 168px;
+        min-width: 168px;
+        flex: 0 0 auto;
+      }
+
+      .channel-board-entry-grid .config-input-wrap {
+        width: auto;
+        flex: 0 0 auto;
+        min-width: 0;
+      }
+
+      .channel-board-entry-grid .config-input-wrap input {
+        width: 140px;
+        flex: 0 0 140px;
+      }
+
+      .channel-board-entry-grid .channel-ad-entry-inr-display {
+        width: 168px;
+        min-width: 168px;
+        flex: 0 0 auto;
+        box-sizing: border-box;
       }
 
       .channel-board-entry-grid .filter-item-wide {
         grid-column: 1 / -1;
+      }
+
+      .channel-board-entry-grid .filter-item-channel-ad {
+        min-width: 0;
+      }
+
+      .channel-board-entry-grid .filter-item-channel-ad .global-channel-filter,
+      .channel-board-entry-grid .filter-item-channel-ad .filter-bar-local {
+        margin: 0;
+        padding: 0;
+        border: none;
+        background: transparent;
+      }
+
+      .channel-board-entry-grid .filter-item-channel-ad .filter-item-arco-cascader {
+        width: auto;
+        flex-direction: row;
+        align-items: center;
+      }
+
+      .channel-board-entry-grid .filter-item-channel-ad .arco-channel-cascader-mount {
+        width: min(320px, 100%);
+        min-width: 200px;
+        flex: 0 1 auto;
       }
 
       .channel-ad-entry-inr-display {
@@ -2885,6 +3162,20 @@
         display: flex;
         gap: 8px;
         justify-content: center;
+      }
+
+      .channel-board-table-actions .btn:disabled,
+      .channel-board-table-actions .btn[disabled] {
+        color: #c9cdd4;
+        border-color: transparent;
+        background: transparent;
+      }
+
+      .channel-board-table-actions .btn:disabled:hover,
+      .channel-board-table-actions .btn[disabled]:hover {
+        color: #c9cdd4;
+        border-color: transparent;
+        background: transparent;
       }
 
       @media (max-width: 1200px) {
@@ -3000,6 +3291,18 @@
         color: var(--arco-text-1);
       }
 
+      .channel-new-user-board-bar .channel-new-user-board-reg-channel-row {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: flex-start;
+        gap: 12px 20px;
+      }
+
+      .channel-new-user-board-bar .channel-new-user-board-reg-channel-row .filter-item {
+        flex: 0 0 auto;
+      }
+
       .channel-new-user-board-bar .filter-checkbox {
         display: inline-flex;
         align-items: center;
@@ -3007,6 +3310,48 @@
         font-size: 13px;
         color: var(--arco-text-2);
         margin-left: 4px;
+      }
+
+      .overview-date-bar .filter-checkbox {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        font-size: 13px;
+        color: var(--arco-text-2);
+        margin-left: 4px;
+        white-space: nowrap;
+      }
+
+      .overview-date-bar-channel-row .filter-checkbox {
+        align-self: center;
+      }
+
+      .overview-date-bar .arco-channel-cascader-filter .filter-bar-local,
+      .arco-channel-cascader-filter .filter-bar-local {
+        display: inline-flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 12px 16px;
+        margin: 0;
+        padding: 0;
+        border: none;
+        background: transparent;
+      }
+
+      .overview-date-bar .filter-item-arco-cascader,
+      .filter-item-arco-cascader {
+        align-items: center;
+      }
+
+      .overview-date-bar .arco-channel-cascader-mount,
+      .arco-channel-cascader-mount {
+        width: min(360px, 72vw);
+        min-width: 240px;
+      }
+
+      .overview-date-bar .arco-channel-cascader-mount .arco-select,
+      .arco-channel-cascader-mount .arco-select {
+        width: 100%;
       }
 
       .member-daily-report-bar .filter-item input:disabled {
@@ -3224,12 +3569,65 @@
         white-space: normal;
       }
 
+      .agent-report-table td.sticky-col-2:has(.agent-parent-account-cell) {
+        overflow: visible;
+        z-index: 4;
+      }
+
       .agent-account-cell {
         font-size: 13px;
         line-height: 1.4;
         color: var(--arco-text-1);
         font-variant-numeric: tabular-nums;
         white-space: nowrap;
+      }
+
+      .agent-parent-account-cell {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        max-width: 100%;
+      }
+
+      .agent-parent-account-cell .agent-account-id {
+        color: var(--arco-text-1);
+        flex: 0 1 auto;
+        min-width: 0;
+      }
+
+      .agent-account-copy-btn {
+        flex-shrink: 0;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 22px;
+        height: 22px;
+        padding: 0;
+        border: 1px solid var(--border);
+        border-radius: var(--arco-radius);
+        background: var(--arco-bg-1);
+        color: var(--arco-text-3);
+        cursor: pointer;
+        transition:
+          border-color 0.15s,
+          color 0.15s,
+          background 0.15s;
+      }
+
+      .agent-account-copy-btn svg {
+        display: block;
+      }
+
+      .agent-account-copy-btn:hover {
+        border-color: var(--arco-primary);
+        color: var(--arco-primary);
+        background: var(--arco-primary-light);
+      }
+
+      .agent-account-copy-btn.is-copied {
+        border-color: #00b42a;
+        color: #00b42a;
+        background: #e8ffea;
       }
 
       .data-table td:has(> .agent-account-cell) {
@@ -3239,7 +3637,14 @@
 
       .agent-report-table {
         --sticky-col-1-width: 148px;
-        --sticky-col-2-width: 128px;
+        --sticky-col-2-width: 168px;
+        --sticky-col-3-width: 128px;
+      }
+
+      .agent-report-table.agent-report-table-unlimited {
+        --sticky-col-1-width: 156px;
+        --sticky-col-2-width: 212px;
+        --sticky-col-3-width: 132px;
       }
 
       .channel-passage-table {
@@ -3269,6 +3674,21 @@
         margin-left: 8px;
         color: var(--arco-text-3);
         font-size: 14px;
+      }
+
+      .pagination-page-size {
+        margin-left: 4px;
+      }
+
+      .pagination-page-size select {
+        height: 32px;
+        padding: 0 28px 0 10px;
+        border: 1px solid var(--border);
+        border-radius: var(--arco-radius);
+        background: var(--arco-bg-1);
+        color: var(--arco-text-1);
+        font-size: 14px;
+        cursor: pointer;
       }
 
       /* 经营总览 - 日期筛选（KPI 下方，吸顶） */
@@ -3330,6 +3750,15 @@
         align-items: stretch;
         gap: 12px;
       }
+      .overview-date-bar.channel-new-user-board-bar {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+      }
+      .overview-date-bar.channel-new-user-board-bar .overview-date-bar-row {
+        justify-content: flex-start;
+        width: 100%;
+      }
       .overview-date-bar-row {
         display: flex;
         flex-wrap: wrap;
@@ -3381,6 +3810,18 @@
       .overview-range-tabs .range-tab.active {
         background: var(--arco-primary);
         color: #fff;
+      }
+      .overview-range-tabs .range-tab:disabled,
+      .overview-range-tabs .range-tab.is-disabled {
+        color: var(--arco-text-4);
+        background: var(--arco-bg-2);
+        cursor: not-allowed;
+        opacity: 0.65;
+      }
+      .overview-range-tabs .range-tab:disabled:hover,
+      .overview-range-tabs .range-tab.is-disabled:hover {
+        background: var(--arco-bg-2);
+        color: var(--arco-text-4);
       }
 
       .overview-component-date-bar {
@@ -3480,26 +3921,43 @@
         gap: 12px;
         min-height: auto;
         padding: 14px 16px;
+        flex-wrap: nowrap;
+        white-space: nowrap;
       }
 
       .overview-insights .metric-label {
         display: inline-flex;
         align-items: center;
         gap: 4px;
-        flex: 1;
+        flex: 1 1 auto;
         min-width: 0;
         margin: 0;
         color: var(--arco-text-2);
         font-size: 13px;
         line-height: 20px;
+        white-space: nowrap;
+        overflow: hidden;
       }
+
+      .overview-insights .metric-label > span {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        min-width: 0;
+      }
+
       .overview-insights .metric-label .ga-metric-help {
         color: var(--arco-text-3);
+        flex-shrink: 0;
       }
 
       .overview-insights .metric-value {
         margin: 0;
         flex-shrink: 0;
+        display: inline-flex;
+        align-items: baseline;
+        flex-wrap: nowrap;
+        white-space: nowrap;
         color: var(--arco-text-1);
         font-size: 18px;
         line-height: 26px;
@@ -6252,25 +6710,16 @@
               <span class="menu-arrow">▶</span>
             </div>
             <div class="submenu">
-              <div class="menu-child" data-page="life-acquisition">
+              <!-- <div class="menu-child" data-page="life-acquisition">
                 新增用户
-              </div>
+              </div> -->
               <div class="menu-child" data-page="life-vip-analysis">
                 VIP用户分析
               </div>
-              <div class="menu-child" data-page="life-user-recharge">
+              <!-- <div class="menu-child" data-page="life-user-recharge">
                 新老用户分析
-              </div>
+              </div> -->
               <div class="menu-child" data-page="life-ltv">用户LTV</div>
-            </div>
-          </div>
-
-          <div class="menu-group" data-group="user-retention">
-            <div class="menu-top has-child">
-              <span>用户留存</span>
-              <span class="menu-arrow">▶</span>
-            </div>
-            <div class="submenu">
               <div class="menu-child" data-page="life-retention">
                 充值/登录留存分析
               </div>
@@ -6356,7 +6805,7 @@
 
           <div class="menu-group" data-group="member-reward">
             <div class="menu-top has-child">
-              <span>会员奖励报表</span>
+              <span>奖励发放统计</span>
               <span class="menu-arrow">▶</span>
             </div>
             <div class="submenu">
@@ -6468,6 +6917,8 @@
 
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/echarts@5.5.1/dist/echarts.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue@3.4.38/dist/vue.global.prod.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@arco-design/web-vue@2.56.2/dist/arco-vue.min.js"></script>
     <script>
       // 基础固定列 & 渠道筛选项
       const BASE_COLS = ["日期", "来源渠道", "渠道名", "所属平台"];
@@ -6956,12 +7407,17 @@
       };
 
       const FISSION_REPORT_METRIC_DEFS = {
-        下一级渠道: "点击查看该渠道维度下的下一级渠道报表。",
+        日期:
+          "选择开始日期后展示。区间内每一行表示该日当日数据；未选开始日期时为历史累计至结束日，不展示本字段。",
         裂变系数K因子:
           "衡量用户邀请行为带来的新增用户增长能力。K = i × c；i 为平均每个参与裂变用户发起的有效邀请人数，c 为被邀请用户完成注册的比例。K > 1 表示具备自传播能力，K ≤ 1 表示裂变传播能力不足。",
         裂变参与率:
           "裂变参与率 = 发起过邀请行为的用户数 ÷ 活跃用户数（DAU） × 100%。",
+        注册人数: "统计范围内该渠道下注册成功的去重用户数。",
         裂变人数: "当日该渠道下的裂变人数（通过邀请关系新注册的用户数）。",
+        裂变首存人数: "裂变用户中完成首次成功充值的去重用户数。",
+        注册裂变率: "注册裂变率 = 裂变人数 ÷ 注册人数 × 100%。",
+        首存裂变率: "首存裂变率 = 裂变首存人数 ÷ 裂变人数 × 100%。",
         参与裂变人数: "发起邀请行为的用户数（当日点击分享按钮的人）。",
         成功裂变率:
           "成功裂变率 = 裂变人数 ÷ 参与裂变人数（发起邀请行为的用户数）× 100%。",
@@ -6992,6 +7448,9 @@
         "裂变系数K因子",
         "裂变参与率",
         "裂变人数",
+        "裂变首存人数",
+        "注册裂变率",
+        "首存裂变率",
         "参与裂变人数",
         "成功裂变率",
         "绑定人数",
@@ -7014,17 +7473,40 @@
           !["日期", "来源渠道", "渠道名", "渠道账号", "所属平台"].includes(c),
       );
 
-      const FISSION_DRILL_LINK = (source, name = "") =>
-        `<a class="table-link" href="javascript:void(0)" data-fission-drill-down data-source="${source}" data-name="${name || ""}">查看下级渠道</a>`;
+      const FISSION_REPORT_FULL_COLS = (() => {
+        const cols = FISSION_REPORT_COLS.slice();
+        const fisIdx = cols.indexOf("裂变人数");
+        if (fisIdx >= 0 && !cols.includes("注册人数")) {
+          cols.splice(fisIdx, 0, "注册人数");
+        }
+        return cols;
+      })();
 
-      let fissionReportState = {
-        level: "source",
-        source: "",
-        name: "",
-      };
+      function getFissionReportDateSelection() {
+        const endFallback = getOverviewRangeDates("today").end;
+        const start = String(
+          document.getElementById("globalStartDate")?.value || "",
+        ).trim();
+        let end = String(
+          document.getElementById("globalEndDate")?.value || "",
+        ).trim();
+        if (!end) end = endFallback;
+        // 未选开始日期：历史累计至结束日（默认当日），不展示日期字段
+        // 已选开始日期：区间内逐日「当日」数据，展示日期字段
+        const isCumulative = !start;
+        let rangeStart = start;
+        let rangeEnd = end;
+        if (!isCumulative && parseYMD(rangeEnd) < parseYMD(rangeStart)) {
+          [rangeStart, rangeEnd] = [rangeEnd, rangeStart];
+        }
+        return {
+          start: rangeStart,
+          end: rangeEnd,
+          isCumulative,
+        };
+      }
 
-      function buildFissionReportSampleData() {
-        const dates = ["2025-07-17", "2025-07-16", "2025-07-15"];
+      function buildFissionReportSampleRows(start, end) {
         const channels = [
           ["投放", "投放01", "投放账号01", "T1-A"],
           ["投放", "投放01", "投放账号02", "T1-A"],
@@ -7033,10 +7515,26 @@
           ["官网", "官网02", "官网账号03", "T1-B"],
           ["特殊流量", "特殊流量01", "特殊流量账号01", "T1-A"],
         ];
+        const dates = eachDateInclusive(start, end);
         return dates.flatMap((date, di) =>
           channels.map((ch, ci) => {
-            const scale = 1 - di * 0.06 + ci * 0.04;
-            const fissionUsers = Math.round((1680 + ci * 380) * scale);
+            const seed = hashSeed(`${date}|${ch.join("|")}`);
+            const scale = 0.9 + ((seed % 100) / 100) * 0.25 + (ci % 4) * 0.03;
+            const registerUsers = Math.round((2860 + ci * 420) * scale);
+            const fissionUsers = Math.round(
+              registerUsers * (0.22 + (ci % 5) * 0.03),
+            );
+            const fissionFirstPay = Math.round(
+              fissionUsers * (0.28 + (ci % 4) * 0.04),
+            );
+            const registerRate =
+              registerUsers > 0
+                ? `${((fissionUsers / registerUsers) * 100).toFixed(1)}%`
+                : "0.0%";
+            const firstPayRate =
+              fissionUsers > 0
+                ? `${((fissionFirstPay / fissionUsers) * 100).toFixed(1)}%`
+                : "0.0%";
             const inviteUsers = Math.max(
               1,
               Math.round(fissionUsers / (0.78 + (ci % 5) * 0.06)),
@@ -7067,14 +7565,22 @@
               rechargeAmt > 0
                 ? `${(((gameWin - bonus) / rechargeAmt) * 100).toFixed(1)}%`
                 : "0.0%";
-            const k = (0.62 + ((ci + di) % 7) * 0.16).toFixed(2);
+            const k = (
+              0.58 +
+              ((ci + di) % 8) * 0.14 +
+              (seed % 20) / 100
+            ).toFixed(2);
             const participate = `${(7.2 + (ci % 6) * 1.6 + di * 0.3).toFixed(1)}%`;
             return [
               date,
               ...ch,
               k,
               participate,
+              registerUsers,
               fissionUsers,
+              fissionFirstPay,
+              registerRate,
+              firstPayRate,
               inviteUsers,
               successRate,
               bind,
@@ -7095,123 +7601,16 @@
         );
       }
 
-      const FISSION_REPORT_SAMPLE = buildFissionReportSampleData();
-
-      const FISSION_SUMMARY_METRIC_DEFS = {
-        日期: "选择开始日期后展示。区间内每一行表示该日当日数据；未选开始日期时为历史累计至结束日，不展示本字段。",
-        来源渠道: "用户归因的一级来源渠道。",
-        渠道名: "来源渠道下的渠道名称。",
-        渠道账号: "渠道对应的投放/推广账号。",
-        下一级渠道: "点击查看该渠道维度下的下一级渠道汇总。",
-        注册人数: "统计范围内该渠道下注册成功的去重用户数。",
-        裂变人数: "统计范围内该渠道下通过邀请关系新注册的去重用户数。",
-        裂变首存人数: "裂变用户中完成首次成功充值的去重用户数。",
-        注册裂变率: "注册裂变率 = 裂变人数 ÷ 注册人数 × 100%。",
-        首存裂变率: "首存裂变率 = 裂变首存人数 ÷ 裂变人数 × 100%。",
-        裂变系数:
-          "衡量用户邀请行为带来的新增用户增长能力。K = i × c；i 为平均每个参与裂变用户发起的有效邀请人数，c 为被邀请用户完成注册的比例。",
-      };
-
-      const FISSION_SUMMARY_METRIC_COLS = [
-        "注册人数",
-        "裂变人数",
-        "裂变首存人数",
-        "注册裂变率",
-        "首存裂变率",
-        "裂变系数",
-      ];
-
-      function getFissionReportDateSelection() {
-        const endFallback = getOverviewRangeDates("today").end;
-        const start = String(
-          document.getElementById("globalStartDate")?.value || "",
-        ).trim();
-        let end = String(
-          document.getElementById("globalEndDate")?.value || "",
-        ).trim();
-        if (!end) end = endFallback;
-        // 未选开始日期：历史累计至结束日（默认当日），不展示日期字段
-        // 已选开始日期：区间内逐日「当日」数据，展示日期字段
-        const isCumulative = !start;
-        let rangeStart = start;
-        let rangeEnd = end;
-        if (!isCumulative && parseYMD(rangeEnd) < parseYMD(rangeStart)) {
-          [rangeStart, rangeEnd] = [rangeEnd, rangeStart];
-        }
-        return {
-          start: rangeStart,
-          end: rangeEnd,
-          isCumulative,
-        };
-      }
-
-      function buildFissionSummarySampleRows(start, end) {
-        const channels = [
-          ["投放", "投放01", "投放账号01"],
-          ["投放", "投放01", "投放账号02"],
-          ["投放", "投放02", "投放账号03"],
-          ["官网", "官网01", "官网账号01"],
-          ["官网", "官网02", "官网账号03"],
-          ["特殊流量", "特殊流量01", "特殊流量账号01"],
-        ];
-        const dates = eachDateInclusive(start, end);
-        return dates.flatMap((date, di) =>
-          channels.map((ch, ci) => {
-            const seed = hashSeed(`${date}|${ch.join("|")}`);
-            const scale = 0.9 + ((seed % 100) / 100) * 0.25 + (ci % 4) * 0.03;
-            const registerUsers = Math.round((2860 + ci * 420) * scale);
-            const fissionUsers = Math.round(
-              registerUsers * (0.22 + (ci % 5) * 0.03),
-            );
-            const fissionFirstPay = Math.round(
-              fissionUsers * (0.28 + (ci % 4) * 0.04),
-            );
-            const registerRate =
-              registerUsers > 0
-                ? `${((fissionUsers / registerUsers) * 100).toFixed(1)}%`
-                : "0.0%";
-            const firstPayRate =
-              fissionUsers > 0
-                ? `${((fissionFirstPay / fissionUsers) * 100).toFixed(1)}%`
-                : "0.0%";
-            const k = (
-              0.58 +
-              ((ci + di) % 8) * 0.14 +
-              (seed % 20) / 100
-            ).toFixed(2);
-            return [
-              date,
-              ...ch,
-              registerUsers,
-              fissionUsers,
-              fissionFirstPay,
-              registerRate,
-              firstPayRate,
-              k,
-            ];
-          }),
-        );
-      }
-
-      function getFissionSummaryFullCols() {
-        return [
-          "日期",
-          "来源渠道",
-          "渠道名",
-          "渠道账号",
-          ...FISSION_SUMMARY_METRIC_COLS,
-        ];
-      }
-
-      function buildFissionSummaryTableView() {
+      function buildFissionReportTableView() {
         const { start, end, isCumulative } = getFissionReportDateSelection();
-        const fullCols = getFissionSummaryFullCols();
+        const fullCols = FISSION_REPORT_FULL_COLS;
+        const filterState = getPageChannelFilterState();
+        const dim = getChannelAnalysisDimension(filterState);
         const sourceIdx = fullCols.indexOf("来源渠道");
         const nameIdx = fullCols.indexOf("渠道名");
+        const accountIdx = fullCols.indexOf("渠道账号");
         const dateIdx = fullCols.indexOf("日期");
-        const { level, source, name } = fissionReportState;
 
-        // 累计模式：历史累计至结束日；逐日模式：起止区间内各日当日数据
         const sampleStart = isCumulative
           ? formatDateYMD(
               (() => {
@@ -7221,45 +7620,69 @@
               })(),
             )
           : start;
-        let rows = buildFissionSummarySampleRows(sampleStart, end);
-        if (source) rows = rows.filter((row) => row[sourceIdx] === source);
-        if (name) rows = rows.filter((row) => row[nameIdx] === name);
-
-        let groupCols;
-        let visibleBaseCols;
-        if (level === "source") {
-          groupCols = isCumulative ? ["来源渠道"] : ["日期", "来源渠道"];
-          visibleBaseCols = groupCols.slice();
-        } else if (level === "name") {
-          groupCols = isCumulative ? ["渠道名"] : ["日期", "渠道名"];
-          visibleBaseCols = groupCols.slice();
-        } else {
-          groupCols = isCumulative ? ["渠道账号"] : ["日期", "渠道账号"];
-          visibleBaseCols = groupCols.slice();
-        }
-
-        rows = aggregateChannelHierarchyRows(rows, fullCols, groupCols);
-
-        // 累计汇总后重算比率与系数（避免简单平均）
-        const regIdx = fullCols.indexOf("注册人数");
-        const fisIdx = fullCols.indexOf("裂变人数");
-        const ftdIdx = fullCols.indexOf("裂变首存人数");
-        const regRateIdx = fullCols.indexOf("注册裂变率");
-        const ftdRateIdx = fullCols.indexOf("首存裂变率");
-        rows = rows.map((row) => {
-          const next = row.slice();
-          const reg = Number(next[regIdx]) || 0;
-          const fis = Number(next[fisIdx]) || 0;
-          const ftd = Number(next[ftdIdx]) || 0;
-          next[regRateIdx] =
-            reg > 0 ? `${((fis / reg) * 100).toFixed(1)}%` : "0.0%";
-          next[ftdRateIdx] =
-            fis > 0 ? `${((ftd / fis) * 100).toFixed(1)}%` : "0.0%";
-          return next;
-        });
+        let rows = buildFissionReportSampleRows(sampleStart, end);
+        rows = filterRowsByChannel(
+          rows,
+          filterState.source,
+          filterState.name,
+          sourceIdx,
+          nameIdx,
+          filterState.account,
+          accountIdx,
+        );
 
         if (isCumulative) {
-          // 不展示日期字段
+          if (dim === "all") {
+            rows = aggregateChannelHierarchyRows(rows, fullCols, []);
+          } else if (dim === "source") {
+            rows = aggregateChannelHierarchyRows(rows, fullCols, ["来源渠道"]);
+          } else if (dim === "name") {
+            rows = aggregateChannelHierarchyRows(rows, fullCols, [
+              "来源渠道",
+              "渠道名",
+            ]);
+          } else {
+            rows = aggregateChannelHierarchyRows(rows, fullCols, [
+              "来源渠道",
+              "渠道名",
+              "渠道账号",
+            ]);
+          }
+        } else if (dim === "all") {
+          rows = aggregateChannelHierarchyRows(rows, fullCols, [
+            "日期",
+            "所属平台",
+          ]);
+        } else if (dim === "source") {
+          rows = aggregateChannelHierarchyRows(rows, fullCols, [
+            "日期",
+            "来源渠道",
+            "所属平台",
+          ]);
+        } else if (dim === "name") {
+          rows = aggregateChannelHierarchyRows(rows, fullCols, [
+            "日期",
+            "来源渠道",
+            "渠道名",
+            "所属平台",
+          ]);
+        } else {
+          rows = aggregateChannelHierarchyRows(rows, fullCols, [
+            "日期",
+            "来源渠道",
+            "渠道名",
+            "渠道账号",
+            "所属平台",
+          ]);
+        }
+
+        if (dim === "all" && sourceIdx >= 0) {
+          rows.forEach((row) => {
+            row[sourceIdx] = "全部";
+          });
+        }
+
+        if (isCumulative) {
           rows = rows.map((row) => {
             const next = row.slice();
             next[dateIdx] = "";
@@ -7267,187 +7690,34 @@
           });
         }
 
-        const visibleCols =
-          level === "account"
-            ? [...visibleBaseCols, ...FISSION_SUMMARY_METRIC_COLS]
-            : [
-                ...visibleBaseCols,
-                "下一级渠道",
-                ...FISSION_SUMMARY_METRIC_COLS,
-              ];
-        const visibleIdx = visibleBaseCols.map((c) => fullCols.indexOf(c));
-        const projected = rows.map((row) => {
-          const base = visibleIdx.map((i) => row[i]);
-          const metrics = FISSION_SUMMARY_METRIC_COLS.map(
-            (c) => row[fullCols.indexOf(c)],
-          );
-          if (level === "account") return [...base, ...metrics];
-          const drillSource = String(row[sourceIdx] || source || "");
-          const drillName =
-            level === "name" ? String(row[nameIdx] || name || "") : "";
-          return [
-            ...base,
-            FISSION_DRILL_LINK(drillSource, drillName),
-            ...metrics,
-          ];
-        });
+        let visibleCols = getChannelHierarchyVisibleCols(
+          FISSION_REPORT_COLS,
+          filterState,
+        );
+        if (isCumulative) {
+          visibleCols = visibleCols.filter((col) => col !== "日期");
+        }
+        const visibleIdx = visibleCols.map((c) => fullCols.indexOf(c));
         return {
           cols: visibleCols,
-          rows: projected,
+          rows: rows.map((row) => visibleIdx.map((i) => row[i])),
           isCumulative,
           end,
           start,
         };
       }
 
-      function renderFissionSummaryTable() {
+      function renderFissionReportTable() {
         const { cols, rows, isCumulative, end, start } =
-          buildFissionSummaryTableView();
+          buildFissionReportTableView();
+        const channelFilterActive = hasChannelFilterCondition(
+          getPageChannelFilterState(),
+        );
         const stickyClasses = buildStickyClassList(
           cols,
-          true,
+          channelFilterActive,
           isCumulative ? 2 : 3,
         );
-        const head = cols
-          .map((col, i) =>
-            renderTableHeaderCell(
-              col,
-              stickyClasses[i],
-              FISSION_SUMMARY_METRIC_DEFS,
-            ),
-          )
-          .join("");
-        const { tfootHtml, dataRows, dataCount } = renderDataTableTotalFooter(
-          cols,
-          rows,
-          stickyClasses,
-          {
-            formatCell: (col, cell) =>
-              col === "下一级渠道"
-                ? cell || "-"
-                : formatDataTableCell(col, cell),
-          },
-        );
-        const body = dataRows
-          .map((row) => {
-            const cells = row
-              .map((cell, i) => {
-                const stickyCls = stickyClasses[i] || "";
-                const content =
-                  cols[i] === "下一级渠道"
-                    ? cell || "-"
-                    : formatDataTableCell(cols[i], cell);
-                return `<td class="${stickyCls}">${content}</td>`;
-              })
-              .join("");
-            return `<tr>${cells}</tr>`;
-          })
-          .join("");
-        const modeHint = isCumulative
-          ? `历史累计至 ${end}`
-          : start === end
-            ? `${start} 当日`
-            : `${start} 至 ${end}（各日当日）`;
-        return `
-          <div class="page-table-block" style="margin-bottom:16px">
-            <div class="toolbar">
-              <span class="page-title">裂变汇总表</span>
-              <span class="fission-report-subhint">${modeHint}</span>
-              <div class="toolbar-actions">
-                <button class="btn btn-primary" type="button">导出报表</button>
-              </div>
-            </div>
-            <div class="table-wrap">
-              <table class="data-table">
-                <thead><tr class="col-row">${head}</tr></thead>
-                <tbody>${body}</tbody>
-                ${tfootHtml}
-              </table>
-            </div>
-            <div class="pagination">
-              <button disabled>‹</button>
-              <button class="active">1</button>
-              <button>2</button>
-              <button>3</button>
-              <button>›</button>
-              <span class="pagination-info">共 ${dataCount} 条</span>
-            </div>
-          </div>`;
-      }
-
-      function resetFissionReportDrillState() {
-        fissionReportState = {
-          level: "source",
-          source: "",
-          name: "",
-        };
-      }
-
-      function getFissionReportDrillPathLabel() {
-        const { level, source, name } = fissionReportState;
-        if (level === "account" && source && name) return `${source} / ${name}`;
-        if (level === "name" && source) return source;
-        return "";
-      }
-
-      function buildFissionReportTableView() {
-        const fullCols = FISSION_REPORT_COLS;
-        const sourceIdx = fullCols.indexOf("来源渠道");
-        const nameIdx = fullCols.indexOf("渠道名");
-        const { level, source, name } = fissionReportState;
-        let rows = FISSION_REPORT_SAMPLE.map((row) => row.slice());
-        if (source) {
-          rows = rows.filter((row) => row[sourceIdx] === source);
-        }
-        if (name) {
-          rows = rows.filter((row) => row[nameIdx] === name);
-        }
-
-        // 下钻后隐藏上级渠道字段，只保留当前层级字段
-        let groupCols;
-        let visibleBaseCols;
-        if (level === "source") {
-          groupCols = ["日期", "来源渠道", "所属平台"];
-          visibleBaseCols = ["日期", "来源渠道", "所属平台"];
-        } else if (level === "name") {
-          groupCols = ["日期", "渠道名", "所属平台"];
-          visibleBaseCols = ["日期", "渠道名", "所属平台"];
-        } else {
-          groupCols = ["日期", "渠道账号", "所属平台"];
-          visibleBaseCols = ["日期", "渠道账号", "所属平台"];
-        }
-
-        rows = aggregateChannelHierarchyRows(rows, fullCols, groupCols);
-        const visibleCols =
-          level === "account"
-            ? [...visibleBaseCols, ...FISSION_REPORT_METRIC_COLS]
-            : [...visibleBaseCols, "下一级渠道", ...FISSION_REPORT_METRIC_COLS];
-        const visibleIdx = visibleBaseCols.map((c) => fullCols.indexOf(c));
-        const projected = rows.map((row) => {
-          const base = visibleIdx.map((i) => row[i]);
-          if (level === "account") {
-            return [
-              ...base,
-              ...FISSION_REPORT_METRIC_COLS.map(
-                (c) => row[fullCols.indexOf(c)],
-              ),
-            ];
-          }
-          const drillSource = String(row[sourceIdx] || source || "");
-          const drillName =
-            level === "name" ? String(row[nameIdx] || name || "") : "";
-          return [
-            ...base,
-            FISSION_DRILL_LINK(drillSource, drillName),
-            ...FISSION_REPORT_METRIC_COLS.map((c) => row[fullCols.indexOf(c)]),
-          ];
-        });
-        return { cols: visibleCols, rows: projected };
-      }
-
-      function renderFissionReportTable() {
-        const { cols, rows } = buildFissionReportTableView();
-        const stickyClasses = buildStickyClassList(cols, true, 4);
         const head = cols
           .map((col, i) =>
             renderTableHeaderCell(
@@ -7461,32 +7731,28 @@
           cols,
           rows,
           stickyClasses,
-          {
-            formatCell: (col, cell) =>
-              col === "下一级渠道"
-                ? cell || "-"
-                : formatDataTableCell(col, cell),
-          },
         );
         const body = dataRows
           .map((row) => {
             const cells = row
               .map((cell, i) => {
                 const stickyCls = stickyClasses[i] || "";
-                const content =
-                  cols[i] === "下一级渠道"
-                    ? cell || "-"
-                    : formatDataTableCell(cols[i], cell);
-                return `<td class="${stickyCls}">${content}</td>`;
+                return `<td class="${stickyCls}">${formatDataTableCell(cols[i], cell)}</td>`;
               })
               .join("");
             return `<tr>${cells}</tr>`;
           })
           .join("");
+        const modeHint = isCumulative
+          ? `历史累计至 ${end}`
+          : start === end
+            ? `${start} 当日`
+            : `${start} 至 ${end}（各日当日）`;
         return `
           <div class="page-table-block">
             <div class="toolbar">
               <span class="page-title">裂变日报表</span>
+              <span class="fission-report-subhint">${modeHint}</span>
               <div class="toolbar-actions">
                 <button class="btn btn-primary" type="button">导出报表</button>
               </div>
@@ -7498,30 +7764,13 @@
                 ${tfootHtml}
               </table>
             </div>
-            <div class="pagination">
-              <button disabled>‹</button>
-              <button class="active">1</button>
-              <button>2</button>
-              <button>3</button>
-              <button>›</button>
-              <span class="pagination-info">共 ${dataCount} 条</span>
-            </div>
+            ${renderPaginationHtml(dataCount)}
           </div>`;
       }
 
       function renderFissionReportContent() {
-        const path = getFissionReportDrillPathLabel();
-        const backBar =
-          fissionReportState.level === "source"
-            ? ""
-            : `<div class="fission-report-back">
-                <button type="button" class="btn" id="fissionReportBack">返回</button>
-                <span class="fission-report-subhint">当前查看：${path} 的下级渠道报表</span>
-              </div>`;
         return `
           <div id="fissionReportPanel">
-            ${backBar}
-            ${renderFissionSummaryTable()}
             ${renderFissionReportTable()}
           </div>`;
       }
@@ -7529,65 +7778,14 @@
       function refreshFissionReportPage() {
         const panel = document.getElementById("fissionReportPanel");
         if (!panel) return;
+        const parent = panel.parentElement;
         panel.outerHTML = renderFissionReportContent();
-        const page = PAGES["fission-report"];
-        const path = getFissionReportDrillPathLabel();
-        document.getElementById("breadcrumbTitle").textContent = path
-          ? `${page.breadcrumb} / ${path}`
-          : page.breadcrumb;
-        initFissionReportPage();
-      }
-
-      function drillDownFissionReport(source, name = "") {
-        if (!source) return;
-        if (fissionReportState.level === "source") {
-          fissionReportState = { level: "name", source, name: "" };
-        } else if (fissionReportState.level === "name") {
-          fissionReportState = {
-            level: "account",
-            source: source || fissionReportState.source,
-            name: name || fissionReportState.name,
-          };
-        }
-        refreshFissionReportPage();
-      }
-
-      function backFromFissionReportDrill() {
-        if (fissionReportState.level === "account") {
-          fissionReportState = {
-            level: "name",
-            source: fissionReportState.source,
-            name: "",
-          };
-        } else if (fissionReportState.level === "name") {
-          resetFissionReportDrillState();
-        }
-        refreshFissionReportPage();
-      }
-
-      function initFissionReportPage() {
-        document
-          .getElementById("fissionReportBack")
-          ?.addEventListener("click", backFromFissionReportDrill);
-      }
-
-      function initFissionReportLinks() {
-        const container = document.getElementById("pageContainer");
-        if (!container || container.dataset.fissionReportBound) return;
-        container.dataset.fissionReportBound = "1";
-        container.addEventListener("click", (e) => {
-          const link = e.target.closest("[data-fission-drill-down]");
-          if (!link) return;
-          e.preventDefault();
-          drillDownFissionReport(
-            link.dataset.source || "",
-            link.dataset.name || "",
-          );
-        });
+        initAllTablePaginations(parent || document);
       }
 
       const AGENT_REPORT_METRIC_DEFS = {
         账号ID: "代理账号的唯一标识 ID。",
+        上级账号: "当前代理账号的直属上级账号 ID，可点击复制。",
         下级账号: "点击查看该代理的直属下级代理报表。",
         代理等级: "当前代理在代理体系中的等级。",
         裂变深度:
@@ -7638,6 +7836,8 @@
       function getAgentReportCols(statsLevel = "直属下级") {
         const cols = AGENT_REPORT_COLS.slice();
         if (statsLevel === "无限级") {
+          const idIdx = cols.indexOf("账号ID");
+          cols.splice(idIdx + 1, 0, "上级账号");
           const levelIdx = cols.indexOf("代理等级");
           cols.splice(levelIdx + 1, 0, "裂变深度");
         } else {
@@ -7652,8 +7852,71 @@
         return `<a class="table-link" href="javascript:void(0)" data-open-sub-agent-report>${label}</a>`;
       }
 
+      const AGENT_ACCOUNT_COPY_ICON = `<svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="5.25" y="2.75" width="7.5" height="9" rx="1.25" stroke="currentColor" stroke-width="1.25"/><path d="M4.25 5.25H3.75a1.25 1.25 0 0 0-1.25 1.25v6.25a1.25 1.25 0 0 0 1.25 1.25h6.25a1.25 1.25 0 0 0 1.25-1.25V11.5" stroke="currentColor" stroke-width="1.25" stroke-linecap="round"/></svg>`;
+
+      function resolveAgentParentAccountId({
+        agentId,
+        isSub = false,
+        parentId = "",
+        statsLevel = "直属下级",
+      } = {}) {
+        if (statsLevel !== "无限级") return "";
+        if (isSub && parentId) return String(parentId);
+        const num = Number(agentId);
+        if (!Number.isFinite(num)) return "";
+        return String(Math.max(1000000001, num - 24680));
+      }
+
       function renderAgentAccountCell(agent) {
-        return `<div class="agent-account-cell" data-agent-id="${agent.id}">ID：${agent.id}</div>`;
+        return `<div class="agent-account-cell" data-agent-id="${agent.id}">${agent.id}</div>`;
+      }
+
+      function renderAgentParentAccountCell(parentId) {
+        const id = String(parentId || "").trim();
+        if (!id) return "-";
+        return `<div class="agent-account-cell agent-parent-account-cell" data-agent-id="${id}">
+          <span class="agent-account-id">${id}</span>
+          <button type="button" class="agent-account-copy-btn" data-copy-agent-id="${id}" title="复制上级账号" aria-label="复制上级账号">${AGENT_ACCOUNT_COPY_ICON}</button>
+        </div>`;
+      }
+
+      async function copyAgentAccountId(id, triggerEl) {
+        const text = String(id || "").trim();
+        if (!text) return;
+        try {
+          if (navigator.clipboard?.writeText) {
+            await navigator.clipboard.writeText(text);
+          } else {
+            const ok = copyTextFallback(text);
+            if (!ok) window.prompt("请手动复制以下账号 ID：", text);
+          }
+          if (triggerEl) {
+            const prevTitle = triggerEl.getAttribute("title") || "复制上级账号";
+            triggerEl.classList.add("is-copied");
+            triggerEl.setAttribute("title", "已复制");
+            triggerEl.setAttribute("aria-label", "已复制");
+            window.setTimeout(() => {
+              triggerEl.classList.remove("is-copied");
+              triggerEl.setAttribute("title", prevTitle);
+              triggerEl.setAttribute("aria-label", prevTitle);
+            }, 1200);
+          }
+        } catch (_err) {
+          window.prompt("请手动复制以下账号 ID：", text);
+        }
+      }
+
+      function copyTextFallback(text) {
+        const input = document.createElement("textarea");
+        input.value = text;
+        input.setAttribute("readonly", "");
+        input.style.position = "fixed";
+        input.style.opacity = "0";
+        document.body.appendChild(input);
+        input.select();
+        const ok = document.execCommand("copy");
+        input.remove();
+        return ok;
       }
 
       function buildAgentReportSampleData({
@@ -7724,10 +7987,27 @@
               idFromFixed || idFromParent || 1238712832 + seed * 97 + i * 13579,
             ),
           };
-          const row = [
-            renderAgentAccountCell(agent),
+          const row = [renderAgentAccountCell(agent)];
+          if (statsLevel === "无限级") {
+            row.push(
+              renderAgentParentAccountCell(
+                resolveAgentParentAccountId({
+                  agentId: agent.id,
+                  isSub,
+                  parentId,
+                  statsLevel,
+                }),
+              ),
+            );
+          }
+          row.push(
             subLink,
             `V${level}`,
+          );
+          if (statsLevel === "无限级") {
+            row.push(fissionDepth);
+          }
+          row.push(
             commission,
             personalRecharge,
             personalWithdraw,
@@ -7744,10 +8024,7 @@
             bonusRatio,
             fissionDiff,
             totalDiff,
-          ];
-          if (statsLevel === "无限级") {
-            row.splice(3, 0, fissionDepth);
-          }
+          );
           return row;
         });
         const cols = getAgentReportCols(statsLevel);
@@ -7763,6 +8040,7 @@
         start: "",
         end: "",
         parentAgent: "",
+        drillStack: [],
         agentKeyword: "",
         queriedAgentId: "",
         statsLevel: "直属下级",
@@ -7947,7 +8225,7 @@
         ["充值金额", "统计周期内充值成功的金额合计。"],
         ...MEMBER_REWARD_RATIO_SHORT_BONUS_COLS.map(({ label, source }) => [
           label,
-          `「${label}」奖励金额占当日充值金额的比例，对应会员奖励报表中的「${source}」。`,
+          `「${label}」奖励金额占当日充值金额的比例，对应奖励发放统计中的「${source}」。`,
         ]),
         ...MEMBER_REWARD_RATIO_REMAINING_BONUS_COLS.map((col) => [
           col,
@@ -8629,7 +8907,9 @@
       };
 
       const CHANNEL_DAILY_OP_CONFIG_STORAGE_KEY =
-        "channel-daily-op-config-v2";
+        "channel-daily-op-config-v6";
+      const CHANNEL_DAILY_OP_ACTIVE_CONFIG_KEY =
+        "channel-daily-op-active-config-id";
       const CHANNEL_DAILY_AD_ENTRY_STORAGE_KEY =
         "channel-daily-ad-entries-v2";
       const CHANNEL_DAILY_DEMO_OPERATOR = "管理员";
@@ -8650,6 +8930,23 @@
         const n = Number(rate);
         if (!Number.isFinite(n)) return "-";
         return `${(n * 100).toFixed(2)}%`;
+      }
+
+      function formatOperatingCostRateSummaryDisplay(rate) {
+        const n = Number(rate);
+        if (!Number.isFinite(n)) return "-";
+        const pct = n * 100;
+        const text = Number.isInteger(pct)
+          ? String(pct)
+          : pct.toFixed(2).replace(/\.?0+$/, "");
+        return `${text}%`;
+      }
+
+      function formatOperatingCostConfigTimeDisplay(value) {
+        if (!value) return "-";
+        const text = String(value).trim();
+        if (!text) return "-";
+        return text.replace(/:\d{2}$/, "");
       }
 
       function formatChannelUsdMoney(value) {
@@ -8699,15 +8996,45 @@
         };
       }
 
+      const OPERATING_COST_CONFIG_METRIC_DEFS = {
+        生效时间: "该配置开始对业务数据产生影响的时间。",
+        失效时间: "该配置停止对业务数据产生影响的时间。",
+        最近更新时间: "该配置内容最近一次被编辑的时间。",
+      };
+
       function buildDefaultOperatingCostConfigs() {
-        const dates = getChannelDailyBoardReportDates(14);
-        return dates.map((dateStr, i) => ({
-          id: `op-default-${i + 1}`,
-          operatingCostRate: 0.1 + (i % 3) * 0.01,
-          exchangeRate: 85.2 + (i % 4) * 0.15,
-          updatedAt: `${dateStr} 18:30:00`,
-          operator: CHANNEL_DAILY_DEMO_OPERATOR,
-        }));
+        return [
+          {
+            id: "op-default-1",
+            name: "标准运营成本",
+            operatingCostRate: 0.1,
+            exchangeRate: 87.5,
+            effectiveAt: "2026-09-01 00:00",
+            expiredAt: "",
+            updatedAt: "2026-08-31 18:20",
+            operator: CHANNEL_DAILY_DEMO_OPERATOR,
+          },
+          {
+            id: "op-default-2",
+            name: "促销期运营成本",
+            operatingCostRate: 0.11,
+            exchangeRate: 85.35,
+            effectiveAt: "",
+            expiredAt: "",
+            updatedAt: "2026-08-28 18:30",
+            operator: CHANNEL_DAILY_DEMO_OPERATOR,
+          },
+          {
+            id: "op-default-3",
+            name: "备用运营成本",
+            operatingCostRate: 0.12,
+            exchangeRate: 86.1,
+            effectiveAt: "",
+            expiredAt: "",
+            updatedAt: "2026-08-25 18:30",
+            operator: CHANNEL_DAILY_DEMO_OPERATOR,
+          },
+        ];
       }
 
       function compareOperatingCostConfigTime(a, b) {
@@ -8732,18 +9059,31 @@
         const legacyUpdatedAt =
           row.updatedAt ||
           (row.effectiveDate ? `${row.effectiveDate} 18:30:00` : "");
+        const id =
+          row.id ||
+          `op-${String(row.effectiveDate || legacyUpdatedAt || Date.now()).replace(/\W/g, "")}-${Math.random().toString(36).slice(2, 6)}`;
         return {
-          id:
-            row.id ||
-            `op-${String(row.effectiveDate || legacyUpdatedAt || Date.now()).replace(/\W/g, "")}-${Math.random().toString(36).slice(2, 6)}`,
+          id,
+          name: String(row.name || "").trim() || `运营成本预设`,
           operatingCostRate,
           exchangeRate:
             Number.isFinite(exchangeRate) && exchangeRate > 0
               ? exchangeRate
               : 85.2,
+          effectiveAt: row.effectiveAt || row.appliedAt || "",
+          expiredAt: row.expiredAt || "",
           updatedAt: legacyUpdatedAt || formatDateTimeHM(new Date()),
           operator: row.operator || CHANNEL_DAILY_DEMO_OPERATOR,
         };
+      }
+
+      function getOperatingCostConfigStatusLabel(id) {
+        return isActiveOperatingCostConfig(id) ? "生效中" : "未生效";
+      }
+
+      function renderOperatingCostConfigStatusTag(id) {
+        const active = isActiveOperatingCostConfig(id);
+        return `<span class="status-tag ${active ? "success" : "info"}">${getOperatingCostConfigStatusLabel(id)}</span>`;
       }
 
       function getOperatingCostConfigs() {
@@ -8770,9 +9110,68 @@
         );
       }
 
+      function getActiveOperatingCostConfigId() {
+        const stored = localStorage.getItem(CHANNEL_DAILY_OP_ACTIVE_CONFIG_KEY);
+        const entries = getOperatingCostConfigs();
+        if (stored && entries.some((item) => item.id === stored)) {
+          return stored;
+        }
+        return entries[0]?.id || "";
+      }
+
+      function setActiveOperatingCostConfigId(id) {
+        if (!id) {
+          localStorage.removeItem(CHANNEL_DAILY_OP_ACTIVE_CONFIG_KEY);
+          return;
+        }
+        localStorage.setItem(CHANNEL_DAILY_OP_ACTIVE_CONFIG_KEY, id);
+      }
+
+      function isActiveOperatingCostConfig(id) {
+        return !!id && id === getActiveOperatingCostConfigId();
+      }
+
+      function applyOperatingCostConfig(id) {
+        const entries = getOperatingCostConfigs();
+        const index = entries.findIndex((item) => item.id === id);
+        if (index < 0) return false;
+        const now = formatDateTimeHM(new Date());
+        const prevActiveId = getActiveOperatingCostConfigId();
+        if (prevActiveId && prevActiveId !== id) {
+          const prevIdx = entries.findIndex((item) => item.id === prevActiveId);
+          if (prevIdx >= 0) {
+            entries[prevIdx] = { ...entries[prevIdx], expiredAt: now };
+          }
+        }
+        entries[index] = {
+          ...entries[index],
+          effectiveAt: now,
+          expiredAt: "",
+        };
+        saveOperatingCostConfigs(entries);
+        setActiveOperatingCostConfigId(id);
+        return true;
+      }
+
+      function deleteOperatingCostConfig(id) {
+        const entries = getOperatingCostConfigs();
+        const next = entries.filter((item) => item.id !== id);
+        if (!next.length) {
+          window.alert("至少保留一条配置。");
+          return false;
+        }
+        saveOperatingCostConfigs(next);
+        if (getActiveOperatingCostConfigId() === id) {
+          setActiveOperatingCostConfigId(next[0]?.id || "");
+        }
+        return true;
+      }
+
       function getLatestOperatingCostConfig() {
         const configs = getOperatingCostConfigs();
-        return configs.length ? configs[0] : null;
+        if (!configs.length) return null;
+        const activeId = getActiveOperatingCostConfigId();
+        return configs.find((item) => item.id === activeId) || configs[0];
       }
 
       function hasOperatingCostConfigs() {
@@ -8804,6 +9203,9 @@
               ? entries[index].id
               : normalized.id ||
                 `op-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`,
+          name: normalized.name || entries[index]?.name || "运营成本预设",
+          effectiveAt: index >= 0 ? entries[index].effectiveAt || "" : "",
+          expiredAt: index >= 0 ? entries[index].expiredAt || "" : "",
           updatedAt: formatDateTimeHM(new Date()),
           operator: CHANNEL_DAILY_DEMO_OPERATOR,
         };
@@ -8813,6 +9215,10 @@
           entries.sort(compareOperatingCostConfigTime).slice(0, 120),
         );
         return { ok: true, config: next };
+      }
+
+      function applyOperatingCostConfigAfterCreate(id) {
+        applyOperatingCostConfig(id);
       }
 
       function getOperatingCostConfigList() {
@@ -9114,11 +9520,17 @@
               <form id="channelOpCostModalForm">
                 <div class="app-modal-body">
                   <div class="config-field" style="margin-bottom:12px">
+                    <label for="channelOpCostModalName">预设名称</label>
+                    <div class="config-input-wrap">
+                      <input type="text" id="channelOpCostModalName" maxlength="40" placeholder="如 标准运营成本" required />
+                    </div>
+                  </div>
+                  <div class="config-field" style="margin-bottom:12px">
                     <label for="channelOpCostModalRate">运营成本率</label>
                     <div class="config-input-wrap">
                       <input type="number" id="channelOpCostModalRate" min="0" step="0.01" placeholder="如 0.10" required />
                     </div>
-                    <div class="config-desc">输入 0.1 表示 10%，系统按广告消耗比例计算运营成本。</div>
+                    <div class="config-desc">输入 0.1 表示 10%，系统按充值金额计算运营成本。</div>
                   </div>
                   <div class="config-field">
                     <label for="channelOpCostModalExchange">USD/INR 汇率</label>
@@ -9130,7 +9542,7 @@
                 </div>
                 <div class="app-modal-footer">
                   <button type="button" class="btn" id="channelOpCostModalCancel">取消</button>
-                  <button type="submit" class="btn btn-primary">新增</button>
+                  <button type="submit" class="btn btn-primary" id="channelOpCostModalSubmit">新增</button>
                 </div>
               </form>
             </div>
@@ -9139,19 +9551,59 @@
 
       function renderOperatingCostConfigRows(entries) {
         if (!entries.length) {
-          return `<tr><td colspan="4" style="text-align:center;color:#86909c">暂无配置记录</td></tr>`;
+          return `<tr><td colspan="9" style="text-align:center;color:#86909c">暂无配置记录</td></tr>`;
         }
         return entries
-          .map(
-            (row) => `
-          <tr data-config-id="${row.id}">
-            <td>${row.updatedAt || "-"}</td>
+          .map((row) => {
+            const isActive = isActiveOperatingCostConfig(row.id);
+            return `
+          <tr data-config-id="${row.id}"${isActive ? ' class="is-active-op-cost-config"' : ""}>
+            <td>${row.name || "-"}</td>
+            <td>${renderOperatingCostConfigStatusTag(row.id)}</td>
             <td>${formatOperatingCostRateDisplay(row.operatingCostRate)}</td>
             <td class="amount-cell">${roundChannelMoney(row.exchangeRate).toFixed(2)}</td>
+            <td>${row.effectiveAt || "-"}</td>
+            <td>${row.expiredAt || "-"}</td>
+            <td>${row.updatedAt || "-"}</td>
             <td>${row.operator || "-"}</td>
-          </tr>`,
-          )
+            <td>
+              <div class="channel-board-table-actions">
+                <button type="button" class="btn btn-text channel-op-cost-apply" data-id="${row.id}"${isActive ? " disabled" : ""}>应用</button>
+                <button type="button" class="btn btn-text channel-op-cost-edit" data-id="${row.id}">编辑</button>
+                <button type="button" class="btn btn-text channel-op-cost-delete" data-id="${row.id}">删除</button>
+              </div>
+            </td>
+          </tr>`;
+          })
           .join("");
+      }
+
+      function renderOperatingCostActiveConfigSummaryHtml() {
+        if (!hasOperatingCostConfigs()) {
+          return `<div class="channel-op-cost-active-summary is-empty">
+              <p class="channel-op-cost-active-summary-empty">暂无生效配置，请在下方预设列表中应用一条配置。</p>
+            </div>`;
+        }
+        const config = getLatestOperatingCostConfig();
+        if (!config) return "";
+        const rateText = formatOperatingCostRateSummaryDisplay(
+          config.operatingCostRate,
+        );
+        const exchangeText = roundChannelMoney(config.exchangeRate).toFixed(2);
+        const effectiveText = formatOperatingCostConfigTimeDisplay(
+          config.effectiveAt,
+        );
+        const updatedText = formatOperatingCostConfigTimeDisplay(
+          config.updatedAt,
+        );
+        return `<div class="channel-op-cost-active-summary">
+            <div class="channel-op-cost-active-summary-grid">
+              <div class="channel-op-cost-active-summary-item">当前运营成本率：<span class="value">${rateText}</span></div>
+              <div class="channel-op-cost-active-summary-item">当前 USD/INR：<span class="value">${exchangeText}</span></div>
+              <div class="channel-op-cost-active-summary-item">生效时间：<span class="value">${effectiveText}</span></div>
+              <div class="channel-op-cost-active-summary-item">最近更新：<span class="value">${updatedText}</span></div>
+            </div>
+          </div>`;
       }
 
       function renderChannelDailyBoardOperatingCostContent(page) {
@@ -9164,7 +9616,8 @@
                 <button class="btn btn-primary" type="button" id="channelOpCostAddBtn">新增配置</button>
               </div>
             </div>
-            <p class="channel-board-page-note">用于配置运营成本率及 USD/INR 汇率。系统默认应用<strong>更新时间最新</strong>的一条配置，历史记录按更新时间倒序展示。</p>
+            <div id="channelOpCostActiveSummaryWrap">${renderOperatingCostActiveConfigSummaryHtml()}</div>
+            <div class="channel-op-cost-preset-title">预设配置</div>
             <div class="channel-board-table-wrap">
               <div class="page-table-block">
                 <div class="table-view">
@@ -9172,10 +9625,15 @@
                     <table class="data-table">
                       <thead>
                         <tr class="col-row">
-                          <th>更新时间</th>
+                          <th>预设名称</th>
+                          <th>状态</th>
                           <th>运营成本率</th>
                           <th class="amount-cell">USD/INR汇率</th>
+                          ${renderTableHeaderCell("生效时间", "", OPERATING_COST_CONFIG_METRIC_DEFS)}
+                          ${renderTableHeaderCell("失效时间", "", OPERATING_COST_CONFIG_METRIC_DEFS)}
+                          ${renderTableHeaderCell("最近更新时间", "", OPERATING_COST_CONFIG_METRIC_DEFS)}
                           <th>操作人</th>
+                          <th>操作</th>
                         </tr>
                       </thead>
                       <tbody id="channelOpCostTableBody">${renderOperatingCostConfigRows(entries)}</tbody>
@@ -9188,27 +9646,53 @@
           </div>`;
       }
 
+      function refreshChannelDailyBoardOperatingCostActiveSummary() {
+        const wrap = document.getElementById("channelOpCostActiveSummaryWrap");
+        if (!wrap) return;
+        wrap.innerHTML = renderOperatingCostActiveConfigSummaryHtml();
+      }
+
       function refreshChannelDailyBoardOperatingCostTable() {
         const tbody = document.getElementById("channelOpCostTableBody");
         if (!tbody) return;
         tbody.innerHTML = renderOperatingCostConfigRows(
           getOperatingCostConfigList(),
         );
+        refreshChannelDailyBoardOperatingCostActiveSummary();
       }
 
-      function openOperatingCostConfigModal() {
+      const operatingCostPageState = { editingId: null };
+
+      function openOperatingCostConfigModal(config = null) {
         const modal = document.getElementById("channelOpCostModal");
-        const form = document.getElementById("channelOpCostModalForm");
+        const nameInput = document.getElementById("channelOpCostModalName");
         const rateInput = document.getElementById("channelOpCostModalRate");
         const exchangeInput = document.getElementById("channelOpCostModalExchange");
-        if (!modal || !form) return;
-        if (rateInput) rateInput.value = "";
-        if (exchangeInput) exchangeInput.value = "";
+        const title = document.getElementById("channelOpCostModalTitle");
+        const submitBtn = document.getElementById("channelOpCostModalSubmit");
+        if (!modal) return;
+        operatingCostPageState.editingId = config?.id || null;
+        if (config) {
+          if (nameInput) nameInput.value = config.name || "";
+          if (rateInput) rateInput.value = String(config.operatingCostRate ?? "");
+          if (exchangeInput) {
+            exchangeInput.value = String(roundChannelMoney(config.exchangeRate));
+          }
+          if (title) title.textContent = "编辑运营成本配置";
+          if (submitBtn) submitBtn.textContent = "保存";
+        } else {
+          if (nameInput) nameInput.value = "";
+          if (rateInput) rateInput.value = "";
+          if (exchangeInput) exchangeInput.value = "";
+          if (title) title.textContent = "新增运营成本配置";
+          if (submitBtn) submitBtn.textContent = "新增";
+        }
         modal.hidden = false;
       }
 
       function closeOperatingCostConfigModal() {
         const modal = document.getElementById("channelOpCostModal");
+        operatingCostPageState.editingId = null;
         if (modal) modal.hidden = true;
       }
 
@@ -9236,9 +9720,52 @@
         });
 
         document
+          .getElementById("channelOpCostTableBody")
+          ?.addEventListener("click", (e) => {
+            const applyBtn = e.target.closest(".channel-op-cost-apply");
+            const editBtn = e.target.closest(".channel-op-cost-edit");
+            const deleteBtn = e.target.closest(".channel-op-cost-delete");
+            if (applyBtn && !applyBtn.disabled) {
+              const config = getOperatingCostConfigById(applyBtn.dataset.id);
+              if (!config) return;
+              const rateText = formatOperatingCostRateDisplay(
+                config.operatingCostRate,
+              );
+              const exchangeText = roundChannelMoney(config.exchangeRate).toFixed(
+                2,
+              );
+              if (
+                window.confirm(
+                  `确定应用该运营成本配置吗？\n预设名称：${config.name || "-"}\n运营成本率：${rateText}\nUSD/INR汇率：${exchangeText}\n应用后将作为当前生效配置。`,
+                )
+              ) {
+                applyOperatingCostConfig(applyBtn.dataset.id);
+                refreshChannelDailyBoardOperatingCostTable();
+              }
+              return;
+            }
+            if (editBtn) {
+              const config = getOperatingCostConfigById(editBtn.dataset.id);
+              if (config) openOperatingCostConfigModal(config);
+              return;
+            }
+            if (deleteBtn) {
+              if (
+                window.confirm("确定删除该运营成本配置吗？删除后不可恢复。")
+              ) {
+                deleteOperatingCostConfig(deleteBtn.dataset.id);
+                refreshChannelDailyBoardOperatingCostTable();
+              }
+            }
+          });
+
+        document
           .getElementById("channelOpCostModalForm")
           ?.addEventListener("submit", (e) => {
             e.preventDefault();
+            const name = String(
+              document.getElementById("channelOpCostModalName")?.value || "",
+            ).trim();
             const operatingCostRate = parseOperatingCostRateInput(
               document.getElementById("channelOpCostModalRate")?.value,
             );
@@ -9246,17 +9773,30 @@
               document.getElementById("channelOpCostModalExchange")?.value,
             );
             if (
+              !name ||
               operatingCostRate == null ||
               !Number.isFinite(exchangeRate) ||
               exchangeRate <= 0
             ) {
               return;
             }
-            const result = upsertOperatingCostConfig({
-              operatingCostRate,
-              exchangeRate,
-            });
+            const editingId = operatingCostPageState.editingId;
+            const result = upsertOperatingCostConfig(
+              {
+                id: editingId || undefined,
+                name,
+                operatingCostRate,
+                exchangeRate,
+              },
+              {
+                editId: editingId || "",
+                allowReplace: !!editingId,
+              },
+            );
             if (!result.ok) return;
+            if (!editingId && result.config?.id) {
+              applyOperatingCostConfigAfterCreate(result.config.id);
+            }
             closeOperatingCostConfigModal();
             refreshChannelDailyBoardOperatingCostTable();
           });
@@ -9354,6 +9894,8 @@
                           <th class="amount-cell">广告消耗(USD)</th>
                           <th class="amount-cell">广告消耗(INR)</th>
                           <th class="amount-cell">汇率</th>
+                          <th>录入日期</th>
+                          <th>操作人</th>
                           <th>操作</th>
                         </tr>
                       </thead>
@@ -9383,11 +9925,8 @@
                   <label for="channelAdEntryDate">日期</label>
                   <input type="date" id="channelAdEntryDate" value="${today}" />
                 </div>
-                <div class="filter-item filter-item-wide">
-                  ${channelHtml.replace(
-                    'class="overview-date-bar-row overview-date-bar-channel-row"',
-                    'class="overview-date-bar-row overview-date-bar-channel-row" style="margin:0;padding:0;border:none;background:transparent"',
-                  )}
+                <div class="filter-item filter-item-channel-ad">
+                  ${channelHtml}
                 </div>
                 <div class="filter-item">
                   <label for="channelAdEntryAmount">广告消耗（USD）</label>
@@ -9937,6 +10476,10 @@
           DAILY_OPERATION_MEMBER_COLS.indexOf("提现手续费"),
         );
 
+      const CHANNEL_NEW_USER_BOARD_GAME_COLS = OPERATION_GAME_COLS.filter(
+        (col) => col !== "日期",
+      );
+
       const CHANNEL_NEW_USER_BOARD_CHANNEL_COLS = [
         "来源渠道",
         "渠道名",
@@ -9945,14 +10488,18 @@
       ];
 
       const CHANNEL_NEW_USER_BOARD_FULL_COLS = [
+        "注册日期",
         ...CHANNEL_NEW_USER_BOARD_CHANNEL_COLS,
         ...CHANNEL_NEW_USER_BOARD_COHORT_COLS,
         ...CHANNEL_NEW_USER_BOARD_PERF_COLS,
         ...CHANNEL_NEW_USER_BOARD_TAIL_COLS,
+        ...CHANNEL_NEW_USER_BOARD_GAME_COLS,
       ];
 
       const CHANNEL_NEW_USER_BOARD_METRIC_DEFS = {
         ...DAILY_OPERATION_MEMBER_METRIC_DEFS,
+        ...OPERATION_GAME_METRIC_DEFS,
+        注册日期: "用户注册的日期；与筛选条件中的注册日期一致。",
         消耗: "统计该注册日渠道进量对应的广告投放消耗（卢比）。",
         注册人数: "统计选定注册日期内，该渠道新增注册用户数。",
         首存付费人数: "统计选定注册日期内注册且完成首存的用户数。",
@@ -10020,7 +10567,31 @@
           rechargeAmt,
           withdrawAmt,
           tail,
+          game: buildChannelNewUserBoardGameMetrics(perfDayIdx, perfScale),
         };
+      }
+
+      function buildChannelNewUserBoardGameMetrics(perfDayIdx, perfScale) {
+        const gameDaily = OPERATION_GAME_SAMPLE[perfDayIdx] || [];
+        const gameIdx = (col) => OPERATION_GAME_COLS.indexOf(col);
+        const numericGameCols = new Set([
+          "投注人数",
+          "投注金额",
+          "有效投注",
+          "平台游戏输赢",
+          "活动奖金",
+        ]);
+        return CHANNEL_NEW_USER_BOARD_GAME_COLS.map((col) => {
+          const i = gameIdx(col);
+          const val = gameDaily[i];
+          if (numericGameCols.has(col) && typeof val === "number") {
+            return Math.max(0, Math.round(val * perfScale * 0.4));
+          }
+          if (col === "充投比" && typeof val === "number") {
+            return Number((val * (0.85 + perfScale * 0.1)).toFixed(2));
+          }
+          return val;
+        });
       }
 
       function buildChannelNewUserBoardSampleData(includeFission = true) {
@@ -10045,6 +10616,7 @@
               rows.push({
                 regDate,
                 cells: [
+                  regDate,
                   ...ch,
                   cohort.spend,
                   cohort.regCount,
@@ -10058,6 +10630,7 @@
                   perf.rechargeAmt,
                   perf.withdrawAmt,
                   ...perf.tail,
+                  ...perf.game,
                 ],
               });
             });
@@ -10074,8 +10647,11 @@
         };
       }
 
-      function getChannelNewUserBoardTableCols(_filterState = {}) {
-        return CHANNEL_NEW_USER_BOARD_FULL_COLS.slice();
+      function getChannelNewUserBoardTableCols(filterState = {}) {
+        return getChannelHierarchyVisibleCols(
+          CHANNEL_NEW_USER_BOARD_FULL_COLS,
+          filterState,
+        );
       }
 
       function isChannelNewUserBoardQueryReady({
@@ -10084,12 +10660,10 @@
         perfEnd,
         filterState,
       }) {
-        const { source, name, account } = filterState || {};
+        const { source } = filterState || {};
         return (
           !!source &&
           source !== "全部" &&
-          !!name &&
-          !!account &&
           !!regDate &&
           !!perfStart &&
           !!perfEnd
@@ -10102,10 +10676,11 @@
             title: "",
             cols: view.cols,
             sampleData: view.rows,
-            stickyCols: STICKY_COLS,
+            stickyCols: STICKY_COLS + 1,
             hideTotalRow: true,
             channelNewUserBoardTable: true,
             plainTableHeader: true,
+            metricDefs: CHANNEL_NEW_USER_BOARD_METRIC_DEFS,
             emptyBodyMessage: emptyMessage,
           },
           { tableKey: "main" },
@@ -10158,6 +10733,13 @@
           });
         }
 
+        rows = aggregateTableRowsByChannelFilter(
+          rows,
+          fullCols,
+          filterState,
+          { dateCol: "注册日期" },
+        );
+
         const sortDateIdx = fullCols.indexOf("日期");
         rows.sort((a, b) => {
           const leadEnd = sortDateIdx >= 0 ? sortDateIdx : fullCols.length;
@@ -10174,7 +10756,7 @@
           return 0;
         });
 
-        const visibleCols = CHANNEL_NEW_USER_BOARD_FULL_COLS.slice();
+        const visibleCols = getChannelNewUserBoardTableCols(filterState);
         const visibleIdx = visibleCols.map((c) => fullCols.indexOf(c));
         return {
           cols: visibleCols,
@@ -10187,6 +10769,9 @@
         overview: {
           title: "数据总览",
           breadcrumb: "数据总览",
+          channelHierarchyTable: true,
+          stickyCols: STICKY_COLS,
+          extraTables: [{}],
         },
         "realtime-compare": {
           title: "分时数据对比",
@@ -10562,10 +11147,11 @@
           showChannelAccountFilter: true,
           channelFilterSeparateRow: true,
           dateFilterLabel: "时间",
+          hideTodayRange: true,
         },
         "life-retention": {
           title: "充值/登录留存分析",
-          breadcrumb: "用户留存 / 充值/登录留存分析",
+          breadcrumb: "用户分析 / 充值/登录留存分析",
           stickyCols: STICKY_COLS,
           userRetentionAnalysisPage: true,
           showChannelAccountFilter: true,
@@ -11235,6 +11821,9 @@
           defaultDateRange: "today",
           emptyStartDate: true,
           fissionCumulativeQuickRange: true,
+          showChannelAccountFilter: true,
+          channelFilterSeparateRow: true,
+          showFilterReset: true,
           metricDefs: FISSION_REPORT_METRIC_DEFS,
         },
         "agent-report": {
@@ -11249,20 +11838,18 @@
         },
         "member-reward-report": {
           title: "会员奖励报表",
-          breadcrumb: "会员奖励报表 / 会员奖励报表",
+          breadcrumb: "奖励发放统计 / 会员奖励报表",
           stickyCols: 1,
-          showChannelAccountFilter: true,
-          channelFilterSeparateRow: true,
+          showChannel: false,
           metricDefs: MEMBER_REWARD_METRIC_DEFS,
           cols: MEMBER_REWARD_COLS,
           sampleData: MEMBER_REWARD_SAMPLE,
         },
         "member-reward-ratio-report": {
           title: "奖励占比充值分析报表",
-          breadcrumb: "会员奖励报表 / 奖励占比充值分析报表",
+          breadcrumb: "奖励发放统计 / 奖励占比充值分析报表",
           stickyCols: 2,
-          showChannelAccountFilter: true,
-          channelFilterSeparateRow: true,
+          showChannel: false,
           metricDefs: MEMBER_REWARD_RATIO_METRIC_DEFS,
           cols: MEMBER_REWARD_RATIO_COLS,
           sampleData: MEMBER_REWARD_RATIO_SAMPLE,
@@ -11299,7 +11886,6 @@
           stickyCols: STICKY_COLS,
           showChannelAccountFilter: true,
           channelFilterSeparateRow: true,
-          channelFilterMode: "single",
           channelHierarchyTable: true,
           showFilterReset: true,
           showAverageFooter: true,
@@ -11509,11 +12095,22 @@
         return `${m}分${String(s).padStart(2, "0")}秒`;
       }
 
+      function getTableTotalDimCellValue(col, filterState = null) {
+        if (!TABLE_TOTAL_DIM_COLS.has(col)) return null;
+        const state = filterState || getPageChannelFilterState();
+        const dim = getChannelAnalysisDimension(state);
+        if (col === "来源渠道" && dim === "all") return "全部";
+        return "-";
+      }
+
       function buildTableTotalValues(cols, dataRows, label = "合计") {
         if (!cols?.length || !dataRows?.length) return null;
+        const filterState = getPageChannelFilterState();
         const totals = cols.map((col, i) => {
           if (i === 0) return label;
-          if (TABLE_TOTAL_DIM_COLS.has(col)) return "-";
+          if (TABLE_TOTAL_DIM_COLS.has(col)) {
+            return getTableTotalDimCellValue(col, filterState);
+          }
           return null;
         });
 
@@ -11604,9 +12201,12 @@
 
       function buildTableAverageValues(cols, dataRows, label = "均值") {
         if (!cols?.length || !dataRows?.length) return null;
+        const filterState = getPageChannelFilterState();
         const totals = cols.map((col, i) => {
           if (i === 0) return label;
-          if (TABLE_TOTAL_DIM_COLS.has(col)) return "-";
+          if (TABLE_TOTAL_DIM_COLS.has(col)) {
+            return getTableTotalDimCellValue(col, filterState);
+          }
           return null;
         });
 
@@ -11711,6 +12311,206 @@
           dataRows,
           dataCount: dataRows.length,
         };
+      }
+
+      const TABLE_PAGE_SIZE_OPTIONS = [3, 10, 50, 100];
+      const DEFAULT_TABLE_PAGE_SIZE = 10;
+
+      function getPaginationPageNumbers(currentPage, totalPages) {
+        if (totalPages <= 5) {
+          return Array.from({ length: totalPages }, (_, i) => i + 1);
+        }
+        let start = Math.max(1, currentPage - 2);
+        let end = Math.min(totalPages, start + 4);
+        start = Math.max(1, end - 4);
+        return Array.from({ length: end - start + 1 }, (_, i) => start + i);
+      }
+
+      function renderPaginationHtml(
+        totalCount,
+        pageSize = DEFAULT_TABLE_PAGE_SIZE,
+        currentPage = 1,
+      ) {
+        const total = Math.max(0, Number(totalCount) || 0);
+        const size = TABLE_PAGE_SIZE_OPTIONS.includes(Number(pageSize))
+          ? Number(pageSize)
+          : DEFAULT_TABLE_PAGE_SIZE;
+        const totalPages = Math.max(1, Math.ceil(total / size) || 1);
+        const page = Math.min(Math.max(1, Number(currentPage) || 1), totalPages);
+        const pageNums = getPaginationPageNumbers(page, totalPages);
+        const sizeOptions = TABLE_PAGE_SIZE_OPTIONS.map(
+          (n) =>
+            `<option value="${n}"${n === size ? " selected" : ""}>${n} 条/页</option>`,
+        ).join("");
+        const pageBtns = pageNums
+          .map(
+            (n) =>
+              `<button type="button" data-page-num="${n}" class="${n === page ? "active" : ""}">${n}</button>`,
+          )
+          .join("");
+        return `<div class="pagination" data-table-pagination data-total="${total}" data-page-size="${size}" data-current-page="${page}">
+    <button type="button" data-page-prev ${page <= 1 ? "disabled" : ""}>‹</button>
+    ${pageBtns}
+    <button type="button" data-page-next ${page >= totalPages ? "disabled" : ""}>›</button>
+    <label class="pagination-page-size">
+      <select data-page-size-select aria-label="每页条数">${sizeOptions}</select>
+    </label>
+    <span class="pagination-info">共 ${total} 条</span>
+  </div>`;
+      }
+
+      function getTablePaginationRows(paginationEl) {
+        const block =
+          paginationEl.closest(".table-view") ||
+          paginationEl.closest(".page-table-block") ||
+          paginationEl.closest("#appExpTableWrap");
+        const tbody =
+          block?.querySelector(".table-wrap > table > tbody") ||
+          block?.querySelector("table.data-table > tbody");
+        if (!tbody) return [];
+        return [...tbody.querySelectorAll(":scope > tr")].filter(
+          (tr) => !tr.querySelector(".table-empty-cell"),
+        );
+      }
+
+      function applyTablePaginationRowsOnly(paginationEl) {
+        if (!paginationEl?.dataset?.tablePagination) return;
+        const rows = getTablePaginationRows(paginationEl);
+        const pageSize =
+          parseInt(paginationEl.dataset.pageSize, 10) || DEFAULT_TABLE_PAGE_SIZE;
+        const currentPage =
+          parseInt(paginationEl.dataset.currentPage, 10) || 1;
+        rows.forEach((row, i) => {
+          row.hidden = Math.floor(i / pageSize) + 1 !== currentPage;
+        });
+      }
+
+      function remountTablePagination(paginationEl, options = {}) {
+        if (!paginationEl) return;
+        const host = paginationEl.parentElement;
+        const total = getTablePaginationRows(paginationEl).length;
+        const pageSize =
+          options.pageSize ??
+          parseInt(paginationEl.dataset.pageSize, 10) ??
+          DEFAULT_TABLE_PAGE_SIZE;
+        const currentPage = options.currentPage ?? 1;
+        paginationEl.outerHTML = renderPaginationHtml(
+          total,
+          pageSize,
+          currentPage,
+        );
+        applyTablePaginationRowsOnly(host?.querySelector("[data-table-pagination]"));
+      }
+
+      function handleTablePaginationAction(e) {
+        const paginationEl = e.target.closest("[data-table-pagination]");
+        if (!paginationEl) return;
+
+        const sizeSelect = e.target.closest("[data-page-size-select]");
+        if (sizeSelect && e.type === "change") {
+          remountTablePagination(paginationEl, {
+            pageSize: parseInt(sizeSelect.value, 10) || DEFAULT_TABLE_PAGE_SIZE,
+            currentPage: 1,
+          });
+          return;
+        }
+
+        const prevBtn = e.target.closest("[data-page-prev]");
+        const nextBtn = e.target.closest("[data-page-next]");
+        const pageBtn = e.target.closest("[data-page-num]");
+        if (!prevBtn && !nextBtn && !pageBtn) return;
+
+        const pageSize =
+          parseInt(paginationEl.dataset.pageSize, 10) || DEFAULT_TABLE_PAGE_SIZE;
+        const total = getTablePaginationRows(paginationEl).length;
+        const totalPages = Math.max(1, Math.ceil(total / pageSize) || 1);
+        let currentPage =
+          parseInt(paginationEl.dataset.currentPage, 10) || 1;
+
+        if (prevBtn && !prevBtn.disabled && currentPage > 1) currentPage -= 1;
+        else if (nextBtn && !nextBtn.disabled && currentPage < totalPages) {
+          currentPage += 1;
+        } else if (pageBtn) {
+          currentPage = parseInt(pageBtn.dataset.pageNum, 10) || 1;
+        } else return;
+
+        remountTablePagination(paginationEl, { pageSize, currentPage });
+      }
+
+      let tablePaginationDelegationBound = false;
+
+      function ensureTablePaginationDelegation() {
+        if (tablePaginationDelegationBound) return;
+        tablePaginationDelegationBound = true;
+        document.addEventListener("click", handleTablePaginationAction);
+        document.addEventListener("change", handleTablePaginationAction);
+      }
+
+      function initAllTablePaginations(root = document) {
+        ensureTablePaginationDelegation();
+        root.querySelectorAll("[data-table-pagination]").forEach((el) => {
+          applyTablePaginationRowsOnly(el);
+        });
+      }
+
+      function bindPinnedTableFooterScroll(tableView) {
+        if (!tableView?.classList.contains("table-view-pinned-footer")) return;
+        const bodyWrap = tableView.querySelector(".table-wrap");
+        const footerScroll = tableView.querySelector(".table-footer-scroll");
+        if (!bodyWrap || !footerScroll) return;
+        if (bodyWrap.dataset.footerSyncBound !== "1") {
+          bodyWrap.dataset.footerSyncBound = "1";
+          bodyWrap.addEventListener(
+            "scroll",
+            () => {
+              footerScroll.scrollLeft = bodyWrap.scrollLeft;
+            },
+            { passive: true },
+          );
+        }
+        if (footerScroll.dataset.footerSyncBound !== "1") {
+          footerScroll.dataset.footerSyncBound = "1";
+          footerScroll.addEventListener(
+            "scroll",
+            () => {
+              bodyWrap.scrollLeft = footerScroll.scrollLeft;
+            },
+            { passive: true },
+          );
+        }
+      }
+
+      function syncPinnedTableFooterColumnWidths(tableView) {
+        if (!tableView?.classList.contains("table-view-pinned-footer")) return;
+        const mainTable = tableView.querySelector(".table-wrap > .data-table");
+        const footerTable = tableView.querySelector(".table-footer-table");
+        if (!mainTable || !footerTable) return;
+        const headerCells = mainTable.querySelectorAll("thead tr.col-row th");
+        const footerRows = footerTable.querySelectorAll("tfoot tr");
+        if (!headerCells.length || !footerRows.length) return;
+        const widths = [...headerCells].map(
+          (cell) => cell.getBoundingClientRect().width,
+        );
+        footerTable.style.width = `${mainTable.scrollWidth}px`;
+        footerRows.forEach((row) => {
+          row.querySelectorAll("td").forEach((cell, index) => {
+            const width = widths[index];
+            if (!width) return;
+            cell.style.width = `${width}px`;
+            cell.style.minWidth = `${width}px`;
+            cell.style.maxWidth = `${width}px`;
+          });
+        });
+      }
+
+      function initPinnedTableFooters(root = document) {
+        const scope = root?.querySelector ? root : document;
+        scope.querySelectorAll(".table-view-pinned-footer").forEach((view) => {
+          bindPinnedTableFooterScroll(view);
+          const sync = () => syncPinnedTableFooterColumnWidths(view);
+          sync();
+          requestAnimationFrame(sync);
+        });
       }
 
       function getStickyClass(index, stickyCount) {
@@ -11978,6 +12778,444 @@
             .map((name) => `<option value="${name}">${name}</option>`)
             .join("")
         );
+      }
+
+      function isGlobalChannelFissionExcluded() {
+        return !!document.getElementById("globalChannelFissionCheck")?.checked;
+      }
+
+      function getEffectiveSourceChannelOptions(
+        baseOptions = SOURCE_CHANNEL_OPTIONS,
+      ) {
+        const options = baseOptions?.length
+          ? [...baseOptions]
+          : [...SOURCE_CHANNEL_OPTIONS];
+        if (isGlobalChannelFissionExcluded()) {
+          return options.filter((name) => name !== "裂变");
+        }
+        return options;
+      }
+
+      function renderGlobalChannelFissionCheckbox() {
+        const checked = isGlobalChannelFissionExcluded();
+        return `
+          <label class="filter-checkbox global-channel-fission-check">
+            <input type="checkbox" id="globalChannelFissionCheck"${checked ? " checked" : ""} />
+            裂变
+          </label>`;
+      }
+
+      function syncMultiChannelFilterCascade(scope) {
+        const sourceItem = scope.querySelector('[data-ms-filter="source"]');
+        const nameItem = scope.querySelector('[data-ms-filter="name"]');
+        const accountItem = scope.querySelector('[data-ms-filter="account"]');
+        const sources = getMsEffectiveValues(
+          sourceItem?.querySelector(".ms-filter-wrap"),
+        );
+        const nameWrap = nameItem?.querySelector(".ms-filter-wrap");
+        const accountWrap = accountItem?.querySelector(".ms-filter-wrap");
+        if (!nameItem) return;
+        if (!sources.length) {
+          setMsFilterOptions(nameWrap, withMsAllOption([]), false);
+          setMsFilterDisabled(nameItem, true);
+          if (accountItem) {
+            setMsFilterOptions(accountWrap, withMsAllOption([]), false);
+            setMsFilterDisabled(accountItem, true);
+          }
+          return;
+        }
+        setMsFilterDisabled(nameItem, false);
+        setMsFilterOptions(
+          nameWrap,
+          withMsAllOption(getChannelNamesForSources(sources)),
+          true,
+        );
+        const selectedNames = getMsEffectiveValues(nameWrap);
+        if (!accountItem) return;
+        if (!selectedNames.length) {
+          setMsFilterOptions(accountWrap, withMsAllOption([]), false);
+          setMsFilterDisabled(accountItem, true);
+        } else {
+          setMsFilterDisabled(accountItem, false);
+          setMsFilterOptions(
+            accountWrap,
+            withMsAllOption(getChannelAccountsForNames(selectedNames)),
+            true,
+          );
+        }
+      }
+
+      function rebuildOverviewChannelTreeSource(msWrap) {
+        delete msWrap._channelTreeNodes;
+        delete msWrap._channelTreeCacheKey;
+        clearCascadeSelectedAll(msWrap);
+        setCascadeAggregateAll(msWrap);
+        const nodes = getChannelTreeNodes(msWrap);
+        const sourceBody = msWrap.querySelector('[data-cascade-body="source"]');
+        if (sourceBody) {
+          sourceBody.innerHTML =
+            renderCascadeAggregateAllOption() +
+            nodes.map((n) => renderCascadeOptionHtml(n)).join("");
+        }
+        renderCascadeNameColumn(msWrap);
+        renderCascadeAccountColumn(msWrap);
+        syncCascadeDomFromStore(msWrap);
+        updateCascadeExpandStyles(msWrap);
+        updateChannelTreeTrigger(msWrap);
+        updateChannelTreeSelectAllState(msWrap);
+        updateCascadeLevelHint(msWrap);
+      }
+
+      function applyGlobalChannelFissionFilter() {
+        const arcoMount = document.querySelector(".arco-channel-cascader-mount");
+        if (arcoMount) {
+          syncArcoChannelCascaderOptions();
+          document
+            .querySelectorAll(".arco-channel-cascader-mount")
+            .forEach((el) => {
+              const scope = el.closest("[data-local-filter]");
+              if (scope && !shouldDeferPageFilterApply(scope)) {
+                refreshModuleByChannelFilter(scope);
+              }
+            });
+          return;
+        }
+        const bar = document.getElementById("overviewDateBar");
+        if (!bar) return;
+        const scope = bar.querySelector("[data-local-filter='page-filter']");
+        if (!scope) return;
+        const sourceOptions = getEffectiveSourceChannelOptions();
+        const msWrap = scope.querySelector(".channel-tree-wrap");
+        if (msWrap) {
+          rebuildOverviewChannelTreeSource(msWrap);
+          updateVipChannelFilterHint(getChannelTreeFilterState(scope));
+          if (!shouldDeferPageFilterApply(scope)) {
+            refreshModuleByChannelFilter(scope);
+          }
+          return;
+        }
+        if (
+          scope.classList.contains("is-multi-filter") ||
+          scope.querySelector('[data-ms-filter="source"]')
+        ) {
+          const sourceWrap = scope
+            .querySelector('[data-ms-filter="source"]')
+            ?.querySelector(".ms-filter-wrap");
+          if (sourceWrap) {
+            setMsFilterOptions(
+              sourceWrap,
+              withMsAllOption(sourceOptions),
+              true,
+            );
+          }
+          syncMultiChannelFilterCascade(scope);
+          if (!shouldDeferPageFilterApply(scope)) {
+            refreshModuleByChannelFilter(scope);
+          }
+          return;
+        }
+        const sourceSelect = scope.querySelector(".local-source-channel");
+        if (!sourceSelect) return;
+        const prev = sourceSelect.value;
+        sourceSelect.innerHTML = renderSourceChannelFilter(sourceOptions);
+        if (
+          prev === "裂变" ||
+          (prev && prev !== "全部" && !sourceOptions.includes(prev))
+        ) {
+          sourceSelect.value = "全部";
+        } else if (prev) {
+          sourceSelect.value = prev;
+        }
+        const nameEl = scope.querySelector(".local-channel-name");
+        const nameList = scope.querySelector(
+          `#channelNameList-${sourceSelect.dataset.filterId || ""}`,
+        );
+        const accountEl = scope.querySelector(".local-channel-account");
+        syncLocalChannelNameOptions(sourceSelect, nameEl, nameList);
+        syncLocalChannelAccountOptions(sourceSelect, nameEl, accountEl);
+        if (!shouldDeferPageFilterApply(scope)) {
+          refreshModuleByChannelFilter(scope);
+        }
+      }
+
+      function initGlobalChannelFissionCheckbox() {
+        const fissionCheck = document.getElementById("globalChannelFissionCheck");
+        if (!fissionCheck || fissionCheck.dataset.bound === "1") return;
+        fissionCheck.dataset.bound = "1";
+        fissionCheck.addEventListener("change", () => {
+          applyGlobalChannelFissionFilter();
+        });
+      }
+
+      const arcoChannelCascaderInstances = new Map();
+      const arcoChannelCascaderOptsByMountId = new Map();
+
+      const ARCO_CHANNEL_CASCADER_ALL_VALUE = "全部";
+
+      function getArcoChannelCascaderMountId(filterId = "page-filter") {
+        return `arcoChannelCascaderMount-${filterId}`;
+      }
+
+      function getArcoChannelCascaderMaxDepth(opts = {}) {
+        const { hideChannelName = false, showChannelAccount = true } = opts;
+        if (hideChannelName) return 1;
+        if (!showChannelAccount) return 2;
+        return 3;
+      }
+
+      function getArcoChannelCascaderOpts(mountEl) {
+        return (
+          arcoChannelCascaderOptsByMountId.get(mountEl?.id) || {
+            hideChannelName: false,
+            showChannelAccount: true,
+            sourceChannelOptions: null,
+          }
+        );
+      }
+
+      function buildArcoChannelCascaderOptions(opts = {}) {
+        const {
+          hideChannelName = false,
+          showChannelAccount = true,
+          sourceChannelOptions = null,
+        } = opts;
+        const sources = getEffectiveSourceChannelOptions(sourceChannelOptions);
+        const showName = !hideChannelName;
+        const showAccount = showChannelAccount && showName;
+        return [
+          {
+            label: "全部",
+            value: ARCO_CHANNEL_CASCADER_ALL_VALUE,
+            isLeaf: true,
+          },
+          ...sources.map((source) => ({
+            label: source,
+            value: source,
+            isLeaf: !showName,
+            children: showName
+              ? (CHANNEL_NAME_MAP[source] || []).map((name) => ({
+                  label: name,
+                  value: name,
+                  isLeaf: !showAccount,
+                  children: showAccount
+                    ? (CHANNEL_ACCOUNT_MAP[name] || []).map((account) => ({
+                        label: account,
+                        value: account,
+                        isLeaf: true,
+                      }))
+                    : undefined,
+                }))
+              : undefined,
+          })),
+        ];
+      }
+
+      function normalizeArcoChannelCascaderValue(path, options, opts = {}) {
+        const maxDepth = getArcoChannelCascaderMaxDepth(opts);
+        if (!Array.isArray(path) || !path.length) return [];
+        if (path[0] === ARCO_CHANNEL_CASCADER_ALL_VALUE) {
+          return [ARCO_CHANNEL_CASCADER_ALL_VALUE];
+        }
+        const sourceNodes = options.filter(
+          (item) => item.value !== ARCO_CHANNEL_CASCADER_ALL_VALUE,
+        );
+        const sources = sourceNodes.map((item) => item.value);
+        if (!sources.includes(path[0])) return [];
+        if (maxDepth === 1 || path.length === 1) return [path[0]];
+        const sourceNode = sourceNodes.find((item) => item.value === path[0]);
+        const names = (sourceNode?.children || []).map((item) => item.value);
+        if (!names.includes(path[1])) return [path[0]];
+        if (maxDepth === 2 || path.length === 2) return path.slice(0, 2);
+        const nameNode = sourceNode.children.find(
+          (item) => item.value === path[1],
+        );
+        const accounts = (nameNode?.children || []).map((item) => item.value);
+        if (!accounts.includes(path[2])) return path.slice(0, 2);
+        return path.slice(0, 3);
+      }
+
+      function getArcoChannelCascaderFilterState(mountEl) {
+        const instance = mountEl?.id
+          ? arcoChannelCascaderInstances.get(mountEl.id)
+          : null;
+        const path = instance?.state?.value || [];
+        if (!path.length || path[0] === ARCO_CHANNEL_CASCADER_ALL_VALUE) {
+          return { source: "全部", name: "", account: "" };
+        }
+        return {
+          source: path[0] || "全部",
+          name: path[1] || "",
+          account: path[2] || "",
+        };
+      }
+
+      function renderArcoChannelCascaderFilter(
+        filterId = "page-filter",
+        opts = {},
+      ) {
+        const mountId = getArcoChannelCascaderMountId(filterId);
+        arcoChannelCascaderOptsByMountId.set(mountId, {
+          hideChannelName: !!opts.hideChannelName,
+          showChannelAccount: opts.showChannelAccount !== false,
+          sourceChannelOptions: opts.sourceChannelOptions || null,
+        });
+        return `
+          <div class="global-channel-filter arco-channel-cascader-filter" data-global-channel-filter="1" data-channel-filter-mode="arco-cascader">
+            <div class="filter-bar filter-bar-local" data-local-filter="${filterId}">
+              <div class="filter-item filter-item-arco-cascader">
+                <label>渠道</label>
+                <div id="${mountId}" class="arco-channel-cascader-mount"></div>
+              </div>
+            </div>
+          </div>`;
+      }
+
+      function destroyArcoChannelCascaderInstance(mountId) {
+        const instance = arcoChannelCascaderInstances.get(mountId);
+        if (instance?.app) {
+          instance.app.unmount();
+        }
+        arcoChannelCascaderInstances.delete(mountId);
+        arcoChannelCascaderOptsByMountId.delete(mountId);
+        const mountEl = document.getElementById(mountId);
+        if (mountEl) {
+          mountEl.innerHTML = "";
+          delete mountEl.dataset.arcoMounted;
+        }
+      }
+
+      function destroyArcoChannelCascader() {
+        [...arcoChannelCascaderInstances.keys()].forEach(
+          destroyArcoChannelCascaderInstance,
+        );
+        document.querySelectorAll(".arco-channel-cascader-mount").forEach((el) => {
+          el.innerHTML = "";
+          delete el.dataset.arcoMounted;
+        });
+      }
+
+      function resetArcoChannelCascaderInScope(scope) {
+        const mountEl = scope?.querySelector(".arco-channel-cascader-mount");
+        if (!mountEl) return;
+        const instance = arcoChannelCascaderInstances.get(mountEl.id);
+        if (!instance) return;
+        instance.state.value = [];
+        instance.syncOptions?.();
+      }
+
+      function syncArcoChannelCascaderOptions() {
+        if (arcoChannelCascaderInstances.size) {
+          arcoChannelCascaderInstances.forEach((instance) => {
+            const path = instance.state.value || [];
+            if (path[0] === "裂变") {
+              instance.state.value = [];
+            } else {
+              instance.state.value = normalizeArcoChannelCascaderValue(
+                path,
+                buildArcoChannelCascaderOptions(instance.opts),
+                instance.opts,
+              );
+            }
+            instance.syncOptions?.();
+          });
+          return;
+        }
+        if (
+          document.querySelector(".arco-channel-cascader-mount") &&
+          typeof Vue !== "undefined" &&
+          typeof ArcoVue !== "undefined"
+        ) {
+          initArcoChannelCascaders();
+        }
+      }
+
+      function mountArcoChannelCascader(mountEl) {
+        if (
+          !mountEl ||
+          mountEl.dataset.arcoMounted === "1" ||
+          typeof Vue === "undefined" ||
+          typeof ArcoVue === "undefined"
+        ) {
+          return;
+        }
+        const mountId = mountEl.id;
+        const opts = getArcoChannelCascaderOpts(mountEl);
+        const scope = mountEl.closest("[data-local-filter]");
+        const instance = {
+          state: { value: [] },
+          opts,
+          scope,
+          app: null,
+          syncOptions: null,
+        };
+        const options = buildArcoChannelCascaderOptions(opts);
+        instance.state.value = normalizeArcoChannelCascaderValue(
+          instance.state.value,
+          options,
+          opts,
+        );
+        const { createApp, ref, watch, h } = Vue;
+        const Cascader = ArcoVue.Cascader;
+        instance.app = createApp({
+          setup() {
+            const value = ref(instance.state.value.slice());
+            const cascaderOptions = ref(buildArcoChannelCascaderOptions(opts));
+            const cascaderKey = ref(0);
+
+            const syncOptions = () => {
+              const nextOptions = buildArcoChannelCascaderOptions(opts);
+              cascaderOptions.value = nextOptions;
+              const normalized = normalizeArcoChannelCascaderValue(
+                instance.state.value,
+                nextOptions,
+                opts,
+              );
+              instance.state.value = normalized;
+              value.value = normalized.slice();
+              cascaderKey.value += 1;
+            };
+            instance.syncOptions = syncOptions;
+
+            watch(value, (next) => {
+              instance.state.value = Array.isArray(next) ? next.slice() : [];
+              if (scope && !shouldDeferPageFilterApply(scope)) {
+                refreshModuleByChannelFilter(scope);
+              }
+            });
+            return () =>
+              h(Cascader, {
+                key: `arco-channel-cascader-${mountId}-${cascaderKey.value}`,
+                modelValue: value.value,
+                "onUpdate:modelValue": (next) => {
+                  value.value = next;
+                },
+                options: cascaderOptions.value,
+                pathMode: true,
+                allowClear: true,
+                allowSearch: true,
+                changeOnSelect: true,
+                checkStrictly: true,
+                expandChild: true,
+                placeholder: "请选择渠道",
+                style: { width: "100%" },
+              });
+          },
+        });
+        instance.app.use(ArcoVue);
+        instance.app.mount(mountEl);
+        mountEl.dataset.arcoMounted = "1";
+        arcoChannelCascaderInstances.set(mountId, instance);
+      }
+
+      function initArcoChannelCascaders(root = document) {
+        const scope = root?.querySelector ? root : document;
+        scope
+          .querySelectorAll(".arco-channel-cascader-mount")
+          .forEach(mountArcoChannelCascader);
+      }
+
+      function initArcoChannelCascader() {
+        initArcoChannelCascaders();
       }
 
       function renderGlobalFilterBar(activeRange = "7d", opts = {}) {
@@ -12571,11 +13809,7 @@
         const end = dateEnd || rangeDates.end;
         const timeRow = `
           <div class="overview-range-tabs" role="tablist" aria-label="时间范围快捷切换" ${fissionCumulativeQuickRange ? 'data-fission-cumulative-quick="1"' : ""}>
-            ${
-              hideTodayRange
-                ? ""
-                : `<button type="button" class="range-tab${activeRange === "today" ? " active" : ""}" data-range="today" role="tab" aria-selected="${activeRange === "today"}">今日</button>`
-            }
+            <button type="button" class="range-tab${activeRange === "today" && !hideTodayRange ? " active" : ""}${hideTodayRange ? " is-disabled" : ""}" data-range="today" role="tab" aria-selected="${activeRange === "today" && !hideTodayRange}" ${hideTodayRange ? 'disabled title="本页采用 T+1 更新，暂不支持今日"' : ""}>今日</button>
             <button type="button" class="range-tab${activeRange === "yesterday" ? " active" : ""}" data-range="yesterday" role="tab" aria-selected="${activeRange === "yesterday"}">昨日</button>
             <button type="button" class="range-tab${activeRange === "7d" ? " active" : ""}" data-range="7d" role="tab" aria-selected="${activeRange === "7d"}">近7天</button>
           </div>
@@ -12588,20 +13822,27 @@
         const vipHtml = vipLevelFilter
           ? renderVipLevelMsFilter("page-filter")
           : "";
+        const effectiveSourceOptions = getEffectiveSourceChannelOptions(
+          sourceChannelOptions,
+        );
+        const resolvedChannelMode =
+          channelFilterMode ||
+          (treeSelectChannelFilter
+            ? "multi"
+            : multiSelectChannelFilter
+              ? "ms-multi"
+              : "single");
         const channelHtml = !showChannel
           ? ""
           : renderGlobalChannelFilter("page-filter", {
-              mode:
-                channelFilterMode ||
-                (treeSelectChannelFilter
-                  ? "multi"
-                  : multiSelectChannelFilter
-                    ? "ms-multi"
-                    : "single"),
+              mode: resolvedChannelMode,
               hideChannelName,
               showChannelAccount,
-              sourceChannelOptions,
+              sourceChannelOptions: effectiveSourceOptions,
             });
+        const fissionCheckHtml = showChannel
+          ? renderGlobalChannelFissionCheckbox()
+          : "";
         const actionBtns = `
           ${
             showFilterReset
@@ -12620,6 +13861,7 @@
         <div class="overview-date-bar" id="overviewDateBar">
           ${vipHtml}
           ${channelHtml}
+          ${fissionCheckHtml}
           ${extraFilterHtml}
           ${actionBtns}
         </div>`;
@@ -12631,6 +13873,7 @@
           <div class="overview-date-bar-row overview-date-bar-channel-row">
             ${vipHtml}
             ${channelHtml}
+            ${fissionCheckHtml}
             ${extraFilterHtml}
             ${actionBtns}
           </div>
@@ -12641,6 +13884,7 @@
           ${timeRow}
           ${vipHtml}
           ${channelHtml}
+          ${fissionCheckHtml}
           ${extraFilterHtml}
           ${actionBtns}
         </div>`;
@@ -12671,7 +13915,10 @@
         };
 
         tabs.forEach((tab) => {
-          tab.addEventListener("click", () => applyRange(tab.dataset.range));
+          tab.addEventListener("click", () => {
+            if (tab.disabled || tab.classList.contains("is-disabled")) return;
+            applyRange(tab.dataset.range);
+          });
         });
 
         const clearTabActive = () => setActiveRange("");
@@ -12727,7 +13974,10 @@
         };
 
         tabs.forEach((tab) => {
-          tab.addEventListener("click", () => applyRange(tab.dataset.range));
+          tab.addEventListener("click", () => {
+            if (tab.disabled || tab.classList.contains("is-disabled")) return;
+            applyRange(tab.dataset.range);
+          });
         });
 
         const clearTabActive = () => setActiveRange("");
@@ -12850,6 +14100,17 @@
         const cumTier = document.getElementById("cumRechargeTierFilter");
         if (cumTier) cumTier.value = "全部";
 
+        const fissionCheck = document.getElementById("globalChannelFissionCheck");
+        if (fissionCheck) fissionCheck.checked = false;
+        document
+          .querySelectorAll(".arco-channel-cascader-mount")
+          .forEach((mountEl) => {
+            const instance = arcoChannelCascaderInstances.get(mountEl.id);
+            if (!instance) return;
+            instance.state.value = [];
+            instance.syncOptions?.();
+          });
+
         const retentionSegment = document.getElementById(
           "userRetentionSegmentFilter",
         );
@@ -12858,7 +14119,10 @@
         }
 
         refreshOverviewByGlobalFilter();
-        if (scope) refreshModuleByChannelFilter(scope);
+        if (scope) {
+          applyGlobalChannelFissionFilter();
+          refreshModuleByChannelFilter(scope);
+        }
       }
 
       function getOverviewFilterRange() {
@@ -13370,18 +14634,7 @@
         filterId = "page-filter",
         opts = {},
       ) {
-        const {
-          hideChannelName = false,
-          showChannelAccount = true,
-          sourceChannelOptions = null,
-        } = opts;
-        const inner = renderLocalChannelFilter(filterId, {
-          hideChannelName,
-          showChannelAccount,
-          multiSelect: false,
-          sourceChannelOptions,
-        });
-        return `<div class="global-channel-filter" data-global-channel-filter="1" data-channel-filter-mode="single">${inner}</div>`;
+        return renderArcoChannelCascaderFilter(filterId, opts);
       }
 
       /** 渠道级联多选（VIP 用户分析等页面）：树形级联复选，支持多选与搜索 */
@@ -13445,6 +14698,7 @@
         scope
           .querySelectorAll("[data-global-channel-filter]")
           .forEach((wrap) => {
+            if (wrap.dataset.channelFilterMode === "arco-cascader") return;
             const local = wrap.querySelector("[data-local-filter]");
             if (local) bindLocalChannelFilter(local);
           });
@@ -13519,11 +14773,17 @@
 
       function getChannelTreeNodes(msWrap) {
         if (!msWrap) return [];
-        if (!msWrap._channelTreeNodes) {
+        const sourceOpts = msWrap.closest("#overviewDateBar")
+          ? getEffectiveSourceChannelOptions()
+          : null;
+        const cacheKey = sourceOpts ? sourceOpts.join("|") : "default";
+        if (!msWrap._channelTreeNodes || msWrap._channelTreeCacheKey !== cacheKey) {
           msWrap._channelTreeNodes = buildChannelTreeNodes({
             hideChannelName: msWrap.dataset.showName !== "1",
             showChannelAccount: msWrap.dataset.showAccount === "1",
+            sourceChannelOptions: sourceOpts,
           });
+          msWrap._channelTreeCacheKey = cacheKey;
         }
         return msWrap._channelTreeNodes;
       }
@@ -14733,9 +15993,9 @@
         } = {},
       ) {
         const showAccount = showChannelAccount && !hideChannelName;
-        const sourceOptions = sourceChannelOptions?.length
-          ? sourceChannelOptions
-          : SOURCE_CHANNEL_OPTIONS;
+        const sourceOptions = getEffectiveSourceChannelOptions(
+          sourceChannelOptions,
+        );
         if (multiSelect) {
           return `
           ${renderMsFilterControl({
@@ -14844,6 +16104,10 @@
 
       function getLocalChannelFilterState(scope) {
         if (!scope) return { source: "全部", name: "", account: "" };
+        const arcoMount = scope.querySelector(".arco-channel-cascader-mount");
+        if (arcoMount) {
+          return getArcoChannelCascaderFilterState(arcoMount);
+        }
         if (
           scope.dataset.channelTree === "1" ||
           scope.classList.contains("is-channel-tree") ||
@@ -15251,6 +16515,9 @@
           ["充值成功率", "充值人数", "充值拉单人数"],
           ["奖金比例", "领取奖金", "充值金额"],
           ["奖金占比", "领取奖金", "投注金额"],
+          ["注册裂变率", "裂变人数", "注册人数"],
+          ["首存裂变率", "裂变首存人数", "裂变人数"],
+          ["成功裂变率", "裂变人数", "参与裂变人数"],
         ];
         payRatePairs.forEach(([col, numCol, denCol]) => {
           if (
@@ -15435,14 +16702,23 @@
       }
 
       function rememberChannelHierarchySource(spec) {
-        if (!spec || spec.hierarchyCols || spec._channelFullCols) return;
+        if (!spec) return;
         const cols =
-          spec.cols || (spec.groups ? spec.groups.flatMap((g) => g.cols) : []);
+          spec.hierarchyCols ||
+          spec._channelFullCols ||
+          spec.cols ||
+          (spec.groups ? spec.groups.flatMap((g) => g.cols) : []);
         if (!cols.includes("来源渠道")) return;
-        spec._channelFullCols = cols.slice();
-        spec._channelFullRows = (spec.sampleData || []).map((row) =>
-          row.slice(),
-        );
+        if (!spec._channelFullCols) {
+          spec._channelFullCols = cols.slice();
+        }
+        if (!spec._channelFullRows) {
+          const raw =
+            spec.hierarchySampleData ||
+            spec.sampleData ||
+            [];
+          spec._channelFullRows = raw.map((row) => row.slice());
+        }
       }
 
       function getChannelHierarchySource(spec) {
@@ -15454,6 +16730,64 @@
             spec.sampleData ||
             [],
         };
+      }
+
+      function buildChannelAggregationGroupCols(
+        fullCols,
+        dim,
+        dateCol,
+        extraGroupCols = [],
+      ) {
+        const groupCols = [dateCol, "所属平台", ...extraGroupCols].filter(
+          (col, index, list) => col && list.indexOf(col) === index,
+        );
+        const perfDateIdx = fullCols.indexOf("日期");
+        if (
+          dateCol !== "日期" &&
+          perfDateIdx >= 0 &&
+          !groupCols.includes("日期")
+        ) {
+          groupCols.push("日期");
+        }
+        if (dim === "all") return groupCols;
+        if (dim === "source") return [...groupCols, "来源渠道"];
+        if (dim === "name") return [...groupCols, "来源渠道", "渠道名"];
+        return [...groupCols, "来源渠道", "渠道名", "渠道账号"];
+      }
+
+      function aggregateTableRowsByChannelFilter(
+        rows,
+        fullCols,
+        filterState = {},
+        options = {},
+      ) {
+        const drillOpts = {
+          channelLevelDrill: !!(
+            options.channelLevelDrill || options.vipPrimaryTable
+          ),
+          vipPrimaryTable: !!options.vipPrimaryTable,
+          vipChannelSingleCol: isVipChannelSingleColMode(options),
+        };
+        const dim = getChannelAnalysisDimension(filterState, drillOpts);
+        const dateCol =
+          options.dateCol || getChannelHierarchyDateCol(fullCols);
+        const extraGroupCols = options.extraGroupCols || [];
+        const colSourceIdx = fullCols.indexOf("来源渠道");
+        const groupCols = buildChannelAggregationGroupCols(
+          fullCols,
+          dim,
+          dateCol,
+          extraGroupCols,
+        );
+        let next = aggregateChannelHierarchyRows(rows, fullCols, groupCols);
+        if (dim === "all" && colSourceIdx >= 0) {
+          next = next.map((row) => {
+            const copy = row.slice();
+            copy[colSourceIdx] = "全部";
+            return copy;
+          });
+        }
+        return next;
       }
 
       function buildChannelHierarchyTableView(page, filterState) {
@@ -15506,43 +16840,13 @@
           rows = rows.filter((r) => vipLevelFilter.includes(r[vipFilterIdx]));
         }
         const vipPrimaryEarly = isVipPrimaryHierarchyPage(page);
-        // 只聚合到当前统计维度对应字段
-        if (dim === "all") {
-          rows = aggregateChannelHierarchyRows(rows, fullCols, [
-            dateCol,
-            "所属平台",
-            ...extraGroupCols,
-          ]);
-          if (colSourceIdx >= 0) {
-            rows.forEach((row) => {
-              row[colSourceIdx] = "全部";
-            });
-          }
-        } else if (dim === "source") {
-          rows = aggregateChannelHierarchyRows(rows, fullCols, [
-            dateCol,
-            "来源渠道",
-            "所属平台",
-            ...extraGroupCols,
-          ]);
-        } else if (dim === "name") {
-          rows = aggregateChannelHierarchyRows(rows, fullCols, [
-            dateCol,
-            "来源渠道",
-            "渠道名",
-            "所属平台",
-            ...extraGroupCols,
-          ]);
-        } else if (dim === "account") {
-          rows = aggregateChannelHierarchyRows(rows, fullCols, [
-            dateCol,
-            "来源渠道",
-            "渠道名",
-            "渠道账号",
-            "所属平台",
-            ...extraGroupCols,
-          ]);
-        }
+        rows = aggregateTableRowsByChannelFilter(rows, fullCols, filterState, {
+          channelLevelDrill: drillOpts.channelLevelDrill,
+          vipPrimaryTable: drillOpts.vipPrimaryTable,
+          vipChannelSingleCol: drillOpts.vipChannelSingleCol,
+          dateCol,
+          extraGroupCols,
+        });
         const vipIdx = fullCols.indexOf("VIP等级");
         const vipPrimary = vipPrimaryEarly && vipIdx >= 0;
         const dateSortIdx = fullCols.indexOf(dateCol);
@@ -15617,8 +16921,10 @@
           {
             hideTotal: vipPrimary || !!page.hideTotalRow,
             label: page.totalRowLabel || "合计",
+            showAverageRow: !!page.showAverageFooter,
           },
         );
+        const tableView = tableEl.closest(".table-view-pinned-footer");
         const wrap = tableEl.closest(".table-wrap");
         let table = tableEl;
 
@@ -15679,22 +16985,59 @@
           vipPrimary && view.cols.includes("日期"),
         );
         bindVipGroupExpand(table);
-        let tfoot = table.querySelector("tfoot");
-        if (tfootHtml) {
-          if (!tfoot) {
-            tfoot = document.createElement("tfoot");
-            table.appendChild(tfoot);
+        if (tableView && page.showAverageFooter) {
+          let footerTable = tableView.querySelector(".table-footer-table");
+          if (tfootHtml) {
+            if (!footerTable) {
+              const panel = document.createElement("div");
+              panel.className = "table-footer-panel";
+              panel.innerHTML =
+                '<div class="table-footer-scroll"><table class="data-table table-footer-table"></table></div>';
+              tableView
+                .querySelector(".table-wrap")
+                ?.insertAdjacentElement("afterend", panel);
+              footerTable = panel.querySelector(".table-footer-table");
+            }
+            footerTable.className = table.className + " table-footer-table";
+            footerTable.innerHTML = tfootHtml;
+          } else {
+            tableView.querySelector(".table-footer-panel")?.remove();
           }
-          tfoot.outerHTML = tfootHtml;
-        } else if (tfoot) {
-          tfoot.remove();
+          table.querySelector("tfoot")?.remove();
+        } else {
+          let tfoot = table.querySelector("tfoot");
+          if (tfootHtml) {
+            if (!tfoot) {
+              tfoot = document.createElement("tfoot");
+              table.appendChild(tfoot);
+            }
+            tfoot.outerHTML = tfootHtml;
+          } else if (tfoot) {
+            tfoot.remove();
+          }
         }
         const info = table
           .closest(".page-table-block")
           ?.querySelector(".pagination-info");
-        if (info) info.textContent = `共 ${dataCount} 条`;
+        const paginationHost =
+          table.closest(".table-view") ||
+          table.closest(".page-table-block");
+        const paginationEl = paginationHost?.querySelector(
+          "[data-table-pagination]",
+        );
+        if (paginationEl) {
+          remountTablePagination(paginationEl, {
+            pageSize:
+              parseInt(paginationEl.dataset.pageSize, 10) ||
+              DEFAULT_TABLE_PAGE_SIZE,
+            currentPage: 1,
+          });
+        } else if (info) {
+          info.textContent = `共 ${dataCount} 条`;
+        }
         updateDataTableStickyHeaders(table, page, channelFilterActive);
         bindVipHeaderFreeze(wrap || table);
+        if (tableView) initPinnedTableFooters(tableView);
       }
 
       function channelFilterScale({
@@ -15844,45 +17187,16 @@
             block?.querySelector(".data-table");
           if (!table || (!spec.sampleData && !spec.hierarchySampleData)) return;
 
-          if (specHasChannelDimension(spec)) {
-            rebuildChannelHierarchyTableDom(table, spec);
-            return;
-          }
-          const tbody = table.querySelector("tbody");
-          if (!tbody) return;
-
           const allCols = spec.groups
             ? spec.groups.flatMap((g) => g.cols)
-            : spec.cols || [];
-          if (!allCols.includes("来源渠道")) return;
-          const stickyClasses = buildStickyClassList(
-            allCols,
-            channelFilterActive,
-            spec.stickyCols || 0,
-          );
-          const colSourceIdx = allCols.indexOf("来源渠道");
-          const colNameIdx = allCols.indexOf("渠道名");
-          const colAccount = allCols.indexOf("渠道账号");
-          const rows = filterRowsByChannel(
-            spec.sampleData,
-            source,
-            name,
-            colSourceIdx >= 0 ? colSourceIdx : 1,
-            colNameIdx >= 0 ? colNameIdx : 2,
-            account,
-            colAccount,
-          );
-          tbody.innerHTML = rows
-            .map((row) => {
-              let html = "<tr>";
-              row.forEach((cell, i) => {
-                html += `<td class="${stickyClasses[i] || ""}">${formatDataTableCell(allCols[i], cell)}</td>`;
-              });
-              html += "</tr>";
-              return html;
-            })
-            .join("");
-          updateDataTableStickyHeaders(table, spec, channelFilterActive);
+            : spec.cols ||
+              spec.hierarchyCols ||
+              spec._channelFullCols ||
+              [];
+          if (allCols.includes("来源渠道")) {
+            rememberChannelHierarchySource(spec);
+            rebuildChannelHierarchyTableDom(table, spec);
+          }
         });
 
         if (pageId === "life-ltv" && document.getElementById("userLtvPage")) {
@@ -16180,6 +17494,9 @@
       }
 
       function bindLocalChannelFilter(scope) {
+        if (scope.querySelector(".arco-channel-cascader-mount")) {
+          return;
+        }
         if (
           scope.dataset.channelTree === "1" ||
           scope.classList.contains("is-channel-tree") ||
@@ -16283,6 +17600,7 @@
         bindVipLevelFilter(document);
         ensureMsFilterDocClose();
         initGameNameSearchFilters(document);
+        initArcoChannelCascaders(document);
       }
 
       function mountChartChannelFilters() {
@@ -16292,6 +17610,7 @@
       function initGlobalFilterBar() {
         // 与经营总览共用日期栏交互；非总览页无对应图表时 refresh 会安全跳过
         initOverviewDateBar();
+        initGlobalChannelFissionCheckbox();
         initGlobalChannelFilter();
       }
 
@@ -16902,6 +18221,41 @@
           tableKey === "main" ? "tableView" : `tableView-${tableKey}`;
         const chartViewId =
           tableKey === "main" ? "chartView" : `chartView-${tableKey}`;
+        const tableClass = `data-table${groups ? " has-group-header" : ""}${isVipPrimary ? " vip-primary-table" : ""}${isChannelNewUserBoard ? " channel-new-user-board-table" : ""}${isDateSpan ? " date-span-table" : ""}`;
+        const pinnedFooter = !!showAverageFooter && !!tfootHtml;
+        const tableViewInner = pinnedFooter
+          ? `<div class="table-view table-view-pinned-footer" id="${tableViewId}">
+          <div class="table-wrap">
+            <table class="${tableClass}">
+              <thead>
+                ${groups ? `<tr class="group-row">${groupRow}</tr>` : ""}
+                <tr class="col-row">${colRow}</tr>
+              </thead>
+              <tbody>${bodyRowsHtml}</tbody>
+            </table>
+          </div>
+          <div class="table-footer-panel">
+            <div class="table-footer-scroll">
+              <table class="${tableClass} table-footer-table">
+                ${tfootHtml}
+              </table>
+            </div>
+          </div>
+          ${renderPaginationHtml(dataCount || sampleData.length || 28)}
+        </div>`
+          : `<div class="table-view" id="${tableViewId}">
+          <div class="table-wrap">
+            <table class="${tableClass}">
+              <thead>
+                ${groups ? `<tr class="group-row">${groupRow}</tr>` : ""}
+                <tr class="col-row">${colRow}</tr>
+              </thead>
+              <tbody>${bodyRowsHtml}</tbody>
+              ${tfootHtml}
+            </table>
+          </div>
+          ${renderPaginationHtml(dataCount || sampleData.length || 28)}
+        </div>`;
 
         return `
         <div class="page-table-block" data-table-key="${tableKey}">
@@ -16923,26 +18277,7 @@
         </div>`
             : ""
         }
-        <div class="table-view" id="${tableViewId}">
-          <div class="table-wrap">
-            <table class="data-table${groups ? " has-group-header" : ""}${isVipPrimary ? " vip-primary-table" : ""}${isChannelNewUserBoard ? " channel-new-user-board-table" : ""}${isDateSpan ? " date-span-table" : ""}">
-              <thead>
-                ${groups ? `<tr class="group-row">${groupRow}</tr>` : ""}
-                <tr class="col-row">${colRow}</tr>
-              </thead>
-              <tbody>${bodyRowsHtml}</tbody>
-              ${tfootHtml}
-            </table>
-          </div>
-          <div class="pagination">
-            <button disabled>‹</button>
-            <button class="active">1</button>
-            <button>2</button>
-            <button>3</button>
-            <button>›</button>
-            <span class="pagination-info">共 ${dataCount || sampleData.length || 28} 条</span>
-          </div>
-        </div>
+        ${tableViewInner}
         ${chartView ? `<div class="chart-view" id="${chartViewId}" hidden>${renderAcquisitionTrendChart({ hideChannelName: !!hideChannelNameFilter })}</div>` : ""}
         </div>`;
       }
@@ -18493,12 +19828,7 @@
                   ${tfootHtml}
                 </table>
               </div>
-              <div class="pagination">
-                <button disabled>‹</button>
-                <button class="active">1</button>
-                <button>›</button>
-                <span class="pagination-info">共 ${dataCount} 条</span>
-              </div>
+              ${renderPaginationHtml(dataCount)}
             </div>
           </div>`;
       }
@@ -18787,7 +20117,10 @@
             if (!tab || tab === getUserLtvActiveTab()) return;
             setUserLtvActiveTab(tab);
             const tableWrap = document.getElementById("userLtvTableWrap");
-            if (tableWrap) tableWrap.innerHTML = renderUserLtvTable(tab);
+            if (tableWrap) {
+              tableWrap.innerHTML = renderUserLtvTable(tab);
+              initAllTablePaginations(tableWrap);
+            }
             root.querySelectorAll("[data-ltv-tab]").forEach((el) => {
               const on = el.dataset.ltvTab === tab;
               el.classList.toggle("active", on);
@@ -20417,6 +21750,7 @@
                 stickyCols: 2,
                 metricDefs: CUM_RECHARGE_METRIC_DEFS,
                 dateRowSpan: true,
+                hideTotalRow: true,
               },
               { tableKey: "cum-recharge-analysis" },
             )}
@@ -20518,6 +21852,9 @@
       const USER_RETENTION_DAY_LABELS = USER_RETENTION_DAY_NUMBERS.map((d) =>
         d <= 15 ? `${d}日留存` : `${d}日`,
       );
+      const RECHARGE_RETENTION_DAY_LABELS = USER_RETENTION_DAY_NUMBERS.map((d) =>
+        d <= 7 ? `D${d}充值留存率` : `${d}D充值留存率`,
+      );
 
       const CONVERSION_RETENTION_COLS = [
         "首充日期",
@@ -20525,7 +21862,7 @@
         "渠道名",
         "渠道账号",
         "所属平台",
-        ...USER_RETENTION_DAY_LABELS,
+        ...RECHARGE_RETENTION_DAY_LABELS,
       ];
 
       const USER_RETENTION_SEGMENT_OPTIONS = [
@@ -20621,32 +21958,36 @@
         渠道账号: "渠道对应的投放/推广账号。",
         所属平台: "该渠道所属的平台标识。",
         ...Object.fromEntries(
-          USER_RETENTION_DAY_LABELS.map((label, i) => [
+          RECHARGE_RETENTION_DAY_LABELS.map((label, i) => [
             label,
-            `基准日用户中，在第 ${USER_RETENTION_DAY_NUMBERS[i]} 天再次完成成功充值的用户比例。`,
+            `首充用户中，在第 ${USER_RETENTION_DAY_NUMBERS[i]} 天再次完成成功充值的用户比例。`,
           ]),
         ),
       };
 
+      const LOGIN_RETENTION_DAY_LABELS = USER_RETENTION_DAY_NUMBERS.map((d) =>
+        d <= 7 ? `D${d}登录留存率` : `${d}D登录留存率`,
+      );
+
       const LOGIN_RETENTION_COLS = [
-        "日期",
+        "注册日期",
         "来源渠道",
         "渠道名",
         "渠道账号",
         "所属平台",
-        ...USER_RETENTION_DAY_LABELS,
+        ...LOGIN_RETENTION_DAY_LABELS,
       ];
 
       const LOGIN_RETENTION_METRIC_DEFS = {
-        日期: "用户分群对应的基准日期（作为留存统计第 0 日）。",
+        注册日期: "用户注册日期（作为登录留存统计第 0 日）。",
         来源渠道: "用户归因的一级来源渠道。",
         渠道名: "来源渠道下的渠道名称。",
         渠道账号: "渠道对应的投放/推广账号。",
         所属平台: "该渠道所属的平台标识。",
         ...Object.fromEntries(
-          USER_RETENTION_DAY_LABELS.map((label, i) => [
+          LOGIN_RETENTION_DAY_LABELS.map((label, i) => [
             label,
-            `基准日用户中，在第 ${USER_RETENTION_DAY_NUMBERS[i]} 天再次登录的用户比例。`,
+            `注册用户中，在第 ${USER_RETENTION_DAY_NUMBERS[i]} 天再次登录的用户比例。`,
           ]),
         ),
       };
@@ -20667,11 +22008,11 @@
       function renderUserRetentionSegmentFilterHtml() {
         const options = USER_RETENTION_SEGMENT_OPTIONS.map(
           (t, i) =>
-            `<option value="${t.value}" title="${t.hint}"${i === 0 ? " selected" : ""}>${t.value}（${t.hint}）</option>`,
+            `<option value="${t.value}" title="${t.hint}"${i === 0 ? " selected" : ""}>${t.value}</option>`,
         ).join("");
         return `
           <div class="filter-item">
-            <label>用户分群</label>
+            <label>用户类型</label>
             <select id="userRetentionSegmentFilter">${options}</select>
           </div>`;
       }
@@ -21893,6 +23234,7 @@
               sampleData: CONVERSION_TIER_SAMPLE,
               stickyCols: 1,
               metricDefs: CONVERSION_TIER_METRIC_DEFS,
+              hideTotalRow: true,
             },
             { tableKey: "conversion-tier" },
           )}`;
@@ -23702,19 +25044,7 @@
               ${tfootHtml}
             </table>
           </div>
-          <div class="pagination">
-            <button disabled>‹</button>
-            <button>1</button>
-            <button class="active">2</button>
-            <button>3</button>
-            <button>4</button>
-            <button>5</button>
-            <button>›</button>
-            <span class="pagination-info">10 条/页</span>
-            <span class="pagination-info">跳至</span>
-            <span class="pagination-info">页</span>
-            <span class="pagination-info">共 ${dataCount} 条</span>
-          </div>`;
+          ${renderPaginationHtml(dataCount)}`;
       }
 
       function renderBetReportContent(page) {
@@ -24007,14 +25337,7 @@
               ${tfootHtml}
             </table>
           </div>
-          <div class="pagination">
-            <button disabled>‹</button>
-            <button class="active">1</button>
-            <button>2</button>
-            <button>3</button>
-            <button>›</button>
-            <span class="pagination-info">共 ${dataCount} 条</span>
-          </div>`;
+          ${renderPaginationHtml(dataCount)}`;
       }
 
       function buildGameBetAbnormalAccountDetails(
@@ -24218,7 +25541,8 @@
           </div>`;
       }
 
-      const CHANNEL_NEW_USER_BOARD_EMPTY_HINT = "请输入查询信息";
+      const CHANNEL_NEW_USER_BOARD_EMPTY_HINT =
+        "请选择来源渠道并填写注册日期与日期范围后查询";
 
       function renderChannelNewUserBoardFilterBar() {
         const channelHtml = renderGlobalChannelFilter("page-filter", {
@@ -24227,19 +25551,17 @@
         });
         const today = formatDateYMD(new Date());
         return `
-          <div class="overview-date-bar overview-date-bar-stacked channel-new-user-board-bar" id="channelNewUserBoardFilterBar">
-            <div class="overview-date-bar-row overview-date-bar-channel-row">
+          <div class="overview-date-bar channel-new-user-board-bar" id="channelNewUserBoardFilterBar">
+            <div class="overview-date-bar-row channel-new-user-board-reg-channel-row">
+              <div class="filter-item">
+                <label for="cnuRegDate">注册日期</label>
+                <input type="date" id="cnuRegDate" value="${today}" />
+              </div>
               ${channelHtml}
               <label class="filter-checkbox">
                 <input type="checkbox" id="cnuIncludeFission" checked />
                 含裂变
               </label>
-            </div>
-            <div class="overview-date-bar-row">
-              <div class="filter-item">
-                <label>注册日期</label>
-                <input type="date" id="cnuRegDate" value="${today}" />
-              </div>
             </div>
             <div class="overview-date-bar-row">
               <div class="filter-item">
@@ -24309,7 +25631,7 @@
         ) {
           if (!silent) {
             window.alert(
-              "请先选择完整的来源渠道、渠道名和渠道账号，并填写注册日期与日期范围。",
+              "请先选择来源渠道（可选填至渠道名或渠道账号），并填写注册日期与日期范围。",
             );
           }
           wrap.innerHTML = renderChannelNewUserBoardTableHtml(
@@ -24623,6 +25945,7 @@
       ];
 
       const CHANNEL_RECHARGE_METRIC_DEFS = {
+        日期: "统计日期，展示该充值通道当日的表现数据。",
         通道ID: "充值通道的唯一标识 ID。",
         通道名: "用户完成充值时实际使用的充值通道名称。",
         通道类型: "充值通道类型，可选：唤醒、原生、混合、扫码。",
@@ -24637,6 +25960,7 @@
       };
 
       const CHANNEL_WITHDRAW_METRIC_DEFS = {
+        日期: "统计日期，展示该提现通道当日的表现数据。",
         通道ID: "提现通道的唯一标识 ID。",
         通道名: "用户提交提现申请时实际使用的提现通道名称。",
         通道类型: "提现通道类型，可选：唤醒、原生、混合、扫码。",
@@ -24690,6 +26014,139 @@
         ["WD2005", "支付宝原生", "原生", 87.5, 156800, 520, 74, 35800],
         ["WD2006", "快捷代付", "扫码", 84.1, 132400, 430, 81, 31200],
       ];
+
+      function getChannelAnalysisTableCols(cfg) {
+        return ["日期", ...cfg.cols];
+      }
+
+      function getChannelAnalysisAggregateTableCols(cfg) {
+        return getChannelAnalysisTableCols(cfg).filter(
+          (col) => !["通道ID", "通道名", "通道类型"].includes(col),
+        );
+      }
+
+      function aggregateChannelAnalysisTableRows(cfg, rows, dates) {
+        const tableCols = getChannelAnalysisTableCols(cfg);
+        const aggCols = getChannelAnalysisAggregateTableCols(cfg);
+        const dateIdx = tableCols.indexOf("日期");
+        const { successOrdersIdx, failOrdersIdx } =
+          getChannelAnalysisOrderMetricIndices(cfg, tableCols);
+
+        return dates
+          .map((dateStr) => {
+            const dayRows = rows.filter((row) => row[dateIdx] === dateStr);
+            const aggRow = aggCols.map((col) => {
+              if (col === "日期") return dateStr;
+              if (col === cfg.rateLabel) return 0;
+              const fullIdx = tableCols.indexOf(col);
+              return dayRows.reduce(
+                (sum, row) => sum + (Number(row[fullIdx]) || 0),
+                0,
+              );
+            });
+            const rateAggIdx = aggCols.indexOf(cfg.rateLabel);
+            let successSum = 0;
+            let failSum = 0;
+            dayRows.forEach((row) => {
+              successSum += Number(row[successOrdersIdx]) || 0;
+              failSum += Number(row[failOrdersIdx]) || 0;
+            });
+            const total = successSum + failSum;
+            aggRow[rateAggIdx] =
+              total > 0 ? +((successSum / total) * 100).toFixed(2) : 0;
+            return aggRow;
+          })
+          .slice()
+          .sort((a, b) =>
+            String(b[aggCols.indexOf("日期")] ?? "").localeCompare(
+              String(a[aggCols.indexOf("日期")] ?? ""),
+            ),
+          );
+      }
+
+      function getChannelAnalysisDisplayTableData(cfg, detailRows, dates, typeFilter) {
+        const type = typeFilter ?? getChannelAnalysisTypeFilter();
+        if (type === "全部") {
+          return {
+            rows: aggregateChannelAnalysisTableRows(cfg, detailRows, dates),
+            aggregate: true,
+          };
+        }
+        return { rows: detailRows, aggregate: false };
+      }
+
+      function hashChannelDaySeed(channelId, dateStr, channelIdx = 0) {
+        return (
+          [...String(channelId + dateStr)].reduce(
+            (a, c) => a + c.charCodeAt(0),
+            0,
+          ) +
+          channelIdx * 17
+        );
+      }
+
+      function getChannelAnalysisOrderMetricIndices(cfg, tableCols) {
+        const isWithdraw = cfg.kind === "withdraw";
+        return {
+          rateIdx: tableCols.indexOf(cfg.rateLabel),
+          successOrdersIdx: tableCols.indexOf(
+            isWithdraw ? "提现成功订单数" : "充值成功订单数",
+          ),
+          failOrdersIdx: tableCols.indexOf(
+            isWithdraw ? "提现失败订单数" : "充值失败订单数",
+          ),
+        };
+      }
+
+      function buildChannelAnalysisDailyRow(
+        baseRow,
+        cfg,
+        channelIdx,
+        dateStr,
+        dayIdx,
+      ) {
+        const cols = cfg.cols;
+        const rateIdx = cols.indexOf(cfg.rateLabel);
+        const isWithdraw = cfg.kind === "withdraw";
+        const successOrdersIdx = cols.indexOf(
+          isWithdraw ? "提现成功订单数" : "充值成功订单数",
+        );
+        const failOrdersIdx = cols.indexOf(
+          isWithdraw ? "提现失败订单数" : "充值失败订单数",
+        );
+        const seed = hashChannelDaySeed(baseRow[0], dateStr, channelIdx);
+        const varied = baseRow.map((cell, i) => {
+          if (typeof cell !== "number") return cell;
+          if (i === rateIdx) return cell;
+          const delta = ((seed + i * 13 + dayIdx * 5) % 15) - 7;
+          return Math.max(0, Math.round(cell * (1 + delta / 100)));
+        });
+        const succ = varied[successOrdersIdx];
+        const fail = varied[failOrdersIdx];
+        const total = succ + fail;
+        if (total > 0) {
+          varied[rateIdx] = +((succ / total) * 100).toFixed(2);
+        }
+        return [dateStr, ...varied];
+      }
+
+      function buildChannelAnalysisDailyRows(cfg, dates) {
+        const rows = [];
+        (cfg.sample || []).forEach((baseRow, channelIdx) => {
+          dates.forEach((dateStr, dayIdx) => {
+            rows.push(
+              buildChannelAnalysisDailyRow(
+                baseRow,
+                cfg,
+                channelIdx,
+                dateStr,
+                dayIdx,
+              ),
+            );
+          });
+        });
+        return rows;
+      }
 
       function getChannelAnalysisKind(page) {
         return page?.channelAnalysisPage === "withdraw"
@@ -24760,13 +26217,17 @@
         return t.includes(k);
       }
 
-      function getChannelAnalysisFilteredRows(cfg, typeFilter) {
+      function getChannelAnalysisFilteredRows(cfg, typeFilter, dateRange) {
         const type = typeFilter ?? getChannelAnalysisTypeFilter();
+        const range = dateRange || getChannelAnalysisDateRange();
+        const dates = eachDateInclusive(range.start, range.end);
+        const tableCols = getChannelAnalysisTableCols(cfg);
+        const idIdx = tableCols.indexOf("通道ID");
+        const nameIdx = tableCols.indexOf("通道名");
+        const typeIdx = tableCols.indexOf("通道类型");
+        const dateIdx = tableCols.indexOf("日期");
         const { name: nameKw, id: idKw } = getChannelAnalysisSearchFilters();
-        const idIdx = cfg.cols.indexOf("通道ID");
-        const nameIdx = cfg.cols.indexOf("通道名");
-        const typeIdx = cfg.cols.indexOf("通道类型");
-        const rows = cfg.sample
+        const rows = buildChannelAnalysisDailyRows(cfg, dates)
           .filter((row) => {
             if (type !== "全部" && row[typeIdx] !== type) return false;
             if (nameKw && !fuzzyMatchOption(row[nameIdx], nameKw)) return false;
@@ -24774,14 +26235,37 @@
             return true;
           })
           .slice()
-          .sort((a, b) =>
-            String(a[nameIdx] ?? "").localeCompare(
+          .sort((a, b) => {
+            const dateCmp = String(b[dateIdx] ?? "").localeCompare(
+              String(a[dateIdx] ?? ""),
+            );
+            if (dateCmp !== 0) return dateCmp;
+            return String(a[nameIdx] ?? "").localeCompare(
               String(b[nameIdx] ?? ""),
               "zh-CN",
               { numeric: true },
-            ),
-          );
+            );
+          });
         return rows;
+      }
+
+      function aggregateChannelDailySuccessRates(cfg, rows, dates) {
+        const tableCols = getChannelAnalysisTableCols(cfg);
+        const dateIdx = tableCols.indexOf("日期");
+        const { successOrdersIdx, failOrdersIdx } =
+          getChannelAnalysisOrderMetricIndices(cfg, tableCols);
+        return dates.map((dateStr) => {
+          const dayRows = rows.filter((row) => row[dateIdx] === dateStr);
+          if (!dayRows.length) return 0;
+          let successSum = 0;
+          let failSum = 0;
+          dayRows.forEach((row) => {
+            successSum += Number(row[successOrdersIdx]) || 0;
+            failSum += Number(row[failOrdersIdx]) || 0;
+          });
+          const total = successSum + failSum;
+          return total > 0 ? +((successSum / total) * 100).toFixed(2) : 0;
+        });
       }
 
       function renderChannelSearchSelectHtml({
@@ -24882,24 +26366,60 @@
         return data;
       }
 
-      function renderChannelSuccessRateTrend(cfg, rows, dayCount = 7, endDate) {
-        const labels = buildTrendLabelsBeforeEnd(
-          dayCount,
-          endDate || new Date(),
-        );
-        const nameIdx = cfg.cols.indexOf("通道名");
-        const typeIdx = cfg.cols.indexOf("通道类型");
-        const rateIdx = cfg.cols.indexOf(cfg.rateLabel);
-        const series = rows.map((row, i) => {
-          const endRate = Number(row[rateIdx]) || 80;
-          return {
-            name: `[${row[typeIdx]}] ${row[nameIdx]}`,
-            data: genChannelPassageTrendSeries(dayCount, endRate, i),
-            color: CHANNEL_PASSAGE_COLORS[i % CHANNEL_PASSAGE_COLORS.length],
-            suffix: "%",
-            formatTip: (v) => `${Number(v).toFixed(2)}%`,
-          };
-        });
+      function renderChannelSuccessRateTrend(cfg, rows, dates, options = {}) {
+        const { aggregate = false } = options;
+        const tableCols = getChannelAnalysisTableCols(cfg);
+        const dateIdx = tableCols.indexOf("日期");
+        const nameIdx = tableCols.indexOf("通道名");
+        const typeIdx = tableCols.indexOf("通道类型");
+        const rateIdx = tableCols.indexOf(cfg.rateLabel);
+        const idIdx = tableCols.indexOf("通道ID");
+        const labels = dates.length
+          ? dates
+          : buildTrendLabelsBeforeEnd(7, new Date());
+
+        let series = [];
+        if (aggregate) {
+          const data = aggregateChannelDailySuccessRates(cfg, rows, labels);
+          series = [
+            {
+              name: "全部通道",
+              data,
+              color: CHANNEL_PASSAGE_COLORS[0],
+              suffix: "%",
+              formatTip: (v) => `${Number(v).toFixed(2)}%`,
+            },
+          ];
+        } else {
+          const channelKeys = [];
+          const channelKeySet = new Set();
+          rows.forEach((row) => {
+            const key = `${row[idIdx]}|${row[nameIdx]}`;
+            if (!channelKeySet.has(key)) {
+              channelKeySet.add(key);
+              channelKeys.push({
+                key,
+                name: `[${row[typeIdx]}] ${row[nameIdx]}`,
+              });
+            }
+          });
+          series = channelKeys.map(({ key, name }, i) => {
+            const channelRows = rows.filter(
+              (row) => `${row[idIdx]}|${row[nameIdx]}` === key,
+            );
+            const rateByDate = new Map(
+              channelRows.map((row) => [row[dateIdx], Number(row[rateIdx]) || 0]),
+            );
+            return {
+              name,
+              data: labels.map((dateStr) => rateByDate.get(dateStr) ?? 0),
+              color: CHANNEL_PASSAGE_COLORS[i % CHANNEL_PASSAGE_COLORS.length],
+              suffix: "%",
+              formatTip: (v) => `${Number(v).toFixed(2)}%`,
+            };
+          });
+        }
+
         if (!series.length) {
           return `<div class="user-ltv-empty" style="border:none;padding:28px 12px">当前筛选条件下暂无数据</div>`;
         }
@@ -24909,29 +26429,39 @@
           minVal: 60,
           maxVal: 100,
           yStep: 10,
-          xLabelStep: dayCount <= 7 ? 1 : dayCount <= 30 ? 5 : 10,
+          xLabelStep:
+            labels.length <= 7 ? 1 : labels.length <= 30 ? 5 : 10,
           showDots: false,
           height: STANDARD_CHART_HEIGHT,
           formatY: (v) => `${v}%`,
         });
       }
 
-      function renderChannelAnalysisTable(cfg, rows) {
-        const stickyClasses = buildStickyClassList(cfg.cols, false, 2);
-        const rateIdx = cfg.cols.indexOf(cfg.rateLabel);
-        const head = cfg.cols
+      function renderChannelAnalysisTable(cfg, rows, options = {}) {
+        const { aggregate = false } = options;
+        const tableCols = aggregate
+          ? getChannelAnalysisAggregateTableCols(cfg)
+          : getChannelAnalysisTableCols(cfg);
+        const stickyClasses = buildStickyClassList(
+          tableCols,
+          false,
+          aggregate ? 1 : 3,
+        );
+        const rateIdx = tableCols.indexOf(cfg.rateLabel);
+        const head = tableCols
           .map((col, i) =>
             renderTableHeaderCell(col, stickyClasses[i] || "", cfg.metricDefs),
           )
           .join("");
-        const formatChannelCell = (_col, cell, i) => {
+        const formatChannelCell = (col, cell, i) => {
           if (i === rateIdx && typeof cell === "number") {
             return `${cell.toFixed(2)}%`;
           }
+          if (col === "日期") return cell;
           return formatNumber(cell);
         };
         const { tfootHtml, dataRows, dataCount } = renderDataTableTotalFooter(
-          cfg.cols,
+          tableCols,
           rows,
           stickyClasses,
           { formatCell: formatChannelCell },
@@ -24941,7 +26471,7 @@
             const cells = row
               .map((cell, i) => {
                 const stickyCls = stickyClasses[i] || "";
-                return `<td class="${stickyCls}">${formatChannelCell(cfg.cols[i], cell, i)}</td>`;
+                return `<td class="${stickyCls}">${formatChannelCell(tableCols[i], cell, i)}</td>`;
               })
               .join("");
             return `<tr>${cells}</tr>`;
@@ -24954,18 +26484,11 @@
           <div class="table-wrap">
             <table class="data-table channel-passage-table">
               <thead><tr class="col-row">${head}</tr></thead>
-              <tbody>${body || `<tr><td colspan="${cfg.cols.length}">暂无数据</td></tr>`}</tbody>
+              <tbody>${body || `<tr><td colspan="${tableCols.length}">暂无数据</td></tr>`}</tbody>
               ${dataRows.length ? tfootHtml : ""}
             </table>
           </div>
-          <div class="pagination">
-            <button disabled>‹</button>
-            <button class="active">1</button>
-            <button>2</button>
-            <button>3</button>
-            <button>›</button>
-            <span class="pagination-info">共 ${dataCount} 条</span>
-          </div>`;
+          ${renderPaginationHtml(dataCount)}`;
       }
 
       function getChannelAnalysisDateRange() {
@@ -24979,22 +26502,36 @@
 
       function refreshChannelAnalysisViews(page) {
         const cfg = getChannelAnalysisConfig(getChannelAnalysisKind(page));
-        const rows = getChannelAnalysisFilteredRows(cfg);
+        const typeFilter = getChannelAnalysisTypeFilter();
         const { start, end } = getChannelAnalysisDateRange();
-        const dayCount = Math.max(1, eachDateInclusive(start, end).length);
+        const dates = eachDateInclusive(start, end);
+        const detailRows = getChannelAnalysisFilteredRows(cfg, typeFilter, {
+          start,
+          end,
+        });
+        const { rows: tableRows, aggregate: tableAggregate } =
+          getChannelAnalysisDisplayTableData(
+            cfg,
+            detailRows,
+            dates,
+            typeFilter,
+          );
         const chartWrap = document.getElementById("channelPassageChartWrap");
         const tableHost = document.getElementById("channelPassageTableHost");
         if (chartWrap) {
           chartWrap.innerHTML = renderChannelSuccessRateTrend(
             cfg,
-            rows,
-            dayCount,
-            parseYMD(end),
+            detailRows,
+            dates,
+            { aggregate: typeFilter === "全部" },
           );
           bindSvgChartTooltips(chartWrap);
         }
         if (tableHost) {
-          tableHost.innerHTML = renderChannelAnalysisTable(cfg, rows);
+          tableHost.innerHTML = renderChannelAnalysisTable(cfg, tableRows, {
+            aggregate: tableAggregate,
+          });
+          initAllTablePaginations(tableHost);
         }
       }
 
@@ -25111,6 +26648,7 @@
               t.classList.toggle("active", active);
               t.setAttribute("aria-selected", active ? "true" : "false");
             });
+            refresh();
           });
         });
         document
@@ -25124,8 +26662,14 @@
 
       function renderChannelAnalysisContent(page) {
         const cfg = getChannelAnalysisConfig(getChannelAnalysisKind(page));
-        const rows = getChannelAnalysisFilteredRows(cfg, "全部");
-        const { end } = getOverviewRangeDates("7d");
+        const { start, end } = getOverviewRangeDates("7d");
+        const dates = eachDateInclusive(start, end);
+        const detailRows = getChannelAnalysisFilteredRows(cfg, "全部", {
+          start,
+          end,
+        });
+        const { rows: tableRows, aggregate: tableAggregate } =
+          getChannelAnalysisDisplayTableData(cfg, detailRows, dates, "全部");
         return `
           ${renderChannelAnalysisFilterBar("7d", cfg)}
           <div class="page-panel active" id="panel-channel-analysis">
@@ -25133,11 +26677,13 @@
               key: `channel-${cfg.kind}-rate-trend`,
               title: cfg.chartTitle,
               metrics: [cfg.rateLabel],
-              body: `<div id="channelPassageChartWrap">${renderChannelSuccessRateTrend(cfg, rows, 7, parseYMD(end))}</div>`,
+              body: `<div id="channelPassageChartWrap">${renderChannelSuccessRateTrend(cfg, detailRows, dates, { aggregate: true })}</div>`,
               style: "margin-bottom:16px",
             })}
             <div id="channelPassageTableHost">
-              ${renderChannelAnalysisTable(cfg, rows)}
+              ${renderChannelAnalysisTable(cfg, tableRows, {
+                aggregate: tableAggregate,
+              })}
             </div>
           </div>`;
       }
@@ -25224,8 +26770,9 @@
         }
         const statsLevel = agentReportState.statsLevel || "直属下级";
         const cols = getAgentReportCols(statsLevel);
+        const stickyCount = statsLevel === "无限级" ? 3 : 2;
         const stickyClasses = cols.map((_, i) =>
-          i < 2 ? `sticky-col-${i + 1}` : "",
+          i < stickyCount ? `sticky-col-${i + 1}` : "",
         );
         const head = cols
           .map((col, i) =>
@@ -25255,33 +26802,82 @@
           .join("");
         return `
           <div class="table-wrap">
-            <table class="data-table agent-report-table">
+            <table class="data-table agent-report-table${statsLevel === "无限级" ? " agent-report-table-unlimited" : ""}">
               <thead><tr class="col-row">${head}</tr></thead>
               <tbody>${body}</tbody>
               ${tfootHtml}
             </table>
           </div>
-          <div class="pagination">
-            <button disabled>‹</button>
-            <button class="active">1</button>
-            <button>2</button>
-            <button>3</button>
-            <button>›</button>
-            <span class="pagination-info">共 ${dataCount} 条</span>
+          ${renderPaginationHtml(dataCount)}`;
+      }
+
+      function getAgentReportTableTitle() {
+        const agentId =
+          agentReportState.parentAgent || agentReportState.queriedAgentId;
+        if (!agentId) return "代理报表";
+        const statsLevel = agentReportState.statsLevel || "直属下级";
+        const suffix =
+          statsLevel === "无限级" ? "的无限级代理报表" : "的直属代理报表";
+        return `${agentId}${suffix}`;
+      }
+
+      function getAgentReportDrillPath() {
+        const statsLevel = agentReportState.statsLevel || "直属下级";
+        if (statsLevel !== "无限级") return [];
+        const parent = agentReportState.parentAgent || "";
+        if (!parent) return [];
+        const rootId = agentReportState.queriedAgentId || "";
+        const stack = Array.isArray(agentReportState.drillStack)
+          ? agentReportState.drillStack.filter(Boolean)
+          : [];
+        const path = [];
+        if (rootId) path.push(rootId);
+        stack.forEach((id) => {
+          if (!path.includes(id)) path.push(id);
+        });
+        if (!path.includes(parent)) path.push(parent);
+        return path;
+      }
+
+      function navigateAgentReportDrillTo(index) {
+        const path = getAgentReportDrillPath();
+        if (index < 0 || index >= path.length - 1) return;
+        agentReportState.parentAgent = path[index];
+        agentReportState.drillStack = ["", ...path.slice(0, index)];
+        renderPage("agent-report");
+      }
+
+      function renderAgentReportDrillBreadcrumb() {
+        const statsLevel = agentReportState.statsLevel || "直属下级";
+        if (statsLevel !== "无限级") {
+          if (!agentReportState.parentAgent) return "";
+          return `<div class="agent-report-back">
+            <button type="button" class="btn" id="agentReportBack">返回</button>
+            <span class="agent-report-subhint">当前查看：${agentReportState.parentAgent} 的下级报表</span>
           </div>`;
+        }
+        const path = getAgentReportDrillPath();
+        if (!path.length) return "";
+        const crumbs = path
+          .map((id, index) => {
+            const isCurrent = index === path.length - 1;
+            if (isCurrent) {
+              return `<span class="crumb is-current" title="${id}">${id}</span>`;
+            }
+            return `<button type="button" class="crumb" data-agent-drill-index="${index}" title="返回 ${id}">${id}</button>`;
+          })
+          .join('<span class="sep">/</span>');
+        return `<div class="agent-report-back agent-report-breadcrumb-bar">
+          <button type="button" class="btn" id="agentReportBack">返回</button>
+          <nav class="agent-report-breadcrumb" aria-label="代理下钻路径">${crumbs}</nav>
+        </div>`;
       }
 
       function renderAgentReportContent(page) {
         const { start, end } = getAgentReportDateRange();
         const statsLevel = agentReportState.statsLevel || "直属下级";
-        const hasParent = !!agentReportState.parentAgent;
         const showTable = shouldShowAgentReportTable();
-        const backBar = hasParent
-          ? `<div class="agent-report-back">
-            <button type="button" class="btn" id="agentReportBack">返回</button>
-            <span class="agent-report-subhint">当前查看：${agentReportState.parentAgent} 的下级报表</span>
-          </div>`
-          : "";
+        const backBar = renderAgentReportDrillBreadcrumb();
         const agentIdValue =
           agentReportState.agentKeyword ||
           agentReportState.queriedAgentId ||
@@ -25314,12 +26910,7 @@
           </div>
           <div class="page-panel active">
             <div class="toolbar">
-              <span class="page-title">${page.title}</span>
-              ${
-                showTable && agentReportState.queriedAgentId
-                  ? `<span class="agent-report-subhint">当前代理ID：${agentReportState.parentAgent || agentReportState.queriedAgentId}</span>`
-                  : ""
-              }
+              <span class="page-title">${showTable ? getAgentReportTableTitle() : page.title}</span>
             </div>
             ${
               showTable
@@ -25343,9 +26934,8 @@
         agentReportState.queriedAgentId = resolveAgentAccountId(
           agentReportState.agentKeyword,
         );
-        if (!agentReportState.queriedAgentId) {
-          agentReportState.parentAgent = "";
-        }
+        agentReportState.parentAgent = "";
+        agentReportState.drillStack = [];
         renderPage("agent-report");
       }
 
@@ -25390,6 +26980,7 @@
           start,
           end,
           parentAgent: "",
+          drillStack: [],
           agentKeyword: "",
           queriedAgentId: "",
           statsLevel: "直属下级",
@@ -25427,6 +27018,7 @@
           start: date || startEl?.value || "",
           end: date || endEl?.value || "",
           parentAgent: "",
+          drillStack: [],
           agentKeyword: "",
           queriedAgentId: "",
           statsLevel: "直属下级",
@@ -25446,22 +27038,32 @@
       }
 
       function openSubAgentReportFromLink(link) {
-        const cell = link.closest("tr")?.querySelector(".agent-account-cell");
+        const cell = link
+          .closest("tr")
+          ?.querySelector(
+            ".agent-account-cell:not(.agent-parent-account-cell)",
+          );
         const agentId =
           cell?.dataset.agentId ||
           String(cell?.innerText || "")
             .replace(/^ID[：:]\s*/i, "")
             .trim() ||
           "下级代理";
+        if (!Array.isArray(agentReportState.drillStack)) {
+          agentReportState.drillStack = [];
+        }
+        agentReportState.drillStack.push(agentReportState.parentAgent || "");
         agentReportState.parentAgent = agentId;
         renderPage("agent-report");
       }
 
       function backFromAgentReport() {
-        if (agentReportState.parentAgent) {
-          agentReportState.parentAgent = "";
-          renderPage("agent-report");
+        if (!agentReportState.parentAgent) return;
+        if (!Array.isArray(agentReportState.drillStack)) {
+          agentReportState.drillStack = [];
         }
+        agentReportState.parentAgent = agentReportState.drillStack.pop() || "";
+        renderPage("agent-report");
       }
 
       function initAgentReportLinks() {
@@ -25469,6 +27071,19 @@
         if (!container || container.dataset.agentReportBound) return;
         container.dataset.agentReportBound = "1";
         container.addEventListener("click", (e) => {
+          const copyBtn = e.target.closest("[data-copy-agent-id]");
+          if (copyBtn) {
+            e.preventDefault();
+            e.stopPropagation();
+            copyAgentAccountId(copyBtn.dataset.copyAgentId, copyBtn);
+            return;
+          }
+          const drillCrumb = e.target.closest("[data-agent-drill-index]");
+          if (drillCrumb) {
+            e.preventDefault();
+            navigateAgentReportDrillTo(Number(drillCrumb.dataset.agentDrillIndex));
+            return;
+          }
           const subLink = e.target.closest("[data-open-sub-agent-report]");
           if (subLink) {
             e.preventDefault();
@@ -26168,14 +27783,7 @@
               ${tfootHtml}
             </table>
           </div>
-          <div class="pagination">
-            <button disabled>‹</button>
-            <button class="active">1</button>
-            <button>2</button>
-            <button>3</button>
-            <button>›</button>
-            <span class="pagination-info">共 ${dataCount} 条</span>
-          </div>`;
+          ${renderPaginationHtml(dataCount)}`;
       }
 
       function renderGameStayContent(page) {
@@ -27386,6 +28994,7 @@
         initChartFocusGroups(root);
         bindVipGroupExpand(root);
         bindVipHeaderFreeze(root);
+        initAllTablePaginations(root);
       }
       function collapseChartZoom() {
         clearAllChartFocus(document);
@@ -27500,14 +29109,7 @@
               ${tfootHtml}
             </table>
           </div>
-          <div class="pagination">
-            <button disabled>‹</button>
-            <button class="active">1</button>
-            <button>2</button>
-            <button>3</button>
-            <button>›</button>
-            <span class="pagination-info">共 ${dataCount} 条</span>
-          </div>`;
+          ${renderPaginationHtml(dataCount)}`;
       }
 
       function renderAppHBar(items) {
@@ -28576,12 +30178,7 @@
               ${tfootHtml}
             </table>
           </div>
-          <div class="pagination">
-            <button disabled>‹</button>
-            <button class="active">1</button>
-            <button>›</button>
-            <span class="pagination-info">共 ${APP_EXP_PAGE_DATA.length} 条</span>
-          </div>`;
+          ${renderPaginationHtml(APP_EXP_PAGE_DATA.length)}`;
       }
 
       function refreshAppExperienceView(options = {}) {
@@ -28638,7 +30235,10 @@
             .join("")}</div>`;
         }
 
-        if (tableWrap) tableWrap.innerHTML = renderAppExpTable();
+        if (tableWrap) {
+          tableWrap.innerHTML = renderAppExpTable();
+          initAllTablePaginations(tableWrap);
+        }
         if (preserveScroll && scrollY != null) {
           requestAnimationFrame(() => window.scrollTo(0, scrollY));
         }
@@ -30209,6 +31809,7 @@
         const page = PAGES[pageId];
         if (!page) return;
 
+        destroyArcoChannelCascader();
         collapseChartZoom();
         disposeAppPathSankey();
         disposeAppChurnHeatmap();
@@ -30326,13 +31927,12 @@
         }
 
         if (page.fissionReportPage) {
-          const path = getFissionReportDrillPathLabel();
-          document.getElementById("breadcrumbTitle").textContent = path
-            ? `${page.breadcrumb} / ${path}`
-            : page.breadcrumb;
           container.innerHTML = `
             ${renderGlobalFilterBar(page.defaultDateRange || "today", {
-              showChannel: false,
+              showChannel: true,
+              showChannelAccount: page.showChannelAccountFilter !== false,
+              channelFilterSeparateRow: !!page.channelFilterSeparateRow,
+              showFilterReset: !!page.showFilterReset,
               dateLabel: page.dateFilterLabel || "时间",
               emptyStartDate: !!page.emptyStartDate,
               fissionCumulativeQuickRange: !!page.fissionCumulativeQuickRange,
@@ -30342,7 +31942,7 @@
             </div>
           `;
           initGlobalFilterBar();
-          initFissionReportPage();
+          initLocalChannelFilters();
           decorateChartZoomHints(container);
           return;
         }
@@ -30397,6 +31997,7 @@
               : page.showChannelAccountFilter !== false,
             channelFilterSeparateRow: !!page.channelFilterSeparateRow,
             dateLabel: page.dateFilterLabel || "时间",
+            hideTodayRange: !!page.hideTodayRange,
           };
           setUserLtvActiveTab("gross");
           // 默认展示「今日之前已跑满 Day7」的近 7 个完整注册日，便于观察完整 LTV 曲线
@@ -30486,6 +32087,7 @@
         const isOverview = pageId === "overview";
         const filterOpts = {
           hideChannelName,
+          showChannel: page.showChannel !== false,
           showChannelAccount: hideChannelName
             ? false
             : page.showChannelAccountFilter !== false,
@@ -30521,6 +32123,7 @@
         }
         initGlobalFilterBar();
         initLocalChannelFilters();
+        initPinnedTableFooters(container);
         initViewToggle();
         if (pageId === "life-vip-analysis") {
           updateVipChannelFilterHint();
@@ -30582,17 +32185,16 @@
       const SIDEBAR_SUBMENU_ORDER_KEY = "sidebar-submenu-order";
       const SIDEBAR_MENU_DEFAULT_VERSION_KEY = "sidebar-menu-default-version";
       const SIDEBAR_MENU_DEFAULT_VERSION =
-        "top-menu-order-20260828-remove-operation-report";
+        "top-menu-order-20260901-move-retention-to-lifecycle";
       const SIDEBAR_SUBMENU_DEFAULT_VERSION_KEY =
         "sidebar-submenu-default-version";
       const SIDEBAR_SUBMENU_DEFAULT_VERSION =
-        "submenu-order-20260828-remove-operation-report";
+        "submenu-order-20260901-move-retention-to-lifecycle";
       const DEFAULT_MENU_ORDER = [
         "overview",
         "realtime-compare",
         "daily-operation-report",
         "lifecycle",
-        "user-retention",
         "fund-analysis",
         "channel-analysis",
         "channel-daily-board",
@@ -30605,12 +32207,10 @@
       ];
       const DEFAULT_SUBMENU_ORDERS = {
         lifecycle: [
-          "life-acquisition",
           "life-vip-analysis",
-          "life-user-recharge",
           "life-ltv",
+          "life-retention",
         ],
-        "user-retention": ["life-retention"],
         "fund-analysis": [
           "life-fund-overview",
           "life-recharge-retention-analysis",
@@ -30996,7 +32596,7 @@
       }
 
       function initMenu() {
-        // 一级菜单（无子项）：数据总览、分时数据对比、游戏投注统计、会员奖励报表、系统管理
+        // 一级菜单（无子项）：数据总览、分时数据对比、游戏投注统计、奖励发放统计、系统管理
         document.querySelectorAll(".menu-top[data-page]").forEach((top) => {
           top.addEventListener("click", () => {
             setActivePage(top.dataset.page, { topEl: top });
@@ -31092,9 +32692,6 @@
             if (child.dataset.page === "agent-report") {
               prepareAgentReportMenuEntry();
             }
-            if (child.dataset.page === "fission-report") {
-              resetFissionReportDrillState();
-            }
             setActivePage(child.dataset.page, { childEl: child, group });
           });
         });
@@ -31105,7 +32702,6 @@
       // 初始化
       initMenu();
       initAgentReportLinks();
-      initFissionReportLinks();
       initGameBetAbnormalAccountLinks();
       initMetricHelpFloat();
       initChartZoom();
